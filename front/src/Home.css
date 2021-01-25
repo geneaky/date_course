@@ -1,0 +1,8 @@
+.Home {
+  display: flex;
+  justify-content: space-between;
+}
+#map {
+  width: 800px;
+  height: 800px;
+}
