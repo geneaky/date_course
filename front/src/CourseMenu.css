@@ -6,3 +6,12 @@
   width: 25%;
   height: 90%;
 }
+
+.CourseMenu > button {
+  width: 100%;
+  height: 7%;
+  border: none;
+  outline-style: none;
+  cursor: pointer;
+  background-color: #faf0e6;
+}
