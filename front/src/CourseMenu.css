@@ -1,0 +1,8 @@
+.CourseMenu {
+  position: absolute;
+  z-index: 999;
+  background-color: white;
+  border-radius: 3px;
+  width: 25%;
+  height: 90%;
+}

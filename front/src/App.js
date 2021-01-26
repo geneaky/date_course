@@ -12,22 +12,9 @@ function App() {
   const user_login = true
   if(user_login){
     return(
-      <Router>
       <div className="App">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-          </ul>
-        </nav>
-        <Switch>
-          <Route path="/">
-            <Home/>
-          </Route>
-        </Switch>
+        <Home/>
       </div>
-      </Router>
     )
   }
   else{

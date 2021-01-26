@@ -1,10 +1,12 @@
 /*global kakao*/
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import './Home.css';
-import WholeCourse from './WholeCourse'
-import CourseMenu from './CourseMenu'
+import Header from './Header';
+import CourseMenu from './CourseMenu';
 
 const Home = () => {
+  const [sideMenu,setSideMenu] = useState(false);
+
   useEffect(()=>{mapScript()},[]);
 
   const mapScript = () => {
@@ -36,9 +38,11 @@ const Home = () => {
 
   return (
     <div className="Home">
-      <CourseMenu/>
+      <Header sideMenu={sideMenu} setSideMenu={setSideMenu}/>
+      <div className="HomeBody">
+      {sideMenu ? <CourseMenu/> : null}
       <div id="map"></div>
-      <WholeCourse/>
+      </div>
     </div>
   );
 };

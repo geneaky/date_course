@@ -1,9 +1,10 @@
 import React from 'react'
+import './CourseMenu.css'
 
 const CourseMenu = () =>{
 
     return(
-        <div>
+        <div className="CourseMenu">
             menu
         </div>
     )
