@@ -33,7 +33,7 @@ const Home = () => {
           console.log(data);
         }
       }
-      places.keywordSearch('목동',callback);
+      places.keywordSearch('여의도',callback);
   }
 
   return (
