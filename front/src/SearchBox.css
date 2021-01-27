@@ -1,9 +1,4 @@
 .SearchBox {
-  height: 300px;
-  overflow-y: scroll;
-}
-
-.Search {
   margin: 0;
   padding: 0;
   display: flex;
@@ -11,7 +6,7 @@
   border-bottom: 1px solid lightgray;
 }
 
-.Search > input {
+.SearchBox > input {
   width: 100%;
   border: none;
   outline-style: none;
