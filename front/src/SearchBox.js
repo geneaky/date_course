@@ -1,7 +1,8 @@
 /*global kakao*/
-import React,{useCallback, useEffect,useState} from 'react';
+import React,{useEffect,useState} from 'react';
 import SearchIcon from '@material-ui/icons/Search';
-import './SearchBox.css'
+import './SearchBox.css';
+import PlaceInfo from './PlaceInfo';
 
 const SearchBox = () => {
     const [searchResult,setSearchResult] = useState([]);
@@ -12,7 +13,7 @@ const SearchBox = () => {
             if(status===kakao.maps.services.Status.OK){
                 let dataList = []
                 for(let i in data){
-                    dataList.push(data[i].place_name)
+                    dataList.push([data[i].place_name,data[i].address_name,data[i].phone])
                 }
                 setResult(dataList);
             }
@@ -31,10 +32,11 @@ const SearchBox = () => {
             <div className="Search">
             <SearchIcon/>
             <input placeholder="장소 또는 지역 이름을 검색하세요" onKeyPress={onKeyPress}/>
-            </div>            
-            {result.map((place_name)=><p>{place_name}</p>)}
+            </div>
+            {result.map((place,index)=><PlaceInfo key={index} result={place}/>)}
         </div>
     )
 }
 
 export default SearchBox
+

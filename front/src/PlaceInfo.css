@@ -1,0 +1,14 @@
+.PlaceInfo {
+  margin: 10px auto;
+  cursor: pointer;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+}
+
+.PlaceInfo > * {
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  font-size: small;
+  font-weight: 400;
+}

@@ -25,15 +25,6 @@ const Home = () => {
         })
         marker.setMap(map)
       });
-
-      const places = new kakao.maps.services.Places();
-
-      let callback = function(data,status,pagination){
-        if(status === kakao.maps.services.Status.OK){
-          console.log(data);
-        }
-      }
-      places.keywordSearch('여의도',callback);
   }
 
   return (

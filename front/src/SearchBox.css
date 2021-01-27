@@ -1,5 +1,6 @@
 .SearchBox {
-  overflow: auto;
+  height: 300px;
+  overflow-y: scroll;
 }
 
 .Search {
