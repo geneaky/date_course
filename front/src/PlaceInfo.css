@@ -3,6 +3,7 @@
   cursor: pointer;
   border: 1px solid lightgray;
   border-radius: 3px;
+  background-color: white;
 }
 
 .PlaceInfo > * {
@@ -11,4 +12,8 @@
   text-align: center;
   font-size: small;
   font-weight: 400;
+}
+
+.PlaceInfo:hover {
+  border: 2px solid black;
 }
