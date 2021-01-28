@@ -1,4 +1,4 @@
-import React,{useContext, useEffect} from 'react';
+import React,{useContext} from 'react';
 import PlaceInfo from './PlaceInfo';
 import {SearchContext} from './store/search';
 import './SearchResultBox.css'

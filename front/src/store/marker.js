@@ -1,4 +1,3 @@
-/*global kakao*/
 import React,{createContext,useReducer} from 'react';
 export const MarkerContext = createContext(null);
 const reducer= (state,action) => {
