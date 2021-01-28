@@ -14,7 +14,7 @@ const PlaceInfo = ({result}) => {
         })
         marker.setMap(map.state);
         markerContext.dispatch({type:'SET_MARKER',marker:marker})
-    },[])
+    },[result])
 
     return(
         <div className="PlaceInfo">

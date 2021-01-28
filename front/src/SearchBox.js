@@ -3,10 +3,12 @@ import React,{useEffect,useState,useContext} from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import './SearchBox.css';
 import {SearchContext} from './store/search';
+import {MarkerContext} from './store/marker';
 
 const SearchBox = () => {
     const [searchResult,setSearchResult] = useState([]);
     const context = useContext(SearchContext);
+    const marker = useContext(MarkerContext);
 
     useEffect(()=>{
         const places = new kakao.maps.services.Places();
@@ -24,6 +26,7 @@ const SearchBox = () => {
 
     const onKeyPress = (e) => {
         if(e.key === 'Enter'){
+            marker.dispatch({type:'CLEAR_MARKERS'})
             setSearchResult(e.target.value);
         }
     }

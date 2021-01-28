@@ -4,7 +4,6 @@ export const MarkerContext = createContext(null);
 const reducer= (state,action) => {
     switch(action.type){
         case 'SET_MARKER':
-            console.log(action.marker);
             return state.concat([action.marker])
         case 'CLEAR_MARKERS':
             for(let i of state){
