@@ -14,7 +14,7 @@ const SearchBox = () => {
             if(status===kakao.maps.services.Status.OK){
                 let dataList = []
                 for(let i in data){
-                    dataList.push([data[i].place_name,data[i].address_name,data[i].phone])
+                    dataList.push([data[i].place_name,data[i].address_name,data[i].phone,data[i].x,data[i].y])
                 }
                 context.dispatch({type:'SET_PLACES',places:dataList})
             }

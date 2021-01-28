@@ -1,30 +1,25 @@
 /*global kakao*/
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useState,useContext} from 'react';
 import './Home.css';
 import Header from './Header';
 import CourseMenu from './CourseMenu';
+import {MapContext} from './store/map';
 
 const Home = () => {
   const [sideMenu,setSideMenu] = useState(false);
+  const map = useContext(MapContext);
 
   useEffect(()=>{mapScript()},[]);
 
   const mapScript = () => {
-
       const container = document.getElementById('map');
       const options = { 
             center: new kakao.maps.LatLng(37.564213, 127.001698), 
             level: 5 
           };
-      const map = new kakao.maps.Map(container, options);
+      const defaultMap = new kakao.maps.Map(container, options);
 
-      kakao.maps.event.addListener(map,'click',function(mouseEvent){
-        let marker = new kakao.maps.Marker({
-          map:map,
-          position: new kakao.maps.LatLng(mouseEvent.latLng.Ma,mouseEvent.latLng.La)
-        })
-        marker.setMap(map)
-      });
+      map.dispatch({type:'SET_MAP',map:defaultMap})
   }
 
   return (

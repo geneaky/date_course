@@ -8,8 +8,8 @@ const MakeCourse = () => {
     return(
         <div>
             <SearchStore>
-             <SearchBox/>
-             <SearchResultBox/>
+                <SearchBox/>
+                <SearchResultBox/>
             </SearchStore>
         </div>
     )
