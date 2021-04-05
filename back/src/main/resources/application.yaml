@@ -1,4 +1,10 @@
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 10MB
+
   datasource:
     url: jdbc:h2:tcp://localhost/~/datecourse
     username: sa
