@@ -21,5 +21,5 @@ public class User {
     private String user_email;
 
     @OneToMany
-    private List<Location> locations = new ArrayList<>();
+    private List<DateCourse> dateCourses = new ArrayList<>();
 }

@@ -9,16 +9,16 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DateCourseTag {
+public class LocationTag {
 
     @Id
     @GeneratedValue
-    @Column(name = "datecoursetag_id")
+    @Column(name = "locationtag_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "datecourse_id")
-    private DateCourse dateCourse;
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")

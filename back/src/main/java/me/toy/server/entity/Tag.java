@@ -20,5 +20,5 @@ public class Tag {
     private String tagName;
 
     @OneToMany(mappedBy = "tag")
-    private List<DateCourseTag> courseTags = new ArrayList<>();
+    private List<LocationTag> locationTags = new ArrayList<>();
 }

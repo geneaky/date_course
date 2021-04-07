@@ -30,6 +30,7 @@ public class DateCourse {
     @OneToMany
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "dateCourse")
-    private List<DateCourseTag> courseTags = new ArrayList<>();
+    public DateCourse(Long thumbUp) {
+        this.thumbUp = thumbUp;
+    }
 }
