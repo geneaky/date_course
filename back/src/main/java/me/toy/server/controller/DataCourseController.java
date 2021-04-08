@@ -1,6 +1,7 @@
 package me.toy.server.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.toy.server.dto.RecentDateCourseDto;
 import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.Location;
 import me.toy.server.repository.DateCourseRepository;
@@ -56,8 +57,8 @@ public class DataCourseController {
     }
 
     @GetMapping("/datecourse/recent")
-    public List<DateCourse> recentDateCourseList(){
-        List<DateCourse> recentDateCourseList = dateCourseRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+    public List<RecentDateCourseDto> recentDateCourseList(){
+        List<RecentDateCourseDto> recentDateCourseList = dateCourseRepository.findRecentDatecourse();
         return recentDateCourseList;
     }
 }
