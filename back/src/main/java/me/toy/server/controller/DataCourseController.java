@@ -2,11 +2,11 @@ package me.toy.server.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.RecentDateCourseDto;
+import me.toy.server.dto.ThumbUpDateCourseDto;
 import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.Location;
 import me.toy.server.repository.DateCourseRepository;
 import me.toy.server.repository.LocationRepository;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,5 +60,11 @@ public class DataCourseController {
     public List<RecentDateCourseDto> recentDateCourseList(){
         List<RecentDateCourseDto> recentDateCourseList = dateCourseRepository.findRecentDatecourse();
         return recentDateCourseList;
+    }
+
+    @GetMapping("/datecourse/thumbUp")
+    public List<ThumbUpDateCourseDto> thumbUpDateCourseList(){
+        List<ThumbUpDateCourseDto> thumbUpDateCourseList = dateCourseRepository.findThumbUpDatecourse();
+        return thumbUpDateCourseList;
     }
 }
