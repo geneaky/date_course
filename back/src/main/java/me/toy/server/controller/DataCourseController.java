@@ -1,6 +1,7 @@
 package me.toy.server.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.toy.server.dto.CurrentLocationDateCourseDto;
 import me.toy.server.dto.RecentDateCourseDto;
 import me.toy.server.dto.ThumbUpDateCourseDto;
 import me.toy.server.entity.DateCourse;
@@ -34,8 +35,8 @@ public class DataCourseController {
                                  @RequestParam HashMap<String,String> paramMap) throws IOException {
         String locationName = paramMap.get("locationName");
         String text = paramMap.get("text");
-        String posx = paramMap.get("posx");
-        String posy = paramMap.get("posy");
+        float posx = Float.parseFloat(paramMap.get("posx"));
+        float posy = Float.parseFloat(paramMap.get("posy"));
 
         DateCourse dateCourse = new DateCourse(0L);
         dateCourseRepository.save(dateCourse);
@@ -66,5 +67,11 @@ public class DataCourseController {
     public List<ThumbUpDateCourseDto> thumbUpDateCourseList(){
         List<ThumbUpDateCourseDto> thumbUpDateCourseList = dateCourseRepository.findThumbUpDatecourse();
         return thumbUpDateCourseList;
+    }
+
+    @GetMapping("/datecourse/currentLocation")
+    public List<CurrentLocationDateCourseDto> currentLocationDateCourseDtos(@RequestParam("posX")float posX,@RequestParam("posY")float posY){
+        List<CurrentLocationDateCourseDto> currentLocationDateCourseDtos = dateCourseRepository.findCurrentLocationDatecourse(posX,posY);
+        return currentLocationDateCourseDtos;
     }
 }

@@ -27,6 +27,7 @@ spring:
         one-indexed-parameters: true
 
   security:
+    basic: enable
     oauth2:
       client:
         registration:

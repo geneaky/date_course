@@ -47,8 +47,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }catch (IOException e){
             e.printStackTrace();
         }
+//        chain.doFilter(request,response);
         return null;
     }
+
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {

@@ -20,8 +20,8 @@ public class Location {
     private String locationName;
     private String photoUrl="";
     private String text;
-    private String posx;
-    private String posy;
+    private float posx;
+    private float posy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="datecourse_id")
@@ -30,7 +30,7 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private List<LocationTag> LocationTags = new ArrayList<>();
 
-    public Location(String locationName,String text, String posx, String posy) {
+    public Location(String locationName,String text, float posx, float posy) {
         this.locationName = locationName;
         this.text = text;
         this.posx = posx;

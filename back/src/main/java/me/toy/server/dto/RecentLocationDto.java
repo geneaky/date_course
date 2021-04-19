@@ -8,8 +8,8 @@ public class RecentLocationDto {
     private String locationName;
     private String photoUrl;
     private String text;
-    private String posx;
-    private String posy;
+    private float posx;
+    private float posy;
 
 
     public RecentLocationDto(Location location) {
