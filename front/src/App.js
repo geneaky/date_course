@@ -7,24 +7,16 @@ import MapStore from "./store/map";
 import MarkerStore from "./store/marker";
 
 function App() {
-  const user_login = true;
-  if (user_login) {
-    return (
-      <AppDiv>
-        <MapStore>
-          <MarkerStore>
-            <Home />
-          </MarkerStore>
-        </MapStore>
-      </AppDiv>
-    );
-  } else {
-    return (
-      <AppDiv>
-        <Login />
-      </AppDiv>
-    );
-  }
+  return (
+    <AppDiv>
+      <MapStore>
+        <MarkerStore>
+          <Route path="/" exact={true} component={Home} />
+          <Route path="/login" exact={true} component={Login} />
+        </MarkerStore>
+      </MapStore>
+    </AppDiv>
+  );
 }
 
 const AppDiv = styled.div`

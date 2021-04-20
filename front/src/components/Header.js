@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
 
 const Header = ({ sideMenu, setSideMenu }) => {
@@ -11,7 +12,8 @@ const Header = ({ sideMenu, setSideMenu }) => {
     <HeaderDiv>
       <MenuIcon onClick={menuPop} />
       <h3>open date course</h3>
-      <p>user</p>
+      <StyledHeaderLink to="/login">로그인</StyledHeaderLink>
+      <p>Guest</p>
     </HeaderDiv>
   );
 };
@@ -24,6 +26,10 @@ const HeaderDiv = styled.div`
   * {
     margin: auto 20px;
   }
+`;
+
+const StyledHeaderLink = styled(Link)`
+  text-decoration: none;
 `;
 
 export default Header;

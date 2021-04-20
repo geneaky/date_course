@@ -14,21 +14,24 @@ const RegisterForm = () => {
 
 const RegisterCourse = () => {
   const courseContext = useContext(CourseContext);
-  const [form, setForm] = useState({ file: null, text: null, tag: null });
+  const [text, setText] = useState();
+  const [tag, setTag] = useState();
+  const [file, setFile] = useState([]);
   const onFile = (e) => {
-    setForm({ file: e.target.files[0], ...form });
+    setFile([...file, e.target.files[0]]);
   };
   const onText = (e) => {
-    setForm({ ...form, text: e.target.value });
+    setText(e.target.value);
   };
   const onTag = (e) => {
-    setForm({ ...form, tag: e.target.value });
+    setTag(e.target.value);
   };
   const Posting = () => {
     const url = "/course";
     const formData = new FormData();
-    console.log(form.file);
-    formData.append("file", form.file);
+    formData.append("file", file);
+    formData.append("text", text);
+    formData.append("tag", tag);
     const config = {
       headers: { "content-type": "multipart/form-data" },
     };
@@ -38,18 +41,22 @@ const RegisterCourse = () => {
   return (
     <div>
       <p>{courseContext.state[0]}</p>
-      <input type="file" multiple onChange={onFile} />
-      {/* 다중 이미지 미리보기 적용하고 사이트에서 광고창 넘기듯이 적용 */}
-      <br />
-      <textarea value={"글 작성"} onChange={onText} />
-      <br />
-      <textarea value={"태그 등록"} onChange={onTag} />
-      <br />
-      <span>
-        <button>이전코스</button>
-        <button onClick={Posting}>등록</button>
-        <button>다음코스</button>
-      </span>
+      <form>
+        <input type="file" multiple onChange={onFile} />
+        {/* 다중 이미지 미리보기 적용하고 사이트에서 광고창 넘기듯이 적용 */}
+        <br />
+        <textarea placeholder={"글 작성"} onChange={onText} />
+        <br />
+        <textarea placeholder={"태그 등록"} onChange={onTag} />
+        <br />
+        <span>
+          {/* <button>이전코스</button> */}
+          <button type="submit" onClick={Posting}>
+            등록
+          </button>
+          {/* <button>다음코스</button> */}
+        </span>
+      </form>
     </div>
   );
 };
