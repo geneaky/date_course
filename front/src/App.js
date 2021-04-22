@@ -3,18 +3,12 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import MapStore from "./store/map";
-import MarkerStore from "./store/marker";
 
 function App() {
   return (
     <AppDiv>
-      <MapStore>
-        <MarkerStore>
-          <Route path="/" exact={true} component={Home} />
-          <Route path="/login" exact={true} component={Login} />
-        </MarkerStore>
-      </MapStore>
+      <Route path="/" exact={true} component={Home} />
+      <Route path="/login" exact={true} component={Login} />
     </AppDiv>
   );
 }

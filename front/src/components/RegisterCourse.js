@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
-import { CourseContext } from "../store/course";
+import React, { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const RegisterForm = () => {
   const url = "/course";
@@ -13,7 +13,7 @@ const RegisterForm = () => {
 };
 
 const RegisterCourse = () => {
-  const courseContext = useContext(CourseContext);
+  const course = useSelector((store) => store.course);
   const [text, setText] = useState();
   const [tag, setTag] = useState();
   const [file, setFile] = useState([]);
@@ -26,22 +26,23 @@ const RegisterCourse = () => {
   const onTag = (e) => {
     setTag(e.target.value);
   };
-  const Posting = () => {
-    const url = "/course";
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("text", text);
-    formData.append("tag", tag);
-    const config = {
-      headers: { "content-type": "multipart/form-data" },
-    };
+  // const Posting = () => {
+  //   const url = "/course";
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+  //   formData.append("text", text);
+  //   formData.append("tag", tag);
+  //   const config = {
+  //     headers: { "content-type": "multipart/form-data" },
+  //   };
 
-    axios.post(url, formData, config);
-  };
+  //   axios.post(url, formData, config);
+  // };
   return (
     <div>
-      <p>{courseContext.state[0]}</p>
-      <form>
+      {/* course[0] */}
+      <p>{course}</p>
+      <form action="/course" method="post" enctype="multipart/form-data">
         <input type="file" multiple onChange={onFile} />
         {/* 다중 이미지 미리보기 적용하고 사이트에서 광고창 넘기듯이 적용 */}
         <br />
@@ -51,9 +52,7 @@ const RegisterCourse = () => {
         <br />
         <span>
           {/* <button>이전코스</button> */}
-          <button type="submit" onClick={Posting}>
-            등록
-          </button>
+          <button type="submit">등록</button>
           {/* <button>다음코스</button> */}
         </span>
       </form>

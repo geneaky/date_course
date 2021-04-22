@@ -1,25 +1,23 @@
 /*global kakao*/
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { MapContext } from "../store/map";
-import { MarkerContext } from "../store/marker";
-import { CourseContext } from "../store/course";
+import { registerCourse, setMarker } from "../store/store";
 
 const PlaceInfo = ({ result }) => {
-  const map = useContext(MapContext);
-  const markerContext = useContext(MarkerContext);
-  const courseContext = useContext(CourseContext);
+  const map = useSelector((store) => store.map);
+  const dispatcher = useDispatch();
   useEffect(() => {
     let marker = new kakao.maps.Marker({
-      map: map.state,
+      map: map,
       position: new kakao.maps.LatLng(result[4], result[3]),
     });
-    marker.setMap(map.state);
-    markerContext.dispatch({ type: "SET_MARKER", marker: marker });
-  }, [result, map.state]);
+    marker.setMap(map);
+    dispatcher(setMarker(marker));
+  }, [result, map]);
 
   const onClick = () => {
-    courseContext.dispatch({ type: "REGISTER_COURSE", course: result });
+    dispatcher(registerCourse(result));
   };
 
   return (

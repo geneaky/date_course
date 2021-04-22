@@ -1,13 +1,14 @@
 /*global kakao*/
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import CourseMenu from "../components/CourseMenu";
-import { MapContext } from "../store/map";
+import { useDispatch } from "react-redux";
+import { setMap } from "../store/store";
 
 const Home = () => {
   const [sideMenu, setSideMenu] = useState(false);
-  const map = useContext(MapContext);
+  const dispatcher = useDispatch();
 
   useEffect(() => {
     mapScript();
@@ -21,7 +22,7 @@ const Home = () => {
     };
     const defaultMap = new kakao.maps.Map(container, options);
 
-    map.dispatch({ type: "SET_MAP", map: defaultMap });
+    dispatcher(setMap(defaultMap));
   };
 
   return (

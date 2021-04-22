@@ -1,14 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import PlaceInfo from "./PlaceInfo";
-import { SearchContext } from "../store/search";
 
 const SearchResultBox = () => {
-  const context = useContext(SearchContext);
-
+  const places = useSelector((store) => store.places);
   return (
     <SearchResultBoxDiv>
-      {context.state.map((place, index) => (
+      {places?.map((place, index) => (
         <PlaceInfo key={index} result={place} />
       ))}
     </SearchResultBoxDiv>

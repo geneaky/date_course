@@ -1,14 +1,13 @@
 /*global kakao*/
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@material-ui/icons/Search";
-import { SearchContext } from "../store/search";
-import { MarkerContext } from "../store/marker";
+import { useDispatch } from "react-redux";
+import { clearMarker, setPlaces } from "../store/store";
 
 const SearchBox = () => {
   const [searchResult, setSearchResult] = useState([]);
-  const context = useContext(SearchContext);
-  const marker = useContext(MarkerContext);
+  const dispatcher = useDispatch();
 
   useEffect(() => {
     const places = new kakao.maps.services.Places();
@@ -24,15 +23,16 @@ const SearchBox = () => {
             data[i].y,
           ]);
         }
-        context.dispatch({ type: "SET_PLACES", places: dataList });
+        // dispatcher(setPlaces(dataList));
       }
     };
     places.keywordSearch(searchResult, callback);
+    dispatcher(setPlaces(places));
   }, [searchResult]);
 
   const onKeyPress = (e) => {
     if (e.key === "Enter") {
-      marker.dispatch({ type: "CLEAR_MARKERS" });
+      dispatcher(clearMarker());
       setSearchResult(e.target.value);
     }
   };
