@@ -12,30 +12,26 @@ export const setMarker = (marker) => ({ type: "SET_MARKER", payload: marker });
 export const clearMarker = () => ({ type: "CLEAR_MARKERS" });
 
 const initstate = {
-  course: "hi",
-  places: null,
-  marker: null,
+  course: [],
+  places: [],
+  marker: [],
   map: null,
 };
 
 const reducer = (state = initstate, action) => {
   switch (action.type) {
     case "REGISTER_COURSE":
-      // return action.course;
-      return [...state.course, action.payload];
+      return { ...state, course: [action.payload] };
     case "RESET_COURSE":
-      return [];
+      return { ...state, course: [] };
     case "SET_PLACES":
-      return [...state.places, action.payload];
+      return { ...state, places: [...action.payload] };
     case "SET_MAP":
-      return state.map;
+      return { ...state, map: action.payload };
     case "SET_MARKER":
-      return [...state.marker, action.payload];
+      return { ...state, marker: [...state.marker, action.payload] };
     case "CLEAR_MARKERS":
-      for (let i of state.marker) {
-        i = null;
-      }
-      return [];
+      return { ...state, marker: [] };
     default:
       return state;
   }

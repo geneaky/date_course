@@ -7,7 +7,7 @@ const SearchResultBox = () => {
   const places = useSelector((store) => store.places);
   return (
     <SearchResultBoxDiv>
-      {places?.map((place, index) => (
+      {places.map((place, index) => (
         <PlaceInfo key={index} result={place} />
       ))}
     </SearchResultBoxDiv>

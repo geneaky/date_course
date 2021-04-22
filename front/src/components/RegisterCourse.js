@@ -13,7 +13,7 @@ const RegisterForm = () => {
 };
 
 const RegisterCourse = () => {
-  const course = useSelector((store) => store.course);
+  const course = useSelector((store) => store?.course);
   const [text, setText] = useState();
   const [tag, setTag] = useState();
   const [file, setFile] = useState([]);
@@ -40,8 +40,7 @@ const RegisterCourse = () => {
   // };
   return (
     <div>
-      {/* course[0] */}
-      <p>{course}</p>
+      <p>{course[0][0]}</p>
       <form action="/course" method="post" enctype="multipart/form-data">
         <input type="file" multiple onChange={onFile} />
         {/* 다중 이미지 미리보기 적용하고 사이트에서 광고창 넘기듯이 적용 */}

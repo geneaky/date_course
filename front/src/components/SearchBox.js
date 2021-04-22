@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@material-ui/icons/Search";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearMarker, setPlaces } from "../store/store";
 
 const SearchBox = () => {
   const [searchResult, setSearchResult] = useState([]);
   const dispatcher = useDispatch();
-
+  const store_place = useSelector((store) => store?.places);
   useEffect(() => {
     const places = new kakao.maps.services.Places();
     let callback = function (data, status) {
@@ -23,11 +23,10 @@ const SearchBox = () => {
             data[i].y,
           ]);
         }
-        // dispatcher(setPlaces(dataList));
+        dispatcher(setPlaces(dataList));
       }
     };
     places.keywordSearch(searchResult, callback);
-    dispatcher(setPlaces(places));
   }, [searchResult]);
 
   const onKeyPress = (e) => {
