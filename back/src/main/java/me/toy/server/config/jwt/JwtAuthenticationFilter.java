@@ -42,12 +42,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             Authentication authentication =
                     authenticationManager.authenticate(authenticationToken);
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-            System.out.println("principalDetails.getUser().getUsername() = " + principalDetails.getUser().getUsername());
             return authentication;
         }catch (IOException e){
             e.printStackTrace();
         }
-//        chain.doFilter(request,response);
         return null;
     }
 

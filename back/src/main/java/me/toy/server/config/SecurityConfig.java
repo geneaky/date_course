@@ -1,6 +1,7 @@
 package me.toy.server.config;
 
 import lombok.RequiredArgsConstructor;
+import me.toy.server.config.handler.OAuth2LoginSuccessHandler;
 import me.toy.server.config.jwt.JwtAuthenticationFilter;
 import me.toy.server.config.jwt.JwtAuthorizationFilter;
 import me.toy.server.config.oauth.PrincipalOauth2UserService;
@@ -15,9 +16,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
-//@Configuration
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래스는 스프링 시큐리티 필터이고 이 필터가 스프링 필터체인에 등록이된다.
 
@@ -29,8 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래�
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http
-                .addFilterAfter(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(new JwtAuthorizationFilter(authenticationManager(),userRepository),UsernamePasswordAuthenticationFilter.class);
+//                .addFilterAfter(new JwtAuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class)
+                .addFilterAfter(new JwtAuthorizationFilter(authenticationManager(),userRepository),BasicAuthenticationFilter.class);
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -48,8 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래�
 //                .defaultSuccessUrl("/")
                 .and()
                 .oauth2Login()
-                .loginPage("/loginForm")
+                .loginPage("/login")
+                .defaultSuccessUrl("/login")
                 .userInfoEndpoint()
-                .userService(principalOauth2UserService);
+                .userService(principalOauth2UserService)
+                .and()
+                .successHandler(new OAuth2LoginSuccessHandler());
     }
 }
