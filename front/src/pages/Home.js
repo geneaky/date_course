@@ -3,16 +3,28 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import CourseMenu from "../components/CourseMenu";
-import { useDispatch } from "react-redux";
-import { setMap } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserInfo, setMap } from "../store/store";
+import axios from "axios";
 
 const Home = () => {
   const [sideMenu, setSideMenu] = useState(false);
+  const user = useSelector((store) => store.user);
   const dispatcher = useDispatch();
 
   useEffect(() => {
     mapScript();
   }, []);
+
+  useEffect(() => {
+    axios
+      .get("/user/info")
+      .then((res) => dispatcher(getUserInfo(res.data)))
+      .catch((Error) => {
+        console.log(Error);
+      });
+    console.log({ ...user });
+  }, [user]);
 
   const mapScript = () => {
     const container = document.getElementById("map");
