@@ -30,7 +30,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                 .compact();
 
         response.addHeader("Authorization","Bearer "+jwtToken);
-        getRedirectStrategy().sendRedirect(request,response,"http://localhost:3000/login");
+        getRedirectStrategy().sendRedirect(request,response,"http://localhost:3000");
 //        임시로 지정 나중에 도메인 사면 적용하자
         return ;
     }
