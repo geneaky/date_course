@@ -1,11 +1,14 @@
 package me.toy.server.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import me.toy.server.config.handler.OAuth2LoginSuccessHandler;
 import me.toy.server.config.jwt.JwtAuthenticationFilter;
 import me.toy.server.config.jwt.JwtAuthorizationFilter;
+import me.toy.server.config.oauth.HttpCookieOAuth2AuthorizationRequestRepository;
 import me.toy.server.config.oauth.PrincipalOauth2UserService;
 import me.toy.server.repository.UserRepository;
+import org.slf4j.Logger;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,11 +29,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래�
     private final UserRepository userRepository;
     private final CorsFilter corsFilter;
 
+    private final HttpCookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http
-//                .addFilterAfter(new JwtAuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class)
                 .addFilterAfter(new JwtAuthorizationFilter(authenticationManager(),userRepository),BasicAuthenticationFilter.class);
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -42,15 +46,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래�
                 .antMatchers("/api/v1/user/**").authenticated()//로그인한 사용자가 들어올수 있는거고 뒤에 이걸 붙이면 역할에 따른 권한 부여access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/api/v1/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
-//                .and()
-//                .formLogin()
-//                .loginPage("/loginForm")
-//                .loginProcessingUrl("/login")//스프링 시큐리티가 낚아채서 대신 로그인을 진행함
-//                .defaultSuccessUrl("/")
                 .and()
                 .oauth2Login()
-                .loginPage("/login")
-                .defaultSuccessUrl("/login")
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorization/*")
+                .authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository)
+                .and()
+                .redirectionEndpoint()
+                .baseUri("/login/oauth2/code/*")
+                .and()
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService)
                 .and()
