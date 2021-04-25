@@ -23,7 +23,7 @@ const Home = () => {
       .catch((Error) => {
         console.log(Error);
       });
-    console.log({ ...user });
+    console.log(user);
   }, [user]);
 
   const mapScript = () => {
