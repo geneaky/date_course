@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래�
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http
-                .addFilterAfter(new JwtAuthorizationFilter(authenticationManager(),userRepository),BasicAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthorizationFilter(authenticationManager(),userRepository),UsernamePasswordAuthenticationFilter.class);
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -43,13 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래�
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/user/**").authenticated()//로그인한 사용자가 들어올수 있는거고 뒤에 이걸 붙이면 역할에 따른 권한 부여access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .antMatchers("/user/**").authenticated()//로그인한 사용자가 들어올수 있는거고 뒤에 이걸 붙이면 역할에 따른 권한 부여access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/api/v1/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
                 .and()
                 .oauth2Login()
                 .authorizationEndpoint()
-                .baseUri("/oauth2/authorization/*")
+                .baseUri("/oauth2/authorization")
                 .authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository)
                 .and()
                 .redirectionEndpoint()

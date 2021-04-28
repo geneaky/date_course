@@ -2,6 +2,8 @@ package me.toy.server.dto;
 
 import me.toy.server.entity.User;
 
+import java.util.Optional;
+
 public class UserDto {
 
     private String name;

@@ -28,4 +28,15 @@ public class User {
 
     @OneToMany
     private List<DateCourse> dateCourses = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", userProfile='" + userProfile + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

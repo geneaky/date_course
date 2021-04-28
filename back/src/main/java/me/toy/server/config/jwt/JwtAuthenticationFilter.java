@@ -52,7 +52,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        System.out.println("successfulAuthentication이 실행됨은 인증이 완료되었다는 뜻");
 
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
         Map<String,Object> claims = new HashMap<>();
