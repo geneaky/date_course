@@ -20,7 +20,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     @GetMapping("/user/info")
-    @Secured("ROLE_USER")
+    @CrossOrigin(originPatterns = "*",allowCredentials = "true",allowedHeaders = "*")
     public UserDto getUserInfo(HttpServletRequest request){
         String jwtHeader = request.getHeader("Authorization");
         String jwtToken = jwtHeader.replace("Bearer ","");
