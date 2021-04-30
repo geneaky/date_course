@@ -1,7 +1,7 @@
-package me.toy.server.config.oauth;
+package me.toy.server.security.oauth2;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
-import me.toy.server.config.oauth.util.CookieUtils;
+import me.toy.server.security.util.CookieUtils;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.stereotype.Component;

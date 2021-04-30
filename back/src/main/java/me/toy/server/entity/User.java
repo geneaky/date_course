@@ -1,6 +1,7 @@
 package me.toy.server.entity;
 
 import lombok.*;
+import me.toy.server.security.oauth2.AuthProvider;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,7 +11,8 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access= AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class User {
@@ -18,12 +20,15 @@ public class User {
     @GeneratedValue
     @Column(name ="user_id")
     private Long id;
-    private String username;
+    private String name;
     private String password;
-    private String userProfile;
+    private String imageUrl;
     private String email;
-    private String role;
-    private String provider;
+    private boolean emailVerified = false;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
     private String providerId;
 
     @OneToMany
@@ -33,10 +38,15 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", userProfile='" + userProfile + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", email='" + email + '\'' +
+                ", emailVerified=" + emailVerified +
+                ", role=" + role +
+                ", provider=" + provider +
+                ", providerId='" + providerId + '\'' +
+                ", dateCourses=" + dateCourses +
                 '}';
     }
 }

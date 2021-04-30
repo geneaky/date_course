@@ -10,8 +10,8 @@ public class UserDto {
     private String email;
     private String profileImage;
     public UserDto(User user) {
-        this.name = user.getUsername();
+        this.name = user.getName();
         this.email = user.getEmail();
-        this.profileImage = user.getUserProfile();
+        this.profileImage = user.getImageUrl();
     }
 }

@@ -1,4 +1,4 @@
-package me.toy.server.config.oauth.util;
+package me.toy.server.security.util;
 
 import org.springframework.util.SerializationUtils;
 
