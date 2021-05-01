@@ -1,7 +1,6 @@
 package me.toy.server.security.jwt;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import me.toy.server.security.oauth2.user.UserPrincipal;
 import me.toy.server.entity.User;
 import me.toy.server.repository.UserRepository;
@@ -22,6 +21,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private UserRepository userRepository;
     private JwtTokenProvider jwtTokenProvider;
+
+    private AuthenticationManager authenticationManager;
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
         super(authenticationManager);

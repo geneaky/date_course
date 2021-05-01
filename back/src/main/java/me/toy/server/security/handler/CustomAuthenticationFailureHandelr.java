@@ -1,16 +1,39 @@
 package me.toy.server.security.handler;
 
+import lombok.RequiredArgsConstructor;
+import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
+import me.toy.server.security.util.CookieUtils;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class CustomAuthenticationFailureHandelr implements AuthenticationFailureHandler {
+import static me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+
+@Component
+@RequiredArgsConstructor
+public class CustomAuthenticationFailureHandelr extends SimpleUrlAuthenticationFailureHandler {
+
+    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Unauthorized");
+        String targetUrl = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
+                .map(Cookie::getValue)
+                .orElse(("/"));
+
+        targetUrl = UriComponentsBuilder.fromUriString(targetUrl)
+                .queryParam("error",exception.getLocalizedMessage())
+                .build().toUriString();
+
+        httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request,response);
+
+        getRedirectStrategy().sendRedirect(request,response,targetUrl);
     }
 }

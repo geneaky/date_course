@@ -20,15 +20,15 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-    @GetMapping("/user/info")
-    @CrossOrigin(originPatterns = "*",allowCredentials = "true",allowedHeaders = "*")
-    public UserDto getUserInfo(HttpServletRequest request){
-        String jwtHeader = request.getHeader("Authorization");
-        String jwtToken = jwtHeader.replace("Bearer ","");
-        String username = Jwts.parser().setSigningKey("jsession").parseClaimsJws(jwtToken).getBody().get("username").toString();
-        Optional<User> oUser = userRepository.findByUsername(username);
-        User user = oUser.get();
-        UserDto userInfo = new UserDto(user);
-        return userInfo;
-    }
+//    @GetMapping("/user/info")
+//    @CrossOrigin(originPatterns = "*",allowCredentials = "true",allowedHeaders = "*")
+//    public UserDto getUserInfo(HttpServletRequest request){
+//        String jwtHeader = request.getHeader("Authorization");
+//        String jwtToken = jwtHeader.replace("Bearer ","");
+//        String username = Jwts.parser().setSigningKey("jsession").parseClaimsJws(jwtToken).getBody().get("username").toString();
+//        Optional<User> oUser = userRepository.findByUsername(username);
+//        User user = oUser.get();
+//        UserDto userInfo = new UserDto(user);
+//        return userInfo;
+//    }
 }

@@ -27,13 +27,13 @@ spring:
         one-indexed-parameters: true
 
   security:
-#    basic: enable
     oauth2:
       client:
         registration:
           google:
             client-id: 268835850747-65ln6hknjlni444egh9tfqu2gabr3t4i.apps.googleusercontent.com
             client-secret: 8Km7wTWOgb1TZn_JUOe4elUW
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile

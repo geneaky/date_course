@@ -1,5 +1,6 @@
 package me.toy.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import me.toy.server.security.oauth2.AuthProvider;
 
@@ -21,12 +22,11 @@ public class User {
     @Column(name ="user_id")
     private Long id;
     private String name;
+    @JsonIgnore
     private String password;
     private String imageUrl;
     private String email;
     private boolean emailVerified = false;
-    @Enumerated(EnumType.STRING)
-    private Role role;
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
     private String providerId;
@@ -43,7 +43,6 @@ public class User {
                 ", imageUrl='" + imageUrl + '\'' +
                 ", email='" + email + '\'' +
                 ", emailVerified=" + emailVerified +
-                ", role=" + role +
                 ", provider=" + provider +
                 ", providerId='" + providerId + '\'' +
                 ", dateCourses=" + dateCourses +

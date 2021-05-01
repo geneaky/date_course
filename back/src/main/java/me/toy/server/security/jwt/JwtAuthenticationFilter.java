@@ -1,14 +1,9 @@
 package me.toy.server.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import me.toy.server.payload.LoginRequest;
 import me.toy.server.repository.UserRepository;
 import me.toy.server.security.oauth2.user.CustomUserDetailService;
-import me.toy.server.security.oauth2.user.UserPrincipal;
 import me.toy.server.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,9 +19,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {

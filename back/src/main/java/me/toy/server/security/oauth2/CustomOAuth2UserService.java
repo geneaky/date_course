@@ -1,7 +1,6 @@
 package me.toy.server.security.oauth2;
 
 import lombok.RequiredArgsConstructor;
-import me.toy.server.entity.Role;
 import me.toy.server.entity.User;
 import me.toy.server.exception.OAuth2AuthenticationProcessingException;
 import me.toy.server.security.oauth2.user.OAuth2UserInfo;
@@ -42,7 +41,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User){
-        String registrationId = oAuth2UserRequest.getClientRegistration().getClientId();
+        String registrationId = oAuth2UserRequest.getClientRegistration().getRegistrationId();
         Map<String,Object> attributes = oAuth2User.getAttributes();
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(registrationId,attributes);
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())){
@@ -71,7 +70,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setImageUrl(oAuth2UserInfo.getImageUrl());
-        user.setRole(Role.valueOf("ROLE_USER"));
         return userRepository.save(user);
     }
 

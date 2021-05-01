@@ -2,8 +2,8 @@ package me.toy.server.security.oauth2.user;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.entity.User;
+import me.toy.server.exception.ResourceNotFoundException;
 import me.toy.server.repository.UserRepository;
-import me.toy.server.security.oauth2.user.UserPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +23,14 @@ public class CustomUserDetailService implements UserDetailsService {
 
         User user = oUser
                 .orElseThrow(()->new UsernameNotFoundException("User not found with email: "+"emai"));
+
+        return UserPrincipal.create(user);
+    }
+
+    public UserDetails loadUserById(Long id){
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User","id",id)
+        );
 
         return UserPrincipal.create(user);
     }

@@ -42,4 +42,23 @@ public class JwtTokenProvider {
 
         return claims;
     }
+
+    public long getUserIdFromToken(String token){
+        Claims claims = Jwts.parser()
+                .setSigningKey(tokenSecret)
+                .parseClaimsJws(token)
+                .getBody();
+
+        return Long.parseLong(claims.getSubject());
+    }
+
+    public boolean validateToken(String authToken){
+        try{
+            Jwts.parser().setSigningKey(tokenSecret).parseClaimsJws(authToken);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
