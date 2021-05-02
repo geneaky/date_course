@@ -64,28 +64,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래�
 
         http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
-//    @Bean
-//    public ClientRegistrationRepository clientRegistrationRepository(OAuth2ClientProperties clientProperties){
-//        List<ClientRegistration> registrations =
-//                clientProperties.getRegistration().keySet().stream()
-//                .map(provider -> getRegistration(clientProperties, provider))
-//                .filter(Objects::nonNull)
-//                .collect(Collectors.toList());
-//
-//        return new InMemoryClientRegistrationRepository(registrations);
-//    }
-//
-//    private ClientRegistration getRegistration(OAuth2ClientProperties clientProperties,String provider){
-//        if("google".equals(provider)){
-//            OAuth2ClientProperties.Registration registration = clientProperties.getRegistration().get("google");
-//
-//            return CommonOAuth2Provider.GOOGLE.getBuilder(provider)
-//                    .clientId(registration.getClientId())
-//                    .clientSecret(registration.getClientSecret())
-//                    .scope("email","profile")
-//                    .build();
-//        }
-//        return null;
-//    }
 }

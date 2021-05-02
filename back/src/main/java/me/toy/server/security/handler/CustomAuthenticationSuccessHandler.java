@@ -45,7 +45,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         Optional<String> redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
 
-        if(redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())){
+        if(!redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())){
             throw new BadRequestException("Unauthorized redirect rui and can't proceed whit th authentication");
         }
 
