@@ -3,12 +3,18 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import OAuth2RedirectHander from "./components/OAuth2RedirectHandler";
 
 function App() {
   return (
     <AppDiv>
       <Route path="/" exact={true} component={Home} />
       <Route path="/login" exact={true} component={Login} />
+      <Route
+        path="/oauth2/redirect"
+        exact={true}
+        component={OAuth2RedirectHander}
+      />
     </AppDiv>
   );
 }
