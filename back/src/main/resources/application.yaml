@@ -40,3 +40,11 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   #org.hibernate.type: trace
+
+app:
+  auth:
+    tokenSecret: geneaky
+    tokenExpirationMsec: 864000000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
