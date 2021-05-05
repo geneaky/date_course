@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.UserDto;
 import me.toy.server.entity.User;
 import me.toy.server.repository.UserRepository;
+import me.toy.server.security.jwt.JwtTokenProvider;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,19 +18,20 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
+@Secured("ROLE_USER")
 public class UserController {
 
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
-//    @GetMapping("/user/info")
-//    @CrossOrigin(originPatterns = "*",allowCredentials = "true",allowedHeaders = "*")
-//    public UserDto getUserInfo(HttpServletRequest request){
-//        String jwtHeader = request.getHeader("Authorization");
-//        String jwtToken = jwtHeader.replace("Bearer ","");
-//        String username = Jwts.parser().setSigningKey("jsession").parseClaimsJws(jwtToken).getBody().get("username").toString();
-//        Optional<User> oUser = userRepository.findByUsername(username);
-//        User user = oUser.get();
-//        UserDto userInfo = new UserDto(user);
-//        return userInfo;
-//    }
+    @GetMapping("/user/info")
+    public ResponseEntity<UserDto> getUserInfo(HttpServletRequest request){
+        String jwtHeader = request.getHeader("Authorization");
+        String jwtToken = jwtHeader.replace("Bearer ","");
+        long userId = jwtTokenProvider.getUserIdFromToken(jwtToken);
+        Optional<User> oUser = userRepository.findById(userId);
+        User user = oUser.get();
+        UserDto userInfo = new UserDto(user);
+        return ResponseEntity.ok(userInfo);
+    }
 }

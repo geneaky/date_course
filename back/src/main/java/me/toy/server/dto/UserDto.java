@@ -1,9 +1,9 @@
 package me.toy.server.dto;
 
+import lombok.Getter;
 import me.toy.server.entity.User;
 
-import java.util.Optional;
-
+@Getter
 public class UserDto {
 
     private String name;
