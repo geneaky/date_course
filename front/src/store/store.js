@@ -10,11 +10,7 @@ export const setPlaces = (places) => ({
 export const setMap = (map) => ({ type: "SET_MAP", payload: map });
 export const setMarker = (marker) => ({ type: "SET_MARKER", payload: marker });
 export const clearMarker = () => ({ type: "CLEAR_MARKERS" });
-export const getUserInfo = (res) => ({ type: "GET_USERINFO", payload: res });
-export const getToken = (res) => ({
-  type: "GET_TOKEN",
-  payload: res.headers.Authorization,
-});
+export const getUserInfo = (data) => ({ type: "GET_USERINFO", payload: data });
 
 const initstate = {
   course: [],
@@ -22,7 +18,6 @@ const initstate = {
   marker: [],
   map: null,
   user: {},
-  token: null,
 };
 
 const reducer = (state = initstate, action) => {
@@ -40,9 +35,7 @@ const reducer = (state = initstate, action) => {
     case "CLEAR_MARKERS":
       return { ...state, marker: [] };
     case "GET_USERINFO":
-      return { ...state, user: { size: 12, ...action.payload } };
-    case "GET_TOKEN":
-      return { ...state, token: action.res };
+      return { ...state, user: action.payload };
     default:
       return state;
   }

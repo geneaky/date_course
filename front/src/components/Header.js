@@ -2,8 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
+import { useSelector } from "react-redux";
 
 const Header = ({ sideMenu, setSideMenu }) => {
+  const user = useSelector((store) => store.user);
+
   const menuPop = () => {
     setSideMenu(!sideMenu);
   };
@@ -13,7 +16,7 @@ const Header = ({ sideMenu, setSideMenu }) => {
       <MenuIcon onClick={menuPop} />
       <h3>open date course</h3>
       <StyledHeaderLink to="/login">로그인</StyledHeaderLink>
-      <p>Guest</p>
+      <p>{user.name}</p>
     </HeaderDiv>
   );
 };

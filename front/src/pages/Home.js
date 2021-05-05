@@ -1,21 +1,28 @@
 /*global kakao*/
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import CourseMenu from "../components/CourseMenu";
 import { useDispatch, useSelector } from "react-redux";
-import { getToken, getUserInfo, setMap } from "../store/store";
+import { getUserInfo, setMap } from "../store/store";
 import axios from "axios";
 
 const Home = () => {
   const [sideMenu, setSideMenu] = useState(false);
-  const user = useSelector((store) => store.user);
-  const token = useSelector((store) => store.token);
+  const token = localStorage.getItem("accessToken");
   const dispatcher = useDispatch();
 
-  useEffect(() => {
+  useEffect(async () => {
     mapScript();
-  }, []);
+    if (token) {
+      const res = await axios.get("/user/info", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatcher(getUserInfo(res.data));
+    }
+  }, [token]);
 
   const mapScript = () => {
     const container = document.getElementById("map");

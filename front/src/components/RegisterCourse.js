@@ -40,7 +40,7 @@ const RegisterCourse = () => {
   // };
   return (
     <div>
-      <p>{course[0][0]}</p>
+      <p>{course[0]}</p>
       <form action="/course" method="post" enctype="multipart/form-data">
         <input type="file" multiple onChange={onFile} />
         {/* 다중 이미지 미리보기 적용하고 사이트에서 광고창 넘기듯이 적용 */}
