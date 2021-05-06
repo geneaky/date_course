@@ -2,21 +2,32 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSideMenu } from "../store/store";
+import User from "./user/User";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
-const Header = ({ sideMenu, setSideMenu }) => {
+const Header = () => {
   const user = useSelector((store) => store.user);
-
-  const menuPop = () => {
-    setSideMenu(!sideMenu);
-  };
+  const dispatch = useDispatch();
 
   return (
     <HeaderDiv>
-      <MenuIcon onClick={menuPop} />
+      <MenuIcon
+        onClick={() => {
+          dispatch(setSideMenu());
+        }}
+        style={menuStyle}
+      />
       <h3>open date course</h3>
-      <StyledHeaderLink to="/login">로그인</StyledHeaderLink>
-      <p>{user.name}</p>
+      {user === null ? (
+        <>
+          <StyledHeaderLink to="/login">로그인</StyledHeaderLink>
+          <AccountCircleIcon />
+        </>
+      ) : (
+        <User />
+      )}
     </HeaderDiv>
   );
 };
@@ -24,15 +35,19 @@ const Header = ({ sideMenu, setSideMenu }) => {
 const HeaderDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 2.7rem;
+  height: 3.2rem;
   background-color: #ffa07a;
   * {
-    margin: auto 20px;
+    margin: auto 50px auto 0;
   }
 `;
 
 const StyledHeaderLink = styled(Link)`
   text-decoration: none;
 `;
+
+const menuStyle = {
+  marginLeft: "50px",
+};
 
 export default Header;

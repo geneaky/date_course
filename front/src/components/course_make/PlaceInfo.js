@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { registerCourse, setMarker } from "../store/store";
+import { registerCourse, setMarker } from "../../store/store";
 
 const PlaceInfo = ({ result }) => {
   const map = useSelector((store) => store.map);
@@ -14,7 +14,7 @@ const PlaceInfo = ({ result }) => {
     });
     marker.setMap(map);
     dispatcher(setMarker(marker));
-  }, [result, map]);
+  }, [result]);
 
   const onClick = () => {
     dispatcher(registerCourse(result));

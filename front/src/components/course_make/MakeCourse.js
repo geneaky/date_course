@@ -1,7 +1,7 @@
 import React from "react";
+import RegisterCourse from "./RegisterCourse";
 import SearchBox from "./SearchBox";
 import SearchResultBox from "./SearchResultBox";
-import RegisterCourse from "./RegisterCourse";
 
 const MakeCourse = () => {
   return (

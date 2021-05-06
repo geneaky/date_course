@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import SearchCourse from "../components/SearchCourse";
-import MakeCourse from "../components/MakeCourse";
+import SearchCourse from "./course_search/SearchCourse";
+import MakeCourse from "./course_make/MakeCourse";
 
 const CourseMenu = () => {
   const [toggleButton, setToggleButton] = useState("코스 만들기");

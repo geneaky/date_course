@@ -1,15 +1,17 @@
 /*global kakao*/
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import CourseMenu from "../components/CourseMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo, setMap } from "../store/store";
 import axios from "axios";
+import UserMenu from "../components/user/UserMenu";
 
 const Home = () => {
-  const [sideMenu, setSideMenu] = useState(false);
   const token = localStorage.getItem("accessToken");
+  const sideMenu = useSelector((store) => store.sideMenu);
+  const userMenu = useSelector((store) => store.userMenu);
   const dispatcher = useDispatch();
 
   useEffect(async () => {
@@ -37,9 +39,10 @@ const Home = () => {
 
   return (
     <div>
-      <Header sideMenu={sideMenu} setSideMenu={setSideMenu} />
+      <Header />
       <HomeBody>
         {sideMenu ? <CourseMenu /> : null}
+        {userMenu ? <UserMenu /> : null}
         <Map id="map"></Map>
       </HomeBody>
     </div>
