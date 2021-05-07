@@ -24,6 +24,7 @@ const StyledUserdiv = styled.div`
   height: 2.7rem;
   border-radius: 50%;
   overflow: hidden;
+  cursor: pointer;
 
   img {
     width: 100%;

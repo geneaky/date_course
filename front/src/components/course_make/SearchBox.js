@@ -15,13 +15,13 @@ const SearchBox = () => {
       if (status === kakao.maps.services.Status.OK) {
         let dataList = [];
         for (let i in data) {
-          dataList.push([
-            data[i].place_name,
-            data[i].address_name,
-            data[i].phone,
-            data[i].x,
-            data[i].y,
-          ]);
+          dataList.push({
+            placeName: data[i].place_name,
+            address: data[i].address_name,
+            phone: data[i].phone,
+            posX: data[i].x,
+            posY: data[i].y,
+          });
         }
         dispatcher(setPlaces(dataList));
       }

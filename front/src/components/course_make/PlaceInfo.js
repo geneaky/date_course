@@ -10,21 +10,22 @@ const PlaceInfo = ({ result }) => {
   useEffect(() => {
     let marker = new kakao.maps.Marker({
       map: map,
-      position: new kakao.maps.LatLng(result[4], result[3]),
+      position: new kakao.maps.LatLng(result.posY, result.posX),
     });
     marker.setMap(map);
     dispatcher(setMarker(marker));
   }, [result]);
 
   const onClick = () => {
+    map.setCenter(new kakao.maps.LatLng(result.posY, result.posX));
     dispatcher(registerCourse(result));
   };
 
   return (
     <PlaceInfoDiv onClick={onClick}>
-      <p>{result[0]}</p>
-      <p>{result[1]}</p>
-      <p>{result[2]}</p>
+      <p>{result.placeName}</p>
+      <p>{result.address}</p>
+      <p>{result.phone}</p>
     </PlaceInfoDiv>
   );
 };
