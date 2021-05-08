@@ -14,6 +14,7 @@ export const clearMarker = () => ({ type: "CLEAR_MARKERS" });
 export const getUserInfo = (data) => ({ type: "GET_USERINFO", payload: data });
 export const setSideMenu = () => ({ type: "SET_SIDEMENU" });
 export const toggleUserMenu = () => ({ type: "TOGGLE_USERMENU" });
+export const togglePhotoModal = () => ({ type: "TOGGLE_PHOTOMODAL" });
 
 const initstate = {
   course: [],
@@ -23,6 +24,7 @@ const initstate = {
   user: {},
   sideMenu: false,
   userMenu: false,
+  photoModal: false,
 };
 
 const reducer = (state = initstate, action) => {
@@ -47,6 +49,8 @@ const reducer = (state = initstate, action) => {
       return { ...state, userMenu: !state.userMenu };
     case "SET_SIDEMENU":
       return { ...state, sideMenu: !state.sideMenu };
+    case "TOGGLE_PHOTOMODAL":
+      return { ...state, photoModal: !state.photoModal };
     default:
       return state;
   }

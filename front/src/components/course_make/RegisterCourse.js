@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import PhotoModal from "./PhotoModal";
+import { togglePhotoModal } from "../../store/store";
 
 const RegisterForm = () => {
   const url = "/course";
@@ -15,14 +17,16 @@ const RegisterForm = () => {
 
 const RegisterCourse = () => {
   const course = useSelector((store) => store.course);
+  const photoModal = useSelector((store) => store.photoModal);
+  const dispatch = useDispatch();
 
   return (
     <StyledRegisterCourse>
-      <p>{course[0]?.placeName}</p>
+      {photoModal ? <PhotoModal /> : null}
       <StyledPhotoFeat>
         <label for="file">Upload Photo</label>
         <input type="file" id="file" multiple style={{ display: "none" }} />
-        <button>Look Photo</button>
+        <button onClick={() => dispatch(togglePhotoModal())}>Look Photo</button>
       </StyledPhotoFeat>
       {/* 다중 이미지 미리보기 적용하고 사이트에서 광고창 넘기듯이 적용 */}
       <textarea
@@ -42,16 +46,11 @@ const StyledRegisterCourse = styled.div`
   * {
     display: block;
   }
-  p {
-    font-size: 5px;
-    font-weight: 500;
-    color: #000;
-  }
   textarea {
     width: 91%;
-    height: 200px;
+    height: 222px;
     resize: none;
-    border: 1px solid lightgray;
+    border: 2px solid lightcoral;
     outline: none;
     border-radius: 5px;
     font-size: 16px;
@@ -114,12 +113,10 @@ const StyledChooseButton = styled.div`
 
 const StyledPhotoFeat = styled.div`
   display: flex;
-  margin: 0;
-  padding: 0;
   label {
     width: 50%;
-    vertical-align: middle;
     height: 40px;
+    line-height: 40px;
     font-family: "Roboto", sans-serif;
     font-size: 11px;
     text-transform: uppercase;
