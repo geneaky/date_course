@@ -25,7 +25,7 @@ const Header = () => {
         <StyledHeaderLink to="/login">로그인</StyledHeaderLink>
       ) : (
         <StlyedUserWithNotification>
-          <NotificationsIcon style={notificationStyle} />
+          <NotificationsIcon />
           <User />
         </StlyedUserWithNotification>
       )}
@@ -40,6 +40,7 @@ const HeaderDiv = styled.div`
   background-color: #ffa07a;
   * {
     margin: auto 30px auto 0;
+    cursor: pointer;
   }
 `;
 
@@ -54,10 +55,6 @@ const StlyedUserWithNotification = styled.div`
 
 const menuStyle = {
   marginLeft: "50px",
-};
-
-const notificationStyle = {
-  cursor: "pointer",
 };
 
 export default Header;

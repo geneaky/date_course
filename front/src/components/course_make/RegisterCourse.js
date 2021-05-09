@@ -3,7 +3,13 @@ import styled from "styled-components";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import PhotoModal from "./PhotoModal";
-import { togglePhotoModal } from "../../store/store";
+import {
+  clearLocation,
+  registerCourse,
+  setLocationInfo,
+  setLocation,
+  togglePhotoModal,
+} from "../../store/store";
 
 const RegisterForm = () => {
   const url = "/course";
@@ -14,30 +20,79 @@ const RegisterForm = () => {
 
   axios.post(url, formData, config);
 };
+// 코스안에는 여러개의 장소 여러개의 사진 여러개의 태그 여러개의 문장
+/*
+  const course = [
+    {
+      placeName: 1개 ,
+      tag: n개,
+      photo: n개,
+      text: ,
+    },
+    {
+      placeName: 1개,
+      tag: n개,
+      photo: n개,
+      text: ,
+    }
+  ]
+
+*/
 
 const RegisterCourse = () => {
+  const [files, setFiles] = useState();
+  const [text, setText] = useState();
   const course = useSelector((store) => store.course);
+  const location = useSelector((store) => store.location);
   const photoModal = useSelector((store) => store.photoModal);
   const dispatch = useDispatch();
-
+  /*
+  flow 
+  파일 여러개 선택 -> 텍스트 입력 -> 태그 입력 -> look photo클릭 후 사진 점검 -> decide 누르면 course배열에 location 하나를 추가
+  location store를 하나 생성해서 로케이션이 여러개 모여 하나의 코스를 구성하는 방식으로 변경 
+*/
+  const decideLocation = () => {
+    dispatch(setLocationInfo({ photos: files, text: text }));
+    dispatch(setLocation({ test: "test" }));
+    console.log(location);
+    dispatch(registerCourse(location));
+    dispatch(clearLocation());
+    setFiles(null);
+    setText(null);
+  };
   return (
     <StyledRegisterCourse>
       {photoModal ? <PhotoModal /> : null}
       <StyledPhotoFeat>
         <label for="file">Upload Photo</label>
-        <input type="file" id="file" multiple style={{ display: "none" }} />
+        <input
+          type="file"
+          id="file"
+          multiple
+          style={{ display: "none" }}
+          onChange={(e) => {
+            setFiles(e.target.files);
+          }}
+        />
         <button onClick={() => dispatch(togglePhotoModal())}>Look Photo</button>
       </StyledPhotoFeat>
-      {/* 다중 이미지 미리보기 적용하고 사이트에서 광고창 넘기듯이 적용 */}
       <textarea
         placeholder={"글 작성 및 해시태그 등록(해시태그는 정규표현식 사용)"}
+        onChange={(e) => setText(e.target.value)}
       />
       <StyledChooseButton>
         <button>Back</button>
-        <button>Decide</button>
+        <button onClick={decideLocation}>Decide</button>
         <button>Next</button>
       </StyledChooseButton>
-      <button>Upload!</button>
+      <button
+        onClick={() => {
+          console.log(files);
+          console.log(text);
+        }}
+      >
+        Upload!
+      </button>
     </StyledRegisterCourse>
   );
 };
@@ -162,24 +217,5 @@ const StyledPhotoFeat = styled.div`
     }
   }
 `;
-
-// 코스안에는 여러개의 장소 여러개의 사진 여러개의 태그 여러개의 문장
-/*
-  const course = [
-    {
-      placeName: 1개 ,
-      tag: n개,
-      photo: n개,
-      text: ,
-    },
-    {
-      placeName: 1개,
-      tag: n개,
-      photo: n개,
-      text: ,
-    }
-  ]
-
-*/
 
 export default RegisterCourse;

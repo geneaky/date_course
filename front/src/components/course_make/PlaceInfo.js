@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { registerCourse, setMarker } from "../../store/store";
+import { setLocation, setMarker } from "../../store/store";
 
 const PlaceInfo = ({ result }) => {
   const map = useSelector((store) => store.map);
@@ -18,7 +18,13 @@ const PlaceInfo = ({ result }) => {
 
   const onClick = () => {
     map.setCenter(new kakao.maps.LatLng(result.posY, result.posX));
-    dispatcher(registerCourse(result));
+    dispatcher(
+      setLocation({
+        placeName: result.placeName,
+        posX: result.posX,
+        posY: result.posY,
+      })
+    );
   };
 
   return (

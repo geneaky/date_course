@@ -15,6 +15,15 @@ export const getUserInfo = (data) => ({ type: "GET_USERINFO", payload: data });
 export const setSideMenu = () => ({ type: "SET_SIDEMENU" });
 export const toggleUserMenu = () => ({ type: "TOGGLE_USERMENU" });
 export const togglePhotoModal = () => ({ type: "TOGGLE_PHOTOMODAL" });
+export const setLocation = (location) => ({
+  type: "SET_LOCATION",
+  payload: location,
+});
+export const setLocationInfo = (result) => ({
+  type: "SET_LOCATION_INFO",
+  payload: result,
+});
+export const clearLocation = () => ({ type: "CLEAR_LOCATION" });
 
 const initstate = {
   course: [],
@@ -25,12 +34,13 @@ const initstate = {
   sideMenu: false,
   userMenu: false,
   photoModal: false,
+  location: {},
 };
 
 const reducer = (state = initstate, action) => {
   switch (action.type) {
     case "REGISTER_COURSE":
-      return { ...state, course: [action.payload] };
+      return { ...state, course: [...state.course, action.payload] };
     case "RESET_COURSE":
       return { ...state, course: [] };
     case "SET_PLACES":
@@ -51,6 +61,21 @@ const reducer = (state = initstate, action) => {
       return { ...state, sideMenu: !state.sideMenu };
     case "TOGGLE_PHOTOMODAL":
       return { ...state, photoModal: !state.photoModal };
+    case "SET_LOCATION":
+      return {
+        ...state,
+        location: { ...state.location, place: action.payload },
+      };
+    case "SET_LOCATION_INFO":
+      return {
+        ...state,
+        location: { ...state.location, user: action.payload },
+      };
+    case "CLEAR_LOCATION":
+      return {
+        ...state,
+        location: {},
+      };
     default:
       return state;
   }
