@@ -20,7 +20,7 @@ const settings = {
   dots: false,
   fade: true,
   infinite: true,
-  arrows: true,
+  arrows: false,
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
@@ -29,7 +29,12 @@ const settings = {
 const StyledPhotoSlider = styled(Slider)`
   * {
     position: absolute;
-    left: 50%;
+    left: 15%;
+    top: 5%;
+    h1 {
+      width: 500px;
+      height: 500px;
+    }
   }
 `;
 
