@@ -10,7 +10,6 @@ const User = () => {
   return (
     <StyledUserdiv
       onClick={() => {
-        console.log("check");
         dispatch(toggleUserMenu());
       }}
     >

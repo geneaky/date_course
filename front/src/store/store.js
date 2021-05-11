@@ -19,10 +19,6 @@ export const setLocation = (location) => ({
   type: "SET_LOCATION",
   payload: location,
 });
-export const setLocationInfo = (result) => ({
-  type: "SET_LOCATION_INFO",
-  payload: result,
-});
 export const clearLocation = () => ({ type: "CLEAR_LOCATION" });
 
 const initstate = {
@@ -34,7 +30,9 @@ const initstate = {
   sideMenu: false,
   userMenu: false,
   photoModal: false,
-  location: {},
+  location: {
+    place: {},
+  },
 };
 
 const reducer = (state = initstate, action) => {
@@ -64,17 +62,14 @@ const reducer = (state = initstate, action) => {
     case "SET_LOCATION":
       return {
         ...state,
-        location: { ...state.location, place: action.payload },
-      };
-    case "SET_LOCATION_INFO":
-      return {
-        ...state,
-        location: { ...state.location, user: action.payload },
+        location: { place: action.payload },
       };
     case "CLEAR_LOCATION":
       return {
         ...state,
-        location: {},
+        location: {
+          place: {},
+        },
       };
     default:
       return state;

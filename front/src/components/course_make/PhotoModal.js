@@ -33,7 +33,6 @@ const StyledModalContainer = styled.div`
   position: absolute;
   background: white;
   border: none;
-  opacity: 70%;
   border-radius: 15px;
   width: 700px;
   height: 620px;
