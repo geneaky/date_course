@@ -11,13 +11,13 @@ const PhotoSlider = () => {
     let photos = Object.values(
       courses[courses.length - 1].location.user.photos
     );
+    let newPhotos = [];
     photos.map((photo) => {
-      setPreviewImg([...previewImg, URL.createObjectURL(photo)]);
-      console.log(previewImg);
-      console.log(photo);
+      newPhotos = [...newPhotos, URL.createObjectURL(photo)];
     });
+    setPreviewImg(newPhotos);
   }, [courses]);
-  // 사진 하나만 올리는 방식으로 변경
+
   return (
     <StyledPhotoSlider {...settings}>
       {previewImg.map((img) => (

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PhotoModal from "./PhotoModal";
 import { registerCourse, togglePhotoModal } from "../../store/store";
 
@@ -40,6 +40,7 @@ const RegisterCourse = () => {
     setFiles(null);
     setText("");
   };
+
   return (
     <StyledRegisterCourse>
       {photoModal ? <PhotoModal /> : null}
