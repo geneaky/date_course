@@ -5,14 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import PhotoModal from "./PhotoModal";
 import { registerCourse, togglePhotoModal } from "../../store/store";
 
-const RegisterForm = () => {
-  const url = "/course";
-  const formData = new FormData();
+const RegisterForm = async (course) => {
+  const token = localStorage.getItem("accessToken");
+  const url = "/datecourse";
   const config = {
-    headers: { "content-type": "multipart/form-data" },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   };
 
-  axios.post(url, formData, config);
+  await axios.post(url, course, config);
 };
 
 const RegisterCourse = () => {
@@ -66,7 +68,7 @@ const RegisterCourse = () => {
       </StyledChooseButton>
       <button
         onClick={() => {
-          console.log(course);
+          RegisterForm(course);
         }}
       >
         Upload!
