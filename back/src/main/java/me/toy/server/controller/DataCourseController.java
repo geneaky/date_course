@@ -1,17 +1,13 @@
 package me.toy.server.controller;
 
 import lombok.RequiredArgsConstructor;
-import me.toy.server.dto.CurrentLocationDateCourseDto;
-import me.toy.server.dto.RecentDateCourseDto;
-import me.toy.server.dto.ThumbUpDateCourseDto;
+import me.toy.server.dto.*;
 import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.Location;
 import me.toy.server.repository.DateCourseRepository;
 import me.toy.server.repository.LocationRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -25,36 +21,60 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Secured("ROLE_USER")
 public class DataCourseController {
 
     private final DateCourseRepository dateCourseRepository;
     private final LocationRepository locationRepository;
 
+//    @PostMapping("/datecourse")
+////    public void registDateCourse(@RequestParam(value="photos",required = false) List<MultipartFile> multipartFiles,
+////                                 @RequestParam HashMap<String,String> paramMap) throws IOException {
+////        String locationName = paramMap.get("locationName");
+////        String text = paramMap.get("text");
+////        float posx = Float.parseFloat(paramMap.get("posx"));
+////        float posy = Float.parseFloat(paramMap.get("posy"));
+////
+////        DateCourse dateCourse = new DateCourse(0L);
+////        dateCourseRepository.save(dateCourse);
+////
+////        Location location = new Location(locationName,text,posx,posy);
+////        location.setDateCourse(dateCourse);
+////
+////        Path directory = Paths.get("src/main/resources/imageUpload/").toAbsolutePath().normalize();
+////        List<String> pathList = new ArrayList<>();
+////        for(MultipartFile multipartFile : multipartFiles){
+////            String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
+////            pathList.add(fileSaveName);
+////            Path targetPath = directory.resolve(fileSaveName+".jpg").normalize();
+////            multipartFile.transferTo(targetPath);
+////        }
+////
+////        location.setPhotoUrls(pathList);
+////        locationRepository.save(location);
+////    }
+
     @PostMapping("/datecourse")
-    public void registDateCourse(@RequestParam(value="photos",required = false) List<MultipartFile> multipartFiles,
-                                 @RequestParam HashMap<String,String> paramMap) throws IOException {
-        String locationName = paramMap.get("locationName");
-        String text = paramMap.get("text");
-        float posx = Float.parseFloat(paramMap.get("posx"));
-        float posy = Float.parseFloat(paramMap.get("posy"));
+    public void registDateCourse(@RequestBody CourseRequest courseRequest) throws IOException {
+        List<LocationRequest> locations = courseRequest.getCourse();
 
-        DateCourse dateCourse = new DateCourse(0L);
-        dateCourseRepository.save(dateCourse);
-
-        Location location = new Location(locationName,text,posx,posy);
-        location.setDateCourse(dateCourse);
 
         Path directory = Paths.get("src/main/resources/imageUpload/").toAbsolutePath().normalize();
         List<String> pathList = new ArrayList<>();
-        for(MultipartFile multipartFile : multipartFiles){
+        List<MultipartFile> photos = null;
+        for(LocationRequest lr:locations){
+            UserRequest temp = lr.getUser();
+            photos = temp.getPhotos();
+        }
+
+        if(photos!=null){
+        for(MultipartFile multipartFile : photos){
             String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
             pathList.add(fileSaveName);
             Path targetPath = directory.resolve(fileSaveName+".jpg").normalize();
             multipartFile.transferTo(targetPath);
         }
-
-        location.setPhotoUrls(pathList);
-        locationRepository.save(location);
+        }
     }
 
     @GetMapping("/datecourse/recent")
