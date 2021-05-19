@@ -11,10 +11,11 @@ const RegisterForm = async (course) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
     },
   };
 
-  await axios.post(url, course, config);
+  await axios.post(url, null, { course: course }, config);
 };
 
 const RegisterCourse = () => {
