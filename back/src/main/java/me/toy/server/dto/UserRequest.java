@@ -13,8 +13,4 @@ public class UserRequest {
     private List<MultipartFile> photos;
     private String text;
 
-    public UserRequest(List<MultipartFile> photos, String text) {
-        this.photos = photos;
-        this.text = text;
-    }
 }

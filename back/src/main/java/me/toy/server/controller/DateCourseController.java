@@ -2,8 +2,6 @@ package me.toy.server.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.*;
-import me.toy.server.entity.DateCourse;
-import me.toy.server.entity.Location;
 import me.toy.server.repository.DateCourseRepository;
 import me.toy.server.repository.LocationRepository;
 import org.springframework.security.access.annotation.Secured;
@@ -16,13 +14,12 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Secured("ROLE_USER")
-public class DataCourseController {
+//@Secured("ROLE_USER")
+public class DateCourseController {
 
     private final DateCourseRepository dateCourseRepository;
     private final LocationRepository locationRepository;
@@ -55,16 +52,16 @@ public class DataCourseController {
 ////    }
 
     @PostMapping("/datecourse")
-    public void registDateCourse(@RequestBody CourseRequest courseRequest) throws IOException {
-        List<LocationRequest> locations = courseRequest.getCourse();
+    public void registDateCourse(@RequestBody CourseRegisterRequestDto courseRegisterRequestDto) throws IOException {
+        List<LocationRequest> locations = courseRegisterRequestDto.getCourse();
 
 
         Path directory = Paths.get("src/main/resources/imageUpload/").toAbsolutePath().normalize();
         List<String> pathList = new ArrayList<>();
         List<MultipartFile> photos = null;
         for(LocationRequest lr:locations){
-            UserRequest temp = lr.getUser();
-            photos = temp.getPhotos();
+            String placeName = lr.getPlace().getPlaceName();
+            System.out.println(placeName);
         }
 
         if(photos!=null){
