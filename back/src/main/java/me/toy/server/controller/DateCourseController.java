@@ -28,24 +28,16 @@ public class DateCourseController {
 
     @PostMapping("/datecourse")
     public void registDateCourse(@RequestPart(value="files",required = false) List<MultipartFile> multipartFiles,
-                                 @RequestPart(value="course",required = false) CourseRegisterRequestDto courseRegisterRequestDto) throws IOException {
-        // 필요 속성만 추출해서 requestdto 다시 생성
-//        String locationName = paramMap.get("locationName");
-//        String text = paramMap.get("text");
-//        float posx = Float.parseFloat(paramMap.get("posx"));
-//        float posy = Float.parseFloat(paramMap.get("posy"));
-//
+                                 @RequestPart(value="course",required = false) RegistDateCourseRequestDto registDateCourseRequestDto) throws IOException {
+
 //        DateCourse dateCourse = new DateCourse(0L);
 //        dateCourseRepository.save(dateCourse);
 //
 //        Location location = new Location(locationName,text,posx,posy);
 //        location.setDateCourse(dateCourse);
-
-        String placeName = courseRegisterRequestDto.getLocation().getPlace().getPlaceName();
-        System.out.println(placeName);
-
-        Path directory = Paths.get("src/main/resources/imageUpload/").toAbsolutePath().normalize();
         List<String> pathList = new ArrayList<>();
+        Path directory = Paths.get("src/main/resources/imageUpload/").toAbsolutePath().normalize();
+
         for(MultipartFile multipartFile : multipartFiles){
             String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
             pathList.add(fileSaveName);
@@ -56,28 +48,6 @@ public class DateCourseController {
 //        location.setPhotoUrls(pathList);
 //        locationRepository.save(location);
     }
-
-//    @PostMapping("/datecourse")
-//    public void registDateCourse(@RequestBody CourseRegisterRequestDto courseRegisterRequestDto) throws IOException {
-//        List<LocationRequest> locations = courseRegisterRequestDto.getCourse();
-//
-//        Path directory = Paths.get("src/main/resources/imageUpload/").toAbsolutePath().normalize();
-//        List<String> pathList = new ArrayList<>();
-//        List<MultipartFile> photos = null;
-//        for(LocationRequest lr:locations){
-//            String placeName = lr.getPlace().getPlaceName();
-//            System.out.println(placeName);
-//        }
-//
-//        if(photos!=null){
-//        for(MultipartFile multipartFile : photos){
-//            String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
-//            pathList.add(fileSaveName);
-//            Path targetPath = directory.resolve(fileSaveName+".jpg").normalize();
-//            multipartFile.transferTo(targetPath);
-//        }
-//        }
-//    }
 
     @GetMapping("/datecourse/recent")
     public List<RecentDateCourseDto> recentDateCourseList(){
