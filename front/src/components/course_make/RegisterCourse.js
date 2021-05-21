@@ -11,10 +11,8 @@ const RegisterForm = (courses) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
-      // "Content-Type": "multipart/mixed",
     },
   };
-
   courses.forEach(async (course) => {
     const formData = new FormData();
     Object.values(course.location.user.photos).forEach((photo) => {
@@ -25,16 +23,10 @@ const RegisterForm = (courses) => {
       new Blob(
         [
           JSON.stringify({
-            location: {
-              place: {
-                placeName: "이수역",
-                posX: "26",
-                posY: "126",
-              },
-              user: {
-                text: "hi",
-              },
-            },
+            placeName: "이수역",
+            posX: "26",
+            posY: "126",
+            text: "hi",
           }),
         ],
         { type: "application/json" }

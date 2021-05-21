@@ -29,6 +29,7 @@ public class DateCourseController {
     @PostMapping("/datecourse")
     public void registDateCourse(@RequestPart(value="files",required = false) List<MultipartFile> multipartFiles,
                                  @RequestPart(value="course",required = false) CourseRegisterRequestDto courseRegisterRequestDto) throws IOException {
+        // 필요 속성만 추출해서 requestdto 다시 생성
 //        String locationName = paramMap.get("locationName");
 //        String text = paramMap.get("text");
 //        float posx = Float.parseFloat(paramMap.get("posx"));
