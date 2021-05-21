@@ -5,31 +5,52 @@ import { useDispatch, useSelector } from "react-redux";
 import PhotoModal from "./PhotoModal";
 import { registerCourse, togglePhotoModal } from "../../store/store";
 
-const RegisterForm = async (course) => {
+const RegisterForm = (courses) => {
   const token = localStorage.getItem("accessToken");
   const url = "/datecourse";
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+      // "Content-Type": "multipart/mixed",
     },
   };
 
-  await axios.post(url, null, { course: course }, config);
+  courses.forEach(async (course) => {
+    const formData = new FormData();
+    Object.values(course.location.user.photos).forEach((photo) => {
+      formData.append("files", photo);
+    });
+    formData.append(
+      "course",
+      new Blob(
+        [
+          JSON.stringify({
+            location: {
+              place: {
+                placeName: "이수역",
+                posX: "26",
+                posY: "126",
+              },
+              user: {
+                text: "hi",
+              },
+            },
+          }),
+        ],
+        { type: "application/json" }
+      )
+    );
+    await axios.post(url, formData, config);
+  });
 };
 
 const RegisterCourse = () => {
   const [files, setFiles] = useState();
   const [text, setText] = useState();
-  const course = useSelector((store) => store.course);
+  const courses = useSelector((store) => store.course);
   const location = useSelector((store) => store.location);
   const photoModal = useSelector((store) => store.photoModal);
   const dispatcher = useDispatch();
-  /*
-  flow 
-  파일 여러개 선택 -> 텍스트 입력 -> 태그 입력 -> look photo클릭 후 사진 점검 -> decide 누르면 course배열에 location 하나를 추가
-  location store를 하나 생성해서 로케이션이 여러개 모여 하나의 코스를 구성하는 방식으로 변경 
-*/
 
   const decideLocation = () => {
     dispatcher(
@@ -69,7 +90,7 @@ const RegisterCourse = () => {
       </StyledChooseButton>
       <button
         onClick={() => {
-          RegisterForm(course);
+          RegisterForm(courses);
         }}
       >
         Upload!
