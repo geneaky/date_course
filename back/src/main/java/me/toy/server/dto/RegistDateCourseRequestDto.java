@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 public class RegistDateCourseRequestDto {
 
     private String placeName;
-    private String posX;
-    private String posY;
+    private float posX;
+    private float posY;
     private String text;
 }

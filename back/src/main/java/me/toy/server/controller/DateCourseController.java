@@ -2,20 +2,20 @@ package me.toy.server.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.*;
+import me.toy.server.entity.DateCourse;
+import me.toy.server.entity.Location;
 import me.toy.server.repository.DateCourseRepository;
 import me.toy.server.repository.LocationRepository;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -30,11 +30,16 @@ public class DateCourseController {
     public void registDateCourse(@RequestPart(value="files",required = false) List<MultipartFile> multipartFiles,
                                  @RequestPart(value="course",required = false) RegistDateCourseRequestDto registDateCourseRequestDto) throws IOException {
 
-//        DateCourse dateCourse = new DateCourse(0L);
-//        dateCourseRepository.save(dateCourse);
-//
-//        Location location = new Location(locationName,text,posx,posy);
-//        location.setDateCourse(dateCourse);
+        DateCourse dateCourse = new DateCourse(0L);
+        dateCourseRepository.save(dateCourse);
+
+        String placeName = registDateCourseRequestDto.getPlaceName();
+        String text = registDateCourseRequestDto.getText();
+        float posX = registDateCourseRequestDto.getPosX();
+        float posY = registDateCourseRequestDto.getPosY();
+
+        Location location = new Location(placeName,text,posX,posY);
+        location.setDateCourse(dateCourse);
         List<String> pathList = new ArrayList<>();
         Path directory = Paths.get("src/main/resources/imageUpload/").toAbsolutePath().normalize();
 
@@ -45,8 +50,8 @@ public class DateCourseController {
             multipartFile.transferTo(targetPath);
         }
 
-//        location.setPhotoUrls(pathList);
-//        locationRepository.save(location);
+        location.setPhotoUrls(pathList);
+        locationRepository.save(location);
     }
 
     @GetMapping("/datecourse/recent")
