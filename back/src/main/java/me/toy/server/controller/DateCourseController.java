@@ -28,22 +28,26 @@ public class DateCourseController {
 
     @PostMapping("/datecourse")
     public void registDateCourse(@RequestPart(value="files",required = false) List<MultipartFile> multipartFiles,
-                                 @RequestPart(value="course",required = false) RegistDateCourseRequestDto registDateCourseRequestDto) throws IOException {
+                                 @RequestPart(value="course",required = false) List<RegistDateCourseRequestDto> requestDtoList) throws IOException {
 
         DateCourse dateCourse = new DateCourse(0L);
         dateCourseRepository.save(dateCourse);
 
-        String placeName = registDateCourseRequestDto.getPlaceName();
-        String text = registDateCourseRequestDto.getText();
-        float posX = registDateCourseRequestDto.getPosX();
-        float posY = registDateCourseRequestDto.getPosY();
+        for(RegistDateCourseRequestDto requestDto: requestDtoList){
+            String placeName = requestDto.getPlaceName();
+            String text = requestDto.getText();
+            float posX = requestDto.getPosX();
+            float posY = requestDto.getPosY();
+            Location location = new Location(placeName,text,posX,posY);
 
-        Location location = new Location(placeName,text,posX,posY);
+        }
+
         location.setDateCourse(dateCourse);
         List<String> pathList = new ArrayList<>();
         Path directory = Paths.get("src/main/resources/imageUpload/").toAbsolutePath().normalize();
 
         for(MultipartFile multipartFile : multipartFiles){
+            if(multipartFile==null) continue;
             String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
             pathList.add(fileSaveName);
             Path targetPath = directory.resolve(fileSaveName+".jpg").normalize();
