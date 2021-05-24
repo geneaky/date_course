@@ -33,4 +33,5 @@ public class DateCourse {
     public DateCourse(Long thumbUp) {
         this.thumbUp = thumbUp;
     }
+
 }

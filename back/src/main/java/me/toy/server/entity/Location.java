@@ -1,8 +1,7 @@
 package me.toy.server.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import me.toy.server.dto.RegistDateCourseRequestDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,8 +17,9 @@ public class Location {
     @Column(name = "location_id")
     private Long id;
     private String locationName;
-    private String photoUrl="";
     private String text;
+
+    private String photoUrl;
     private float posx;
     private float posy;
 
@@ -30,21 +30,16 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private List<LocationTag> LocationTags = new ArrayList<>();
 
-    public Location(String locationName,String text, float posx, float posy) {
-        this.locationName = locationName;
-        this.text = text;
-        this.posx = posx;
-        this.posy = posy;
+    public Location(RegistDateCourseRequestDto requestDto,String photoUrl){
+        this.locationName = requestDto.getPlaceName();
+        this.text = requestDto.getText();
+        this.posx = requestDto.getPosX();
+        this.posy = requestDto.getPosY();
+        this.photoUrl = photoUrl;
     }
 
     public void setDateCourse(DateCourse dateCourse){
         this.dateCourse = dateCourse;
         dateCourse.getLocations().add(this);
-    }
-
-    public void setPhotoUrls(List<String> photoUrls) {
-        for(String photoUrl:photoUrls){
-            this.photoUrl += (photoUrl + ":");
-        }
     }
 }

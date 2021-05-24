@@ -33,29 +33,23 @@ public class DateCourseController {
         DateCourse dateCourse = new DateCourse(0L);
         dateCourseRepository.save(dateCourse);
 
-        for(RegistDateCourseRequestDto requestDto: requestDtoList){
-            String placeName = requestDto.getPlaceName();
-            String text = requestDto.getText();
-            float posX = requestDto.getPosX();
-            float posY = requestDto.getPosY();
-            Location location = new Location(placeName,text,posX,posY);
-
-        }
-
-        location.setDateCourse(dateCourse);
-        List<String> pathList = new ArrayList<>();
         Path directory = Paths.get("src/main/resources/imageUpload/").toAbsolutePath().normalize();
 
-        for(MultipartFile multipartFile : multipartFiles){
-            if(multipartFile==null) continue;
+        for(int i = 0;i<multipartFiles.size();i++){
+            if(multipartFiles.get(i)==null){
+                Location location = new Location(requestDtoList.get(i),"");
+                location.setDateCourse(dateCourse);
+                locationRepository.save(location);
+                continue;
+            }
             String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
-            pathList.add(fileSaveName);
+            Location location = new Location(requestDtoList.get(i),fileSaveName);
             Path targetPath = directory.resolve(fileSaveName+".jpg").normalize();
-            multipartFile.transferTo(targetPath);
+            multipartFiles.get(i).transferTo(targetPath);
+            location.setDateCourse(dateCourse);
+            locationRepository.save(location);
         }
 
-        location.setPhotoUrls(pathList);
-        locationRepository.save(location);
     }
 
     @GetMapping("/datecourse/recent")
