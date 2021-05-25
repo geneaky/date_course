@@ -5,39 +5,44 @@ import { useDispatch, useSelector } from "react-redux";
 import PhotoModal from "./PhotoModal";
 import { registerCourse, togglePhotoModal } from "../../store/store";
 
-const RegisterForm = (courses) => {
+const RegisterForm = async (courses) => {
   const token = localStorage.getItem("accessToken");
   const url = "/datecourse";
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
+      contentType: false,
+      processData: false,
     },
   };
-  courses.forEach(async (course) => {
-    const formData = new FormData();
-    Object.values(course.location.user.photos).forEach((photo) => {
-      formData.append("files", photo);
-    });
+  const formData = new FormData();
+  courses.forEach((course, index) => {
     formData.append(
-      "course",
-      new Blob(
-        [
-          JSON.stringify({
-            placeName: "이수역",
-            posX: "26",
-            posY: "126",
-            text: "hi",
-          }),
-        ],
-        { type: "application/json" }
-      )
+      "locationList[" + index + "].file",
+      course.location.user.photos
     );
-    await axios.post(url, formData, config);
+    formData.append(
+      "locationList[" + index + "].placeName",
+      course.location.place.placeName
+    );
+    formData.append(
+      "locationList[" + index + "].posX",
+      course.location.place.posX
+    );
+    formData.append(
+      "locationList[" + index + "].posY",
+      course.location.place.posY
+    );
+    formData.append(
+      "locationList[" + index + "].text",
+      course.location.user.text
+    );
   });
+  await axios.post(url, formData, config);
 };
 
 const RegisterCourse = () => {
-  const [files, setFiles] = useState();
+  const [file, setFile] = useState();
   const [text, setText] = useState();
   const courses = useSelector((store) => store.course);
   const location = useSelector((store) => store.location);
@@ -49,11 +54,11 @@ const RegisterCourse = () => {
       registerCourse({
         location: {
           place: location.place,
-          user: { photos: files, text: text },
+          user: { photos: file, text: text },
         },
       })
     );
-    setFiles(null);
+    setFile(null);
     setText("");
   };
 
@@ -65,10 +70,9 @@ const RegisterCourse = () => {
         <input
           type="file"
           id="file"
-          multiple
           style={{ display: "none" }}
           onChange={(e) => {
-            setFiles(e.target.files);
+            setFile(e.target.files);
           }}
         />
         <button onClick={() => dispatcher(togglePhotoModal())}>
