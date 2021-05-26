@@ -10,6 +10,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.nio.file.Path;
@@ -28,43 +29,27 @@ public class DateCourseController {
     private final LocationRepository locationRepository;
 
     @PostMapping("/datecourse")
-    public void registDateCourse(@ModelAttribute ArrayList<RegistDateCourseRequestDto> requestDtoList) throws IOException {
+    public void registDateCourse(@ModelAttribute RegistDateCourseRequestDtoList requestDtoList) throws IOException {
 
         DateCourse dateCourse = new DateCourse(0L);
         dateCourseRepository.save(dateCourse);
 
         Path directory = Paths.get("src/main/resources/imageUpload/").toAbsolutePath().normalize();
 
-        for(RegistDateCourseRequestDto requestDto: requestDtoList){
-//            if(requestDto.getFile()==null){
+        for(RegistDateCourseRequestDto requestDto: requestDtoList.getLocationList()){
+            if(requestDto.getFile().isEmpty()&&requestDto.getFile()==null){
 //                Location location = new Location(requestDto,"");
-//                location.setDateCourse(dateCourse);
-//                locationRepository.save(location);
-//                continue;
-//            }
+                Location location = new Location(requestDto.getPlaceName(),requestDto.getText(),"",requestDto.getPosX(),requestDto.getPosY());
+                location.setDateCourse(dateCourse);
+                continue;
+            }
             String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
-            Location location = new Location(requestDto,fileSaveName);
             Path targetPath = directory.resolve(fileSaveName+".jpg").normalize();
-            requestDto.getFiles().transferTo(targetPath);
+            requestDto.getFile().transferTo(targetPath);
+            Location location = new Location(requestDto,fileSaveName);
             location.setDateCourse(dateCourse);
             locationRepository.save(location);
         }
-
-//        for(int i = 0;i<multipartFiles.size();i++){
-//            if(multipartFiles.get(i)==null){
-//                Location location = new Location(requestDtoList.get(i),"");
-//                location.setDateCourse(dateCourse);
-//                locationRepository.save(location);
-//                continue;
-//            }
-//            String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
-//            Location location = new Location(requestDtoList.get(i),fileSaveName);
-//            Path targetPath = directory.resolve(fileSaveName+".jpg").normalize();
-//            multipartFiles.get(i).transferTo(targetPath);
-//            location.setDateCourse(dateCourse);
-//            locationRepository.save(location);
-//        }
-
     }
 
     @GetMapping("/datecourse/recent")

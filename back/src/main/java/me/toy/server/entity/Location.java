@@ -38,6 +38,14 @@ public class Location {
         this.photoUrl = photoUrl;
     }
 
+    public Location(String locationName, String text, String photoUrl, float posx, float posy) {
+        this.locationName = locationName;
+        this.text = text;
+        this.photoUrl = photoUrl;
+        this.posx = posx;
+        this.posy = posy;
+    }
+
     public void setDateCourse(DateCourse dateCourse){
         this.dateCourse = dateCourse;
         dateCourse.getLocations().add(this);
