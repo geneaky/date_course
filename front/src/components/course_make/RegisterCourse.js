@@ -1,45 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import PhotoModal from "./PhotoModal";
-import { registerCourse, togglePhotoModal } from "../../store/store";
-
-const RegisterForm = async (courses) => {
-  const token = localStorage.getItem("accessToken");
-  const url = "/datecourse";
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      contentType: false,
-      processData: false,
-    },
-  };
-  const formData = new FormData();
-  courses.forEach((course, index) => {
-    formData.append(
-      "locationList[" + index + "].file",
-      course.location.user.photos
-    );
-    formData.append(
-      "locationList[" + index + "].placeName",
-      course.location.place.placeName
-    );
-    formData.append(
-      "locationList[" + index + "].posX",
-      course.location.place.posX
-    );
-    formData.append(
-      "locationList[" + index + "].posY",
-      course.location.place.posY
-    );
-    formData.append(
-      "locationList[" + index + "].text",
-      course.location.user.text
-    );
-  });
-  await axios.post(url, formData, config);
-};
+import {
+  registerCourse,
+  resetCourse,
+  togglePhotoModal,
+} from "../../store/store";
 
 const RegisterCourse = () => {
   const [file, setFile] = useState();
@@ -48,6 +17,51 @@ const RegisterCourse = () => {
   const location = useSelector((store) => store.location);
   const photoModal = useSelector((store) => store.photoModal);
   const dispatcher = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {}, [courses]); // refresh courses
+
+  const RegisterForm = async (courses) => {
+    const token = localStorage.getItem("accessToken");
+    const url = "/datecourse";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: "multipart/form-data",
+      },
+    };
+    const formData = new FormData();
+    courses.forEach((course, index) => {
+      if (!course.location.user.photos) {
+        formData.append(`locationList[${index}].file`, null); //backend 처리
+      } else {
+        formData.append(
+          `locationList[${index}].file`,
+          course.location.user.photos[0]
+        );
+      }
+      // if (course.location.user.photos) {
+      //   formData.append(
+      //     `locationList[${index}].file`,
+      //     course.location.user.photos[0]
+      //   );
+      // }
+      formData.append(
+        `locationList[${index}].placeName`,
+        course.location.place.placeName
+      );
+      formData.append(
+        `locationList[${index}].posX`,
+        course.location.place.posX
+      );
+      formData.append(
+        `locationList[${index}].posY`,
+        course.location.place.posY
+      );
+      formData.append(`locationList[${index}].text`, course.location.user.text);
+    });
+    await axios.post(url, formData, config);
+  };
 
   const decideLocation = () => {
     dispatcher(
@@ -86,7 +100,13 @@ const RegisterCourse = () => {
       </StyledChooseButton>
       <button
         onClick={() => {
-          RegisterForm(courses);
+          if (courses.length !== 0) {
+            RegisterForm(courses);
+            // dispatcher(resetCourse());
+            // history.go(0);
+          } else {
+            alert("코스를 등록해주세요");
+          }
         }}
       >
         Upload!

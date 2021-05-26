@@ -30,7 +30,7 @@ const SearchBox = () => {
   }, [searchResult]);
 
   const onKeyPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && e.target.value !== searchResult) {
       markers.forEach((marker) => {
         marker.setMap(null);
       });
