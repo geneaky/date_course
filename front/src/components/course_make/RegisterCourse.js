@@ -32,20 +32,12 @@ const RegisterCourse = () => {
     };
     const formData = new FormData();
     courses.forEach((course, index) => {
-      if (!course.location.user.photos) {
-        formData.append(`locationList[${index}].file`, null); //backend 처리
-      } else {
+      if (course.location.user.photos) {
         formData.append(
           `locationList[${index}].file`,
           course.location.user.photos[0]
         );
       }
-      // if (course.location.user.photos) {
-      //   formData.append(
-      //     `locationList[${index}].file`,
-      //     course.location.user.photos[0]
-      //   );
-      // }
       formData.append(
         `locationList[${index}].placeName`,
         course.location.place.placeName
