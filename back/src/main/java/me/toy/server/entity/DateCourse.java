@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +18,7 @@ public class DateCourse {
     @Column(name = "datecourse_id")
     private Long id;
     private Long thumbUp;
+    private String dateCourseTitle;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
@@ -30,8 +30,15 @@ public class DateCourse {
     @OneToMany
     private List<Comment> comments = new ArrayList<>();
 
-    public DateCourse(Long thumbUp) {
+    public DateCourse(User user,Long thumbUp,String dateCourseTitle) {
+        setUser(user);
         this.thumbUp = thumbUp;
+        this.dateCourseTitle = dateCourseTitle;
+    }
+
+    public void setUser(User user){
+        this.user = user;
+        user.getDateCourses().add(this);
     }
 
 }

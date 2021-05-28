@@ -26,9 +26,7 @@ public class UserController {
 
     @GetMapping("/user/info")
     public ResponseEntity<UserDto> getUserInfo(HttpServletRequest request){
-        String jwtHeader = request.getHeader("Authorization");
-        String jwtToken = jwtHeader.replace("Bearer ","");
-        long userId = jwtTokenProvider.getUserIdFromToken(jwtToken);
+        long userId = jwtTokenProvider.getUserIdFromRequest(request);
         Optional<User> oUser = userRepository.findById(userId);
         User user = oUser.get();
         UserDto userInfo = new UserDto(user);
