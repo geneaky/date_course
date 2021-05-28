@@ -7,6 +7,7 @@ import { setPlaces } from "../../store/store";
 
 const SearchBox = () => {
   const [searchResult, setSearchResult] = useState([]);
+  const [searchKeyWord, setSearchKeyWord] = useState();
   const markers = useSelector((store) => store.marker);
   const dispatcher = useDispatch();
   useEffect(() => {
@@ -35,6 +36,7 @@ const SearchBox = () => {
         marker.setMap(null);
       });
       setSearchResult(e.target.value);
+      setSearchKeyWord("");
     }
   };
 
@@ -44,6 +46,8 @@ const SearchBox = () => {
       <SearchInput
         placeholder="장소 또는 지역 이름을 검색하세요"
         onKeyPress={onKeyPress}
+        value={searchKeyWord}
+        onChange={(e) => setSearchKeyWord(e.target.value)}
       />
     </SearchBoxDiv>
   );

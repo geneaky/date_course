@@ -20,7 +20,7 @@ const Header = () => {
         }}
         style={menuStyle}
       />
-      <h3>open date course</h3>
+      <h3>Open Date Course</h3>
       {user === null ? (
         <StyledHeaderLink to="/login">로그인</StyledHeaderLink>
       ) : (

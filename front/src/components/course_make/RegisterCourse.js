@@ -7,19 +7,22 @@ import PhotoModal from "./PhotoModal";
 import {
   registerCourse,
   resetCourse,
+  resetPlaces,
   togglePhotoModal,
 } from "../../store/store";
 
 const RegisterCourse = () => {
   const [file, setFile] = useState();
   const [text, setText] = useState();
+  const [hashTag, setHashTag] = useState([]);
+  const [title, setTitle] = useState();
   const courses = useSelector((store) => store.course);
   const location = useSelector((store) => store.location);
   const photoModal = useSelector((store) => store.photoModal);
   const dispatcher = useDispatch();
   const history = useHistory();
 
-  useEffect(() => {}, [courses]); // refresh courses
+  useEffect(() => {}, [courses, location]); // refresh courses,location
 
   const RegisterForm = async (courses) => {
     const token = localStorage.getItem("accessToken");
@@ -51,21 +54,32 @@ const RegisterCourse = () => {
         course.location.place.posY
       );
       formData.append(`locationList[${index}].text`, course.location.user.text);
+      formData.append(`locationList[${index}].hashTag`, hashTag[index]);
     });
+    formData.append("courseTitle", title);
+    formData.append("hashTag", hashTag.join(""));
     await axios.post(url, formData, config);
   };
 
   const decideLocation = () => {
-    dispatcher(
-      registerCourse({
-        location: {
-          place: location.place,
-          user: { photos: file, text: text },
-        },
-      })
-    );
-    setFile(null);
-    setText("");
+    if (location.place.placeName) {
+      let mainText = text.replace(/#[^\s#]+/g, "");
+      let hash = Array.from(new Set(text.match(/#\w+/g)));
+      setHashTag(...hashTag, hash);
+      dispatcher(
+        registerCourse({
+          location: {
+            place: location.place,
+            user: { photos: file, text: mainText },
+          },
+        })
+      );
+      dispatcher(resetPlaces());
+      setFile(null);
+      setText("");
+    } else {
+      alert("데이트 장소를 골라주세요");
+    }
   };
 
   return (
@@ -85,17 +99,32 @@ const RegisterCourse = () => {
           Look Photo
         </button>
       </StyledPhotoFeat>
+      <input
+        placeholder="제목"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
       <textarea value={text} onChange={(e) => setText(e.target.value)} />
       <StyledChooseButton>
-        <button>Back</button>
-        <button onClick={decideLocation}>Next</button>
+        <button
+          onClick={() => {
+            history.go(0);
+          }}
+        >
+          RESET
+        </button>
+        <button onClick={decideLocation}>Next LOCATION</button>
       </StyledChooseButton>
       <button
         onClick={() => {
           if (courses.length !== 0) {
-            RegisterForm(courses);
-            // dispatcher(resetCourse());
-            // history.go(0);
+            if (title != null) {
+              RegisterForm(courses);
+              dispatcher(resetCourse());
+              history.go(0);
+            } else {
+              alert("제목을 등록해주세요");
+            }
           } else {
             alert("코스를 등록해주세요");
           }
@@ -111,9 +140,17 @@ const StyledRegisterCourse = styled.div`
   * {
     display: block;
   }
+  input {
+    width: 91%;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 10px;
+    margin: auto 12px;
+  }
   textarea {
     width: 91%;
-    height: 222px;
+    height: 181px;
     resize: none;
     border: 2px solid lightcoral;
     outline: none;

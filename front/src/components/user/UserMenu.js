@@ -4,8 +4,14 @@ import UserMenuItem from "./UserMenuItem";
 import InfoIcon from "@material-ui/icons/Info";
 import WcIcon from "@material-ui/icons/Wc";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { useHistory } from "react-router-dom";
 
 const UserMenu = () => {
+  const history = useHistory();
+  const logOut = () => {
+    localStorage.removeItem("accessToken");
+    history.go(0);
+  };
   return (
     <StyledUserMenu>
       <div>
@@ -18,7 +24,7 @@ const UserMenu = () => {
       </div>
       <div>
         <ExitToAppIcon />
-        <UserMenuItem itemName={"로그아웃"} />
+        <UserMenuItem itemName={"로그아웃"} onClick={logOut} />
       </div>
     </StyledUserMenu>
   );

@@ -8,12 +8,12 @@ const PhotoSlider = () => {
   const [previewImg, setPreviewImg] = useState([]);
 
   useEffect(() => {
-    let photos = Object.values(
-      courses[courses.length - 1].location.user.photos
-    );
     let newPhotos = [];
-    photos.map((photo) => {
-      newPhotos = [...newPhotos, URL.createObjectURL(photo)];
+    courses.map((course) => {
+      newPhotos = [
+        ...newPhotos,
+        URL.createObjectURL(course.location.user.photos[0]),
+      ];
     });
     setPreviewImg(newPhotos);
   }, [courses]);
