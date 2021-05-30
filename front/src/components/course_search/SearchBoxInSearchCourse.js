@@ -1,17 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@material-ui/icons/Search";
 
 const SearchBoxInSearchCourse = () => {
+  const [searchKeyWord, setSearchKeyWord] = useState();
+
+  const searchCourseList = (e) => {
+    if (e.key === "Enter") {
+      console.log("키워드로 검색한 결과 리스트 출력");
+      setSearchKeyWord("");
+    }
+  };
   return (
     <StyledSearchBoxDiv>
       <SearchIcon />
       <StyledSelectOption>
-        <option>최신순</option>
-        <option>인기순</option>
-        <option>거리순</option>
+        <option value={"recent"}>최신순</option>
+        <option value={"thumbUp"}>인기순</option>
+        <option value={"currentLocation"}>거리순</option>
       </StyledSelectOption>
-      <StyledSearchInput placeholder="#검색어 또는 제목을 검색하세요" />
+      <StyledSearchInput
+        placeholder="#검색어 또는 제목을 검색하세요"
+        value={searchKeyWord}
+        onKeyPress={searchCourseList}
+        onChange={(e) => setSearchKeyWord(e.target.value)}
+      />
     </StyledSearchBoxDiv>
   );
 };

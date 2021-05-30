@@ -20,6 +20,10 @@ export const setLocation = (location) => ({
   payload: location,
 });
 export const clearLocation = () => ({ type: "CLEAR_LOCATION" });
+export const setSearchCourseList = (data) => ({
+  type: "SET_SEARCH_COURSE_LIST",
+  payload: data,
+});
 
 const initstate = {
   course: [],
@@ -33,6 +37,7 @@ const initstate = {
   location: {
     place: {},
   },
+  searchCourseList: [],
 };
 
 const reducer = (state = initstate, action) => {
@@ -70,6 +75,11 @@ const reducer = (state = initstate, action) => {
         location: {
           place: {},
         },
+      };
+    case "SET_SEARCH_COURSE_LIST":
+      return {
+        ...state,
+        searchCourseList: action.payload,
       };
     default:
       return state;
