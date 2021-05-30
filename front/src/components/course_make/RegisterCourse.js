@@ -18,11 +18,12 @@ const RegisterCourse = () => {
   const [title, setTitle] = useState();
   const courses = useSelector((store) => store.course);
   const location = useSelector((store) => store.location);
+  const place = useSelector((store) => store.place);
   const photoModal = useSelector((store) => store.photoModal);
   const dispatcher = useDispatch();
   const history = useHistory();
 
-  useEffect(() => {}, [courses, location]); // refresh courses,location
+  // useEffect(() => {}, [courses, location, place]); // refresh courses,location
 
   const RegisterForm = async (courses) => {
     const token = localStorage.getItem("accessToken");
@@ -57,15 +58,16 @@ const RegisterCourse = () => {
       formData.append(`locationList[${index}].hashTag`, hashTag[index]);
     });
     formData.append("courseTitle", title);
-    formData.append("hashTag", hashTag.join(""));
     await axios.post(url, formData, config);
   };
 
   const decideLocation = () => {
     if (location.place.placeName) {
-      let mainText = text.replace(/#[^\s#]+/g, "");
-      let hash = Array.from(new Set(text.match(/#\w+/g)));
-      setHashTag(...hashTag, hash);
+      const hash = Array.from(new Set(text?.match(/(#[^\s#]+)/g)));
+      const mainText = text?.replace(/#[^\s#]+/g, "").trim();
+      console.log(mainText);
+      console.log(hash);
+      setHashTag([...hashTag, hash]);
       dispatcher(
         registerCourse({
           location: {
