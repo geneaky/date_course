@@ -21,4 +21,8 @@ public class Tag {
 
     @OneToMany(mappedBy = "tag")
     private List<LocationTag> locationTags = new ArrayList<>();
+
+    public Tag(String tagName){
+        this.tagName = tagName;
+    }
 }

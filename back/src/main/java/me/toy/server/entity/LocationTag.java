@@ -24,4 +24,10 @@ public class LocationTag {
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
+    public LocationTag(Location location, Tag tag) {
+        this.location = location;
+        this.tag = tag;
+        location.getLocationTags().add(this);
+        tag.getLocationTags().add(this);
+    }
 }

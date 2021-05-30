@@ -28,7 +28,7 @@ public class Location {
     private DateCourse dateCourse;
 
     @OneToMany(mappedBy = "location")
-    private List<LocationTag> LocationTags = new ArrayList<>();
+    private List<LocationTag> locationTags = new ArrayList<>();
 
     public Location(RegistDateCourseRequestDto requestDto,String photoUrl){
         this.locationName = requestDto.getPlaceName();

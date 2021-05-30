@@ -20,6 +20,6 @@ public interface DateCourseRepository extends JpaRepository <DateCourse,Long> {
     List<ThumbUpDateCourseDto> findThumbUpDatecourse();
 
     @Query("select d from DateCourse d join fetch d.locations l " +
-            "where :posX-10 < l.posx and l.posx < :posX+10 and :posY-10 < l.posy and l.posy < :posY+10 ")
+            "where :posX-0.001 < l.posx and l.posx < :posX+0.001 and :posY-0.001 < l.posy and l.posy < :posY+0.001 ")
     List<CurrentLocationDateCourseDto> findCurrentLocationDatecourse(float posX,float posY);
 }
