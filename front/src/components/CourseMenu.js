@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import SearchCourse from "./course_search/SearchCourse";
 import MakeCourse from "./course_make/MakeCourse";
+import { useDispatch } from "react-redux";
+import { resetCourse, resetPlaces } from "../store/store";
 
 const CourseMenu = () => {
-  const [toggleButton, setToggleButton] = useState("코스 만들기");
-
+  const [toggleButton, setToggleButton] = useState("Make Course");
+  const dispatcher = useDispatch();
   const presentButton = () => {
-    if (toggleButton === "코스 만들기") {
-      setToggleButton("코스 찾기");
+    if (toggleButton === "Make Course") {
+      dispatcher(resetCourse());
+      dispatcher(resetPlaces());
+      setToggleButton("Search Course");
     } else {
-      setToggleButton("코스 만들기");
+      setToggleButton("Make Course");
     }
   };
   return (
@@ -18,7 +22,7 @@ const CourseMenu = () => {
       <CourseMenuToggleButton onClick={presentButton}>
         {toggleButton}
       </CourseMenuToggleButton>
-      {toggleButton === "코스 만들기" ? <SearchCourse /> : <MakeCourse />}
+      {toggleButton === "Make Course" ? <SearchCourse /> : <MakeCourse />}
     </CourseMenuDiv>
   );
 };

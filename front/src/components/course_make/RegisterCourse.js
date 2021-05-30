@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import PhotoModal from "./PhotoModal";
 import {
+  clearLocation,
   registerCourse,
   resetCourse,
   resetPlaces,
@@ -18,12 +19,9 @@ const RegisterCourse = () => {
   const [title, setTitle] = useState();
   const courses = useSelector((store) => store.course);
   const location = useSelector((store) => store.location);
-  const place = useSelector((store) => store.place);
   const photoModal = useSelector((store) => store.photoModal);
   const dispatcher = useDispatch();
   const history = useHistory();
-
-  // useEffect(() => {}, [courses, location, place]); // refresh courses,location
 
   const RegisterForm = async (courses) => {
     const token = localStorage.getItem("accessToken");
@@ -77,6 +75,7 @@ const RegisterCourse = () => {
         })
       );
       dispatcher(resetPlaces());
+      dispatcher(clearLocation());
       setFile(null);
       setText("");
     } else {
@@ -88,7 +87,7 @@ const RegisterCourse = () => {
     <StyledRegisterCourse>
       {photoModal ? <PhotoModal /> : null}
       <StyledPhotoFeat>
-        <label htmlFor="file">Upload Photo</label>
+        <label htmlFor="file">Photo Upload</label>
         <input
           type="file"
           id="file"
@@ -97,8 +96,22 @@ const RegisterCourse = () => {
             setFile(e.target.files);
           }}
         />
-        <button onClick={() => dispatcher(togglePhotoModal())}>
-          Look Photo
+        <button
+          onClick={() => {
+            let temp = false;
+            courses.forEach((course) => {
+              if (course?.location.user.photos) {
+                temp = true;
+              }
+            });
+            if (temp) {
+              dispatcher(togglePhotoModal());
+            } else {
+              alert("장소에 사진을 등록해주세요");
+            }
+          }}
+        >
+          Check Course Photos
         </button>
       </StyledPhotoFeat>
       <input
@@ -132,7 +145,7 @@ const RegisterCourse = () => {
           }
         }}
       >
-        Upload!
+        Complete Upload!
       </button>
     </StyledRegisterCourse>
   );

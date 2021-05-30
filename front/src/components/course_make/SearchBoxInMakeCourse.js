@@ -41,19 +41,19 @@ const SearchBox = () => {
   };
 
   return (
-    <SearchBoxDiv>
+    <StyledSearchBoxDiv>
       <SearchIcon />
-      <SearchInput
+      <StyledSearchInput
         placeholder="장소 또는 지역 이름을 검색하세요"
         onKeyPress={onKeyPress}
         value={searchKeyWord}
         onChange={(e) => setSearchKeyWord(e.target.value)}
       />
-    </SearchBoxDiv>
+    </StyledSearchBoxDiv>
   );
 };
 
-const SearchBoxDiv = styled.div`
+const StyledSearchBoxDiv = styled.div`
   margin: 0;
   padding: 10px;
   display: flex;
@@ -61,7 +61,7 @@ const SearchBoxDiv = styled.div`
   border-bottom: 1px solid lightgray;
 `;
 
-const SearchInput = styled.input`
+const StyledSearchInput = styled.input`
   width: 100%;
   border: none;
   outline-style: none;

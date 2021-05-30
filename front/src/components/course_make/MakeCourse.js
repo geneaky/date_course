@@ -1,13 +1,13 @@
 import React from "react";
 import RegisterCourse from "./RegisterCourse";
-import SearchBox from "./SearchBox";
-import SearchResultBox from "./SearchResultBox";
+import SearchBoxInMakeCourse from "./SearchBoxInMakeCourse";
+import SearchResultBoxInMakeCourse from "./SearchResultBoxInMakeCourse";
 
 const MakeCourse = () => {
   return (
     <div>
-      <SearchBox />
-      <SearchResultBox />
+      <SearchBoxInMakeCourse />
+      <SearchResultBoxInMakeCourse />
       <RegisterCourse />
     </div>
   );
