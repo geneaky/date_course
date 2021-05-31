@@ -23,13 +23,12 @@ const SearchResultBoxInSearchCourse = () => {
   };
   useEffect(() => {
     searchRecentDateCourseList();
-    console.log(searchCourseList);
   }, []);
   return (
     <SearchResultBoxDiv>
-      {searchCourseList.map((course, index) => {
-        <CourseInfo key={index} result={course} />;
-      })}
+      {searchCourseList.map((course, index) => (
+        <CourseInfo key={index} result={course} />
+      ))}
     </SearchResultBoxDiv>
   );
 };

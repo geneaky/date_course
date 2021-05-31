@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const CourseInfo = ({ result }) => {
-  console.log(result.locations[0].locationName);
+  console.log(result.dateCourseTitle);
   return (
     <StyledCourseInfoDiv>
-      <p>{result.locations[0].locationName}</p>
+      <p>{result.dateCourseTitle}</p>
     </StyledCourseInfoDiv>
   );
 };
