@@ -1,11 +1,42 @@
+/*global kakao*/
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { setMarker } from "../../store/store";
 
 const CourseInfo = ({ result }) => {
-  console.log(result.dateCourseTitle);
+  const map = useSelector((store) => store.map);
+  const selectedMarker = useSelector((store) => store.marker);
+  const dispatcher = useDispatch();
+
+  useEffect(() => {
+    selectedMarker.forEach((marker) => {
+      marker.setMap(null);
+    });
+  }, []);
+
+  const showDateCourseMarker = () => {
+    selectedMarker.forEach((marker) => {
+      marker.setMap(null);
+    });
+    result.locations.forEach((location) => {
+      let marker = new kakao.maps.Marker({
+        map: map,
+        position: new kakao.maps.LatLng(location.posy, location.posx),
+      });
+      marker.setMap(map);
+      dispatcher(setMarker(marker));
+    });
+    map.setCenter(
+      new kakao.maps.LatLng(result.locations[0].posy, result.locations[0].posx)
+    );
+  };
   return (
-    <StyledCourseInfoDiv>
+    <StyledCourseInfoDiv onClick={showDateCourseMarker}>
       <p>{result.dateCourseTitle}</p>
+      <p>{result.thumbUp}</p>
+      {/* 댓글 카운트 */}
+      {/* 작성자 닉네임 표시 */}
     </StyledCourseInfoDiv>
   );
 };

@@ -34,7 +34,7 @@ const SearchResultBoxInSearchCourse = () => {
 };
 
 const SearchResultBoxDiv = styled.div`
-  height: 300px;
+  height: 220px;
   overflow-y: scroll;
   border-bottom: 1px solid lightgray;
   background-color: #faf0e6;

@@ -33,7 +33,7 @@ const Home = () => {
       level: 3,
     };
     const defaultMap = new kakao.maps.Map(container, options);
-
+    defaultMap.relayout();
     dispatcher(setMap(defaultMap));
   };
 
