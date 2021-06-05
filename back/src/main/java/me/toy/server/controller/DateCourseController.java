@@ -42,7 +42,7 @@ public class DateCourseController {
         DateCourse dateCourse = new DateCourse(user,0L,title);
         dateCourseRepository.save(dateCourse);
 
-        Path directory = Paths.get("src/main/resources/imageUpload/").toAbsolutePath().normalize();
+        Path directory = Paths.get("D:/GitHub/open_date_course/front/public").toAbsolutePath().normalize();
 
         for(RegistDateCourseRequestDto requestDto: requestDtoList.getLocationList()){
             if(requestDto.getFile()==null){
