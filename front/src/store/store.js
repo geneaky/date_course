@@ -24,6 +24,10 @@ export const setSearchCourseList = (data) => ({
   type: "SET_SEARCH_COURSE_LIST",
   payload: data,
 });
+export const setSelectedDatecourse = (course) => ({
+  type: "SET_SELECTED_DATECOURSE",
+  payload: course,
+});
 
 const initstate = {
   course: [],
@@ -38,6 +42,7 @@ const initstate = {
     place: {},
   },
   searchCourseList: [],
+  selectedDatecourse: {},
 };
 
 const reducer = (state = initstate, action) => {
@@ -80,6 +85,11 @@ const reducer = (state = initstate, action) => {
       return {
         ...state,
         searchCourseList: action.payload,
+      };
+    case "SET_SELECTED_DATECOURSE":
+      return {
+        ...state,
+        selectedDatecourse: action.payload,
       };
     default:
       return state;

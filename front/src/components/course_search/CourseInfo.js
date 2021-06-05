@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { setMarker } from "../../store/store";
+import { setMarker, setSelectedDatecourse } from "../../store/store";
 
 const CourseInfo = ({ result }) => {
   const map = useSelector((store) => store.map);
@@ -15,7 +15,7 @@ const CourseInfo = ({ result }) => {
     });
   }, []);
 
-  const showDateCourseMarker = () => {
+  const initiateDatecourse = () => {
     selectedMarker.forEach((marker) => {
       marker.setMap(null);
     });
@@ -30,9 +30,10 @@ const CourseInfo = ({ result }) => {
     map.setCenter(
       new kakao.maps.LatLng(result.locations[0].posy, result.locations[0].posx)
     );
+    dispatcher(setSelectedDatecourse(result));
   };
   return (
-    <StyledCourseInfoDiv onClick={showDateCourseMarker}>
+    <StyledCourseInfoDiv onClick={initiateDatecourse}>
       <p>{result.dateCourseTitle}</p>
       <p>{result.thumbUp}</p>
       {/* 댓글 카운트 */}

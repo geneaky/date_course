@@ -7,7 +7,6 @@ const SearchBoxInSearchCourse = () => {
 
   const searchCourseList = (e) => {
     if (e.key === "Enter") {
-      console.log("키워드로 검색한 결과 리스트 출력");
       setSearchKeyWord("");
     }
   };
