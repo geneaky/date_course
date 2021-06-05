@@ -1,6 +1,7 @@
 package me.toy.server.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.toy.server.cloud.UploadImageS3;
 import me.toy.server.dto.*;
 import me.toy.server.entity.*;
 import me.toy.server.repository.*;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,6 +34,8 @@ public class DateCourseController {
     private final LocationTagRepository locationTagRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
+    private final UploadImageS3 s3Uploader;
+
     @PostMapping("/datecourse")
     public void registDateCourse(@ModelAttribute RegistDateCourseRequestDtoList requestDtoList,
                                  @RequestParam("courseTitle") String title, HttpServletRequest request) throws IOException {
@@ -42,7 +46,7 @@ public class DateCourseController {
         DateCourse dateCourse = new DateCourse(user,0L,title);
         dateCourseRepository.save(dateCourse);
 
-        Path directory = Paths.get("D:/GitHub/open_date_course/front/public").toAbsolutePath().normalize();
+//        Path directory = Paths.get("D:/GitHub/open_date_course/front/public").toAbsolutePath().normalize();
 
         for(RegistDateCourseRequestDto requestDto: requestDtoList.getLocationList()){
             if(requestDto.getFile()==null){
@@ -63,9 +67,10 @@ public class DateCourseController {
                 }
                 continue;
             }
-            String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
-            Path targetPath = directory.resolve(fileSaveName+".jpg").normalize();
-            requestDto.getFile().transferTo(targetPath);
+            String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")) + ".jpg";
+//            Path targetPath = directory.resolve(fileSaveName+".jpg").normalize();
+            s3Uploader.upload(requestDto.getFile(),fileSaveName);
+//            requestDto.getFile().transferTo(targetPath);
             Location location = new Location(requestDto,fileSaveName);
             location.setDateCourse(dateCourse);
             locationRepository.save(location);
