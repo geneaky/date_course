@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public class UploadImageS3 {
+public class S3Uploader {
 
     private final AmazonS3 amazonS3;
 
@@ -31,7 +31,7 @@ public class UploadImageS3 {
     }
 
     public String upload(MultipartFile file, String saveFileName){
-        String fileName = bucket + "/static/" + saveFileName;
+        String fileName = bucket + saveFileName;
         File uploadFile = convert(file);
         amazonS3.putObject(bucket,saveFileName,uploadFile);
 
