@@ -5,11 +5,10 @@ import me.toy.server.cloud.S3Uploader;
 import me.toy.server.dto.RegistDateCourseRequestDto;
 import me.toy.server.dto.RegistDateCourseRequestDtoList;
 import me.toy.server.entity.*;
+import me.toy.server.exception.UserNotFoundException;
 import me.toy.server.repository.*;
-import me.toy.server.security.jwt.JwtTokenProvider;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -18,16 +17,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DateCourseService {
 
-    private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final DateCourseRepository dateCourseRepository;
     private final LocationRepository locationRepository;
     private final LocationTagRepository locationTagRepository;
     private final TagRepository tagRepository;
     private final S3Uploader s3Uploader;
-    public void regist(RegistDateCourseRequestDtoList requestDtoList, String title, HttpServletRequest request) {
+    public void regist(RegistDateCourseRequestDtoList requestDtoList, String title, String userEmail) {
 
-        User user = userRepository.findById(jwtTokenProvider.getUserIdFromRequest(request)).get();
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
+            new UserNotFoundException("그런 이메일을 가진 사용자는 없습니다.")
+        );
 
         DateCourse dateCourse = new DateCourse(user,0L,title);
         dateCourseRepository.save(dateCourse);
