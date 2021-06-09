@@ -2,19 +2,25 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import SearchCourse from "./course_search/SearchCourse";
 import MakeCourse from "./course_make/MakeCourse";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resetCourse, resetPlaces } from "../store/store";
 
 const CourseMenu = () => {
-  const [toggleButton, setToggleButton] = useState("Make Course");
+  const [toggleButton, setToggleButton] = useState("코스 만들기");
+  const user = useSelector((store) => store.user);
   const dispatcher = useDispatch();
   const presentButton = () => {
-    if (toggleButton === "Make Course") {
-      dispatcher(resetCourse());
-      dispatcher(resetPlaces());
-      setToggleButton("Search Course");
-    } else {
-      setToggleButton("Make Course");
+    //user 있는 상태에서 코스 만들기 ,코스 찾기 전환은 자유
+    //user 없는 상태에서 코스 전환은 불가능
+    console.log(user);
+    if (user) {
+      if (toggleButton === "코스 만들기") {
+        dispatcher(resetCourse());
+        dispatcher(resetPlaces());
+        setToggleButton("코스 찾기");
+      } else {
+        setToggleButton("코스 만들기");
+      }
     }
   };
   return (
@@ -22,7 +28,7 @@ const CourseMenu = () => {
       <CourseMenuToggleButton onClick={presentButton}>
         {toggleButton}
       </CourseMenuToggleButton>
-      {toggleButton === "Make Course" ? <SearchCourse /> : <MakeCourse />}
+      {toggleButton === "코스 만들기" ? <SearchCourse /> : <MakeCourse />}
     </CourseMenuDiv>
   );
 };

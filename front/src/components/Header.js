@@ -21,13 +21,16 @@ const Header = () => {
         style={menuStyle}
       />
       <h3>Open Date Course</h3>
-      {user === null ? (
-        <StyledHeaderLink to="/login">로그인</StyledHeaderLink>
-      ) : (
+      {user ? (
         <StlyedUserWithNotification>
           <NotificationsIcon />
           <User />
         </StlyedUserWithNotification>
+      ) : (
+        <StyledHeaderLink to="/login">
+          <AccountCircleIcon />
+          로그인
+        </StyledHeaderLink>
       )}
     </HeaderDiv>
   );

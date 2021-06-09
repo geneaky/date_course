@@ -12,6 +12,7 @@ export const setMap = (map) => ({ type: "SET_MAP", payload: map });
 export const setMarker = (marker) => ({ type: "SET_MARKER", payload: marker });
 export const clearMarker = () => ({ type: "CLEAR_MARKERS" });
 export const getUserInfo = (data) => ({ type: "GET_USERINFO", payload: data });
+export const logoutUser = () => ({ type: "LOGOUT_USER" });
 export const setSideMenu = () => ({ type: "SET_SIDEMENU" });
 export const toggleUserMenu = () => ({ type: "TOGGLE_USERMENU" });
 export const togglePhotoModal = () => ({ type: "TOGGLE_PHOTOMODAL" });
@@ -34,7 +35,7 @@ const initstate = {
   places: [],
   marker: [],
   map: null,
-  user: {},
+  user: null,
   sideMenu: false,
   userMenu: false,
   photoModal: false,
@@ -63,6 +64,8 @@ const reducer = (state = initstate, action) => {
       return { ...state, marker: [] };
     case "GET_USERINFO":
       return { ...state, user: action.payload };
+    case "LOGOUT_USER":
+      return { ...state, user: null };
     case "TOGGLE_USERMENU":
       return { ...state, userMenu: !state.userMenu };
     case "SET_SIDEMENU":
