@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 /src/main/resources/imageUpload/
 /src/main/resources/application.yml
+/src/main/resources/
 ### STS ###
 .apt_generated
 .classpath
