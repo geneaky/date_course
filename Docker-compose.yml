@@ -22,9 +22,9 @@ services:
     image: datecourse/front
     ports:
       - 3000:3000
-    volumes:
-      - /front/node_modules
-      - .:/front
+    # volumes:
+    #   - /front/node_modules
+    #   - .:/front
 
     # nginx:
     #   restart: always
