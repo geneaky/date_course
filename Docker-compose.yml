@@ -17,7 +17,7 @@ services:
   react:
     restart: always
     build:
-      context: .
+      context: ./front
       dockerfile: Dockerfile
     image: datecourse/front
     ports:
