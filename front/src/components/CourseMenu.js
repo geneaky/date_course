@@ -10,8 +10,6 @@ const CourseMenu = () => {
   const user = useSelector((store) => store.user);
   const dispatcher = useDispatch();
   const presentButton = () => {
-    //user 있는 상태에서 코스 만들기 ,코스 찾기 전환은 자유
-    //user 없는 상태에서 코스 전환은 불가능
     console.log(user);
     if (user) {
       if (toggleButton === "코스 만들기") {
@@ -21,6 +19,8 @@ const CourseMenu = () => {
       } else {
         setToggleButton("코스 만들기");
       }
+    } else {
+      alert("로그인 해주세요");
     }
   };
   return (

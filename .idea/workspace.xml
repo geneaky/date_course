@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6231b955-fe45-4b2f-b317-70b02892bcf0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/back/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/app.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/routes/auth/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/back/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/front/.eslintcache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/pages/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/pages/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/store/map.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/store/marker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/store/search.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,27 +30,12 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/back/src" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/front" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/back" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.24820144" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.annotationProcessors" />
-  </component>
-  <component name="RunManager">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -66,6 +49,9 @@
       <workItem from="1617579640113" duration="1941000" />
       <workItem from="1617583052400" duration="328000" />
       <workItem from="1617583405411" duration="1797000" />
+      <workItem from="1617966578846" duration="149000" />
+      <workItem from="1618667608355" duration="261000" />
+      <workItem from="1619259629262" duration="67000" />
     </task>
     <servers />
   </component>
