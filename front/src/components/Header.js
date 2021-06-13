@@ -28,8 +28,10 @@ const Header = () => {
         </StlyedUserWithNotification>
       ) : (
         <StyledHeaderLink to="/login">
-          <AccountCircleIcon />
-          로그인
+          <StyledLoginOrRegisterDiv>
+            <AccountCircleIcon />
+            로그인 및 로그아웃
+          </StyledLoginOrRegisterDiv>
         </StyledHeaderLink>
       )}
     </HeaderDiv>
@@ -54,6 +56,23 @@ const StyledHeaderLink = styled(Link)`
 const StlyedUserWithNotification = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const StyledLoginOrRegisterDiv = styled.div`
+  width: 190px;
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: lightyellow;
+  * {
+    padding: 0;
+    margin: 0;
+  }
 `;
 
 const menuStyle = {

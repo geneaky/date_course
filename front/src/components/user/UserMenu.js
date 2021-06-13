@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import UserMenuItem from "./UserMenuItem";
-import InfoIcon from "@material-ui/icons/Info";
-import WcIcon from "@material-ui/icons/Wc";
+import GestureIcon from "@material-ui/icons/Gesture";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import BookmarksIcon from "@material-ui/icons/Bookmarks";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../store/store";
@@ -19,16 +19,16 @@ const UserMenu = () => {
   return (
     <StyledUserMenu>
       <div>
-        <WcIcon />
-        <UserMenuItem itemName={"내 경로"} />
+        <GestureIcon />
+        <UserMenuItem itemName={"My Course"} />
       </div>
       <div>
-        <InfoIcon />
-        <UserMenuItem itemName={"내 정보"} />
+        <BookmarksIcon />
+        <UserMenuItem itemName={"Like Course"} />
       </div>
       <div>
         <ExitToAppIcon />
-        <UserMenuItem itemName={"로그아웃"} props={logOut} />
+        <UserMenuItem itemName={"Logout"} props={logOut} />
       </div>
     </StyledUserMenu>
   );

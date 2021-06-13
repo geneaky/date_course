@@ -43,7 +43,7 @@ const initstate = {
     place: {},
   },
   searchCourseList: [],
-  selectedDatecourse: {},
+  selectedDatecourse: null,
 };
 
 const reducer = (state = initstate, action) => {
