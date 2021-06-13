@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface DateCourseRepository extends JpaRepository <DateCourse,Long> {
 
-    @Query("select distinct d from DateCourse d join fetch d.locations order by d.id")
+    @Query("select distinct d from DateCourse d join fetch d.locations order by d.id desc")
     List<RecentDateCourseDto> findRecentDatecourse();
 
     @Query("select d from DateCourse d left join fetch d.locations order by d.thumbUp desc")
