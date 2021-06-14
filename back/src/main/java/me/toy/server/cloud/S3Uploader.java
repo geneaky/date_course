@@ -23,18 +23,11 @@ public class S3Uploader {
     @Value("${cloud.aws.s3.image.bucket}")
     private String bucket;
 
-    public String upload(File file,String saveFileName){
-        String fileName = bucket + "/" + saveFileName;
-        amazonS3.putObject(bucket,saveFileName,file);
-
-        return fileName;
-    }
-
     public String upload(MultipartFile file, String saveFileName){
         String fileName = bucket + saveFileName;
         File uploadFile = convert(file);
         amazonS3.putObject(bucket,saveFileName,uploadFile);
-
+        uploadFile.delete();
         return fileName;
     }
 

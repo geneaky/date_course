@@ -14,6 +14,7 @@ public class RecentDateCourseDto {
     private String userName;
     private Long userId;
     private String dateCourseTitle;
+    private List<Long> userLikedCourses;
     private List<RecentLocationDto> locations;
 
     public RecentDateCourseDto(DateCourse dateCourse){
@@ -22,6 +23,11 @@ public class RecentDateCourseDto {
         this.dateCourseTitle = dateCourse.getDateCourseTitle();
         this.userId = dateCourse.getUser().getId();
         this.userName = dateCourse.getUser().getName();
+        this.userLikedCourses = dateCourse.getUser().getLikeCourses()
+                .stream()
+                .map(likeCourse -> likeCourse.getDateCourse().getId())
+                .collect(Collectors.toList());
+
         this.locations = dateCourse.getLocations()
                 .stream()
                 .map(location -> new RecentLocationDto(location))

@@ -33,6 +33,12 @@ public class User {
     @OneToMany
     private List<DateCourse> dateCourses = new ArrayList<>();
 
+    @OneToMany
+    private List<SavedCourse> savedCourses = new ArrayList<>();
+
+    @OneToMany
+    private List<LikeCourse> likeCourses = new ArrayList<>();
+
     @Override
     public String toString() {
         return "User{" +

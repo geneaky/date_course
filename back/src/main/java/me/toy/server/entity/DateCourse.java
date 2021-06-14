@@ -25,6 +25,9 @@ public class DateCourse {
     private User user;
 
     @OneToMany
+    private List<LikeCourse> likeCourses = new ArrayList<>();
+
+    @OneToMany
     private List<Location> locations = new ArrayList<>();
 
     @OneToMany
@@ -40,5 +43,4 @@ public class DateCourse {
         this.user = user;
         user.getDateCourses().add(this);
     }
-
 }

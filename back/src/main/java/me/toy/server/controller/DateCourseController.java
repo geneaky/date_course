@@ -31,6 +31,14 @@ public class DateCourseController {
         return ResponseEntity.ok().build();
     }
 
+    @Secured("ROLE_USER")
+    @GetMapping("/datecourse/like/{dateCourseId}")
+    public ResponseEntity<?> updateDateCourseLike(@PathVariable Long dateCourseId,@LoginUser String userEmail){
+
+        dateCourseService.plusOrMinusLike(userEmail,dateCourseId);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/datecourse/recent")
     public List<RecentDateCourseDto> recentDateCourseList(){
         log.warn("최근 데이트 코스 콜");
