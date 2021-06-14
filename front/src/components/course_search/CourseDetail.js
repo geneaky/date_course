@@ -30,6 +30,17 @@ const CourseDetail = ({ course }) => {
     axios.post("/user/likecourse", null);
   };
 
+  const thumbUp = () => {
+    const token = localStorage.getItem("accessToken");
+    const url = `/datecourse/like/${course.id}`;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios.get(url, config).then((res) => console.log(res));
+  };
+
   return (
     <div>
       <StlyedImgDiv>
@@ -44,12 +55,7 @@ const CourseDetail = ({ course }) => {
       </StlyedImgDiv>
       <StyledPreInfoDiv>
         <p>
-          <FavoriteBorderIcon
-            style={{ fontSize: 15 }}
-            onClick={() => {
-              console.log("nonono");
-            }}
-          />
+          <FavoriteBorderIcon style={{ fontSize: 20 }} onClick={thumbUp} />
           {course.thumbUp}
         </p>
         {/* comment count 추가하기 */}

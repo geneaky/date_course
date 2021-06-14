@@ -24,7 +24,7 @@ const UserMenu = () => {
       </div>
       <div>
         <BookmarksIcon />
-        <UserMenuItem itemName={"Like Course"} />
+        <UserMenuItem itemName={"Saved Course"} />
       </div>
       <div>
         <ExitToAppIcon />
