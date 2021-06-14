@@ -23,7 +23,7 @@ public class RecentDateCourseDto {
         this.dateCourseTitle = dateCourse.getDateCourseTitle();
         this.userId = dateCourse.getUser().getId();
         this.userName = dateCourse.getUser().getName();
-        this.userLikedCourses = dateCourse.getUser().getLikeCourses()
+        this.userLikedCourses = dateCourse.getUser().getLikes()
                 .stream()
                 .map(likeCourse -> likeCourse.getDateCourse().getId())
                 .collect(Collectors.toList());

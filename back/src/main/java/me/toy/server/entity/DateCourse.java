@@ -25,7 +25,7 @@ public class DateCourse {
     private User user;
 
     @OneToMany
-    private List<LikeCourse> likeCourses = new ArrayList<>();
+    private List<Like> likes = new ArrayList<>();
 
     @OneToMany
     private List<Location> locations = new ArrayList<>();

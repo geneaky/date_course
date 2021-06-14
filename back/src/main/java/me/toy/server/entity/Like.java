@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
+@Table(name="likes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
-public class LikeCourse {
+public class Like {
 
     @Id
     @GeneratedValue
-    @Column(name="likeCourse_id")
+    @Column(name="like_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,12 +27,17 @@ public class LikeCourse {
 
     public void setUser(User user){
         this.user = user;
-        user.getLikeCourses().add(this);
+        user.getLikes().add(this);
     }
 
     public void setDateCourse(DateCourse dateCourse){
         this.dateCourse = dateCourse;
-        dateCourse.getLikeCourses().add(this);
+        dateCourse.getLikes().add(this);
+    }
+
+    public Like(User user,DateCourse dateCourse){
+        setUser(user);
+        setDateCourse(dateCourse);
     }
 
 }

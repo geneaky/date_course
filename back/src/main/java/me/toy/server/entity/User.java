@@ -37,7 +37,7 @@ public class User {
     private List<SavedCourse> savedCourses = new ArrayList<>();
 
     @OneToMany
-    private List<LikeCourse> likeCourses = new ArrayList<>();
+    private List<Like> likes = new ArrayList<>();
 
     @Override
     public String toString() {

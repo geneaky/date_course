@@ -24,7 +24,7 @@ public class DateCourseService {
     private final DateCourseRepository dateCourseRepository;
     private final LocationRepository locationRepository;
     private final LocationTagRepository locationTagRepository;
-    private final LikeCourseRepository likeCourseRepository;
+    private final LikeRepository likeRepository;
     private final TagRepository tagRepository;
     private final S3Uploader s3Uploader;
     public void regist(RegistDateCourseRequestDtoList requestDtoList, String title, String userEmail) {
@@ -75,9 +75,21 @@ public class DateCourseService {
         User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
                 new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
         );
-        List<LikeCourse> likeCourses = user.getLikeCourses();
+        List<Like> likes = user.getLikes();
         DateCourse dateCourse = dateCourseRepository.findById(dateCourseId).orElseThrow(() ->
                 new DateCourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
 
+        for (Like like : likes) {
+            if(like.getDateCourse().getId() == dateCourseId && like.getDateCourse().getThumbUp()==1){
+                dateCourseRepository.minusThumbUp(dateCourseId);
+                like = null;
+                return;
+            }
+        }
+
+        //user_like , datecourse_like에서도 null로 없애야함
+        Like like = new Like(user,dateCourse);
+        likeRepository.save(like);
+        dateCourseRepository.plusThumbUp(dateCourseId);
     }
 }
