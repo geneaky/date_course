@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,14 +27,11 @@ public class DateCourseService {
     private final TagRepository tagRepository;
     private final S3Uploader s3Uploader;
     public void regist(RegistDateCourseRequestDtoList requestDtoList, String title, String userEmail) {
-
         User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
             new UserNotFoundException("그런 이메일을 가진 사용자는 없습니다.")
         );
-
         DateCourse dateCourse = new DateCourse(user,0L,title);
         dateCourseRepository.save(dateCourse);
-
         for(RegistDateCourseRequestDto requestDto: requestDtoList.getLocationList()){
             if(requestDto.getFile()==null){
                 Location location = new Location(requestDto,"");
@@ -44,7 +40,6 @@ public class DateCourseService {
                 tagFindCircuit(requestDto, location);
                 continue;
             }
-
             String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")) + ".jpg";
             Location location = new Location(requestDto,fileSaveName);
             location.setDateCourse(dateCourse);
@@ -53,7 +48,6 @@ public class DateCourseService {
             s3Uploader.upload(requestDto.getFile(),fileSaveName);
         }
     }
-
     private void tagFindCircuit(RegistDateCourseRequestDto requestDto, Location location) {
         for(String hashTag:requestDto.getHashTag()){
             Optional<Tag> opTag = tagRepository.findByTagName(hashTag);
@@ -68,28 +62,33 @@ public class DateCourseService {
             locationTagRepository.save(locationTag);
         }
     }
-
     @Transactional
     public void plusOrMinusLike(String userEmail, Long dateCourseId) {
-
         User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
                 new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
         );
-        List<Like> likes = user.getLikes();
         DateCourse dateCourse = dateCourseRepository.findById(dateCourseId).orElseThrow(() ->
                 new DateCourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
-
-        for (Like like : likes) {
-            if(like.getDateCourse().getId() == dateCourseId && like.getDateCourse().getThumbUp()==1){
-                dateCourseRepository.minusThumbUp(dateCourseId);
-                like = null;
+        for (Like like : user.getLikes()) {
+            if(isLikedCourse(like,dateCourseId)){
+                dislikeCourse(user,like,dateCourse,dateCourseId);
                 return;
             }
         }
-
-        //user_like , datecourse_like에서도 null로 없애야함
+        likeCourse(user,dateCourse,dateCourseId);
+    }
+    private void dislikeCourse(User user,Like like,DateCourse dateCourse,Long dateCourseId){
+            dateCourseRepository.minusThumbUp(dateCourseId);
+            user.getLikes().remove(like);
+            dateCourse.getLikes().remove(like);
+            likeRepository.delete(like);
+    }
+    private void likeCourse(User user,DateCourse dateCourse,Long dateCourseId){
         Like like = new Like(user,dateCourse);
         likeRepository.save(like);
         dateCourseRepository.plusThumbUp(dateCourseId);
+    }
+    private boolean isLikedCourse(Like like,Long dateCourseId){
+        return like.getDateCourse().getId() == dateCourseId;
     }
 }
