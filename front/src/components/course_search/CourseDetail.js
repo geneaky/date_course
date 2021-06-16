@@ -13,8 +13,10 @@ const S3Url = "https://datecourse.s3.ap-northeast-2.amazonaws.com/";
 const CourseDetail = ({ course }) => {
   const [recheck, setRecheck] = useState(false);
   const [courseLength, setCourseLength] = useState(0);
+  const [comment, setComment] = useState("");
   const map = useSelector((store) => store.map);
   const userLikedCourse = useSelector((store) => store.userLikedCourse);
+  const user = useSelector((store) => store.user);
   const dispatcher = useDispatch();
 
   const selectedCourseLength = course.locations?.length - 1;
@@ -54,6 +56,22 @@ const CourseDetail = ({ course }) => {
     setRecheck(!recheck);
   };
 
+  const commentRegist = () => {
+    if (user) {
+      const token = localStorage.getItem("accessToken");
+      const url = `/datecourse/comment/${course.id}`;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      axios.post(url, comment, config);
+    } else {
+      alert("댓글을 달고싶다면 로그인해주세요");
+    }
+    setComment("");
+  };
+
   return (
     <div>
       <StlyedImgDiv>
@@ -75,7 +93,27 @@ const CourseDetail = ({ course }) => {
         <p>{course.userName} </p>
         <p>{course.locations[courseLength]?.text}</p>
       </StyledUserTextDiv>
-      <StyledCommentDiv>comment</StyledCommentDiv>
+      <StyledCommentDiv>
+        <StyledCommentListDiv>
+          comment
+          {/* 현재 달려있는 댓글 */}
+          {/* 현재 달려있는 댓글에 대댓글 1 depth */}
+          {/* 댓글에 좋아요 no depth */}
+          {/* course.comment.map((one)=><Commend prop={one}/>) */}
+          {/* 댓글 달기 */}
+        </StyledCommentListDiv>
+        <StyledCommentInputDiv>
+          <input type="text" onChange={(e) => setComment(e.target.value)} />
+          <button
+            onClick={commentRegist}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") commentRegist();
+            }}
+          >
+            등록
+          </button>
+        </StyledCommentInputDiv>
+      </StyledCommentDiv>
       <StyledCourseButtonDiv>
         <button
           onClick={() => {
@@ -130,7 +168,7 @@ const StyledPreInfoDiv = styled.div`
 const StyledUserTextDiv = styled.div`
   display: flex;
   width: 100%;
-  height: 55px;
+  height: 30px;
   overflow: auto;
   * {
     font-weight: 550;
@@ -142,8 +180,7 @@ const StyledCommentDiv = styled.div`
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   width: 100%;
-  height: 103px;
-  overflow: auto;
+  height: 178px;
 `;
 
 const StyledCourseButtonDiv = styled.div`
@@ -175,6 +212,41 @@ const StyledCourseButtonDiv = styled.div`
       color: #fff;
       transform: translateY(-7px);
     }
+  }
+`;
+
+const StyledCommentListDiv = styled.div`
+  width: 100%;
+  height: 150px;
+  overflow: auto;
+`;
+const StyledCommentInputDiv = styled.div`
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  input {
+    padding: 0;
+    margin: 0;
+    width: 90%;
+    height: 25px;
+    border: 2px solid lightgray;
+    outline: none;
+  }
+  button {
+    background-color: #ffa07a;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    width: 9%;
+    height: 27px;
+    font-family: "Roboto", sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
   }
 `;
 export default CourseDetail;

@@ -51,6 +51,7 @@ const HeaderDiv = styled.div`
 
 const StyledHeaderLink = styled(Link)`
   text-decoration: none;
+  color: black;
 `;
 
 const StlyedUserWithNotification = styled.div`

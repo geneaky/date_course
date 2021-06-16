@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import UserMenuItem from "./UserMenuItem";
+import { Link } from "react-router-dom";
 import GestureIcon from "@material-ui/icons/Gesture";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import BookmarksIcon from "@material-ui/icons/Bookmarks";
@@ -18,18 +19,18 @@ const UserMenu = () => {
   };
   return (
     <StyledUserMenu>
-      <div>
+      <StyledUserMenuLink to="/myCourse">
         <GestureIcon />
         <UserMenuItem itemName={"My Course"} />
-      </div>
-      <div>
+      </StyledUserMenuLink>
+      <StyledUserMenuLink to="/savedCourse">
         <BookmarksIcon />
         <UserMenuItem itemName={"Saved Course"} />
-      </div>
-      <div>
+      </StyledUserMenuLink>
+      <StyledUserMenuLink>
         <ExitToAppIcon />
         <UserMenuItem itemName={"Logout"} props={logOut} />
-      </div>
+      </StyledUserMenuLink>
     </StyledUserMenu>
   );
 };
@@ -53,6 +54,11 @@ const StyledUserMenu = styled.div`
     }
     align-items: center;
   }
+`;
+
+const StyledUserMenuLink = styled(Link)`
+  text-decoration: none;
+  color: black;
 `;
 
 export default UserMenu;

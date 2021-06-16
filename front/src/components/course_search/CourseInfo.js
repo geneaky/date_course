@@ -15,6 +15,7 @@ const CourseInfo = ({ result }) => {
     selectedMarker.forEach((marker) => {
       marker.setMap(null);
     });
+    dispatcher(setSelectedDatecourse(null));
   }, []);
 
   const initiateDatecourse = () => {

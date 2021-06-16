@@ -3,7 +3,12 @@ import styled from "styled-components";
 import SearchCourse from "./course_search/SearchCourse";
 import MakeCourse from "./course_make/MakeCourse";
 import { useDispatch, useSelector } from "react-redux";
-import { resetCourse, resetPlaces } from "../store/store";
+import {
+  resetCourse,
+  resetPlaces,
+  setSearchCourseList,
+  setSelectedDatecourse,
+} from "../store/store";
 
 const CourseMenu = () => {
   const [toggleButton, setToggleButton] = useState("코스 만들기");
@@ -18,6 +23,8 @@ const CourseMenu = () => {
         setToggleButton("코스 찾기");
       } else {
         setToggleButton("코스 만들기");
+        dispatcher(setSearchCourseList([]));
+        dispatcher(setSelectedDatecourse(null));
       }
     } else {
       alert("로그인 해주세요");
