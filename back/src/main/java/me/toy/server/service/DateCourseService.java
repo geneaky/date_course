@@ -23,6 +23,7 @@ public class DateCourseService {
     private final DateCourseRepository dateCourseRepository;
     private final LocationRepository locationRepository;
     private final LocationTagRepository locationTagRepository;
+    private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
     private final TagRepository tagRepository;
     private final S3Uploader s3Uploader;
@@ -90,5 +91,16 @@ public class DateCourseService {
     }
     private boolean isLikedCourse(Like like,Long dateCourseId){
         return like.getDateCourse().getId() == dateCourseId;
+    }
+
+    public void registComment(Long courseId, String comment, String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
+                new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
+        );
+        DateCourse dateCourse = dateCourseRepository.findById(courseId).orElseThrow(() ->
+                new DateCourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
+
+        Comment dateCourseComment = new Comment(user,dateCourse,comment);
+        commentRepository.save(dateCourseComment);
     }
 }

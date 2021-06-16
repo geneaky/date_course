@@ -21,4 +21,24 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "datecourse_id")
     private DateCourse dateCourse;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public void setUser(User user){
+        this.user = user;
+        user.getComments().add(this);
+    }
+
+    public void setDateCourse(DateCourse dateCourse){
+        this.dateCourse = dateCourse;
+        dateCourse.getComments().add(this);
+    }
+
+    public Comment(User user,DateCourse dateCourse,String commentContents){
+        setUser(user);
+        setDateCourse(dateCourse);
+        this.commentContents = commentContents;
+    }
 }

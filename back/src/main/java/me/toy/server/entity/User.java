@@ -39,6 +39,9 @@ public class User {
     @OneToMany
     private List<Like> likes = new ArrayList<>();
 
+    @OneToMany
+    private List<Comment> comments = new ArrayList<>();
+
     @Override
     public String toString() {
         return "User{" +

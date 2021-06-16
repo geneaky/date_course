@@ -51,4 +51,12 @@ public class DateCourseController {
                                                                             @RequestParam("posY")float posY){
         return dateCourseRepository.findCurrentLocationDatecourse(posX,posY);
     }
+
+    @PostMapping("/datecourse/comment/{courseId}")
+    public ResponseEntity<?> registDateCourseComment(@PathVariable Long courseId,
+                                                     @RequestParam String comment,
+                                                     @LoginUser String userEmail){
+        dateCourseService.registComment(courseId,comment,userEmail);
+        return ResponseEntity.ok().build();
+    }
 }

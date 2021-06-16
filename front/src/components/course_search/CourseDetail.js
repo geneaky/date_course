@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import Comment from "./Comment";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import axios from "axios";
@@ -56,7 +57,7 @@ const CourseDetail = ({ course }) => {
     setRecheck(!recheck);
   };
 
-  const commentRegist = () => {
+  const commentRegist = async () => {
     if (user) {
       const token = localStorage.getItem("accessToken");
       const url = `/datecourse/comment/${course.id}`;
@@ -65,11 +66,14 @@ const CourseDetail = ({ course }) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      axios.post(url, comment, config);
+      const formData = new FormData();
+      formData.append("comment", comment);
+      await axios.post(url, formData, config);
+      setRecheck(!recheck);
+      setComment("");
     } else {
       alert("댓글을 달고싶다면 로그인해주세요");
     }
-    setComment("");
   };
 
   return (
@@ -95,23 +99,21 @@ const CourseDetail = ({ course }) => {
       </StyledUserTextDiv>
       <StyledCommentDiv>
         <StyledCommentListDiv>
-          comment
-          {/* 현재 달려있는 댓글 */}
-          {/* 현재 달려있는 댓글에 대댓글 1 depth */}
-          {/* 댓글에 좋아요 no depth */}
-          {/* course.comment.map((one)=><Commend prop={one}/>) */}
-          {/* 댓글 달기 */}
+          {/* 댓글 추가시 리렌더링 */}
+          {course.comments.map((comment) => (
+            <Comment comment={comment} />
+          ))}
         </StyledCommentListDiv>
         <StyledCommentInputDiv>
-          <input type="text" onChange={(e) => setComment(e.target.value)} />
-          <button
-            onClick={commentRegist}
+          <input
+            type="text"
+            onChange={(e) => setComment(e.target.value)}
             onKeyPress={(e) => {
               if (e.key === "Enter") commentRegist();
             }}
-          >
-            등록
-          </button>
+            value={comment}
+          />
+          <button onClick={commentRegist}>등록</button>
         </StyledCommentInputDiv>
       </StyledCommentDiv>
       <StyledCourseButtonDiv>
