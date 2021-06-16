@@ -1,15 +1,22 @@
 /*global kakao*/
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import axios from "axios";
+import { likedCourseList } from "../../api/UserApi";
+import { searchRecentDateCourseList } from "../../api/DateCourseApi";
 
 const S3Url = "https://datecourse.s3.ap-northeast-2.amazonaws.com/";
 
 const CourseDetail = ({ course }) => {
-  const map = useSelector((store) => store.map);
+  const [recheck, setRecheck] = useState(false);
   const [courseLength, setCourseLength] = useState(0);
+  const map = useSelector((store) => store.map);
+  const userLikedCourse = useSelector((store) => store.userLikedCourse);
+  const dispatcher = useDispatch();
+
   const selectedCourseLength = course.locations?.length - 1;
   const Url = course.locations[courseLength]?.photoUrl;
   let imageUrl = null;
@@ -18,10 +25,15 @@ const CourseDetail = ({ course }) => {
   }
 
   useEffect(() => {
+    searchRecentDateCourseList(dispatcher);
+    likedCourseList(dispatcher);
+  }, [recheck]);
+
+  useEffect(() => {
     map.setCenter(
       new kakao.maps.LatLng(
-        course.locations[courseLength].posy,
-        course.locations[courseLength].posx
+        course.locations[courseLength]?.posy,
+        course.locations[courseLength]?.posx
       )
     );
   });
@@ -30,7 +42,7 @@ const CourseDetail = ({ course }) => {
     axios.post("/user/likecourse", null);
   };
 
-  const thumbUp = () => {
+  const thumbUp = async () => {
     const token = localStorage.getItem("accessToken");
     const url = `/datecourse/like/${course.id}`;
     const config = {
@@ -38,32 +50,30 @@ const CourseDetail = ({ course }) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    axios.get(url, config).then((res) => console.log(res));
+    await axios.get(url, config);
+    setRecheck(!recheck);
   };
 
   return (
     <div>
       <StlyedImgDiv>
         {imageUrl ? (
-          <img
-            alt="memory"
-            src={S3Url + course.locations[courseLength].photoUrl}
-          />
+          <img alt="memory" src={imageUrl} />
         ) : (
           <img src={"/no-image.png"} alt="any-pic" />
         )}
       </StlyedImgDiv>
       <StyledPreInfoDiv>
-        <p>
+        {userLikedCourse?.includes(course.id) ? (
+          <FavoriteIcon style={{ fontSize: 20 }} onClick={thumbUp} />
+        ) : (
           <FavoriteBorderIcon style={{ fontSize: 20 }} onClick={thumbUp} />
-          {course.thumbUp}
-        </p>
-        {/* comment count 추가하기 */}
-        <p>{course.locations[courseLength].tags}</p>
+        )}
+        <p>{course.locations[courseLength]?.tags}</p>
       </StyledPreInfoDiv>
       <StyledUserTextDiv>
         <p>{course.userName} </p>
-        <p>{course.locations[courseLength].text}</p>
+        <p>{course.locations[courseLength]?.text}</p>
       </StyledUserTextDiv>
       <StyledCommentDiv>comment</StyledCommentDiv>
       <StyledCourseButtonDiv>

@@ -1,29 +1,19 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchCourseList } from "../../store/store";
 import CourseInfo from "./CourseInfo";
+import { searchRecentDateCourseList } from "../../api/DateCourseApi";
+import { likedCourseList } from "../../api/UserApi";
 
 const SearchResultBoxInSearchCourse = () => {
   const searchCourseList = useSelector((store) => store.searchCourseList);
   const dispatcher = useDispatch();
 
-  const searchRecentDateCourseList = () => {
-    const token = localStorage.getItem("accessToken");
-    const url = "/datecourse/recent";
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    axios.get(url, config).then((response) => {
-      dispatcher(setSearchCourseList(response.data));
-    });
-  };
   useEffect(() => {
-    searchRecentDateCourseList();
+    searchRecentDateCourseList(dispatcher);
+    likedCourseList(dispatcher);
   }, []);
+
   return (
     <SearchResultBoxDiv>
       {searchCourseList.map((course, index) => (

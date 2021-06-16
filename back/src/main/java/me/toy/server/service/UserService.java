@@ -7,6 +7,9 @@ import me.toy.server.exception.UserNotFoundException;
 import me.toy.server.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -18,5 +21,16 @@ public class UserService {
                 new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
         );
         return new UserDto(user);
+    }
+
+    public List<Long> findLikedCourse(String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
+                new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
+        );
+        List<Long> result = user.getLikes()
+                .stream()
+                .map(like -> like.getDateCourse().getId())
+                .collect(Collectors.toList());
+        return result;
     }
 }

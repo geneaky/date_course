@@ -19,4 +19,8 @@ public class UserController {
     public ResponseEntity<UserDto> getUserInfo(@LoginUser String userEmail){
         return ResponseEntity.ok().body(userService.findUser(userEmail));
     }
+    @GetMapping("/user/likecourse")
+    public ResponseEntity<?> getUserLikedcourse(@LoginUser String userEmail){
+        return ResponseEntity.ok().body(userService.findLikedCourse(userEmail));
+    }
 }

@@ -3,12 +3,14 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { setMarker, setSelectedDatecourse } from "../../store/store";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const CourseInfo = ({ result }) => {
   const map = useSelector((store) => store.map);
   const selectedMarker = useSelector((store) => store.marker);
+  const userLikedCourse = useSelector((store) => store.userLikedCourse);
   const dispatcher = useDispatch();
-
   useEffect(() => {
     selectedMarker.forEach((marker) => {
       marker.setMap(null);
@@ -16,6 +18,7 @@ const CourseInfo = ({ result }) => {
   }, []);
 
   const initiateDatecourse = () => {
+    dispatcher(setSelectedDatecourse(result));
     selectedMarker.forEach((marker) => {
       marker.setMap(null);
     });
@@ -30,14 +33,20 @@ const CourseInfo = ({ result }) => {
     map.setCenter(
       new kakao.maps.LatLng(result.locations[0].posy, result.locations[0].posx)
     );
-    dispatcher(setSelectedDatecourse(result));
   };
   return (
     <StyledCourseInfoDiv onClick={initiateDatecourse}>
       <p>{result.dateCourseTitle}</p>
-      <p>{result.thumbUp}</p>
+      <span>{result.userName}</span>
+      <span>
+        {userLikedCourse?.includes(result.id) ? (
+          <FavoriteIcon style={{ fontSize: 20 }} />
+        ) : (
+          <FavoriteBorderIcon style={{ fontSize: 20 }} />
+        )}
+        {result.thumbUp}
+      </span>
       {/* 댓글 카운트 */}
-      {/* 작성자 닉네임 표시 */}
     </StyledCourseInfoDiv>
   );
 };

@@ -29,6 +29,10 @@ export const setSelectedDatecourse = (course) => ({
   type: "SET_SELECTED_DATECOURSE",
   payload: course,
 });
+export const setUserLikedCourse = (data) => ({
+  type: "SET_USER_LIKED_COURSE",
+  payload: data,
+});
 
 const initstate = {
   course: [],
@@ -44,6 +48,7 @@ const initstate = {
   },
   searchCourseList: [],
   selectedDatecourse: null,
+  userLikedCourse: null,
 };
 
 const reducer = (state = initstate, action) => {
@@ -93,6 +98,11 @@ const reducer = (state = initstate, action) => {
       return {
         ...state,
         selectedDatecourse: action.payload,
+      };
+    case "SET_USER_LIKED_COURSE":
+      return {
+        ...state,
+        userLikedCourse: action.payload,
       };
     default:
       return state;

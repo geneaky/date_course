@@ -16,9 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Log4j2
 public class DateCourseController {
-
     private final DateCourseRepository dateCourseRepository;
-
     private final DateCourseService dateCourseService;
 
     @Secured("ROLE_USER")
@@ -26,7 +24,6 @@ public class DateCourseController {
     public ResponseEntity<?> registDateCourse(@ModelAttribute RegistDateCourseRequestDtoList requestDtoList,
                                               @RequestParam("courseTitle") String title,
                                               @LoginUser String userEmail) {
-
         dateCourseService.regist(requestDtoList,title,userEmail);
         return ResponseEntity.ok().build();
     }
@@ -34,7 +31,6 @@ public class DateCourseController {
     @Secured("ROLE_USER")
     @GetMapping("/datecourse/like/{dateCourseId}")
     public ResponseEntity<?> updateDateCourseLike(@PathVariable Long dateCourseId,@LoginUser String userEmail){
-
         dateCourseService.plusOrMinusLike(userEmail,dateCourseId);
         return ResponseEntity.ok().build();
     }
