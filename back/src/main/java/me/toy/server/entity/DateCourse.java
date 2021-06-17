@@ -33,6 +33,9 @@ public class DateCourse {
     @OneToMany
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany
+    private List<SavedCourse> savedCourses = new ArrayList<>();
+
     public DateCourse(User user,Long thumbUp,String dateCourseTitle) {
         setUser(user);
         this.thumbUp = thumbUp;

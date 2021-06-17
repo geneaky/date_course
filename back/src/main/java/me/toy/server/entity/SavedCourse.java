@@ -21,11 +21,22 @@ public class SavedCourse {
     @JoinColumn(name="user_id")
     private User user;
 
-    private Long savedCourseId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="datecourse_id")
+    private DateCourse dateCourse;
 
-    public void setSavedCourse(User user,Long dateCourseId){
+    public void setUser(User user){
         this.user = user;
-        this.savedCourseId = dateCourseId;
         user.getSavedCourses().add(this);
+    }
+
+    public void setDateCourse(DateCourse dateCourse){
+        this.dateCourse = dateCourse;
+        dateCourse.getSavedCourses().add(this);
+    }
+
+    public SavedCourse(User user,DateCourse dateCourse){
+        setUser(user);
+        setDateCourse(dateCourse);
     }
 }

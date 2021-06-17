@@ -29,7 +29,7 @@ public class DateCourseController {
     }
 
     @Secured("ROLE_USER")
-    @GetMapping("/datecourse/like/{dateCourseId}")
+    @PutMapping("/datecourse/like/{dateCourseId}")
     public ResponseEntity<?> updateDateCourseLike(@PathVariable Long dateCourseId,@LoginUser String userEmail){
         dateCourseService.plusOrMinusLike(userEmail,dateCourseId);
         return ResponseEntity.ok().build();

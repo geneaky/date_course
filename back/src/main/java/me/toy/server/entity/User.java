@@ -25,7 +25,6 @@ public class User {
     private String password;
     private String imageUrl;
     private String email;
-    private boolean emailVerified = false;
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
     private String providerId;
@@ -50,7 +49,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", email='" + email + '\'' +
-                ", emailVerified=" + emailVerified +
                 ", provider=" + provider +
                 ", providerId='" + providerId + '\'' +
                 ", dateCourses=" + dateCourses +

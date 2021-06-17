@@ -6,8 +6,7 @@ import me.toy.server.entity.LoginUser;
 import me.toy.server.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,5 +21,22 @@ public class UserController {
     @GetMapping("/user/likecourse")
     public ResponseEntity<?> getUserLikedcourse(@LoginUser String userEmail){
         return ResponseEntity.ok().body(userService.findLikedCourse(userEmail));
+    }
+
+    @PostMapping("/user/saved/{courseId}")
+    public ResponseEntity<?> registUserSavedCourse(@PathVariable Long courseId,@LoginUser String userEmail){
+        userService.registUserCourse(courseId,userEmail);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/user/saved/{courseId}")
+    public ResponseEntity<?>  deleteUserSavedCourse(@PathVariable Long courseId,@LoginUser String userEmail){
+        userService.deleteUserCourse(courseId,userEmail);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/user/savedcourse")
+    public ResponseEntity<?> getUserSavedCourse(@LoginUser String userEmail){
+        return ResponseEntity.ok().body(userService.findSavedCourse(userEmail));
     }
 }
