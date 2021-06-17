@@ -1,12 +1,12 @@
 /*global kakao*/
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Comment from "./Comment";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import axios from "axios";
-import { likedCourseList } from "../../api/UserApi";
+import { likedCourseList, savedCourseList } from "../../api/UserApi";
 import { searchRecentDateCourseList } from "../../api/DateCourseApi";
 
 const S3Url = "https://datecourse.s3.ap-northeast-2.amazonaws.com/";
@@ -17,19 +17,33 @@ const CourseDetail = ({ course }) => {
   const [comment, setComment] = useState("");
   const map = useSelector((store) => store.map);
   const userLikedCourse = useSelector((store) => store.userLikedCourse);
+  const userSavedCourse = useSelector((store) => store.userSavedCourse);
   const user = useSelector((store) => store.user);
   const dispatcher = useDispatch();
-
   const selectedCourseLength = course.locations?.length - 1;
   const Url = course.locations[courseLength]?.photoUrl;
   let imageUrl = null;
   if (Url !== "") {
     imageUrl = S3Url + Url;
   }
+  const scrollRef = useRef();
+
+  const scrollToBottom = () => {
+    scrollRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
+  };
+  console.log(userSavedCourse);
+  useEffect(() => {
+    setCourseLength(0);
+    scrollToBottom();
+  }, [course]);
 
   useEffect(() => {
     searchRecentDateCourseList(dispatcher);
     likedCourseList(dispatcher);
+    savedCourseList(dispatcher);
   }, [recheck]);
 
   useEffect(() => {
@@ -39,10 +53,30 @@ const CourseDetail = ({ course }) => {
         course.locations[courseLength]?.posx
       )
     );
-  });
+  }, [courseLength]);
 
-  const saveCourse = () => {
-    axios.post("/user/likecourse", null);
+  const saveCourse = async () => {
+    const token = localStorage.getItem("accessToken");
+    const url = `/user/saved/${course.id}`;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    await axios.post(url, null, config);
+    setRecheck(!recheck);
+  };
+
+  const deleteCourse = async () => {
+    const token = localStorage.getItem("accessToken");
+    const url = `/user/saved/${course.id}`;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    await axios.delete(url, config);
+    setRecheck(!recheck);
   };
 
   const thumbUp = async () => {
@@ -53,7 +87,7 @@ const CourseDetail = ({ course }) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    await axios.get(url, config);
+    await axios.put(url, null, config);
     setRecheck(!recheck);
   };
 
@@ -68,9 +102,10 @@ const CourseDetail = ({ course }) => {
       };
       const formData = new FormData();
       formData.append("comment", comment);
-      await axios.post(url, formData, config);
-      setRecheck(!recheck);
-      setComment("");
+      axios.post(url, formData, config).then(() => {
+        setRecheck(!recheck);
+        setComment("");
+      });
     } else {
       alert("댓글을 달고싶다면 로그인해주세요");
     }
@@ -99,10 +134,11 @@ const CourseDetail = ({ course }) => {
       </StyledUserTextDiv>
       <StyledCommentDiv>
         <StyledCommentListDiv>
-          {/* 댓글 추가시 리렌더링 */}
-          {course.comments.map((comment) => (
-            <Comment comment={comment} />
-          ))}
+          <div ref={scrollRef}>
+            {course.comments.map((comment, index) => (
+              <Comment key={index} comment={comment} />
+            ))}
+          </div>
         </StyledCommentListDiv>
         <StyledCommentInputDiv>
           <input
@@ -126,7 +162,14 @@ const CourseDetail = ({ course }) => {
         >
           이전 코스
         </button>
-        <button onClick={saveCourse}>Save</button>
+        {/* 추후 수정 기능 추가시 여기서 ui 설계를 시작해야함 */}
+        {user.name === course.userName ? null : userSavedCourse?.includes(
+            course.id
+          ) ? (
+          <button onClick={deleteCourse}>Saved</button>
+        ) : (
+          <button onClick={saveCourse}>Save</button>
+        )}
         <button
           onClick={() => {
             courseLength >= selectedCourseLength
@@ -193,7 +236,7 @@ const StyledCourseButtonDiv = styled.div`
   display: flex;
   justify-content: space-between;
   button {
-    width: 33.33%;
+    width: inherit;
     font-family: "Roboto", sans-serif;
     font-size: 11px;
     text-transform: uppercase;

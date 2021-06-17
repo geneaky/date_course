@@ -6,7 +6,7 @@ const Comment = ({ comment }) => {
   const user = useSelector((store) => store.user);
   return (
     <div>
-      {comment.userName === user.name ? (
+      {comment.userName === user.name && comment.userId === user.userId ? (
         <StyledSelfCommentDiv>
           <p>{comment.commentContent}</p>
         </StyledSelfCommentDiv>

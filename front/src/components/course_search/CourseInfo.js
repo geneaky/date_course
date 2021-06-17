@@ -5,12 +5,14 @@ import styled from "styled-components";
 import { setMarker, setSelectedDatecourse } from "../../store/store";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
 const CourseInfo = ({ result }) => {
   const map = useSelector((store) => store.map);
   const selectedMarker = useSelector((store) => store.marker);
   const userLikedCourse = useSelector((store) => store.userLikedCourse);
   const dispatcher = useDispatch();
+
   useEffect(() => {
     selectedMarker.forEach((marker) => {
       marker.setMap(null);
@@ -47,7 +49,10 @@ const CourseInfo = ({ result }) => {
         )}
         {result.thumbUp}
       </span>
-      {/* 댓글 카운트 */}
+      <span>
+        <ChatBubbleOutlineIcon style={{ fontSize: 20 }} />
+        {result.comments.length}
+      </span>
     </StyledCourseInfoDiv>
   );
 };
@@ -67,6 +72,10 @@ const StyledCourseInfoDiv = styled.div`
   }
   &:hover {
     border: 2px solid black;
+  }
+
+  span {
+    margin: 10px;
   }
 `;
 

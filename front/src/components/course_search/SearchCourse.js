@@ -12,6 +12,7 @@ const SearchCourse = () => {
       marker.setMap(null);
     });
   }, []);
+
   return (
     <div>
       <SearchBoxInSearchCourse />

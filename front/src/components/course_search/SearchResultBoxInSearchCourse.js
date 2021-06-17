@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import CourseInfo from "./CourseInfo";
 import { searchRecentDateCourseList } from "../../api/DateCourseApi";
-import { likedCourseList } from "../../api/UserApi";
+import { likedCourseList, savedCourseList } from "../../api/UserApi";
 
 const SearchResultBoxInSearchCourse = () => {
   const searchCourseList = useSelector((store) => store.searchCourseList);
@@ -12,6 +12,7 @@ const SearchResultBoxInSearchCourse = () => {
   useEffect(() => {
     searchRecentDateCourseList(dispatcher);
     likedCourseList(dispatcher);
+    savedCourseList(dispatcher);
   }, []);
 
   return (
