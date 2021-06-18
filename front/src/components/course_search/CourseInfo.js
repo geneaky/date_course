@@ -7,7 +7,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
-const CourseInfo = ({ result }) => {
+const CourseInfo = ({ key, result }) => {
   const map = useSelector((store) => store.map);
   const selectedMarker = useSelector((store) => store.marker);
   const userLikedCourse = useSelector((store) => store.userLikedCourse);
@@ -51,7 +51,7 @@ const CourseInfo = ({ result }) => {
       </span>
       <span>
         <ChatBubbleOutlineIcon style={{ fontSize: 20 }} />
-        {result.comments.length}
+        {result.comments?.length}
       </span>
     </StyledCourseInfoDiv>
   );

@@ -1,5 +1,5 @@
 /*global kakao*/
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Comment from "./Comment";
@@ -28,13 +28,12 @@ const CourseDetail = ({ course }) => {
   }
   const scrollRef = useRef();
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     scrollRef.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
     });
-  };
-  console.log(userSavedCourse);
+  }, []);
   useEffect(() => {
     setCourseLength(0);
     scrollToBottom();
@@ -135,9 +134,10 @@ const CourseDetail = ({ course }) => {
       <StyledCommentDiv>
         <StyledCommentListDiv>
           <div ref={scrollRef}>
-            {course.comments.map((comment, index) => (
+            {course?.comments?.map((comment, index) => (
               <Comment key={index} comment={comment} />
             ))}
+            {/* 댓글 등록 후 리렌더링 시켜야함 */}
           </div>
         </StyledCommentListDiv>
         <StyledCommentInputDiv>
