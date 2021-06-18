@@ -13,7 +13,10 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import axios from "axios";
 import { likedCourseList, savedCourseList } from "../../api/UserApi";
-import { searchRecentDateCourseList } from "../../api/DateCourseApi";
+import {
+  searchOptionDateCourseList,
+  searchRecentDateCourseList,
+} from "../../api/DateCourseApi";
 import { setSelectedDatecourse } from "../../store/store";
 
 const S3Url = "https://datecourse.s3.ap-northeast-2.amazonaws.com/";
@@ -25,6 +28,7 @@ const CourseDetail = ({ course }) => {
   const map = useSelector((store) => store.map);
   const user = useSelector((store) => store.user);
 
+  const searchOption = useSelector((store) => store.searchOption);
   const userLikedCourse = useSelector((store) => store.userLikedCourse);
   const userSavedCourse = useSelector((store) => store.userSavedCourse);
   const searchCourseList = useSelector((store) => store.searchCourseList);
@@ -108,7 +112,7 @@ const CourseDetail = ({ course }) => {
         const formData = new FormData();
         formData.append("comment", comment);
         await axios.post(url, formData, config);
-        searchRecentDateCourseList(dispatcher); //수정
+        searchOptionDateCourseList(dispatcher, searchOption);
         dispatcher(
           setSelectedDatecourse(
             searchCourseList.find(

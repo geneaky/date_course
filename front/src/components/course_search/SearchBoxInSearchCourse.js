@@ -5,12 +5,13 @@ import { searchOptionDateCourseList } from "../../api/DateCourseApi";
 import { useDispatch } from "react-redux";
 
 const SearchBoxInSearchCourse = () => {
+  const dispatcher = useDispatch();
   const [searchKeyWord, setSearchKeyWord] = useState();
   const [selectedOption, setSelectedOption] = useState("recent");
-  const dispatcher = useDispatch();
   const searchCourseList = (e) => {
     if (e.key === "Enter") {
       searchOptionDateCourseList(dispatcher, selectedOption);
+      dispatcher(setSelectedOption(selectedOption));
       setSearchKeyWord("");
     }
   };
