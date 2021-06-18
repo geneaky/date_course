@@ -1,5 +1,11 @@
 /*global kakao*/
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Comment from "./Comment";
@@ -8,18 +14,23 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import axios from "axios";
 import { likedCourseList, savedCourseList } from "../../api/UserApi";
 import { searchRecentDateCourseList } from "../../api/DateCourseApi";
+import { setSelectedDatecourse } from "../../store/store";
 
 const S3Url = "https://datecourse.s3.ap-northeast-2.amazonaws.com/";
 
 const CourseDetail = ({ course }) => {
-  const [recheck, setRecheck] = useState(false);
+  const dispatcher = useDispatch();
   const [courseLength, setCourseLength] = useState(0);
   const [comment, setComment] = useState("");
   const map = useSelector((store) => store.map);
+  const user = useSelector((store) => store.user);
+
   const userLikedCourse = useSelector((store) => store.userLikedCourse);
   const userSavedCourse = useSelector((store) => store.userSavedCourse);
-  const user = useSelector((store) => store.user);
-  const dispatcher = useDispatch();
+  const searchCourseList = useSelector((store) => store.searchCourseList);
+  const selectedDatecourseIndex = useSelector(
+    (store) => store.selectedDatecourseIndex
+  );
   const selectedCourseLength = course.locations?.length - 1;
   const Url = course.locations[courseLength]?.photoUrl;
   let imageUrl = null;
@@ -27,23 +38,17 @@ const CourseDetail = ({ course }) => {
     imageUrl = S3Url + Url;
   }
   const scrollRef = useRef();
-
   const scrollToBottom = useCallback(() => {
     scrollRef.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
     });
   }, []);
+
   useEffect(() => {
     setCourseLength(0);
     scrollToBottom();
   }, [course]);
-
-  useEffect(() => {
-    searchRecentDateCourseList(dispatcher);
-    likedCourseList(dispatcher);
-    savedCourseList(dispatcher);
-  }, [recheck]);
 
   useEffect(() => {
     map.setCenter(
@@ -63,7 +68,7 @@ const CourseDetail = ({ course }) => {
       },
     };
     await axios.post(url, null, config);
-    setRecheck(!recheck);
+    savedCourseList(dispatcher);
   };
 
   const deleteCourse = async () => {
@@ -75,7 +80,7 @@ const CourseDetail = ({ course }) => {
       },
     };
     await axios.delete(url, config);
-    setRecheck(!recheck);
+    savedCourseList(dispatcher);
   };
 
   const thumbUp = async () => {
@@ -87,24 +92,34 @@ const CourseDetail = ({ course }) => {
       },
     };
     await axios.put(url, null, config);
-    setRecheck(!recheck);
+    likedCourseList(dispatcher);
   };
 
   const commentRegist = async () => {
     if (user) {
-      const token = localStorage.getItem("accessToken");
-      const url = `/datecourse/comment/${course.id}`;
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const formData = new FormData();
-      formData.append("comment", comment);
-      axios.post(url, formData, config).then(() => {
-        setRecheck(!recheck);
+      if (comment !== "") {
+        const token = localStorage.getItem("accessToken");
+        const url = `/datecourse/comment/${course.id}`;
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const formData = new FormData();
+        formData.append("comment", comment);
+        await axios.post(url, formData, config);
+        searchRecentDateCourseList(dispatcher); //수정
+        dispatcher(
+          setSelectedDatecourse(
+            searchCourseList.find(
+              (course) => course.id === selectedDatecourseIndex
+            )
+          )
+        );
         setComment("");
-      });
+      } else {
+        alert("글을 작성해주세요");
+      }
     } else {
       alert("댓글을 달고싶다면 로그인해주세요");
     }
@@ -134,10 +149,10 @@ const CourseDetail = ({ course }) => {
       <StyledCommentDiv>
         <StyledCommentListDiv>
           <div ref={scrollRef}>
-            {course?.comments?.map((comment, index) => (
+            {course.comments?.map((comment, index) => (
               <Comment key={index} comment={comment} />
             ))}
-            {/* 댓글 등록 후 리렌더링 시켜야함 */}
+            {/* 댓글 등록 후 리렌더링 시키려면(reatime rendering) socketio 적용 일단 지금은 여기서 만족 */}
           </div>
         </StyledCommentListDiv>
         <StyledCommentInputDiv>

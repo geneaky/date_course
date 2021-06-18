@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setSearchCourseList } from "../store/store";
 
-export const searchRecentDateCourseList = (dispatcher) => {
+export const searchRecentDateCourseList = async (dispatcher) => {
   const token = localStorage.getItem("accessToken");
   const url = "/datecourse/recent";
   const config = {
@@ -9,9 +9,8 @@ export const searchRecentDateCourseList = (dispatcher) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  axios.get(url, config).then((response) => {
-    dispatcher(setSearchCourseList(response.data));
-  });
+  const response = await axios.get(url, config);
+  dispatcher(setSearchCourseList(response.data));
 };
 
 export const searchOptionDateCourseList = (dispatcher, option) => {

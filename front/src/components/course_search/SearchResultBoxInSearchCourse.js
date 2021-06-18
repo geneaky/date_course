@@ -1,20 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
 import CourseInfo from "./CourseInfo";
-import { searchRecentDateCourseList } from "../../api/DateCourseApi";
-import { likedCourseList, savedCourseList } from "../../api/UserApi";
 
-const SearchResultBoxInSearchCourse = () => {
-  const searchCourseList = useSelector((store) => store.searchCourseList);
-  const dispatcher = useDispatch();
-
-  useEffect(() => {
-    searchRecentDateCourseList(dispatcher);
-    likedCourseList(dispatcher);
-    savedCourseList(dispatcher);
-  }, []);
-
+const SearchResultBoxInSearchCourse = ({ searchCourseList }) => {
   return (
     <SearchResultBoxDiv>
       {searchCourseList.map((course, index) => (

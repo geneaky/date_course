@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setUserLikedCourse, setUserSavedCourse } from "../store/store";
 
-export const likedCourseList = (dispatcher) => {
+export const likedCourseList = async (dispatcher) => {
   const token = localStorage.getItem("accessToken");
   const url = "/user/likecourse";
   const config = {
@@ -9,12 +9,11 @@ export const likedCourseList = (dispatcher) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  axios.get(url, config).then((response) => {
-    dispatcher(setUserLikedCourse(response.data));
-  });
+  const response = await axios.get(url, config);
+  dispatcher(setUserLikedCourse(response.data));
 };
 
-export const savedCourseList = (dispatcher) => {
+export const savedCourseList = async (dispatcher) => {
   const token = localStorage.getItem("accessToken");
   const url = "/user/savedcourse";
   const config = {
@@ -22,7 +21,6 @@ export const savedCourseList = (dispatcher) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  axios.get(url, config).then((response) => {
-    dispatcher(setUserSavedCourse(response.data));
-  });
+  const response = axios.get(url, config);
+  dispatcher(setUserSavedCourse(response.data));
 };

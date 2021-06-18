@@ -2,12 +2,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { setMarker, setSelectedDatecourse } from "../../store/store";
+import {
+  setMarker,
+  setSelectedDatecourse,
+  setSelectedDatecourseIndex,
+} from "../../store/store";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
-const CourseInfo = ({ key, result }) => {
+const CourseInfo = ({ result }) => {
   const map = useSelector((store) => store.map);
   const selectedMarker = useSelector((store) => store.marker);
   const userLikedCourse = useSelector((store) => store.userLikedCourse);
@@ -18,10 +22,11 @@ const CourseInfo = ({ key, result }) => {
       marker.setMap(null);
     });
     dispatcher(setSelectedDatecourse(null));
-  }, []);
+  }, []); //필수 새로운 코스 클릭시 기존 마커 지움과 동시에 선택된 코스를 지우는거
 
   const initiateDatecourse = () => {
     dispatcher(setSelectedDatecourse(result));
+    dispatcher(setSelectedDatecourseIndex(result.id));
     selectedMarker.forEach((marker) => {
       marker.setMap(null);
     });
