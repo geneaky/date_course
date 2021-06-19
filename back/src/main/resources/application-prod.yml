@@ -48,7 +48,7 @@ app:
     tokenExpirationMsec: 864000000
   oauth2:
     authorizedRedirectUris:
-      - http://3.34.83.151:3000/oauth2/redirect
+      - http://3.34.83.151:80/oauth2/redirect
 
 cloud:
   aws:
