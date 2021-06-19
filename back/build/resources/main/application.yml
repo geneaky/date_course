@@ -14,4 +14,4 @@ spring:
   profiles: prod
 
 server:
-  port: 80
+  port: 8080
