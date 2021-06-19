@@ -1,36 +1,63 @@
 import React from "react";
 import styled from "styled-components";
 import UserMenuItem from "./UserMenuItem";
-import { Link } from "react-router-dom";
 import GestureIcon from "@material-ui/icons/Gesture";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import BookmarksIcon from "@material-ui/icons/Bookmarks";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  logoutUser,
+  setSideMenu,
+  toggleMyCourseMenu,
+  toggleSavedCourseMenu,
+} from "../../store/store";
 
 const UserMenu = () => {
   const history = useHistory();
   const dispatcher = useDispatch();
+  const myCourseMenu = useSelector((store) => store.myCourseMenu);
+  const savedCourseMenu = useSelector((store) => store.savedCourseMenu);
   const logOut = () => {
     localStorage.removeItem("accessToken");
     dispatcher(logoutUser());
     history.push("/login");
   };
+
+  const closeSideMenuAndOpenMyCourseMenu = () => {
+    if (!myCourseMenu) {
+      dispatcher(setSideMenu(false));
+      dispatcher(toggleSavedCourseMenu(false));
+      dispatcher(toggleMyCourseMenu(true));
+    } else {
+      dispatcher(toggleMyCourseMenu(false));
+    }
+  };
+
+  const closeSideMenuAndOpenSavedCourseMenu = () => {
+    if (!savedCourseMenu) {
+      dispatcher(setSideMenu(false));
+      dispatcher(toggleMyCourseMenu(false));
+      dispatcher(toggleSavedCourseMenu(true));
+    } else {
+      dispatcher(toggleSavedCourseMenu(false));
+    }
+  };
+
   return (
     <StyledUserMenu>
-      <StyledUserMenuLink to="/myCourse">
+      <div onClick={closeSideMenuAndOpenMyCourseMenu}>
         <GestureIcon />
         <UserMenuItem itemName={"My Course"} />
-      </StyledUserMenuLink>
-      <StyledUserMenuLink to="/savedCourse">
+      </div>
+      <div onClick={closeSideMenuAndOpenSavedCourseMenu}>
         <BookmarksIcon />
         <UserMenuItem itemName={"Saved Course"} />
-      </StyledUserMenuLink>
-      <StyledUserMenuLink>
+      </div>
+      <div>
         <ExitToAppIcon />
         <UserMenuItem itemName={"Logout"} props={logOut} />
-      </StyledUserMenuLink>
+      </div>
     </StyledUserMenu>
   );
 };
@@ -54,11 +81,6 @@ const StyledUserMenu = styled.div`
     }
     align-items: center;
   }
-`;
-
-const StyledUserMenuLink = styled(Link)`
-  text-decoration: none;
-  color: black;
 `;
 
 export default UserMenu;

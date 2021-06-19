@@ -13,8 +13,16 @@ export const setMarker = (marker) => ({ type: "SET_MARKER", payload: marker });
 export const clearMarker = () => ({ type: "CLEAR_MARKERS" });
 export const getUserInfo = (data) => ({ type: "GET_USERINFO", payload: data });
 export const logoutUser = () => ({ type: "LOGOUT_USER" });
-export const setSideMenu = () => ({ type: "SET_SIDEMENU" });
+export const setSideMenu = (data) => ({ type: "SET_SIDEMENU", payload: data });
 export const toggleUserMenu = () => ({ type: "TOGGLE_USERMENU" });
+export const toggleMyCourseMenu = (data) => ({
+  type: "TOGGLE_MY_COURSE_MENU",
+  payload: data,
+});
+export const toggleSavedCourseMenu = (data) => ({
+  type: "TOGGLE_SAVED_COURSE_MENU",
+  payload: data,
+});
 export const togglePhotoModal = () => ({ type: "TOGGLE_PHOTOMODAL" });
 export const setLocation = (location) => ({
   type: "SET_LOCATION",
@@ -45,6 +53,14 @@ export const setSearchOption = (data) => ({
   type: "SET_SEARCH_OPTION",
   payload: data,
 });
+export const setMyCourseList = (data) => ({
+  type: "SET_MY_COURSE_LIST",
+  payload: data,
+});
+export const setSavedCourseList = (data) => ({
+  type: "SET_SAVED_COURSE_LIST",
+  payload: data,
+});
 
 const initstate = {
   course: [],
@@ -54,6 +70,8 @@ const initstate = {
   user: null,
   sideMenu: false,
   userMenu: false,
+  myCourseMenu: false,
+  savedCourseMenu: false,
   photoModal: false,
   location: {
     place: {},
@@ -64,6 +82,8 @@ const initstate = {
   userLikedCourse: null,
   userSavedCourse: null,
   searchOption: "recent",
+  myCourseList: null,
+  savedCourseList: null,
 };
 
 const reducer = (state = initstate, action) => {
@@ -89,9 +109,13 @@ const reducer = (state = initstate, action) => {
     case "TOGGLE_USERMENU":
       return { ...state, userMenu: !state.userMenu };
     case "SET_SIDEMENU":
-      return { ...state, sideMenu: !state.sideMenu };
+      return { ...state, sideMenu: action.payload };
     case "TOGGLE_PHOTOMODAL":
       return { ...state, photoModal: !state.photoModal };
+    case "TOGGLE_MY_COURSE_MENU":
+      return { ...state, myCourseMenu: action.payload };
+    case "TOGGLE_SAVED_COURSE_MENU":
+      return { ...state, savedCourseMenu: action.payload };
     case "SET_LOCATION":
       return {
         ...state,
@@ -133,6 +157,16 @@ const reducer = (state = initstate, action) => {
       return {
         ...state,
         searchOption: action.payload,
+      };
+    case "SET_MY_COURSE_LIST":
+      return {
+        ...state,
+        myCourseList: action.payload,
+      };
+    case "SET_SAVED_COURSE_LIST":
+      return {
+        ...state,
+        savedCourseList: action.payload,
       };
     default:
       return state;

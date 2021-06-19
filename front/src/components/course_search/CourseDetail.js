@@ -13,10 +13,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import axios from "axios";
 import { likedCourseList, savedCourseList } from "../../api/UserApi";
-import {
-  searchOptionDateCourseList,
-  searchRecentDateCourseList,
-} from "../../api/DateCourseApi";
+import { searchOptionDateCourseList } from "../../api/DateCourseApi";
 import { setSelectedDatecourse } from "../../store/store";
 
 const S3Url = "https://datecourse.s3.ap-northeast-2.amazonaws.com/";

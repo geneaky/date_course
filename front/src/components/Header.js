@@ -3,20 +3,31 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useDispatch, useSelector } from "react-redux";
-import { setSideMenu } from "../store/store";
+import {
+  setSideMenu,
+  toggleMyCourseMenu,
+  toggleSavedCourseMenu,
+} from "../store/store";
 import User from "./user/User";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
 const Header = () => {
   const user = useSelector((store) => store.user);
-  const dispatch = useDispatch();
+  const sideMenu = useSelector((store) => store.sideMenu);
+  const dispatcher = useDispatch();
 
   return (
     <HeaderDiv>
       <MenuIcon
         onClick={() => {
-          dispatch(setSideMenu());
+          if (sideMenu) {
+            dispatcher(setSideMenu(false));
+          } else {
+            dispatcher(setSideMenu(true));
+          }
+          dispatcher(toggleSavedCourseMenu(false));
+          dispatcher(toggleMyCourseMenu(false));
         }}
         style={menuStyle}
       />

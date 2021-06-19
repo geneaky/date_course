@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import CourseMenu from "../components/CourseMenu";
+import MyCourse from "../components/user/MyCourse";
+import SavedCourse from "../components/user/SavedCourse";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo, setMap } from "../store/store";
 import axios from "axios";
@@ -12,6 +14,8 @@ const Home = () => {
   const token = localStorage.getItem("accessToken");
   const sideMenu = useSelector((store) => store.sideMenu);
   const userMenu = useSelector((store) => store.userMenu);
+  const myCourseMenu = useSelector((store) => store.myCourseMenu);
+  const savedCourseMenu = useSelector((store) => store.savedCourseMenu);
   const dispatcher = useDispatch();
 
   useEffect(async () => {
@@ -43,6 +47,8 @@ const Home = () => {
       <HomeBody>
         {sideMenu ? <CourseMenu /> : null}
         {userMenu ? <UserMenu /> : null}
+        {myCourseMenu ? <MyCourse /> : null}
+        {savedCourseMenu ? <SavedCourse /> : null}
         <Map id="map"></Map>
       </HomeBody>
     </div>
