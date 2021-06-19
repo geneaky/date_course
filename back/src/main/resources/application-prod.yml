@@ -7,7 +7,7 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    url: jdbc:mysql://datecoures-db.cqbbxt9teugc.ap-northeast-2.rds.amazonaws.com:3306/DateCourseDataBase?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://datecoures-db.cqbbxt9teugc.ap-northeast-2.rds.amazonaws.com:3306/DateCourseDataBase
     username: kaktus418
     password: aknes8002
     driver-class-name: com.mysql.cj.jdbc.Driver
