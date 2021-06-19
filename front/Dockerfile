@@ -1,5 +1,6 @@
 FROM node:alpine
 WORKDIR '/app'
+ENV DANGEROUSLY_DISABLE_HOST_CHECK === true
 COPY package*.json ./
 RUN npm install 
 COPY ./ ./
