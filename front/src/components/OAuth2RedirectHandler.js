@@ -2,8 +2,7 @@ import React from "react";
 import { Redirect, useLocation } from "react-router-dom";
 
 const OAuth2RedirectHander = () => {
-  // const location = useLocation();
-  const location = "http://3.34.83.151:80";
+  const location = useLocation();
 
   const getUrlParameter = (name) => {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
