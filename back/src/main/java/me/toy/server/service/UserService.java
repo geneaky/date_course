@@ -1,6 +1,8 @@
 package me.toy.server.service;
 
 import lombok.RequiredArgsConstructor;
+import me.toy.server.dto.RecentDateCourseDto;
+import me.toy.server.dto.SavedDateCourseDto;
 import me.toy.server.dto.UserDto;
 import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.SavedCourse;
@@ -78,5 +80,19 @@ public class UserService {
                 return;
             }
         }
+    }
+
+    public List<RecentDateCourseDto> findMyCourse(String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
+                new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
+        );
+        return dateCourseRepository.findAllDateCourseByUserId(user.getId());
+    }
+
+    public List<SavedDateCourseDto> findSavedCourseList(String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
+                new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
+        );
+        return dateCourseRepository.findAllSavedCourseByUserId(user.getId());
     }
 }

@@ -2,11 +2,14 @@ package me.toy.server.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.UserDto;
+import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.LoginUser;
 import me.toy.server.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,5 +41,15 @@ public class UserController {
     @GetMapping("/user/savedcourse")
     public ResponseEntity<?> getUserSavedCourse(@LoginUser String userEmail){
         return ResponseEntity.ok().body(userService.findSavedCourse(userEmail));
+    }
+
+    @GetMapping("/user/mycourse")
+    public ResponseEntity<?> getMyCourseList(@LoginUser String userEmail){
+        return ResponseEntity.ok().body(userService.findMyCourse(userEmail));
+    }
+
+    @GetMapping("/user/savedcourse/list")
+    public ResponseEntity<?> getSavedCourseList(@LoginUser String userEmail){
+        return ResponseEntity.ok().body(userService.findSavedCourseList(userEmail));
     }
 }

@@ -41,17 +41,4 @@ public class User {
     @OneToMany
     private List<Comment> comments = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", email='" + email + '\'' +
-                ", provider=" + provider +
-                ", providerId='" + providerId + '\'' +
-                ", dateCourses=" + dateCourses +
-                '}';
-    }
 }

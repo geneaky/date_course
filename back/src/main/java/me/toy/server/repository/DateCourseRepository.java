@@ -2,6 +2,7 @@ package me.toy.server.repository;
 
 import me.toy.server.dto.CurrentLocationDateCourseDto;
 import me.toy.server.dto.RecentDateCourseDto;
+import me.toy.server.dto.SavedDateCourseDto;
 import me.toy.server.dto.ThumbUpDateCourseDto;
 import me.toy.server.entity.DateCourse;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,4 +34,12 @@ public interface DateCourseRepository extends JpaRepository <DateCourse,Long> {
     @Modifying
     @Query("update DateCourse d set d.thumbUp = d.thumbUp + 1 where d.id = :dateCourseId")
     void plusThumbUp(@Param("dateCourseId") Long dateCourseId);
+
+    @Modifying
+    @Query("select d from DateCourse d where d.user.id = :userId")
+    List<RecentDateCourseDto> findAllDateCourseByUserId(@Param("userId")Long userId);
+
+    @Modifying
+    @Query("select s from SavedCourse s where s.user.id = :userId ")
+    List<SavedDateCourseDto> findAllSavedCourseByUserId(@Param("userId")Long userId);
 }
