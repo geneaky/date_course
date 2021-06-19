@@ -1,0 +1,64 @@
+spring:
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 10MB
+
+  datasource:
+    url: jdbc:mysql://datecoures-db.cqbbxt9teugc.ap-northeast-2.rds.amazonaws.com:3306/DateCourseDataBase?serverTimezone=UTC&characterEncoding=UTF-8
+    username: kaktus418
+    password: aknes8002
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        #show_sql: true
+        format_sql: true
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 2000
+        one-indexed-parameters: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 268835850747-65ln6hknjlni444egh9tfqu2gabr3t4i.apps.googleusercontent.com
+            client-secret: 8Km7wTWOgb1TZn_JUOe4elUW
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+logging.level:
+  org.hibernate.SQL: debug
+  #org.hibernate.type: trace
+
+app:
+  auth:
+    tokenSecret: geneaky
+    tokenExpirationMsec: 864000000
+  oauth2:
+    authorizedRedirectUris:
+      - http://3.34.83.151:3000/oauth2/redirect
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIA4IGL4EPNQNIL6AUJ
+      secret-key: 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
+    stack:
+      auto: false
+    region:
+      static: ap-northeast-2
+    s3:
+      image:
+        bucket: datecourse
