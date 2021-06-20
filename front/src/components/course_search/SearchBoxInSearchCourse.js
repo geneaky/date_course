@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SearchIcon from "@material-ui/icons/Search";
 import { searchOptionDateCourseList } from "../../api/DateCourseApi";
 import { useDispatch } from "react-redux";
+import { setSearchOption } from "../../store/store";
 
 const SearchBoxInSearchCourse = () => {
   const dispatcher = useDispatch();
@@ -11,7 +12,7 @@ const SearchBoxInSearchCourse = () => {
   const searchCourseList = (e) => {
     if (e.key === "Enter") {
       searchOptionDateCourseList(dispatcher, selectedOption);
-      dispatcher(setSelectedOption(selectedOption));
+      dispatcher(setSearchOption(selectedOption));
       setSearchKeyWord("");
     }
   };
