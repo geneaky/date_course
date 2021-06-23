@@ -2,14 +2,11 @@ package me.toy.server.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.UserDto;
-import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.LoginUser;
 import me.toy.server.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,13 +25,13 @@ public class UserController {
 
     @PostMapping("/user/saved/{courseId}")
     public ResponseEntity<?> registUserSavedCourse(@PathVariable Long courseId,@LoginUser String userEmail){
-        userService.registUserCourse(courseId,userEmail);
+        userService.registSavedCourse(courseId,userEmail);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/user/saved/{courseId}")
     public ResponseEntity<?>  deleteUserSavedCourse(@PathVariable Long courseId,@LoginUser String userEmail){
-        userService.deleteUserCourse(courseId,userEmail);
+        userService.deleteSavedCourse(courseId,userEmail);
         return ResponseEntity.ok().build();
     }
 

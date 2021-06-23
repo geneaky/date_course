@@ -36,14 +36,18 @@ public class UserService {
         User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
                 new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
         );
-        List<Long> result = user.getLikes()
-                .stream()
-                .map(like -> like.getDateCourse().getId())
-                .collect(Collectors.toList());
+        List<Long> result = getLikedCourseIdList(user);
         return result;
     }
 
-    public void registUserCourse(Long courseId, String userEmail) {
+    private List<Long> getLikedCourseIdList(User user) {
+        return user.getLikes()
+                .stream()
+                .map(like -> like.getDateCourse().getId())
+                .collect(Collectors.toList());
+    }
+
+    public Long registSavedCourse(Long courseId, String userEmail) {
         User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
                 new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
         );
@@ -51,6 +55,7 @@ public class UserService {
                 new DateCourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
         SavedCourse savedCourse = new SavedCourse(user,dateCourse);
         savedCourseRepository.save(savedCourse);
+        return savedCourse.getId();
     }
 
     public List<Long> findSavedCourse(String userEmail) {
@@ -58,15 +63,19 @@ public class UserService {
                 new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
         );
 
-        List<Long> result = user.getSavedCourses()
-                .stream()
-                .map(savedCourse -> savedCourse.getDateCourse().getId())
-                .collect(Collectors.toList());
+        List<Long> result = getSavedCourseIdList(user);
 
         return result;
     }
 
-    public void deleteUserCourse(Long courseId, String userEmail) {
+    private List<Long> getSavedCourseIdList(User user) {
+        return user.getSavedCourses()
+                .stream()
+                .map(savedCourse -> savedCourse.getDateCourse().getId())
+                .collect(Collectors.toList());
+    }
+
+    public void deleteSavedCourse(Long courseId, String userEmail) {
         User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
                 new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
         );
