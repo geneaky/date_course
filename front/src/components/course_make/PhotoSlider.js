@@ -4,21 +4,16 @@ import Slider from "react-slick";
 import styled from "styled-components";
 
 const PhotoSlider = () => {
-  const courses = useSelector((store) => store.course);
   const [previewImg, setPreviewImg] = useState([]);
+  const previewPhotos = useSelector((store) => store.previewPhotos);
 
   useEffect(() => {
     let newPhotos = [];
-    courses.map((course) => {
-      if (course.location.user?.photos) {
-        newPhotos = [
-          ...newPhotos,
-          URL.createObjectURL(course.location.user.photos[0]),
-        ];
-      }
+    previewPhotos.map((photo) => {
+      newPhotos = [...newPhotos, URL.createObjectURL(photo[0])];
     });
     setPreviewImg(newPhotos);
-  }, [courses]);
+  }, [previewPhotos]);
 
   return (
     <StyledPhotoSlider {...settings}>

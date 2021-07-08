@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { createRef, useRef, useState } from "react";
+import React from "react";
 
 const Login = () => {
   return (
@@ -7,9 +7,9 @@ const Login = () => {
       <h2>Open DateCourse</h2>
       <p>간편하게 로그인하고</p>
       <h3>데이트 코스를 공유하세요</h3>
-      {/* 나중에 https 주소 도메인 신청해서 바꾸자 */}
       <StyledLoginButton>
         <a href="http://opendatecourse.duckdns.org:3030/oauth2/authorize/google?redirect_uri=http://opendatecourse.duckdns.org/oauth2/redirect">
+          {/* <a href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect"> */}
           <img
             alt="Google login"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"

@@ -15,7 +15,6 @@ const CourseMenu = () => {
   const user = useSelector((store) => store.user);
   const dispatcher = useDispatch();
   const presentButton = () => {
-    console.log(user);
     if (user) {
       if (toggleButton === "코스 만들기") {
         dispatcher(resetCourse());

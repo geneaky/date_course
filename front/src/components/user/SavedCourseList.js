@@ -5,7 +5,6 @@ import CourseInfo from "../course_search/CourseInfo";
 
 const SavedCourseList = () => {
   const savedCourseList = useSelector((store) => store.savedCourseList);
-  console.log(savedCourseList);
   return (
     <StyledMyCourseListDiv>
       {savedCourseList?.map((course, index) => (

@@ -24,6 +24,11 @@ export const toggleSavedCourseMenu = (data) => ({
   payload: data,
 });
 export const togglePhotoModal = () => ({ type: "TOGGLE_PHOTOMODAL" });
+export const setPreviewPhotos = (photo) => ({
+  type: "SET_PREVIEW_PHOTOS",
+  payload: photo,
+});
+export const clearPreviewPhotos = () => ({ type: "CLEAR_PREVIEW_PHOTOS" });
 export const setLocation = (location) => ({
   type: "SET_LOCATION",
   payload: location,
@@ -73,6 +78,7 @@ const initstate = {
   myCourseMenu: false,
   savedCourseMenu: false,
   photoModal: false,
+  previewPhotos: [],
   location: {
     place: {},
   },
@@ -112,6 +118,13 @@ const reducer = (state = initstate, action) => {
       return { ...state, sideMenu: action.payload };
     case "TOGGLE_PHOTOMODAL":
       return { ...state, photoModal: !state.photoModal };
+    case "SET_PREVIEW_PHOTOS":
+      return {
+        ...state,
+        previewPhotos: [...state.previewPhotos, action.payload],
+      };
+    case "CLEAR_PREVIEW_PHOTOS":
+      return { ...state, previewPhotos: [] };
     case "TOGGLE_MY_COURSE_MENU":
       return { ...state, myCourseMenu: action.payload };
     case "TOGGLE_SAVED_COURSE_MENU":

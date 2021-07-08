@@ -1,11 +1,5 @@
 /*global kakao*/
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Comment from "./Comment";
@@ -61,15 +55,19 @@ const CourseDetail = ({ course }) => {
   }, [courseLength]);
 
   const saveCourse = async () => {
-    const token = localStorage.getItem("accessToken");
-    const url = `/user/saved/${course.id}`;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    await axios.post(url, null, config);
-    savedCourseList(dispatcher);
+    if (!user) {
+      alert("코스 저장하려면 로그인 해주세요");
+    } else {
+      const token = localStorage.getItem("accessToken");
+      const url = `/user/saved/${course.id}`;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      await axios.post(url, null, config);
+      savedCourseList(dispatcher);
+    }
   };
 
   const deleteCourse = async () => {
@@ -85,15 +83,19 @@ const CourseDetail = ({ course }) => {
   };
 
   const thumbUp = async () => {
-    const token = localStorage.getItem("accessToken");
-    const url = `/datecourse/like/${course.id}`;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    await axios.put(url, null, config);
-    likedCourseList(dispatcher);
+    if (!user) {
+      alert("좋아요 누르려면 로그인해주세요");
+    } else {
+      const token = localStorage.getItem("accessToken");
+      const url = `/datecourse/like/${course.id}`;
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      await axios.put(url, null, config);
+      likedCourseList(dispatcher);
+    }
   };
 
   const commentRegist = async () => {
@@ -179,7 +181,7 @@ const CourseDetail = ({ course }) => {
           이전 코스
         </button>
         {/* 추후 수정 기능 추가시 여기서 ui 설계를 시작해야함 */}
-        {user.name === course.userName ? null : userSavedCourse?.includes(
+        {user?.name === course.userName ? null : userSavedCourse?.includes(
             course.id
           ) ? (
           <button onClick={deleteCourse}>Saved</button>

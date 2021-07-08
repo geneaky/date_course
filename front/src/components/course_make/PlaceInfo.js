@@ -1,21 +1,13 @@
 /*global kakao*/
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { clearMarker, setLocation, setMarker } from "../../store/store";
+import { setLocation, setMarker } from "../../store/store";
 
 const PlaceInfo = ({ result }) => {
   const map = useSelector((store) => store.map);
   const selectedMarker = useSelector((store) => store.marker);
   const dispatcher = useDispatch();
-  // useEffect(() => { 검색 결과 리스트에서 마커 출력할 때 사용할 로직 일단 놔두자
-  //   let marker = new kakao.maps.Marker({
-  //     map: map,
-  //     position: new kakao.maps.LatLng(result.posY, result.posX),
-  //   });
-  //   marker.setMap(map);
-  //   dispatcher(setMarker(marker));
-  // }, [result]);
 
   const onClick = () => {
     selectedMarker.forEach((marker) => {

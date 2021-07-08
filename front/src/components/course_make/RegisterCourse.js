@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import PhotoModal from "./PhotoModal";
 import {
   clearLocation,
+  clearPreviewPhotos,
   registerCourse,
   resetCourse,
   resetPlaces,
+  setPreviewPhotos,
   togglePhotoModal,
 } from "../../store/store";
 
@@ -16,14 +18,13 @@ const RegisterCourse = () => {
   const [file, setFile] = useState();
   const [text, setText] = useState();
   const [hashTag, setHashTag] = useState([]);
-  const [title, setTitle] = useState();
   const courses = useSelector((store) => store.course);
   const location = useSelector((store) => store.location);
   const photoModal = useSelector((store) => store.photoModal);
   const dispatcher = useDispatch();
   const history = useHistory();
 
-  const RegisterForm = async (courses) => {
+  const RegisterForm = async (courses, title) => {
     const token = localStorage.getItem("accessToken");
     const url = "/datecourse";
     const config = {
@@ -63,8 +64,6 @@ const RegisterCourse = () => {
     if (location.place.placeName) {
       const hash = Array.from(new Set(text?.match(/(#[^\s#]+)/g)));
       const mainText = text?.replace(/#[^\s#]+/g, "").trim();
-      console.log(mainText);
-      console.log(hash);
       setHashTag([...hashTag, hash]);
       dispatcher(
         registerCourse({
@@ -94,17 +93,12 @@ const RegisterCourse = () => {
           style={{ display: "none" }}
           onChange={(e) => {
             setFile(e.target.files);
+            dispatcher(setPreviewPhotos(e.target.files));
           }}
         />
         <button
           onClick={() => {
-            let temp = false;
-            courses.forEach((course) => {
-              if (course?.location.user.photos) {
-                temp = true;
-              }
-            });
-            if (temp) {
+            if (file) {
               dispatcher(togglePhotoModal());
             } else {
               alert("장소에 사진을 등록해주세요");
@@ -114,11 +108,6 @@ const RegisterCourse = () => {
           Check Course Photos
         </button>
       </StyledPhotoFeat>
-      <input
-        placeholder="제목"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
       <textarea value={text} onChange={(e) => setText(e.target.value)} />
       <StyledChooseButton>
         <button
@@ -128,18 +117,16 @@ const RegisterCourse = () => {
         >
           RESET
         </button>
-        <button onClick={decideLocation}>Next LOCATION</button>
+        <button onClick={decideLocation}>Regist LOCATION</button>
       </StyledChooseButton>
       <button
         onClick={() => {
+          const title = prompt("제목 입력");
           if (courses.length !== 0) {
-            if (title != null) {
-              RegisterForm(courses);
-              dispatcher(resetCourse());
-              history.go(0);
-            } else {
-              alert("제목을 등록해주세요");
-            }
+            RegisterForm(courses, title).then();
+            dispatcher(resetCourse());
+            dispatcher(clearPreviewPhotos());
+            history.go(0);
           } else {
             alert("코스를 등록해주세요");
           }
@@ -155,17 +142,9 @@ const StyledRegisterCourse = styled.div`
   * {
     display: block;
   }
-  input {
-    width: 91%;
-    border: none;
-    outline: none;
-    font-size: 16px;
-    padding: 10px;
-    margin: auto 12px;
-  }
   textarea {
     width: 91%;
-    height: 181px;
+    height: 220px;
     resize: none;
     border: 2px solid lightcoral;
     outline: none;

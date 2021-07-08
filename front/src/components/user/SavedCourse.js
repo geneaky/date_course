@@ -6,12 +6,14 @@ import {
   likedCourseList,
   savedCourseList,
 } from "../../api/UserApi";
+import { setSelectedDatecourse } from "../../store/store";
 import Course from "../course_search/Course";
 import SavedCourseList from "./SavedCourseList";
 
 const SavedCourse = () => {
   const dispatcher = useDispatch();
   useEffect(() => {
+    dispatcher(setSelectedDatecourse(null));
     getSavedCourseList(dispatcher);
     savedCourseList(dispatcher);
     likedCourseList(dispatcher);

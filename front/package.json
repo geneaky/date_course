@@ -47,5 +47,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://opendatecourse.duckdns.org:3030"
+  "proxy": "http://opendatecourse.duckdns.org:3030",
+  "//": "http://opendatecourse.duckdns.org:3030"
 }
