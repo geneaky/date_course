@@ -9,6 +9,7 @@ import me.toy.server.entity.User;
 import me.toy.server.repository.DateCourseRepository;
 import me.toy.server.repository.LocationRepository;
 import me.toy.server.repository.UserRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,8 +26,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DateCourseServiceTest {
@@ -39,16 +41,10 @@ class DateCourseServiceTest {
     LocationRepository locationRepository;
     @Mock
     S3Uploader s3Uploader;
-    @Mock
-    RegistDateCourseRequestDtoList requestDtoList;
-    @Mock
-    RegistDateCourseRequestDto requestDto;
-
     @InjectMocks
     DateCourseService dateCourseService;
 
     @Test
-    @Disabled
     public void 데이트코스_등록() throws Exception
     {
         //given
@@ -56,13 +52,19 @@ class DateCourseServiceTest {
         String title = "testTitle";
         User user = new User();
         user.setEmail(userEmail);
-        MockMultipartFile multipartFile = new MockMultipartFile("file","test","MultipartFile","test".getBytes());
+        RegistDateCourseRequestDtoList requestDtoList = mock(RegistDateCourseRequestDtoList.class);
+        ArrayList<RegistDateCourseRequestDto> list = new ArrayList<>();
+        RegistDateCourseRequestDto requestDto = mock(RegistDateCourseRequestDto.class);
+        list.add(requestDto);
         //when
         when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-        when(requestDto.getFile()).thenReturn(multipartFile);
-        dateCourseService.regist(requestDtoList,title,userEmail);
-        List<RecentDateCourseDto> allDateCourseByUserId = dateCourseRepository.findAllDateCourseByUserId(user.getId());
+        when(requestDtoList.getLocationList()).thenReturn(list);
+        when(requestDto.getFile()).thenReturn(null);
         //then
-        assertEquals(allDateCourseByUserId.size(),1);
+        dateCourseService.regist(requestDtoList,title,userEmail);
+        verify(userRepository,atLeastOnce()).findByEmail(userEmail);
+        verify(dateCourseRepository,times(1)).save(any());
+        verify(s3Uploader,never()).upload(any(),any());
+        verify(locationRepository,times(1)).save(any());
     }
 }

@@ -31,24 +31,28 @@ public class DateCourseService {
         User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
             new UserNotFoundException("그런 이메일을 가진 사용자는 없습니다.")
         );
+
         DateCourse dateCourse = new DateCourse(user,0L,title);
         dateCourseRepository.save(dateCourse);
+
         for(RegistDateCourseRequestDto requestDto: requestDtoList.getLocationList()){
             if(requestDto.getFile()==null){
-                Location location = new Location(requestDto,"");
-                location.setDateCourse(dateCourse);
-                locationRepository.save(location);
-                tagFindCircuit(requestDto, location);
+                registerLocationsInDateCourse(dateCourse, requestDto, "");
                 continue;
             }
             String fileSaveName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")) + ".jpg";
-            Location location = new Location(requestDto,fileSaveName);
-            location.setDateCourse(dateCourse);
-            locationRepository.save(location);
-            tagFindCircuit(requestDto, location);
+            registerLocationsInDateCourse(dateCourse, requestDto, fileSaveName);
             s3Uploader.upload(requestDto.getFile(),fileSaveName);
         }
     }
+
+    private void registerLocationsInDateCourse(DateCourse dateCourse, RegistDateCourseRequestDto requestDto, String fileSaveName) {
+        Location location = new Location(requestDto, fileSaveName);
+        location.setDateCourse(dateCourse);
+        locationRepository.save(location);
+        tagFindCircuit(requestDto, location);
+    }
+
     private void tagFindCircuit(RegistDateCourseRequestDto requestDto, Location location) {
         for(String hashTag:requestDto.getHashTag()){
             Optional<Tag> opTag = tagRepository.findByTagName(hashTag);
