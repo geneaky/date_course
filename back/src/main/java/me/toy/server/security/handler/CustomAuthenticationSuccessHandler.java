@@ -1,7 +1,6 @@
 package me.toy.server.security.handler;
 
 import lombok.RequiredArgsConstructor;
-import me.toy.server.config.AppProperties;
 import me.toy.server.exception.BadRequestException;
 import me.toy.server.security.jwt.JwtTokenProvider;
 import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
@@ -16,7 +15,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URI;
 import java.util.Optional;
 
 import static me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
@@ -27,7 +25,6 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     private final JwtTokenProvider tokenProvider;
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
-    private final AppProperties appProperties;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -37,7 +34,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             logger.debug("response has already committed.unable to redirect to"+targetUrl);
             return;
         }
-        clearAuthenticationAttributes(request,response);
+        clearAuthenticationAttributes(request,response);//jwt 방식은 로그인시 session에 데이터를 저장할 이유가 없기때문에 이미 있는 데이터를 비워준다.
         getRedirectStrategy().sendRedirect(request,response,targetUrl);
     }
 
@@ -45,8 +42,8 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         Optional<String> redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
 
-        if(!redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())){
-            throw new BadRequestException("Unauthorized redirect rui and can't proceed whit th authentication");
+        if(!redirectUri.isPresent()){
+            throw new BadRequestException("Unauthorized redirect uri and can't proceed whit th authentication");
         }
 
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
@@ -61,20 +58,5 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     protected void clearAuthenticationAttributes(HttpServletRequest request,HttpServletResponse response){
         super.clearAuthenticationAttributes(request);
         httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request,response);
-    }
-
-    private boolean isAuthorizedRedirectUri(String uri) {
-        URI clientRedirectUri = URI.create(uri);
-
-        return appProperties.getOauth2().getAuthorizedRedirectUris()
-                .stream()
-                .anyMatch(authorizedRedirectUri -> {
-                    URI authorizedURI = URI.create(authorizedRedirectUri);
-                    if(authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
-                        && authorizedURI.getPort() == clientRedirectUri.getPort()){
-                        return true;
-                    }
-                    return false;
-                });
     }
 }

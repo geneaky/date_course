@@ -9,7 +9,6 @@ import me.toy.server.security.oauth2.user.UserPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Service
@@ -55,12 +54,5 @@ public class JwtTokenProvider {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public long getUserIdFromRequest(HttpServletRequest request) {
-        String Header = request.getHeader("Authorization");
-        String token = Header.replace("Bearer ","");
-        Claims claims = getClaims(token);
-        return Long.parseLong(claims.getSubject());
     }
 }

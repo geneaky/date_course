@@ -1,6 +1,8 @@
 package me.toy.server.config;
 
 import lombok.RequiredArgsConstructor;
+import me.toy.server.entity.User;
+import me.toy.server.repository.UserRepository;
 import me.toy.server.security.jwt.TokenAuthenticationFilter;
 import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import me.toy.server.security.handler.CustomAuthenticationFailureHandelr;
@@ -8,6 +10,7 @@ import me.toy.server.security.handler.CustomAuthenticationSuccessHandler;
 import me.toy.server.security.oauth2.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.annotation.PostConstruct;
 
 @Configuration
 @EnableWebSecurity
@@ -27,11 +32,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래�
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final CustomAuthenticationFailureHandelr customAuthenticationFailureHandelr;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
+    private final UserRepository userRepository;
 
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @PostConstruct
+    @Profile("dev")
+    public void settingUserTest(){
+        User user = new User();
+        user.setEmail("test@naver.com");
+        user.setName("test@naver.com");
+        userRepository.save(user);
     }
 
     @Override
