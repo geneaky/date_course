@@ -20,6 +20,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.util.Optional;
 
 @Configuration
 @EnableWebSecurity
@@ -45,8 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래�
     public void settingUserTest(){
         User user = new User();
         user.setEmail("test@naver.com");
-        user.setName("test@naver.com");
+        user.setName("testUser");
         userRepository.save(user);
+    }
+
+    @PreDestroy
+    @Profile("dev")
+    public void clearSettingUserTest(){
+        Optional<User> testUser = userRepository.findByEmail("test@naver.com");
+        userRepository.delete(testUser.get());
     }
 
     @Override
@@ -62,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래�
                     .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                     .antMatchers("/datecourse/like/**").access("hasRole('ROLE_USER')")
                     .antMatchers("/user/saved/**").access("hasRole('ROLE_USER')")
+                    .antMatchers("/v2/api-docs","/swagger-ui/**","/swagger-resources/**","/webjars/**").permitAll()
                     .antMatchers("/auth/**","/oauth2/**","/datecourse/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
@@ -81,4 +91,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { //이 클래�
 
         http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
 }
