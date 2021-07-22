@@ -13,16 +13,16 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "tag_id")
-    private Long id;
-    private String tagName;
+  @Id
+  @GeneratedValue
+  @Column(name = "tag_id")
+  private Long id;
+  private String tagName;
 
-    @OneToMany(mappedBy = "tag")
-    private List<LocationTag> locationTags = new ArrayList<>();
+  @OneToMany(mappedBy = "tag")
+  private List<LocationTag> locationTags = new ArrayList<>();
 
-    public Tag(String tagName){
-        this.tagName = tagName;
-    }
+  public Tag(String tagName) {
+    this.tagName = tagName;
+  }
 }

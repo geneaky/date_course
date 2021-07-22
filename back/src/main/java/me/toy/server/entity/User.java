@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 @Entity
 @Getter
 @Setter
@@ -17,29 +16,30 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class User {
-    @Id
-    @GeneratedValue
-    @Column(name ="user_id")
-    private Long id;
-    private String name;
-    @JsonIgnore
-    private String password;
-    private String imageUrl;
-    private String email;
-    @Enumerated(EnumType.STRING)
-    private AuthProvider provider;
-    private String providerId;
 
-    @OneToMany
-    private List<DateCourse> dateCourses = new ArrayList<>();
+  @Id
+  @GeneratedValue
+  @Column(name = "user_id")
+  private Long id;
+  private String name;
+  @JsonIgnore
+  private String password;
+  private String imageUrl;
+  private String email;
+  @Enumerated(EnumType.STRING)
+  private AuthProvider provider;
+  private String providerId;
 
-    @OneToMany
-    private List<SavedCourse> savedCourses = new ArrayList<>();
+  @OneToMany
+  private List<DateCourse> dateCourses = new ArrayList<>();
 
-    @OneToMany
-    private List<Like> likes = new ArrayList<>();
+  @OneToMany
+  private List<SavedCourse> savedCourses = new ArrayList<>();
 
-    @OneToMany
-    private List<Comment> comments = new ArrayList<>();
+  @OneToMany
+  private List<Like> likes = new ArrayList<>();
+
+  @OneToMany
+  private List<Comment> comments = new ArrayList<>();
 
 }

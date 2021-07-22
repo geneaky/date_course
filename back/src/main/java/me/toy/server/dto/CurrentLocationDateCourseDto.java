@@ -10,18 +10,18 @@ import java.util.stream.Collectors;
 @Data
 public class CurrentLocationDateCourseDto {
 
-    private Long id;
+  private Long id;
 
-    private Long thumbUp;
+  private Long thumbUp;
 
-    private List<CurrentLocationDto> locations;
+  private List<CurrentLocationDto> locations;
 
-    public CurrentLocationDateCourseDto(DateCourse dateCourse) {
-        this.id = dateCourse.getId();
-        this.thumbUp = dateCourse.getThumbUp();
-        this.locations = dateCourse.getLocations()
-                .stream()
-                .map(location -> new CurrentLocationDto(location))
-                .collect(Collectors.toList());
-    }
+  public CurrentLocationDateCourseDto(DateCourse dateCourse) {
+    this.id = dateCourse.getId();
+    this.thumbUp = dateCourse.getThumbUp();
+    this.locations = dateCourse.getLocations()
+        .stream()
+        .map(location -> new CurrentLocationDto(location))
+        .collect(Collectors.toList());
+  }
 }

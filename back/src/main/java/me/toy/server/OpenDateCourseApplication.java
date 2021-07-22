@@ -13,15 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableConfigurationProperties(AppProperties.class)
 public class OpenDateCourseApplication {
 
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder(){
-		return new BCryptPasswordEncoder();
-	}
+  public static void main(String[] args) {
 
+    SpringApplication.run(OpenDateCourseApplication.class, args);
 
-	public static void main(String[] args) {
+  }
 
-		SpringApplication.run(OpenDateCourseApplication.class, args);
-
-	}
+  @Bean
+  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 }

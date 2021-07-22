@@ -12,10 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 public class RegistDateCourseRequestDto {
 
-    private MultipartFile file;
-    private String placeName;
-    private float posX;
-    private float posY;
-    private String text;
-    private List<String> hashTag;
+  private MultipartFile file;
+  private String placeName;
+  private float posX;
+  private float posY;
+  private String text;
+  private List<String> hashTag;
 }

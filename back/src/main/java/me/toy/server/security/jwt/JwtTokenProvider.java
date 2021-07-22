@@ -10,49 +10,54 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    private final AppProperties appProperties;
+  private final AppProperties appProperties;
 
-    public String create(Authentication authentication){
-        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+  public String create(Authentication authentication) {
+    UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
 
-        Date now = new Date();
-        Date expireDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
+    Date now = new Date();
+    Date expireDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
 
-        String token = Jwts.builder()
-                .setSubject(Long.toString(principal.getId()))
-                .setIssuedAt(new Date())
-                .setExpiration(expireDate)
-                .signWith(SignatureAlgorithm.HS256,appProperties.getAuth().getTokenSecret()).compact();
+    String token = Jwts.builder()
+        .setSubject(principal.getEmail())
+        .setIssuedAt(new Date())
+        .setExpiration(expireDate)
+        .signWith(SignatureAlgorithm.HS256, appProperties.getAuth().getTokenSecret()).compact();
 
-        return token;
+    return token;
+  }
+
+  public Claims getClaims(String token) {
+    Claims claims = Jwts.parser()
+        .setSigningKey(appProperties.getAuth().getTokenSecret())
+        .parseClaimsJws(token)
+        .getBody();
+
+    return claims;
+  }
+
+  public Map<String, Object> getUserParseInfo(String token) {
+    Claims parseInfo = getClaims(token);
+    Map<String, Object> result = new HashMap<>();
+    result.put("userEmail", parseInfo.getSubject());
+    return result;
+  }
+
+  public boolean validateToken(String authToken) {
+    try {
+      Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret())
+          .parseClaimsJws(authToken);
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-
-    public Claims getClaims(String token){
-        Claims claims = Jwts.parser()
-                .setSigningKey(appProperties.getAuth().getTokenSecret())
-                .parseClaimsJws(token)
-                .getBody();
-
-        return claims;
-    }
-
-    public long getUserIdFromToken(String token){
-        Claims claims = getClaims(token);
-        return Long.parseLong(claims.getSubject());
-    }
-
-    public boolean validateToken(String authToken){
-        try{
-            Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return false;
-    }
+    return false;
+  }
 }

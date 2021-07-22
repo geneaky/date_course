@@ -13,5 +13,5 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class RegistDateCourseRequestDtoList {
 
-    private ArrayList<RegistDateCourseRequestDto> locationList;
+  private ArrayList<RegistDateCourseRequestDto> locationList;
 }

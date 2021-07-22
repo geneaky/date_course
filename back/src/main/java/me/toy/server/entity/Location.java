@@ -12,42 +12,42 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Location {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "location_id")
-    private Long id;
-    private String locationName;
-    private String text;
+  @Id
+  @GeneratedValue
+  @Column(name = "location_id")
+  private Long id;
+  private String locationName;
+  private String text;
 
-    private String photoUrl;
-    private float posx;
-    private float posy;
+  private String photoUrl;
+  private float posx;
+  private float posy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="datecourse_id")
-    private DateCourse dateCourse;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "datecourse_id")
+  private DateCourse dateCourse;
 
-    @OneToMany(mappedBy = "location")
-    private List<LocationTag> locationTags = new ArrayList<>();
+  @OneToMany(mappedBy = "location")
+  private List<LocationTag> locationTags = new ArrayList<>();
 
-    public Location(RegistDateCourseRequestDto requestDto,String photoUrl){
-        this.locationName = requestDto.getPlaceName();
-        this.text = requestDto.getText();
-        this.posx = requestDto.getPosX();
-        this.posy = requestDto.getPosY();
-        this.photoUrl = photoUrl;
-    }
+  public Location(RegistDateCourseRequestDto requestDto, String photoUrl) {
+    this.locationName = requestDto.getPlaceName();
+    this.text = requestDto.getText();
+    this.posx = requestDto.getPosX();
+    this.posy = requestDto.getPosY();
+    this.photoUrl = photoUrl;
+  }
 
-    public Location(String locationName, String text, String photoUrl, float posx, float posy) {
-        this.locationName = locationName;
-        this.text = text;
-        this.photoUrl = photoUrl;
-        this.posx = posx;
-        this.posy = posy;
-    }
+  public Location(String locationName, String text, String photoUrl, float posx, float posy) {
+    this.locationName = locationName;
+    this.text = text;
+    this.photoUrl = photoUrl;
+    this.posx = posx;
+    this.posy = posy;
+  }
 
-    public void setDateCourse(DateCourse dateCourse){
-        this.dateCourse = dateCourse;
-        dateCourse.getLocations().add(this);
-    }
+  public void setDateCourse(DateCourse dateCourse) {
+    this.dateCourse = dateCourse;
+    dateCourse.getLocations().add(this);
+  }
 }

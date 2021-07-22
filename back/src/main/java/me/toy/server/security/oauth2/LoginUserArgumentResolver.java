@@ -19,27 +19,27 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @RequiredArgsConstructor
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
 
-    @Override
-    public boolean supportsParameter(MethodParameter parameter) {
-        Authentication authentication = SecurityContextHolder
-                .getContext().getAuthentication();
-        return parameter.getParameterAnnotation(LoginUser.class) != null
-                && authentication instanceof UsernamePasswordAuthenticationToken;
-    }
+  @Override
+  public boolean supportsParameter(MethodParameter parameter) {
+    Authentication authentication = SecurityContextHolder
+        .getContext().getAuthentication();
+    return parameter.getParameterAnnotation(LoginUser.class) != null
+        && authentication instanceof UsernamePasswordAuthenticationToken;
+  }
 
-    @Override
-    public Object resolveArgument(MethodParameter parameter,
-                                  ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest,
-                                  WebDataBinderFactory binderFactory) throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+  @Override
+  public Object resolveArgument(MethodParameter parameter,
+      ModelAndViewContainer mavContainer,
+      NativeWebRequest webRequest,
+      WebDataBinderFactory binderFactory) throws Exception {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if(authentication instanceof UsernamePasswordAuthenticationToken){
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    (UsernamePasswordAuthenticationToken) authentication;
-            UserPrincipal userPrincipal = (UserPrincipal) authenticationToken.getPrincipal();
-            return userPrincipal.getEmail();
-        }
-        return Strings.EMPTY;
+    if (authentication instanceof UsernamePasswordAuthenticationToken) {
+      UsernamePasswordAuthenticationToken authenticationToken =
+          (UsernamePasswordAuthenticationToken) authentication;
+      UserPrincipal userPrincipal = (UserPrincipal) authenticationToken.getPrincipal();
+      return userPrincipal.getEmail();
     }
+    return Strings.EMPTY;
+  }
 }

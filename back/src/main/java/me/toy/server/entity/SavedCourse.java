@@ -13,30 +13,30 @@ import java.util.List;
 @Getter
 public class SavedCourse {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+  @Id
+  @GeneratedValue
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    private User user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id")
+  private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="datecourse_id")
-    private DateCourse dateCourse;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "datecourse_id")
+  private DateCourse dateCourse;
 
-    public void setUser(User user){
-        this.user = user;
-        user.getSavedCourses().add(this);
-    }
+  public SavedCourse(User user, DateCourse dateCourse) {
+    setUser(user);
+    setDateCourse(dateCourse);
+  }
 
-    public void setDateCourse(DateCourse dateCourse){
-        this.dateCourse = dateCourse;
-        dateCourse.getSavedCourses().add(this);
-    }
+  public void setUser(User user) {
+    this.user = user;
+    user.getSavedCourses().add(this);
+  }
 
-    public SavedCourse(User user,DateCourse dateCourse){
-        setUser(user);
-        setDateCourse(dateCourse);
-    }
+  public void setDateCourse(DateCourse dateCourse) {
+    this.dateCourse = dateCourse;
+    dateCourse.getSavedCourses().add(this);
+  }
 }
