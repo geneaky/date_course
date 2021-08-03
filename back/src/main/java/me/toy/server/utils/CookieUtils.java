@@ -1,4 +1,4 @@
-package me.toy.server.security.util;
+package me.toy.server.utils;
 
 import org.springframework.util.SerializationUtils;
 

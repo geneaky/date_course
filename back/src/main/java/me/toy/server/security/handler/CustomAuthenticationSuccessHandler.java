@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.toy.server.exception.BadRequestException;
 import me.toy.server.security.jwt.JwtTokenProvider;
 import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import me.toy.server.security.util.CookieUtils;
+import me.toy.server.utils.CookieUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;

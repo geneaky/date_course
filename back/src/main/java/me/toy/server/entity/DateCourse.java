@@ -1,6 +1,5 @@
 package me.toy.server.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,6 @@ public class DateCourse {
   @GeneratedValue
   @Column(name = "datecourse_id")
   private Long id;
-  private Long thumbUp;
   private String dateCourseTitle;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -26,7 +24,7 @@ public class DateCourse {
   private User user;
 
   @OneToMany
-  private List<Like> likes = new ArrayList<>();
+  private List<UserDateCourseLike> userDateCourseLikes = new ArrayList<>();
 
   @OneToMany
   private List<Location> locations = new ArrayList<>();
@@ -35,11 +33,10 @@ public class DateCourse {
   private List<Comment> comments = new ArrayList<>();
 
   @OneToMany
-  private List<SavedCourse> savedCourses = new ArrayList<>();
+  private List<UserDateCourseSave> userDateCoursSaves = new ArrayList<>();
 
-  public DateCourse(User user, Long thumbUp, String dateCourseTitle) {
+  public DateCourse(User user, String dateCourseTitle) {
     setUser(user);
-    this.thumbUp = thumbUp;
     this.dateCourseTitle = dateCourseTitle;
   }
 

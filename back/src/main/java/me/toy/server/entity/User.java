@@ -34,10 +34,10 @@ public class User {
   private List<DateCourse> dateCourses = new ArrayList<>();
 
   @OneToMany
-  private List<SavedCourse> savedCourses = new ArrayList<>();
+  private List<UserDateCourseSave> userDateCoursSaves = new ArrayList<>();
 
   @OneToMany
-  private List<Like> likes = new ArrayList<>();
+  private List<UserDateCourseLike> userDateCourseLikes = new ArrayList<>();
 
   @OneToMany
   private List<Comment> comments = new ArrayList<>();

@@ -2,6 +2,7 @@ package me.toy.server.security.oauth2;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.entity.LoginUser;
+import me.toy.server.exception.UserNotFoundException;
 import me.toy.server.security.oauth2.user.UserPrincipal;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.core.MethodParameter;
@@ -33,13 +34,13 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
       NativeWebRequest webRequest,
       WebDataBinderFactory binderFactory) throws Exception {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+    System.out.println("resolveArgument 메서드 호출 ================");
     if (authentication instanceof UsernamePasswordAuthenticationToken) {
       UsernamePasswordAuthenticationToken authenticationToken =
           (UsernamePasswordAuthenticationToken) authentication;
       UserPrincipal userPrincipal = (UserPrincipal) authenticationToken.getPrincipal();
       return userPrincipal.getEmail();
     }
-    return Strings.EMPTY;
+    throw new UserNotFoundException("인증되지 않은 사용자의 요청입니다.");
   }
 }

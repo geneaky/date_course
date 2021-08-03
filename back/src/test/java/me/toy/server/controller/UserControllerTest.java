@@ -1,11 +1,11 @@
 package me.toy.server.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.toy.server.dto.RecentDateCourseDto;
-import me.toy.server.dto.SavedDateCourseDto;
-import me.toy.server.dto.UserDto;
+import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
+import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
+import me.toy.server.dto.UserResponseDto.UserDto;
 import me.toy.server.entity.DateCourse;
-import me.toy.server.entity.SavedCourse;
+import me.toy.server.entity.UserDateCourseSave;
 import me.toy.server.entity.User;
 import me.toy.server.service.UserService;
 import org.junit.jupiter.api.*;
@@ -43,7 +43,7 @@ class UserControllerTest {
   private ObjectMapper objectMapper;
 
   @Test
-  @DisplayName("사용자 정보 요청시 로그인한 사용자의 정보를 응답한다")
+  @DisplayName("로그인한 사용자가 사용자 정보 요청시 사용자 정보를 응답한다")
   public void getUserInfo() throws Exception {
     User user = new User();
     user.setName("testUser");
@@ -61,9 +61,9 @@ class UserControllerTest {
   @DisplayName("좋아요 누른 데이트 코스 요청시 사용자가 좋아요 누른 데이트 코스 ID 목록을 응답한다")
   public void getUserLikedDateCoure() throws Exception {
     List<Long> likeCourseList = new ArrayList<>(Arrays.asList(1L, 2L, 3L));
-    when(userService.findLikedCourse("test@naver.com")).thenReturn(likeCourseList);
+    when(userService.findLikedCourseIds("test@naver.com")).thenReturn(likeCourseList);
 
-    mockMvc.perform(get("/user/course/like"))
+    mockMvc.perform(get("/user/like/courses/ids"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(likeCourseList)))
         .andDo(print())
@@ -73,7 +73,7 @@ class UserControllerTest {
   @Test
   @DisplayName("사용자가 코스 저장 요청시 해당 코스를 저장한다")
   public void registUserSavedCourse() throws Exception {
-    mockMvc.perform(post("/user/course/save/1"))
+    mockMvc.perform(post("/user/save/courses/1"))
         .andDo(print())
         .andExpect(status().isOk());
 
@@ -83,7 +83,7 @@ class UserControllerTest {
   @Test
   @DisplayName("사용자가 저장한 코스를 저장 취소 요청시 저장한 코스에서 삭제한다")
   public void delteUserSavedCourse() throws Exception {
-    mockMvc.perform(delete("/user/course/save/1"))
+    mockMvc.perform(delete("/user/save/courses/1"))
         .andDo(print())
         .andExpect(status().isOk());
 
@@ -94,8 +94,8 @@ class UserControllerTest {
   @DisplayName("저장한 코스 목록 요청시 사용자가 저장한 코스 ID 목록을 반환한다")
   public void getUserSavedCourse() throws Exception {
     List<Long> savedCourseIDs = new ArrayList<>(Arrays.asList(1L, 2L, 3L, 4L));
-    when(userService.findSavedCourse("test@naver.com")).thenReturn(savedCourseIDs);
-    mockMvc.perform(get("/user/course/save"))
+    when(userService.findSavedCourseIds("test@naver.com")).thenReturn(savedCourseIDs);
+    mockMvc.perform(get("/user/save/courses/ids"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(savedCourseIDs)))
         .andDo(print())
@@ -108,8 +108,8 @@ class UserControllerTest {
     User user = new User();
     user.setName("testUser");
     user.setEmail("test@naver.com");
-    DateCourse dateCourse1 = new DateCourse(user, 0L, "testCousr1");
-    DateCourse dateCourse2 = new DateCourse(user, 0L, "testCousr2");
+    DateCourse dateCourse1 = new DateCourse(user, "testCousr1");
+    DateCourse dateCourse2 = new DateCourse(user, "testCousr2");
     RecentDateCourseDto dateCourseDto1 = new RecentDateCourseDto(dateCourse1);
     RecentDateCourseDto dateCourseDto2 = new RecentDateCourseDto(dateCourse2);
     List<RecentDateCourseDto> result = new ArrayList<>();
@@ -117,7 +117,7 @@ class UserControllerTest {
     result.add(dateCourseDto2);
     when(userService.findMyCourse("test@naver.com")).thenReturn(result);
 
-    mockMvc.perform(get("/user/course"))
+    mockMvc.perform(get("/user/courses"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(result)))
         .andDo(print())
@@ -130,19 +130,19 @@ class UserControllerTest {
     User user = new User();
     user.setName("testOtherUser");
     user.setEmail("testOtherUser@naver.com");
-    DateCourse dateCourse1 = new DateCourse(user, 0L, "testCousr1");
-    DateCourse dateCourse2 = new DateCourse(user, 0L, "testCousr2");
-    SavedCourse savedCourse1 = new SavedCourse(user, dateCourse1);
-    SavedCourse savedCourse2 = new SavedCourse(user, dateCourse2);
-    SavedDateCourseDto savedDateCourseDto1 = new SavedDateCourseDto(savedCourse1);
-    SavedDateCourseDto savedDateCourseDto2 = new SavedDateCourseDto(savedCourse2);
+    DateCourse dateCourse1 = new DateCourse(user, "testCousr1");
+    DateCourse dateCourse2 = new DateCourse(user, "testCousr2");
+    UserDateCourseSave userDateCourseSave1 = new UserDateCourseSave(user, dateCourse1);
+    UserDateCourseSave userDateCourseSave2 = new UserDateCourseSave(user, dateCourse2);
+    SavedDateCourseDto savedDateCourseDto1 = new SavedDateCourseDto(userDateCourseSave1);
+    SavedDateCourseDto savedDateCourseDto2 = new SavedDateCourseDto(userDateCourseSave2);
     List<SavedDateCourseDto> result = new ArrayList<>();
     result.add(savedDateCourseDto1);
     result.add(savedDateCourseDto2);
 
     when(userService.findSavedCourseList("test@naver.com")).thenReturn(result);
 
-    mockMvc.perform(get("/user/course/save/list"))
+    mockMvc.perform(get("/user/save/courses"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(result)))
         .andDo(print())

@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "likes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
-public class Like {
+public class UserDateCourseLike {
 
   @Id
   @GeneratedValue
@@ -25,19 +25,19 @@ public class Like {
   @JoinColumn(name = "datecourse_id")
   private DateCourse dateCourse;
 
-  public Like(User user, DateCourse dateCourse) {
+  public UserDateCourseLike(User user, DateCourse dateCourse) {
     setUser(user);
     setDateCourse(dateCourse);
   }
 
   public void setUser(User user) {
     this.user = user;
-    user.getLikes().add(this);
+    user.getUserDateCourseLikes().add(this);
   }
 
   public void setDateCourse(DateCourse dateCourse) {
     this.dateCourse = dateCourse;
-    dateCourse.getLikes().add(this);
+    dateCourse.getUserDateCourseLikes().add(this);
   }
 
 }

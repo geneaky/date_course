@@ -2,10 +2,10 @@ package me.toy.server.service;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.cloud.S3Uploader;
-import me.toy.server.dto.RecentDateCourseDto;
-import me.toy.server.dto.RegistDateCourseRequestDto;
-import me.toy.server.dto.RegistDateCourseRequestDtoList;
-import me.toy.server.dto.ThumbUpDateCourseDto;
+import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDto;
+import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDtoList;
+import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
+import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
 import me.toy.server.entity.*;
 import me.toy.server.exception.DateCourseNotFoundException;
 import me.toy.server.exception.UserNotFoundException;
@@ -27,17 +27,18 @@ public class DateCourseService {
   private final LocationRepository locationRepository;
   private final LocationTagRepository locationTagRepository;
   private final CommentRepository commentRepository;
-  private final LikeRepository likeRepository;
+  private final UserDateCourseLikeRepository userDateCourseLikeRepository;
   private final TagRepository tagRepository;
   private final S3Uploader s3Uploader;
 
+  @Transactional
   public void regist(RegistDateCourseRequestDtoList requestDtoList, String title,
       String userEmail) {
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일을 가진 사용자는 없습니다.")
     );
 
-    DateCourse dateCourse = new DateCourse(user, 0L, title);
+    DateCourse dateCourse = new DateCourse(user, title);
     dateCourseRepository.save(dateCourse);
 
     for (RegistDateCourseRequestDto requestDto : requestDtoList.getLocationList()) {
@@ -62,7 +63,7 @@ public class DateCourseService {
 
   private void tagFindCircuit(RegistDateCourseRequestDto requestDto, Location location) {
     for (String hashTag : requestDto.getHashTag()) {
-      Optional<Tag> opTag = tagRepository.findByTagName(hashTag);
+      Optional<Tag> opTag = tagRepository.findByName(hashTag);
       if (opTag.isPresent()) {
         LocationTag locationTag = new LocationTag(location, opTag.get());
         locationTagRepository.save(locationTag);
@@ -83,9 +84,8 @@ public class DateCourseService {
     DateCourse dateCourse = dateCourseRepository.findById(dateCourseId).orElseThrow(() ->
         new DateCourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
 
-    Like like = new Like(user, dateCourse);
-    likeRepository.save(like);
-    dateCourseRepository.plusThumbUp(dateCourseId);
+    UserDateCourseLike userDateCourseLike = new UserDateCourseLike(user, dateCourse);
+    userDateCourseLikeRepository.save(userDateCourseLike);
   }
 
   @Transactional
@@ -95,21 +95,21 @@ public class DateCourseService {
     );
     DateCourse dateCourse = dateCourseRepository.findById(dateCourseId).orElseThrow(() ->
         new DateCourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
-    for (Like like : user.getLikes()) {
-      if (isLikedCourse(like, dateCourseId)) {
-        dateCourseRepository.minusThumbUp(dateCourseId);
-        user.getLikes().remove(like);
-        dateCourse.getLikes().remove(like);
-        likeRepository.delete(like);
+    for (UserDateCourseLike userDateCourseLike : user.getUserDateCourseLikes()) {
+      if (isLikedCourse(userDateCourseLike, dateCourseId)) {
+        user.getUserDateCourseLikes().remove(userDateCourseLike);
+        dateCourse.getUserDateCourseLikes().remove(userDateCourseLike);
+        userDateCourseLikeRepository.delete(userDateCourseLike);
         return;
       }
     }
   }
 
-  private boolean isLikedCourse(Like like, Long dateCourseId) {
-    return like.getDateCourse().getId() == dateCourseId;
+  private boolean isLikedCourse(UserDateCourseLike userDateCourseLike, Long dateCourseId) {
+    return userDateCourseLike.getDateCourse().getId() == dateCourseId;
   }
 
+  @Transactional
   public void registComment(Long courseId, String comment, String userEmail) {
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
@@ -121,11 +121,13 @@ public class DateCourseService {
     commentRepository.save(dateCourseComment);
   }
 
+  @Transactional(readOnly = true)
   public List<RecentDateCourseDto> getRecentDateCourseList() {
     return dateCourseRepository.findRecentDateCourse();
   }
 
-  public List<ThumbUpDateCourseDto> getThumbUpDateCourseList() {
-    return dateCourseRepository.findThumbUpDateCourse();
+  @Transactional(readOnly = true)
+  public List<LikeOrderDateCourseDto> getLikedOrderDateCourseList() {
+    return dateCourseRepository.findLikeOrderDateCourse();
   }
 }

@@ -2,7 +2,7 @@ package me.toy.server.security.handler;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import me.toy.server.security.util.CookieUtils;
+import me.toy.server.utils.CookieUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;

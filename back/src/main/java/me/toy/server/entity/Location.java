@@ -1,11 +1,11 @@
 package me.toy.server.entity;
 
 import lombok.*;
-import me.toy.server.dto.RegistDateCourseRequestDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDto;
 
 @Entity
 @Getter
@@ -16,12 +16,12 @@ public class Location {
   @GeneratedValue
   @Column(name = "location_id")
   private Long id;
-  private String locationName;
+  private String name;
   private String text;
 
   private String photoUrl;
-  private float posx;
-  private float posy;
+  private Float posx;
+  private Float posy;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "datecourse_id")
@@ -31,15 +31,15 @@ public class Location {
   private List<LocationTag> locationTags = new ArrayList<>();
 
   public Location(RegistDateCourseRequestDto requestDto, String photoUrl) {
-    this.locationName = requestDto.getPlaceName();
+    this.name = requestDto.getPlaceName();
     this.text = requestDto.getText();
     this.posx = requestDto.getPosX();
     this.posy = requestDto.getPosY();
     this.photoUrl = photoUrl;
   }
 
-  public Location(String locationName, String text, String photoUrl, float posx, float posy) {
-    this.locationName = locationName;
+  public Location(String name, String text, String photoUrl, float posx, float posy) {
+    this.name = name;
     this.text = text;
     this.photoUrl = photoUrl;
     this.posx = posx;

@@ -17,12 +17,12 @@ public class Tag {
   @GeneratedValue
   @Column(name = "tag_id")
   private Long id;
-  private String tagName;
+  private String name;
 
   @OneToMany(mappedBy = "tag")
   private List<LocationTag> locationTags = new ArrayList<>();
 
-  public Tag(String tagName) {
-    this.tagName = tagName;
+  public Tag(String name) {
+    this.name = name;
   }
 }

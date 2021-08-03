@@ -1,9 +1,9 @@
 package me.toy.server.repository;
 
-import me.toy.server.dto.CurrentLocationDateCourseDto;
-import me.toy.server.dto.RecentDateCourseDto;
-import me.toy.server.dto.SavedDateCourseDto;
-import me.toy.server.dto.ThumbUpDateCourseDto;
+import me.toy.server.dto.DateCourseResponseDto.CurrentLocationDateCourseDto;
+import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
+import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
+import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
 import me.toy.server.entity.DateCourse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,27 +19,20 @@ public interface DateCourseRepository extends JpaRepository<DateCourse, Long> {
   @Query("select distinct d from DateCourse d join fetch d.locations order by d.id desc")
   List<RecentDateCourseDto> findRecentDateCourse();
 
-  @Query("select d from DateCourse d left join fetch d.locations order by d.thumbUp desc")
-  List<ThumbUpDateCourseDto> findThumbUpDateCourse();
+  @Query("select d from DateCourse d left join fetch d.locations order by d.userDateCourseLikes.size desc")
+  List<LikeOrderDateCourseDto> findLikeOrderDateCourse();
 
   @Query("select d from DateCourse d left join fetch d.locations l " +
       "where :posX-0.001 < l.posx and l.posx < :posX+0.001 and :posY-0.001 < l.posy and l.posy < :posY+0.001 ")
-  List<CurrentLocationDateCourseDto> findCurrentLocationDateCourse(float posX, float posY);
-
-
-  @Modifying
-  @Query("update DateCourse d set d.thumbUp = d.thumbUp - 1 where d.id = :dateCourseId")
-  void minusThumbUp(@Param("dateCourseId") Long dateCourseId);
-
-  @Modifying
-  @Query("update DateCourse d set d.thumbUp = d.thumbUp + 1 where d.id = :dateCourseId")
-  void plusThumbUp(@Param("dateCourseId") Long dateCourseId);
+  List<CurrentLocationDateCourseDto> findCurrentLocationDateCourse(float posX,
+      float posY);
 
   @Modifying
   @Query("select d from DateCourse d where d.user.id = :userId")
   List<RecentDateCourseDto> findAllDateCourseByUserId(@Param("userId") Long userId);
 
   @Modifying
-  @Query("select s from SavedCourse s where s.user.id = :userId ")
-  List<SavedDateCourseDto> findAllSavedCourseByUserId(@Param("userId") Long userId);
+  @Query("select s from UserDateCourseSave s where s.user.id = :userId ")
+  List<SavedDateCourseDto> findAllSavedCourseByUserId(
+      @Param("userId") Long userId);//userdatecoursesaverepository로 변경해야함
 }

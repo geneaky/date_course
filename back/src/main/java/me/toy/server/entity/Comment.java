@@ -15,8 +15,7 @@ public class Comment {
   @GeneratedValue
   @Column(name = "comment_id")
   private Long id;
-  private String commentContents;
-  private long thumbUp;
+  private String content;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "datecourse_id")
@@ -26,10 +25,12 @@ public class Comment {
   @JoinColumn(name = "user_id")
   private User user;
 
-  public Comment(User user, DateCourse dateCourse, String commentContents) {
+  private Long likes;//COMMENT_LIKE 를 만들어서 연결해야 함
+
+  public Comment(User user, DateCourse dateCourse, String content) {
     setUser(user);
     setDateCourse(dateCourse);
-    this.commentContents = commentContents;
+    this.content = content;
   }
 
   public void setUser(User user) {
