@@ -1,54 +1,56 @@
 package me.toy.server.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 public class DateCourseRequestDto {
 
   @Getter
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @Setter
+  @NoArgsConstructor
+  @AllArgsConstructor
   public static class RegistDateCourseRequestDtoList {
 
-    private ArrayList<@Valid RegistDateCourseRequestDto> locationList;
+    private List<RegistDateCourseRequestDto> locationList;
 
-    @Builder
-    public RegistDateCourseRequestDtoList(
-        ArrayList<RegistDateCourseRequestDto> locationList) {
-      this.locationList = locationList;
-    }
+//    @Builder
+//    public RegistDateCourseRequestDtoList(
+//        List<RegistDateCourseRequestDto> locationList) {
+//      this.locationList = locationList;
+//    }
   }
 
   @Getter
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @Setter
+  @NoArgsConstructor
+  @AllArgsConstructor
   public static class RegistDateCourseRequestDto {
 
     private MultipartFile file;
-    @NotNull
     private String placeName;
-    @NotNull
     private Float posX;
-    @NotNull
     private Float posY;
     private String text;
     private List<String> hashTag;
 
-    @Builder
-    public RegistDateCourseRequestDto(MultipartFile file, String placeName, float posX, float posY,
-        String text, List<String> hashTag) {
-      this.file = file;
-      this.placeName = placeName;
-      this.posX = posX;
-      this.posY = posY;
-      this.text = text;
-      this.hashTag = hashTag;
-    }
+//    @Builder
+//    public RegistDateCourseRequestDto(MultipartFile file, String placeName, Float posX, Float posY,
+//        String text, List<String> hashTag) {
+//      this.file = file;
+//      this.placeName = placeName;
+//      this.posX = posX;
+//      this.posY = posY;
+//      this.text = text;
+//      this.hashTag = hashTag;
+//    }
   }
 
 }

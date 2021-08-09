@@ -26,9 +26,9 @@ public class DateCourseController {
   @PostMapping("/datecourses")
   @ApiOperation("데이트 코스 등록")
   public void registDateCourse(
-      @LoginUser String userEmail,
+      @ModelAttribute RegistDateCourseRequestDtoList requestDtoList,
       @RequestParam("courseTitle") String title,
-      @Valid @ModelAttribute RegistDateCourseRequestDtoList requestDtoList) {
+      @LoginUser String userEmail) {
     dateCourseService.regist(requestDtoList, title, userEmail);
   }
 

@@ -34,7 +34,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
       NativeWebRequest webRequest,
       WebDataBinderFactory binderFactory) throws Exception {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    System.out.println("resolveArgument 메서드 호출 ================");
     if (authentication instanceof UsernamePasswordAuthenticationToken) {
       UsernamePasswordAuthenticationToken authenticationToken =
           (UsernamePasswordAuthenticationToken) authentication;
