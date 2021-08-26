@@ -13,18 +13,17 @@ public class LocationTag {
 
   @Id
   @GeneratedValue
-  @Column(name = "locationtag_id")
+  @Column(name = "LOCATIONTAG_ID")
   private Long id;
-
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "location_id")
+  @JoinColumn(name = "LOCATION_ID")
   private Location location;
-
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "tag_id")
+  @JoinColumn(name = "TAG_ID")
   private Tag tag;
 
   public LocationTag(Location location, Tag tag) {
+
     this.location = location;
     this.tag = tag;
     location.getLocationTags().add(this);

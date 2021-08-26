@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserDateCourseSaveRepository extends JpaRepository<UserDateCourseSave, Long> {
 
+  void deleteByUserIdAndDateCourseId(Long userId, Long dateCourseId);
 }

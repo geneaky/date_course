@@ -1,5 +1,6 @@
 package me.toy.server.service;
 
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.cloud.S3Uploader;
 import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDto;
@@ -34,50 +35,65 @@ public class DateCourseService {
   @Transactional
   public void regist(RegistDateCourseRequestDtoList requestDtoList, String title,
       String userEmail) {
+
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일을 가진 사용자는 없습니다.")
     );
-
     DateCourse dateCourse = new DateCourse(user, title);
-    dateCourseRepository.save(dateCourse);
+    List<Location> locationList = new ArrayList<>();
+    List<Tag> tagList = new ArrayList<>();
+    List<LocationTag> locationTagList = new ArrayList<>();
 
     for (RegistDateCourseRequestDto requestDto : requestDtoList.getLocationList()) {
       if (requestDto.getFile() == null) {
-        registerLocationsInDateCourse(dateCourse, requestDto, "");
+        registerLocationsInDateCourse(dateCourse, requestDto, "", locationList, tagList,
+            locationTagList);
         continue;
       }
       String fileSaveName =
           LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")) + ".jpg";
-      registerLocationsInDateCourse(dateCourse, requestDto, fileSaveName);
+      registerLocationsInDateCourse(dateCourse, requestDto, fileSaveName, locationList, tagList,
+          locationTagList);
       s3Uploader.upload(requestDto.getFile(), fileSaveName);
     }
+
+    dateCourseRepository.save(dateCourse);
+    locationRepository.saveAll(locationList);
+    tagRepository.saveAll(tagList);
+    locationTagRepository.saveAll(locationTagList);
   }
 
   private void registerLocationsInDateCourse(DateCourse dateCourse,
-      RegistDateCourseRequestDto requestDto, String fileSaveName) {
+      RegistDateCourseRequestDto requestDto, String fileSaveName, List<Location> locationList,
+      List<Tag> tagList,
+      List<LocationTag> locationTagList) {
+
     Location location = new Location(requestDto, fileSaveName);
     location.setDateCourse(dateCourse);
-    locationRepository.save(location);
-    tagFindCircuit(requestDto, location);
+    tagFindCircuit(requestDto, location, tagList, locationTagList);
+    locationList.add(location);
   }
 
-  private void tagFindCircuit(RegistDateCourseRequestDto requestDto, Location location) {
+  private void tagFindCircuit(RegistDateCourseRequestDto requestDto, Location location,
+      List<Tag> tagList, List<LocationTag> locationTagList) {
+
     for (String hashTag : requestDto.getHashTag()) {
       Optional<Tag> opTag = tagRepository.findByName(hashTag);
       if (opTag.isPresent()) {
         LocationTag locationTag = new LocationTag(location, opTag.get());
-        locationTagRepository.save(locationTag);
+        locationTagList.add(locationTag);
         continue;
       }
       Tag tag = new Tag(hashTag);
-      tagRepository.save(tag);
+      tagList.add(tag);
       LocationTag locationTag = new LocationTag(location, tag);
-      locationTagRepository.save(locationTag);
+      locationTagList.add(locationTag);
     }
   }
 
   @Transactional
   public void like(Long dateCourseId, String userEmail) {
+
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
     );
@@ -90,27 +106,18 @@ public class DateCourseService {
 
   @Transactional
   public void unlike(Long dateCourseId, String userEmail) {
+
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
     );
     DateCourse dateCourse = dateCourseRepository.findById(dateCourseId).orElseThrow(() ->
         new DateCourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
-    for (UserDateCourseLike userDateCourseLike : user.getUserDateCourseLikes()) {
-      if (isLikedCourse(userDateCourseLike, dateCourseId)) {
-        user.getUserDateCourseLikes().remove(userDateCourseLike);
-        dateCourse.getUserDateCourseLikes().remove(userDateCourseLike);
-        userDateCourseLikeRepository.delete(userDateCourseLike);
-        return;
-      }
-    }
-  }
-
-  private boolean isLikedCourse(UserDateCourseLike userDateCourseLike, Long dateCourseId) {
-    return userDateCourseLike.getDateCourse().getId() == dateCourseId;
+    userDateCourseLikeRepository.unlikeUserDateCourseLike(user.getId(), dateCourse.getId());
   }
 
   @Transactional
   public void registComment(Long courseId, String comment, String userEmail) {
+
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
     );
@@ -123,11 +130,13 @@ public class DateCourseService {
 
   @Transactional(readOnly = true)
   public List<RecentDateCourseDto> getRecentDateCourseList() {
+
     return dateCourseRepository.findRecentDateCourse();
   }
 
   @Transactional(readOnly = true)
   public List<LikeOrderDateCourseDto> getLikedOrderDateCourseList() {
+
     return dateCourseRepository.findLikeOrderDateCourse();
   }
 }

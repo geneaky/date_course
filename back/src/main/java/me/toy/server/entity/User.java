@@ -19,27 +19,22 @@ public class User {
 
   @Id
   @GeneratedValue
-  @Column(name = "user_id")
+  @Column(name = "USER_ID")
   private Long id;
   private String name;
-  @JsonIgnore
   private String password;
   private String imageUrl;
   private String email;
   @Enumerated(EnumType.STRING)
   private AuthProvider provider;
   private String providerId;
-
-  @OneToMany
+  @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<DateCourse> dateCourses = new ArrayList<>();
-
-  @OneToMany
+  @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<UserDateCourseSave> userDateCoursSaves = new ArrayList<>();
-
-  @OneToMany
+  @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<UserDateCourseLike> userDateCourseLikes = new ArrayList<>();
-
-  @OneToMany
+  @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<Comment> comments = new ArrayList<>();
 
 }

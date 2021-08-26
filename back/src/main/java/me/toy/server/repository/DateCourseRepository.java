@@ -1,6 +1,5 @@
 package me.toy.server.repository;
 
-import me.toy.server.dto.DateCourseResponseDto.CurrentLocationDateCourseDto;
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
 import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
 import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
@@ -16,23 +15,18 @@ import java.util.List;
 @Repository
 public interface DateCourseRepository extends JpaRepository<DateCourse, Long> {
 
-  @Query("select distinct d from DateCourse d join fetch d.locations order by d.id desc")
+  @Query("select distinct d from DateCourse  d join fetch d.user join fetch d.locations order by d.id desc")
   List<RecentDateCourseDto> findRecentDateCourse();
 
-  @Query("select d from DateCourse d left join fetch d.locations order by d.userDateCourseLikes.size desc")
+  @Query("select d from DateCourse d join fetch d.user join fetch d.locations order by d.userDateCourseLikes.size desc")
   List<LikeOrderDateCourseDto> findLikeOrderDateCourse();
 
-  @Query("select d from DateCourse d left join fetch d.locations l " +
-      "where :posX-0.001 < l.posx and l.posx < :posX+0.001 and :posY-0.001 < l.posy and l.posy < :posY+0.001 ")
-  List<CurrentLocationDateCourseDto> findCurrentLocationDateCourse(float posX,
-      float posY);
-
   @Modifying
-  @Query("select d from DateCourse d where d.user.id = :userId")
+  @Query("select d from DateCourse d join fetch d.user join fetch d.locations where d.user.id = :userId")
   List<RecentDateCourseDto> findAllDateCourseByUserId(@Param("userId") Long userId);
 
   @Modifying
-  @Query("select s from UserDateCourseSave s where s.user.id = :userId ")
+  @Query("select s from UserDateCourseSave s join fetch s.user join fetch s.dateCourse where s.user.id = :userId ")
   List<SavedDateCourseDto> findAllSavedCourseByUserId(
-      @Param("userId") Long userId);//userdatecoursesaverepository로 변경해야함
+      @Param("userId") Long userId);
 }

@@ -16,22 +16,20 @@ public class DateCourseRequestDto {
   @Getter
   @Setter
   @NoArgsConstructor
-  @AllArgsConstructor
   public static class RegistDateCourseRequestDtoList {
 
     private List<RegistDateCourseRequestDto> locationList;
 
-//    @Builder
-//    public RegistDateCourseRequestDtoList(
-//        List<RegistDateCourseRequestDto> locationList) {
-//      this.locationList = locationList;
-//    }
+    @Builder
+    public RegistDateCourseRequestDtoList(List<RegistDateCourseRequestDto> locationList) {
+
+      this.locationList = locationList;
+    }
   }
 
   @Getter
   @Setter
   @NoArgsConstructor
-  @AllArgsConstructor
   public static class RegistDateCourseRequestDto {
 
     private MultipartFile file;
@@ -41,16 +39,17 @@ public class DateCourseRequestDto {
     private String text;
     private List<String> hashTag;
 
-//    @Builder
-//    public RegistDateCourseRequestDto(MultipartFile file, String placeName, Float posX, Float posY,
-//        String text, List<String> hashTag) {
-//      this.file = file;
-//      this.placeName = placeName;
-//      this.posX = posX;
-//      this.posY = posY;
-//      this.text = text;
-//      this.hashTag = hashTag;
-//    }
+    @Builder
+    public RegistDateCourseRequestDto(MultipartFile file, String placeName, Float posX, Float posY,
+        String text, List<String> hashTag) {
+      
+      this.file = file;
+      this.placeName = placeName;
+      this.posX = posX;
+      this.posY = posY;
+      this.text = text;
+      this.hashTag = hashTag;
+    }
   }
 
 }

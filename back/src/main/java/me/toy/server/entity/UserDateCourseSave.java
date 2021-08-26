@@ -13,27 +13,29 @@ public class UserDateCourseSave {
 
   @Id
   @GeneratedValue
+  @Column(name = "USERDATECOURSESAVE_ID")
   private Long id;
-
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "USER_ID")
   private User user;
-
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "datecourse_id")
+  @JoinColumn(name = "DATECOURSE_ID")
   private DateCourse dateCourse;
 
   public UserDateCourseSave(User user, DateCourse dateCourse) {
+
     setUser(user);
     setDateCourse(dateCourse);
   }
 
   public void setUser(User user) {
+
     this.user = user;
     user.getUserDateCoursSaves().add(this);
   }
 
   public void setDateCourse(DateCourse dateCourse) {
+
     this.dateCourse = dateCourse;
     dateCourse.getUserDateCoursSaves().add(this);
   }

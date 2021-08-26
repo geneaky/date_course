@@ -13,32 +13,32 @@ public class Comment {
 
   @Id
   @GeneratedValue
-  @Column(name = "comment_id")
+  @Column(name = "COMMENT_ID")
   private Long id;
   private String content;
-
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "datecourse_id")
+  @JoinColumn(name = "DATECOURSE_ID")
   private DateCourse dateCourse;
-
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "USER_ID")
   private User user;
-
   private Long likes;//COMMENT_LIKE 를 만들어서 연결해야 함
 
   public Comment(User user, DateCourse dateCourse, String content) {
+
     setUser(user);
     setDateCourse(dateCourse);
     this.content = content;
   }
 
   public void setUser(User user) {
+
     this.user = user;
     user.getComments().add(this);
   }
 
   public void setDateCourse(DateCourse dateCourse) {
+
     this.dateCourse = dateCourse;
     dateCourse.getComments().add(this);
   }

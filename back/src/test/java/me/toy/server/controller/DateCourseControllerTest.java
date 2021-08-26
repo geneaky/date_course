@@ -50,9 +50,9 @@ class DateCourseControllerTest {
   @DisplayName("데이트 코스 등록 요청시 데이트 코스와 제목을 받아 등록 시킨다")
   public void registDateCourse() throws Exception {
     RegistDateCourseRequestDto requestDto1 = RegistDateCourseRequestDto.builder()
-        .placeName("testPlace1").posX(26).posY(126).build();
+        .placeName("testPlace1").posX(26F).posY(126F).build();
     RegistDateCourseRequestDto requestDto2 = RegistDateCourseRequestDto.builder()
-        .placeName("testPlace2").posX(28).posY(125).build();
+        .placeName("testPlace2").posX(28F).posY(125F).build();
     ArrayList<RegistDateCourseRequestDto> locationList = new ArrayList<>();
     locationList.add(requestDto1);
     locationList.add(requestDto2);

@@ -15,11 +15,10 @@ public class Tag {
 
   @Id
   @GeneratedValue
-  @Column(name = "tag_id")
+  @Column(name = "TAG_ID")
   private Long id;
   private String name;
-
-  @OneToMany(mappedBy = "tag")
+  @OneToMany(mappedBy = "tag", orphanRemoval = true)
   private List<LocationTag> locationTags = new ArrayList<>();
 
   public Tag(String name) {

@@ -38,6 +38,7 @@ public class AppProperties {
     }
 
     public void setTokenExpirationMsec(long tokenExpirationMsec) {
+
       this.tokenExpirationMsec = tokenExpirationMsec;
     }
   }
@@ -53,6 +54,7 @@ public class AppProperties {
     //인가된 uri리스트만 받아서 검증하고 싶을때 사용하면된다. naver,google,kakao이런 uri에서만 redirect token받고싶을때 지정하는것
     //지금은 당장 쓸일이 없지만 미래를 위해
     public OAuth2 authorizedRedirectUris(List<String> authorizedRedirectUris) {
+      
       this.authorizedRedirectUris = authorizedRedirectUris;
       return this;
     }

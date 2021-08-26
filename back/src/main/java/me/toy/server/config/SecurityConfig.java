@@ -40,12 +40,14 @@ public class SecurityConfig extends
   @Bean
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {
+
     return super.authenticationManagerBean();
   }
 
   @PostConstruct
   @Profile("dev")
   public void settingUserTest() {
+
     User user = new User();
     user.setEmail("test@naver.com");
     user.setName("testUser");
@@ -55,12 +57,15 @@ public class SecurityConfig extends
   @PreDestroy
   @Profile("dev")
   public void clearSettingUserTest() {
+
     Optional<User> testUser = userRepository.findByEmail("test@naver.com");
+
     userRepository.delete(testUser.get());
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+    
     http.csrf().disable();
     http.cors();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

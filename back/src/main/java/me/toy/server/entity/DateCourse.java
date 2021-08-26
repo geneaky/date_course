@@ -15,32 +15,29 @@ public class DateCourse {
 
   @Id
   @GeneratedValue
-  @Column(name = "datecourse_id")
+  @Column(name = "DATECOURSE_ID")
   private Long id;
   private String dateCourseTitle;
-
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "USER_ID")
   private User user;
-
-  @OneToMany
+  @OneToMany(mappedBy = "dateCourse", orphanRemoval = true)
+  private List<Location> locations = new ArrayList<>();
+  @OneToMany(mappedBy = "dateCourse", orphanRemoval = true)
+  private List<Comment> comments = new ArrayList<>();
+  @OneToMany(mappedBy = "dateCourse", orphanRemoval = true)
+  private List<UserDateCourseSave> userDateCoursSaves = new ArrayList<>();
+  @OneToMany(mappedBy = "dateCourse", orphanRemoval = true)
   private List<UserDateCourseLike> userDateCourseLikes = new ArrayList<>();
 
-  @OneToMany
-  private List<Location> locations = new ArrayList<>();
-
-  @OneToMany
-  private List<Comment> comments = new ArrayList<>();
-
-  @OneToMany
-  private List<UserDateCourseSave> userDateCoursSaves = new ArrayList<>();
-
   public DateCourse(User user, String dateCourseTitle) {
+
     setUser(user);
     this.dateCourseTitle = dateCourseTitle;
   }
 
   public void setUser(User user) {
+
     this.user = user;
     user.getDateCourses().add(this);
   }

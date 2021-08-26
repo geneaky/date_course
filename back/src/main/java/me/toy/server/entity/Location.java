@@ -14,23 +14,21 @@ public class Location {
 
   @Id
   @GeneratedValue
-  @Column(name = "location_id")
+  @Column(name = "LOCATION_ID")
   private Long id;
   private String name;
   private String text;
-
   private String photoUrl;
   private Float posx;
   private Float posy;
-
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "datecourse_id")
+  @JoinColumn(name = "DATECOURSE_ID")
   private DateCourse dateCourse;
-
-  @OneToMany(mappedBy = "location")
+  @OneToMany(mappedBy = "location", orphanRemoval = true)
   private List<LocationTag> locationTags = new ArrayList<>();
 
   public Location(RegistDateCourseRequestDto requestDto, String photoUrl) {
+
     this.name = requestDto.getPlaceName();
     this.text = requestDto.getText();
     this.posx = requestDto.getPosX();
@@ -39,6 +37,7 @@ public class Location {
   }
 
   public Location(String name, String text, String photoUrl, float posx, float posy) {
+
     this.name = name;
     this.text = text;
     this.photoUrl = photoUrl;
@@ -47,6 +46,7 @@ public class Location {
   }
 
   public void setDateCourse(DateCourse dateCourse) {
+
     this.dateCourse = dateCourse;
     dateCourse.getLocations().add(this);
   }

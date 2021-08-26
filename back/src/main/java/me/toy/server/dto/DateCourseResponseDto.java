@@ -21,12 +21,13 @@ public class DateCourseResponseDto {
     private String userName;
     private Long userId;
     private String dateCourseTitle;
-    private List<Long> userLikedCoursesIds; //isUserLike로 변경 front랑 같이
+    private List<Long> userLikedCoursesIds;
     private List<RecentLocationDto> locations;
     private List<DateCourseCommentDto> comments;
 
     @Builder
     public RecentDateCourseDto(DateCourse dateCourse) {
+
       this.id = dateCourse.getId();
       this.likesCount = dateCourse.getUserDateCourseLikes().stream().count();
       this.dateCourseTitle = dateCourse.getDateCourseTitle();
@@ -56,6 +57,7 @@ public class DateCourseResponseDto {
 
     @Builder
     public DateCourseCommentDto(Comment comment) {
+      
       this.userName = comment.getUser().getName();
       this.commentContent = comment.getContent();
     }

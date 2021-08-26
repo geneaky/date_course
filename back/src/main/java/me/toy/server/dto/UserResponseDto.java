@@ -20,7 +20,6 @@ public class UserResponseDto {
 
     private Long id;
     private Long courseLikesCount;
-
     private String userName;
     private Long userId;
     private String dateCourseTitle;
@@ -30,6 +29,7 @@ public class UserResponseDto {
 
     @Builder
     public SavedDateCourseDto(UserDateCourseSave userDateCourseSave) {
+      
       this.id = userDateCourseSave.getDateCourse().getId();
       this.courseLikesCount = userDateCourseSave.getDateCourse().getUserDateCourseLikes().stream()
           .count();//feedback

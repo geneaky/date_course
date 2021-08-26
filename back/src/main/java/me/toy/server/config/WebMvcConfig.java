@@ -14,16 +14,17 @@ import java.util.List;
 public class WebMvcConfig implements WebMvcConfigurer {
 
   private final long MAX_AGE_SECS = 3600;
-
   private final LoginUserArgumentResolver loginUserArgumentResolver;
 
   @Override
   public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+
     resolvers.add(loginUserArgumentResolver);
   }
 
   @Override
   public void addCorsMappings(CorsRegistry registry) {
+    
     registry.addMapping("/**")
         .allowedOriginPatterns("*")
         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
