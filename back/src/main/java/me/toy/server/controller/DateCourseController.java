@@ -2,17 +2,18 @@ package me.toy.server.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDtoList;
+import lombok.extern.slf4j.Slf4j;
+import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseFormDto;
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
 import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
 import me.toy.server.entity.LoginUser;
-import me.toy.server.repository.*;
 import me.toy.server.service.DateCourseService;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class DateCourseController {
@@ -23,11 +24,10 @@ public class DateCourseController {
   @PostMapping("/datecourses")
   @ApiOperation("데이트 코스 등록")
   public void registDateCourse(
-      @ModelAttribute RegistDateCourseRequestDtoList requestDtoList,
-      @RequestParam("courseTitle") String title,
+      @ModelAttribute RegistDateCourseFormDto registDateCourseFormDto,
       @LoginUser String userEmail) {
 
-    dateCourseService.regist(requestDtoList, title, userEmail);
+    dateCourseService.regist(registDateCourseFormDto, userEmail);
   }
 
   @Secured("ROLE_USER")

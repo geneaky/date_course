@@ -1,4 +1,4 @@
-package me.toy.server.exception;
+package me.toy.server.exception.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

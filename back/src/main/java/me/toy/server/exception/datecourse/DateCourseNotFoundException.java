@@ -1,4 +1,4 @@
-package me.toy.server.exception;
+package me.toy.server.exception.datecourse;
 
 public class DateCourseNotFoundException extends RuntimeException {
 

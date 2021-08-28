@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDto;
+import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
 
 @Entity
 @Getter
@@ -27,7 +27,7 @@ public class Location {
   @OneToMany(mappedBy = "location", orphanRemoval = true)
   private List<LocationTag> locationTags = new ArrayList<>();
 
-  public Location(RegistDateCourseRequestDto requestDto, String photoUrl) {
+  public Location(RegistLocationFormDto requestDto, String photoUrl) {
 
     this.name = requestDto.getPlaceName();
     this.text = requestDto.getText();

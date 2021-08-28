@@ -1,7 +1,7 @@
 package me.toy.server.security.handler;
 
 import lombok.RequiredArgsConstructor;
-import me.toy.server.exception.BadRequestException;
+import me.toy.server.exception.user.BadRequestException;
 import me.toy.server.security.jwt.JwtTokenProvider;
 import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import me.toy.server.utils.CookieUtils;

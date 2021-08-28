@@ -7,8 +7,8 @@ import me.toy.server.dto.UserResponseDto.UserDto;
 import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.UserDateCourseSave;
 import me.toy.server.entity.User;
-import me.toy.server.exception.DateCourseNotFoundException;
-import me.toy.server.exception.UserNotFoundException;
+import me.toy.server.exception.datecourse.DateCourseNotFoundException;
+import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.repository.DateCourseRepository;
 import me.toy.server.repository.UserDateCourseSaveRepository;
 import me.toy.server.repository.UserRepository;
@@ -88,7 +88,7 @@ public class UserService {
 
   @Transactional
   public void deleteSavedCourse(Long courseId, String userEmail) {
-    
+
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
     );

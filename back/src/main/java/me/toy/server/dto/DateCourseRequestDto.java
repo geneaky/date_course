@@ -1,10 +1,9 @@
 package me.toy.server.dto;
 
 import java.util.List;
-import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,34 +14,41 @@ public class DateCourseRequestDto {
 
   @Getter
   @Setter
-  @NoArgsConstructor
-  public static class RegistDateCourseRequestDtoList {
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class RegistDateCourseFormDto {
 
-    private List<RegistDateCourseRequestDto> locationList;
+    @NotNull
+    private List<RegistLocationFormDto> locationList;
+    @NotBlank
+    private String courseTitle;
 
     @Builder
-    public RegistDateCourseRequestDtoList(List<RegistDateCourseRequestDto> locationList) {
-
+    public RegistDateCourseFormDto(List<RegistLocationFormDto> locationList,
+        String courseTitle) {
+      this.courseTitle = courseTitle;
       this.locationList = locationList;
     }
   }
 
   @Getter
   @Setter
-  @NoArgsConstructor
-  public static class RegistDateCourseRequestDto {
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class RegistLocationFormDto {
 
     private MultipartFile file;
+    @NotBlank
     private String placeName;
+    @NotNull
     private Float posX;
+    @NotNull
     private Float posY;
     private String text;
     private List<String> hashTag;
 
     @Builder
-    public RegistDateCourseRequestDto(MultipartFile file, String placeName, Float posX, Float posY,
+    public RegistLocationFormDto(MultipartFile file, String placeName, Float posX, Float posY,
         String text, List<String> hashTag) {
-      
+
       this.file = file;
       this.placeName = placeName;
       this.posX = posX;

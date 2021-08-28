@@ -1,6 +1,6 @@
 package me.toy.server.security.oauth2.user;
 
-import me.toy.server.exception.OAuth2AuthenticationProcessingException;
+import me.toy.server.exception.user.OAuth2AuthenticationProcessingException;
 import me.toy.server.security.oauth2.AuthProvider;
 
 import java.util.Map;

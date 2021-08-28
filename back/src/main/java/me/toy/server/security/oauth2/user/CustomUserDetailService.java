@@ -2,7 +2,6 @@ package me.toy.server.security.oauth2.user;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.entity.User;
-import me.toy.server.exception.ResourceNotFoundException;
 import me.toy.server.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

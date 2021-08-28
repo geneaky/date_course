@@ -1,8 +1,8 @@
 package me.toy.server.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDto;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDtoList;
+import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
+import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseFormDto;
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
 import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
 import me.toy.server.entity.DateCourse;
@@ -49,14 +49,14 @@ class DateCourseControllerTest {
   @Test
   @DisplayName("데이트 코스 등록 요청시 데이트 코스와 제목을 받아 등록 시킨다")
   public void registDateCourse() throws Exception {
-    RegistDateCourseRequestDto requestDto1 = RegistDateCourseRequestDto.builder()
+    RegistLocationFormDto requestDto1 = RegistLocationFormDto.builder()
         .placeName("testPlace1").posX(26F).posY(126F).build();
-    RegistDateCourseRequestDto requestDto2 = RegistDateCourseRequestDto.builder()
+    RegistLocationFormDto requestDto2 = RegistLocationFormDto.builder()
         .placeName("testPlace2").posX(28F).posY(125F).build();
-    ArrayList<RegistDateCourseRequestDto> locationList = new ArrayList<>();
+    ArrayList<RegistLocationFormDto> locationList = new ArrayList<>();
     locationList.add(requestDto1);
     locationList.add(requestDto2);
-    RegistDateCourseRequestDtoList requestDtoList = RegistDateCourseRequestDtoList.builder()
+    RegistDateCourseFormDto requestDtoList = RegistDateCourseFormDto.builder()
         .locationList(locationList).build();
     String body = objectMapper.writeValueAsString(requestDtoList);
     mockMvc.perform(post("/datecourses")

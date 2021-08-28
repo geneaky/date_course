@@ -1,8 +1,8 @@
 package me.toy.server.service;
 
 import me.toy.server.cloud.S3Uploader;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDto;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDtoList;
+import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
+import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseFormDto;
 import me.toy.server.entity.*;
 import me.toy.server.repository.*;
 import org.junit.jupiter.api.DisplayName;
@@ -50,8 +50,8 @@ class DateCourseServiceTest {
     return user;
   }
 
-  private ArrayList<RegistDateCourseRequestDto> createRequestList() {
-    ArrayList<RegistDateCourseRequestDto> list = new ArrayList<>();
+  private ArrayList<RegistLocationFormDto> createRequestList() {
+    ArrayList<RegistLocationFormDto> list = new ArrayList<>();
     return list;
   }
 
@@ -62,9 +62,9 @@ class DateCourseServiceTest {
     String userEmail = "test@naver.com";
     String title = "testTitle";
     User user = createUser();
-    RegistDateCourseRequestDtoList requestDtoList = mock(RegistDateCourseRequestDtoList.class);
-    RegistDateCourseRequestDto requestDto = mock(RegistDateCourseRequestDto.class);
-    ArrayList<RegistDateCourseRequestDto> list = createRequestList();
+    RegistDateCourseFormDto requestDtoList = mock(RegistDateCourseFormDto.class);
+    RegistLocationFormDto requestDto = mock(RegistLocationFormDto.class);
+    ArrayList<RegistLocationFormDto> list = createRequestList();
     list.add(requestDto);
     //when
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
@@ -83,9 +83,9 @@ class DateCourseServiceTest {
     String userEmail = "test@naver.com";
     String title = "testTitle";
     User user = createUser();
-    RegistDateCourseRequestDtoList requestDtoList = mock(RegistDateCourseRequestDtoList.class);
-    RegistDateCourseRequestDto requestDto = mock(RegistDateCourseRequestDto.class);
-    ArrayList<RegistDateCourseRequestDto> list = createRequestList();
+    RegistDateCourseFormDto requestDtoList = mock(RegistDateCourseFormDto.class);
+    RegistLocationFormDto requestDto = mock(RegistLocationFormDto.class);
+    ArrayList<RegistLocationFormDto> list = createRequestList();
     list.add(requestDto);
 
     //when
@@ -106,9 +106,9 @@ class DateCourseServiceTest {
     String userEmail = "test@naver.com";
     String title = "testTitle";
     User user = createUser();
-    RegistDateCourseRequestDtoList requestDtoList = mock(RegistDateCourseRequestDtoList.class);
-    RegistDateCourseRequestDto requestDto = mock(RegistDateCourseRequestDto.class);
-    ArrayList<RegistDateCourseRequestDto> list = createRequestList();
+    RegistDateCourseFormDto requestDtoList = mock(RegistDateCourseFormDto.class);
+    RegistLocationFormDto requestDto = mock(RegistLocationFormDto.class);
+    ArrayList<RegistLocationFormDto> list = createRequestList();
     list.add(requestDto);
     //when
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
@@ -127,11 +127,11 @@ class DateCourseServiceTest {
     String userEmail = "test@naver.com";
     String title = "testTitle";
     User user = createUser();
-    RegistDateCourseRequestDtoList requestDtoList = mock(RegistDateCourseRequestDtoList.class);
-    RegistDateCourseRequestDto requestDto1 = mock(RegistDateCourseRequestDto.class);
-    RegistDateCourseRequestDto requestDto2 = mock(RegistDateCourseRequestDto.class);
-    RegistDateCourseRequestDto requestDto3 = mock(RegistDateCourseRequestDto.class);
-    ArrayList<RegistDateCourseRequestDto> list = createRequestList();
+    RegistDateCourseFormDto requestDtoList = mock(RegistDateCourseFormDto.class);
+    RegistLocationFormDto requestDto1 = mock(RegistLocationFormDto.class);
+    RegistLocationFormDto requestDto2 = mock(RegistLocationFormDto.class);
+    RegistLocationFormDto requestDto3 = mock(RegistLocationFormDto.class);
+    ArrayList<RegistLocationFormDto> list = createRequestList();
     list.add(requestDto1);
     list.add(requestDto2);
     list.add(requestDto3);
@@ -154,9 +154,9 @@ class DateCourseServiceTest {
     String title = "testTitle";
     String userEmail = "test@naver.com";
     User user = createUser();
-    RegistDateCourseRequestDtoList requestDtoList = mock(RegistDateCourseRequestDtoList.class);
-    RegistDateCourseRequestDto requestDto = mock(RegistDateCourseRequestDto.class);
-    ArrayList<RegistDateCourseRequestDto> list = createRequestList();
+    RegistDateCourseFormDto requestDtoList = mock(RegistDateCourseFormDto.class);
+    RegistLocationFormDto requestDto = mock(RegistLocationFormDto.class);
+    ArrayList<RegistLocationFormDto> list = createRequestList();
     list.add(requestDto);
     List<String> hashTag = new ArrayList<>(Arrays.asList("#hi", "#bi", "#gg"));
     Tag tag1 = new Tag("#hi");
@@ -182,9 +182,9 @@ class DateCourseServiceTest {
     String title = "testTitle";
     String userEmail = "test@naver.com";
     User user = createUser();
-    RegistDateCourseRequestDtoList requestDtoList = mock(RegistDateCourseRequestDtoList.class);
-    RegistDateCourseRequestDto requestDto = mock(RegistDateCourseRequestDto.class);
-    ArrayList<RegistDateCourseRequestDto> list = createRequestList();
+    RegistDateCourseFormDto requestDtoList = mock(RegistDateCourseFormDto.class);
+    RegistLocationFormDto requestDto = mock(RegistLocationFormDto.class);
+    ArrayList<RegistLocationFormDto> list = createRequestList();
     list.add(requestDto);
     List<String> hashTag = new ArrayList<>(Arrays.asList("#hi", "#bi", "#gg"));
     Tag tag1 = new Tag("#hi");

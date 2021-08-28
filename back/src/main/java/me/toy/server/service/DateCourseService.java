@@ -1,15 +1,16 @@
 package me.toy.server.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.cloud.S3Uploader;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDto;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseRequestDtoList;
+import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
+import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseFormDto;
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
 import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
 import me.toy.server.entity.*;
-import me.toy.server.exception.DateCourseNotFoundException;
-import me.toy.server.exception.UserNotFoundException;
+import me.toy.server.exception.datecourse.DateCourseNotFoundException;
+import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,28 +34,25 @@ public class DateCourseService {
   private final S3Uploader s3Uploader;
 
   @Transactional
-  public void regist(RegistDateCourseRequestDtoList requestDtoList, String title,
-      String userEmail) {
+  public void regist(RegistDateCourseFormDto registDateCourseFormDto, String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일을 가진 사용자는 없습니다.")
     );
-    DateCourse dateCourse = new DateCourse(user, title);
+    DateCourse dateCourse = new DateCourse(user, registDateCourseFormDto.getCourseTitle());
     List<Location> locationList = new ArrayList<>();
     List<Tag> tagList = new ArrayList<>();
     List<LocationTag> locationTagList = new ArrayList<>();
 
-    for (RegistDateCourseRequestDto requestDto : requestDtoList.getLocationList()) {
-      if (requestDto.getFile() == null) {
-        registerLocationsInDateCourse(dateCourse, requestDto, "", locationList, tagList,
-            locationTagList);
-        continue;
-      }
-      String fileSaveName =
-          LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")) + ".jpg";
-      registerLocationsInDateCourse(dateCourse, requestDto, fileSaveName, locationList, tagList,
+    for (RegistLocationFormDto registLocationFormDto : registDateCourseFormDto.getLocationList()) {
+      String fileSaveName = s3Uploader.upload(registLocationFormDto.getFile());
+      addLocationInDateCourse(
+          dateCourse,
+          registLocationFormDto,
+          fileSaveName,
+          locationList,
+          tagList,
           locationTagList);
-      s3Uploader.upload(requestDto.getFile(), fileSaveName);
     }
 
     dateCourseRepository.save(dateCourse);
@@ -63,21 +61,21 @@ public class DateCourseService {
     locationTagRepository.saveAll(locationTagList);
   }
 
-  private void registerLocationsInDateCourse(DateCourse dateCourse,
-      RegistDateCourseRequestDto requestDto, String fileSaveName, List<Location> locationList,
+  private void addLocationInDateCourse(DateCourse dateCourse,
+      RegistLocationFormDto registLocationFormDto, String fileSaveName, List<Location> locationList,
       List<Tag> tagList,
       List<LocationTag> locationTagList) {
 
-    Location location = new Location(requestDto, fileSaveName);
+    Location location = new Location(registLocationFormDto, fileSaveName);
     location.setDateCourse(dateCourse);
-    tagFindCircuit(requestDto, location, tagList, locationTagList);
+    tagFindCircuit(registLocationFormDto, location, tagList, locationTagList);
     locationList.add(location);
   }
 
-  private void tagFindCircuit(RegistDateCourseRequestDto requestDto, Location location,
+  private void tagFindCircuit(RegistLocationFormDto registLocationFormDto, Location location,
       List<Tag> tagList, List<LocationTag> locationTagList) {
 
-    for (String hashTag : requestDto.getHashTag()) {
+    for (String hashTag : registLocationFormDto.getHashTag()) {
       Optional<Tag> opTag = tagRepository.findByName(hashTag);
       if (opTag.isPresent()) {
         LocationTag locationTag = new LocationTag(location, opTag.get());

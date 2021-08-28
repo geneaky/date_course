@@ -2,7 +2,7 @@ package me.toy.server.security.oauth2;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.entity.User;
-import me.toy.server.exception.OAuth2AuthenticationProcessingException;
+import me.toy.server.exception.user.OAuth2AuthenticationProcessingException;
 import me.toy.server.security.oauth2.user.OAuth2UserInfo;
 import me.toy.server.repository.UserRepository;
 import me.toy.server.security.oauth2.user.OAuth2UserInfoFactory;

@@ -1,8 +1,8 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.4'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
-	id 'com.google.cloud.tools.jib' version '1.8.0'
+    id 'org.springframework.boot' version '2.4.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'com.google.cloud.tools.jib' version '1.8.0'
 }
 
 group = 'me.toy'
@@ -10,43 +10,51 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
 
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
-	implementation group: 'io.awspring.cloud', name: 'spring-cloud-starter-aws', version: '2.3.1'
-	implementation group: 'io.awspring.cloud', name: 'spring-cloud-aws-autoconfigure', version: '2.3.1'
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
+    implementation 'io.awspring.cloud:spring-cloud-aws-autoconfigure:2.3.1'
 
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	implementation 'io.springfox:springfox-boot-starter:3.0.0'
-	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.5.1'
-	annotationProcessor 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'mysql:mysql-connector-java'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test:5.5.1'
-	testImplementation 'org.mockito:mockito-core:3.+'
+    compile 'org.springframework.boot:spring-boot-starter-log4j2'
+
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.5.1'
+    annotationProcessor 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test:5.5.1'
+    testImplementation 'org.mockito:mockito-core:3.+'
+}
+
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

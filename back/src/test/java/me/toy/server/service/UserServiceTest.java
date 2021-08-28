@@ -7,7 +7,7 @@ import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.UserDateCourseLike;
 import me.toy.server.entity.UserDateCourseSave;
 import me.toy.server.entity.User;
-import me.toy.server.exception.UserNotFoundException;
+import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.repository.DateCourseRepository;
 import me.toy.server.repository.UserDateCourseSaveRepository;
 import me.toy.server.repository.UserRepository;

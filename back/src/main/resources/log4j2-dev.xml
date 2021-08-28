@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="WARN">
+
+  <Properties>
+    <Property name="LAYOUT_PATTERN">%style{%date{DEFAULT}}{blue} %highlight{%-5level}{FATAL=bg_red,
+      ERROR=red, WARN=yellow, INFO=green} %style{[%t]}{cyan}%n[%l] ::: %msg%n
+    </Property>
+  </Properties>
+
+  <Appenders>
+    <Console name="ConsoleLog" target="SYSTEM_OUT">
+      <PatternLayout pattern="${LAYOUT_PATTERN}" charset="UTF-8"/>
+    </Console>
+    <RollingFile name="RollingFileLog" fileName="logs/application.log"
+      filePattern="logs/application.log.%d{yyyy-MM-dd}.gz">>
+      <PatternLayout pattern="${LAYOUT_PATTERN}" charset="UTF-8"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="1"/>
+        <SizeBasedTriggeringPolicy size="10MB"/>
+      </Policies>
+      <DefaultRolloverStrategy>
+        <Delete basePath="logs" maxDepth="1">
+          <IfAccumulatedFileCount exceeds="3"/>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+  </Appenders>
+
+  <Loggers>
+    <Root level="info" additivity="false">
+      <AppenderRef ref="ConsoleLog"/>
+      <AppenderRef ref="RollingFileLog"/>
+    </Root>
+    <Logger name="me.toy.server" additivity="false">
+      <AppenderRef ref="ConsoleLog" level="info"/>
+      <AppenderRef ref="RollingFileLog" level="info"/>
+    </Logger>
+    <Logger name="org.hibernate.sql" level="debug" additivity="false">
+      <AppenderRef ref="ConsoleLog"/>
+    </Logger>
+  </Loggers>
+
+</Configuration>
