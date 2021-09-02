@@ -106,7 +106,7 @@ class DateCourseControllerTest {
     list.add(recentDateCourseDto2);
 
     when(dateCourseService.getRecentDateCourseList()).thenReturn(list);
-    when(dateCourseRepository.findRecentDateCourse()).thenReturn(list);
+    when(dateCourseRepository.findAll()).thenReturn(list);
     mockMvc.perform(get("/datecourses/recent"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(list)))

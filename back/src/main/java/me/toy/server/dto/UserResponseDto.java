@@ -29,7 +29,7 @@ public class UserResponseDto {
 
     @Builder
     public SavedDateCourseDto(UserDateCourseSave userDateCourseSave) {
-      
+
       this.id = userDateCourseSave.getDateCourse().getId();
       this.courseLikesCount = userDateCourseSave.getDateCourse().getUserDateCourseLikes().stream()
           .count();//feedback
@@ -70,4 +70,30 @@ public class UserResponseDto {
   }
 
 
+  @Getter
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class UserFollowingUsers {
+
+    private List<FollowingUserDto> users;
+
+    public UserFollowingUsers(List<FollowingUserDto> users) {
+      this.users = users;
+    }
+  }
+
+  @Getter
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class FollowingUserDto {
+
+    private Long userId;
+    private String name;
+    private String email;
+
+    @Builder
+    public FollowingUserDto(Long userId, String name, String email) {
+      this.userId = userId;
+      this.name = name;
+      this.email = email;
+    }
+  }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class User extends BaseEntity {
 
   @Id
   @GeneratedValue
@@ -36,5 +36,7 @@ public class User {
   private List<UserDateCourseLike> userDateCourseLikes = new ArrayList<>();
   @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<Comment> comments = new ArrayList<>();
+  @OneToMany(mappedBy = "user", orphanRemoval = true)
+  private List<UserFollow> userFollows = new ArrayList<>();
 
 }

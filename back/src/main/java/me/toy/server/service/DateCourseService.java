@@ -1,7 +1,8 @@
 package me.toy.server.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.cloud.S3Uploader;
 import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
@@ -12,11 +13,15 @@ import me.toy.server.entity.*;
 import me.toy.server.exception.datecourse.DateCourseNotFoundException;
 import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.repository.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,7 +73,9 @@ public class DateCourseService {
 
     Location location = new Location(registLocationFormDto, fileSaveName);
     location.setDateCourse(dateCourse);
-    tagFindCircuit(registLocationFormDto, location, tagList, locationTagList);
+    if (registLocationFormDto.getHashTag() != null) {
+      tagFindCircuit(registLocationFormDto, location, tagList, locationTagList);
+    }
     locationList.add(location);
   }
 
@@ -127,14 +134,19 @@ public class DateCourseService {
   }
 
   @Transactional(readOnly = true)
-  public List<RecentDateCourseDto> getRecentDateCourseList() {
+  public Page<RecentDateCourseDto> getRecentDateCourseList(Pageable pageable) {
 
-    return dateCourseRepository.findRecentDateCourse();
+    Page<DateCourse> allDateCourse = dateCourseRepository.findAll(pageable);
+    return allDateCourse.map(RecentDateCourseDto::new);
   }
 
   @Transactional(readOnly = true)
-  public List<LikeOrderDateCourseDto> getLikedOrderDateCourseList() {
+  public Page<LikeOrderDateCourseDto> getLikedOrderDateCourseList(Pageable pageable) {
 
-    return dateCourseRepository.findLikeOrderDateCourse();
+    Page<DateCourse> likeOrderDateCourse = dateCourseRepository
+        .findLikeOrderDateCourse(pageable);
+
+    return likeOrderDateCourse.map(LikeOrderDateCourseDto::new);
   }
+
 }

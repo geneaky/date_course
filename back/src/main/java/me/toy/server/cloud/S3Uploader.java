@@ -30,8 +30,8 @@ public class S3Uploader {
   //io 작업 개선 및 aws s3 error 핸들링, 로깅
   public String upload(MultipartFile file) {
 
-    if (file.isEmpty()) {
-      return null;
+    if (file == null) {
+      return "";
     }
     buffer.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
     buffer.append(".jpg");

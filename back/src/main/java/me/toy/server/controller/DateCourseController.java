@@ -8,6 +8,8 @@ import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
 import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
 import me.toy.server.entity.LoginUser;
 import me.toy.server.service.DateCourseService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,16 +52,16 @@ public class DateCourseController {
 
   @GetMapping("/datecourses/recent")
   @ApiOperation("최신순 데이트 코스 제공")
-  public List<RecentDateCourseDto> recentDateCourseList() {
+  public Page<RecentDateCourseDto> recentDateCourseList(Pageable pageable) {
 
-    return dateCourseService.getRecentDateCourseList();
+    return dateCourseService.getRecentDateCourseList(pageable);
   }
 
   @GetMapping("/datecourses/thumbUp")
   @ApiOperation("좋아요순 데이트 코스 제공")
-  public List<LikeOrderDateCourseDto> likeOrderDateCourseList() {
+  public Page<LikeOrderDateCourseDto> likeOrderDateCourseList(Pageable pageable) {
 
-    return dateCourseService.getLikedOrderDateCourseList();
+    return dateCourseService.getLikedOrderDateCourseList(pageable);
   }
 
   @Secured("ROLE_USER")

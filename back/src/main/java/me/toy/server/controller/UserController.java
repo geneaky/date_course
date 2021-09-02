@@ -2,12 +2,18 @@ package me.toy.server.controller;
 
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
+import me.toy.server.dto.UserRequestDto.AddFollower;
+import me.toy.server.dto.UserResponseDto;
 import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
 import me.toy.server.dto.UserResponseDto.UserDto;
+import me.toy.server.dto.UserResponseDto.UserFollowingUsers;
 import me.toy.server.entity.LoginUser;
 import me.toy.server.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -58,22 +64,39 @@ public class UserController {
 
   @ApiOperation("사용자가 만든 데이트 코스 리스트 제공")
   @GetMapping("/user/courses")
-  public ResponseEntity<List<RecentDateCourseDto>> getMyCourseList(@LoginUser String userEmail) {
+  public ResponseEntity<Page<RecentDateCourseDto>> getMyCourseList(@LoginUser String userEmail,
+      Pageable pageable) {
 
-    return ResponseEntity.ok().body(userService.findMyCourse(userEmail));
+    return ResponseEntity.ok().body(userService.findMyCourse(userEmail, pageable));
   }
 
   @ApiOperation("사용자가 저장한 데이트 코스 리스트 제공")
   @GetMapping("/user/save/courses")
-  public ResponseEntity<List<SavedDateCourseDto>> getSavedCourseList(@LoginUser String userEmail) {
+  public ResponseEntity<Page<SavedDateCourseDto>> getSavedCourseList(@LoginUser String userEmail,
+      Pageable pageable) {
 
-    return ResponseEntity.ok().body(userService.findSavedCourseList(userEmail));
+    return ResponseEntity.ok().body(userService.findSavedCourseList(userEmail, pageable));
   }
 
   @ApiOperation("사용자가 작성한 데이트 코스 삭제")
   @DeleteMapping("/user/courses/{courseId}")
   public void deleteUserCourse(@PathVariable Long courseId, @LoginUser String userEmail) {
-    
+
     userService.deleteCourseMadeByUser(courseId, userEmail);
+  }
+
+  @ApiOperation("사용자 팔로우")
+  @PostMapping("/user/follows")
+  public void addFollower(@Valid AddFollower addFollower, @LoginUser String userEmail) {
+
+    userService.addFollowerInUserFollowers(addFollower, userEmail);
+  }
+
+  @ApiOperation("팔로잉 사용자 조회")
+  @GetMapping("/user/follows")
+  public ResponseEntity<UserFollowingUsers> getUserFollowingUsers(
+      @LoginUser String userEmail) {
+
+    return ResponseEntity.ok().body(userService.getUserFollowingUsers(userEmail));
   }
 }

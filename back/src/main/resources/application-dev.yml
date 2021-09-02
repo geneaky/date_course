@@ -13,9 +13,22 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+    cachePrepStmts: true # 캐시가 비활성화 되어 있는 경우에는 밑에 캐시관련 속성값들이 적용되지 않음
+    prepStmtCacheSize: 250 # MySQL 드라이버가 Connection당 캐시할 Pstmt의 수를 설정합니다
+    prepStmtCacheSqlLimit: 2048 # MySQL 드라이버가 캐시할 Pstmt의 최대 길이를 지정합니다
+    useServerPrepStmts: true # Server-Side Pstmt를 제공해준다
+    hikari:
+      connectionTimeout: 30000 # 클라이언트가 pool에 connection을 요청하는데 기다리는 최대 시간 설정
+      maximumPoolSize: 10 # 유휴 및 사용중인 connection을 포함한 풀에 보관가능한 최대 커넥션 개수 설정
+      maxLifetime: 1800000 # connection의 최대 유지 시간 설정
+      poolName: HikariCP
+      readOnly: false # pool에서 얻은 connection이 기본적으로 readOnly인지 지정하는 설정
+      autoCommit: false # hibernate에서 트랜잭션 시작전에 해당 옵션이 true이면 false로 바꾼후 실행후 다시 true로 바꾸기 때문에 불필요한 부분을 스킵하기 위해 false로 설정
 
   jpa:
     hibernate:
+      connection:
+        provider_disables_autocommit: true
       ddl-auto: update
     properties:
       hibernate:

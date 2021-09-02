@@ -10,7 +10,7 @@ import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Location {
+public class Location extends BaseEntity {
 
   @Id
   @GeneratedValue

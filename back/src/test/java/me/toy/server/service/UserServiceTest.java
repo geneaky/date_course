@@ -243,7 +243,8 @@ public class UserServiceTest {
     testSavedCourse.add(new SavedDateCourseDto(userDateCourseSave));
     //when
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(dateCourseRepository.findAllSavedCourseByUserId(user.getId())).thenReturn(testSavedCourse);
+    when(dateCourseRepository.findAllUserDateCourseSaveByUserId(user.getId()))
+        .thenReturn(testSavedCourse);
     List<SavedDateCourseDto> savedCourseListResult = userService.findSavedCourseList(userEmail);
     //then
     assertEquals(savedCourseListResult.size(), 1);
