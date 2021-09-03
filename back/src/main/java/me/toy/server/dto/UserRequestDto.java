@@ -1,5 +1,7 @@
 package me.toy.server.dto;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,12 +13,25 @@ public class UserRequestDto {
   @Getter
   @Setter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class AddFollower {
+  public static class AddFollowerRequest {
 
     private Long followerId;
 
     @Builder
-    public AddFollower(Long followerId) {
+    public AddFollowerRequest(Long followerId) {
+      this.followerId = followerId;
+    }
+  }
+
+  @Getter
+  @Setter
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class RemoveFollowerRequest {
+
+    private Long followerId;
+
+    @Builder
+    public RemoveFollowerRequest(Long followerId) {
       this.followerId = followerId;
     }
   }

@@ -2,13 +2,14 @@ package me.toy.server.service;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
-import me.toy.server.dto.UserRequestDto;
-import me.toy.server.dto.UserRequestDto.AddFollower;
-import me.toy.server.dto.UserResponseDto;
+import me.toy.server.dto.UserRequestDto.AddFollowerRequest;
+import me.toy.server.dto.UserRequestDto.RemoveFollowerRequest;
+import me.toy.server.dto.UserResponseDto.UserFollowers;
+import me.toy.server.dto.UserResponseDto.FollowerUserDto;
 import me.toy.server.dto.UserResponseDto.FollowingUserDto;
 import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
 import me.toy.server.dto.UserResponseDto.UserDto;
-import me.toy.server.dto.UserResponseDto.UserFollowingUsers;
+import me.toy.server.dto.UserResponseDto.UserFollowings;
 import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.Follow;
 import me.toy.server.entity.UserDateCourseSave;
@@ -23,7 +24,6 @@ import me.toy.server.repository.UserFollowRepository;
 import me.toy.server.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -144,28 +144,58 @@ public class UserService {
   }
 
   @Transactional
-  public void addFollowerInUserFollowers(AddFollower addFollower, String userEmail) {
+  public void addFollowerInUserFollowers(AddFollowerRequest addFollowerRequest, String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-    User targetUser = userRepository.findById(addFollower.getFollowerId()).orElseThrow(() ->
+    User targetUser = userRepository.findById(addFollowerRequest.getFollowerId()).orElseThrow(() ->
         new UserNotFoundException("존재하지 않는 사용자 입니다."));
-    Follow follow = new Follow(addFollower.getFollowerId());
+    Follow follow = new Follow(addFollowerRequest.getFollowerId());
     UserFollow userFollow = new UserFollow(user, follow);
 
     followRepository.save(follow);
     userFollowRepository.save(userFollow);
   }
 
-  public UserFollowingUsers getUserFollowingUsers(
+  @Transactional(readOnly = true)
+  public UserFollowings getUserFollowingUsers(
       String userEmail) {
+
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
 
     List<User> allFollowingUsers = userRepository.findAllFollowingUsers(userEmail);
+
     List<FollowingUserDto> followingUserDtos = allFollowingUsers.stream()
         .map(u -> new FollowingUserDto(u.getId(), u.getName(), u.getEmail())).collect(
             Collectors.toList());
-    return new UserFollowingUsers(followingUserDtos);
+    return new UserFollowings(followingUserDtos);
+  }
+
+  @Transactional
+  public void removeFollowerInUserFollowers(RemoveFollowerRequest removeFollowerRequest,
+      String userEmail) {
+
+    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
+        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
+    userFollowRepository
+        .deleteUserFollowInUserFollowings(user.getId(), removeFollowerRequest.getFollowerId());
+    followRepository
+        .deleteFollowInUserFollowings(user.getId(), removeFollowerRequest.getFollowerId());
+  }
+
+  @Transactional(readOnly = true)
+  public UserFollowers getUserFollowersUsers(String userEmail) {
+
+    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
+        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
+
+    List<User> allFollowerUsers = userRepository.findAllFollowerUsers(user.getId());
+
+    List<FollowerUserDto> followerUserDtos = allFollowerUsers.stream()
+        .map(u -> new FollowerUserDto(u.getId(), u.getName(), u.getEmail()))
+        .collect(Collectors.toList());
+
+    return new UserFollowers(followerUserDtos);
   }
 }

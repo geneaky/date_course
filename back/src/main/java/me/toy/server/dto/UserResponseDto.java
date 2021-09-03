@@ -72,12 +72,13 @@ public class UserResponseDto {
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class UserFollowingUsers {
+  public static class UserFollowings {
 
-    private List<FollowingUserDto> users;
+    private List<FollowingUserDto> followingUserDtos;
 
-    public UserFollowingUsers(List<FollowingUserDto> users) {
-      this.users = users;
+    @Builder
+    public UserFollowings(List<FollowingUserDto> followingUserDtos) {
+      this.followingUserDtos = followingUserDtos;
     }
   }
 
@@ -91,6 +92,34 @@ public class UserResponseDto {
 
     @Builder
     public FollowingUserDto(Long userId, String name, String email) {
+      this.userId = userId;
+      this.name = name;
+      this.email = email;
+    }
+  }
+
+  @Getter
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class UserFollowers {
+
+    private List<FollowerUserDto> followerUserDtos;
+
+    @Builder
+    public UserFollowers(List<FollowerUserDto> followerUserDtos) {
+      this.followerUserDtos = followerUserDtos;
+    }
+  }
+
+  @Getter
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class FollowerUserDto {
+
+    private Long userId;
+    private String name;
+    private String email;
+
+    @Builder
+    public FollowerUserDto(Long userId, String name, String email) {
       this.userId = userId;
       this.name = name;
       this.email = email;

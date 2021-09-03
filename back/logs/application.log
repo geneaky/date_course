@@ -1,533 +1,1800 @@
-2021-09-03 00:53:31,076 INFO  [SpringContextShutdownHook]
-[org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown(ExecutorConfigurationSupport.java:218)] ::: Shutting down ExecutorService 'applicationTaskExecutor'
-2021-09-03 00:53:31,112 INFO  [SpringContextShutdownHook]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630598011112 | took 1ms | statement | connection 5| url jdbc:h2:tcp://localhost/~/datecourse
-select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email=?
-select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email='test@naver.com';
-2021-09-03 00:53:31,134 WARN  [SpringContextShutdownHook]
-[org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.postProcessBeforeDestruction(InitDestroyAnnotationBeanPostProcessor.java:185)] ::: Destroy method on bean with name 'securityConfig' threw an exception: org.springframework.dao.IncorrectResultSizeDataAccessException: query did not return a unique result: 108; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 108
-2021-09-03 00:53:31,136 INFO  [SpringContextShutdownHook]
-[org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:651)] ::: Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-09-03 00:53:31,143 INFO  [SpringContextShutdownHook]
-[com.zaxxer.hikari.HikariDataSource.close(HikariDataSource.java:350)] ::: HikariCP - Shutdown initiated...
-2021-09-03 00:53:31,157 INFO  [SpringContextShutdownHook]
-[com.zaxxer.hikari.HikariDataSource.close(HikariDataSource.java:352)] ::: HikariCP - Shutdown completed.
-2021-09-03 00:53:42,646 INFO  [background-preinit]
+2021-09-04 00:28:55,265 INFO  [background-preinit]
 [org.hibernate.validator.internal.util.Version.<clinit>(Version.java:21)] ::: HV000001: Hibernate Validator 6.1.7.Final
-2021-09-03 00:53:42,692 INFO  [restartedMain]
-[org.springframework.boot.StartupInfoLogger.logStarting(StartupInfoLogger.java:55)] ::: Starting OpenDateCourseApplication using Java 1.8.0_261 on JCR with PID 130128 (D:\GitHub\open_date_course\back\out\production\classes started by pc in D:\GitHub\open_date_course\back)
-2021-09-03 00:53:42,697 INFO  [restartedMain]
+2021-09-04 00:28:55,327 INFO  [main]
+[org.springframework.boot.StartupInfoLogger.logStarting(StartupInfoLogger.java:55)] ::: Starting UserControllerTest using Java 1.8.0_261 on JCR with PID 151372 (started by pc in D:\GitHub\open_date_course\back)
+2021-09-04 00:28:55,332 INFO  [main]
 [org.springframework.boot.SpringApplication.logStartupProfileInfo(SpringApplication.java:666)] ::: The following profiles are active: dev
-2021-09-03 00:53:42,779 WARN  [restartedMain]
+2021-09-04 00:28:55,355 WARN  [main]
 [org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 14:13]
-2021-09-03 00:53:42,779 WARN  [restartedMain]
+2021-09-04 00:28:55,356 WARN  [main]
 [org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 7:13]
-2021-09-03 00:53:42,781 INFO  [restartedMain]
-[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:255)] ::: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2021-09-03 00:53:42,781 INFO  [restartedMain]
-[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:255)] ::: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-09-03 00:53:44,367 INFO  [restartedMain]
+2021-09-04 00:28:57,932 INFO  [main]
 [org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:128)] ::: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-09-03 00:53:44,483 INFO  [restartedMain]
-[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:188)] ::: Finished Spring Data repository scanning in 107 ms. Found 10 JPA repository interfaces.
-2021-09-03 00:53:45,121 INFO  [restartedMain]
-[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@2cf1a123' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-09-03 00:53:45,132 INFO  [restartedMain]
+2021-09-04 00:28:58,117 INFO  [main]
+[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:188)] ::: Finished Spring Data repository scanning in 173 ms. Found 10 JPA repository interfaces.
+2021-09-04 00:28:58,499 INFO  [main]
+[org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration$EmbeddedDataSourceBeanFactoryPostProcessor.process(TestDatabaseAutoConfiguration.java:99)] ::: Replacing 'dataSource' DataSource bean with embedded version
+2021-09-04 00:28:59,886 INFO  [main]
+[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@798cf6d2' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-09-04 00:28:59,946 INFO  [main]
 [org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-09-03 00:53:45,546 INFO  [restartedMain]
-[org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:108)] ::: Tomcat initialized with port(s): 8080 (http)
-2021-09-03 00:53:45,560 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Initializing ProtocolHandler ["http-nio-8080"]
-2021-09-03 00:53:45,561 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Starting service [Tomcat]
-2021-09-03 00:53:45,561 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Starting Servlet engine: [Apache Tomcat/9.0.44]
-2021-09-03 00:53:45,750 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Initializing Spring embedded WebApplicationContext
-2021-09-03 00:53:45,750 INFO  [restartedMain]
-[org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext(ServletWebServerApplicationContext.java:289)] ::: Root WebApplicationContext: initialization completed in 2968 ms
-2021-09-03 00:53:45,952 INFO  [restartedMain]
-[com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:110)] ::: HikariCP - Starting...
-2021-09-03 00:53:46,041 INFO  [restartedMain]
-[com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:123)] ::: HikariCP - Start completed.
-2021-09-03 00:53:46,053 INFO  [restartedMain]
-[org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration.lambda$h2Console$0(H2ConsoleAutoConfiguration.java:68)] ::: H2 console available at '/h2-console'. Database available at 'jdbc:h2:tcp://localhost/~/datecourse'
-2021-09-03 00:53:46,266 INFO  [restartedMain]
+2021-09-04 00:29:00,863 INFO  [main]
+[org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory.initDatabase(EmbeddedDatabaseFactory.java:190)] ::: Starting embedded database: url='jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2021-09-04 00:29:01,477 INFO  [main]
 [org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31)] ::: HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-09-03 00:53:46,323 INFO  [restartedMain]
+2021-09-04 00:29:01,574 INFO  [main]
 [org.hibernate.Version.logVersion(Version.java:44)] ::: HHH000412: Hibernate ORM core version 5.4.29.Final
-2021-09-03 00:53:46,464 INFO  [restartedMain]
+2021-09-04 00:29:01,638 INFO  [main]
 [org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:56)] ::: HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-09-03 00:53:46,648 INFO  [restartedMain]
+2021-09-04 00:29:01,910 INFO  [main]
 [org.hibernate.dialect.Dialect.<init>(Dialect.java:175)] ::: HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
-2021-09-03 00:53:47,747 INFO  [restartedMain]
-[org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:47)] ::: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@26cdb249] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-2021-09-03 00:53:47,748 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630598027748 | took 0ms | commit | connection 2| url jdbc:h2:tcp://localhost/~/datecourse
-
-;
-2021-09-03 00:53:47,752 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630598027752 | took 2ms | statement | connection 2| url jdbc:h2:tcp://localhost/~/datecourse
+2021-09-04 00:29:03,072 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943072 | took 3ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
 select * from INFORMATION_SCHEMA.SEQUENCES
 select * from INFORMATION_SCHEMA.SEQUENCES;
-2021-09-03 00:53:47,849 INFO  [restartedMain]
+2021-09-04 00:29:03,135 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943135 | took 6ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    create table comment (
+       comment_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        content varchar(255),
+        likes bigint,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (comment_id)
+    )
+
+    create table comment (
+       comment_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        content varchar(255),
+        likes bigint,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (comment_id)
+    );
+2021-09-04 00:29:03,137 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943137 | took 1ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    create table date_course (
+       datecourse_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        date_course_title varchar(255),
+        user_id bigint,
+        primary key (datecourse_id)
+    )
+
+    create table date_course (
+       datecourse_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        date_course_title varchar(255),
+        user_id bigint,
+        primary key (datecourse_id)
+    );
+2021-09-04 00:29:03,141 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943140 | took 1ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    create table follow (
+       follow_id bigint not null,
+        follow_user_id bigint,
+        primary key (follow_id)
+    )
+
+    create table follow (
+       follow_id bigint not null,
+        follow_user_id bigint,
+        primary key (follow_id)
+    );
+2021-09-04 00:29:03,146 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943146 | took 1ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    create table location (
+       location_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        name varchar(255),
+        photo_url varchar(255),
+        posx float,
+        posy float,
+        text varchar(255),
+        datecourse_id bigint,
+        primary key (location_id)
+    )
+
+    create table location (
+       location_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        name varchar(255),
+        photo_url varchar(255),
+        posx float,
+        posy float,
+        text varchar(255),
+        datecourse_id bigint,
+        primary key (location_id)
+    );
+2021-09-04 00:29:03,148 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943148 | took 1ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    create table location_tag (
+       locationtag_id bigint not null,
+        location_id bigint,
+        tag_id bigint,
+        primary key (locationtag_id)
+    )
+
+    create table location_tag (
+       locationtag_id bigint not null,
+        location_id bigint,
+        tag_id bigint,
+        primary key (locationtag_id)
+    );
+2021-09-04 00:29:03,149 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943149 | took 1ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    create table tag (
+       tag_id bigint not null,
+        name varchar(255),
+        primary key (tag_id)
+    )
+
+    create table tag (
+       tag_id bigint not null,
+        name varchar(255),
+        primary key (tag_id)
+    );
+2021-09-04 00:29:03,164 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943164 | took 1ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    create table user (
+       user_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        email varchar(255),
+        image_url varchar(255),
+        name varchar(255),
+        password varchar(255),
+        provider varchar(255),
+        provider_id varchar(255),
+        primary key (user_id)
+    )
+
+    create table user (
+       user_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        email varchar(255),
+        image_url varchar(255),
+        name varchar(255),
+        password varchar(255),
+        provider varchar(255),
+        provider_id varchar(255),
+        primary key (user_id)
+    );
+2021-09-04 00:29:03,167 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943167 | took 2ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    create table user_date_course_like (
+       userdatecourselike_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecourselike_id)
+    )
+
+    create table user_date_course_like (
+       userdatecourselike_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecourselike_id)
+    );
+2021-09-04 00:29:03,171 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943171 | took 2ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    create table user_date_course_save (
+       userdatecoursesave_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecoursesave_id)
+    )
+
+    create table user_date_course_save (
+       userdatecoursesave_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecoursesave_id)
+    );
+2021-09-04 00:29:03,181 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943181 | took 3ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    create table user_follow (
+       id bigint not null,
+        follow_id bigint,
+        user_id bigint,
+        primary key (id)
+    )
+
+    create table user_follow (
+       id bigint not null,
+        follow_id bigint,
+        user_id bigint,
+        primary key (id)
+    );
+2021-09-04 00:29:03,187 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943187 | took 3ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+create sequence hibernate_sequence start with 1 increment by 1
+create sequence hibernate_sequence start with 1 increment by 1;
+2021-09-04 00:29:03,210 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943207 | took 11ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table comment 
+       add constraint FK2n8idrw4ttr3563tg0s481yfs 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table comment 
+       add constraint FK2n8idrw4ttr3563tg0s481yfs 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:29:03,214 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943214 | took 2ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table comment 
+       add constraint FK8kcum44fvpupyw6f5baccx25c 
+       foreign key (user_id) 
+       references user
+
+    alter table comment 
+       add constraint FK8kcum44fvpupyw6f5baccx25c 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:29:03,218 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943218 | took 3ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table date_course 
+       add constraint FKlr2cd0hikihg50iqai6tiyxm6 
+       foreign key (user_id) 
+       references user
+
+    alter table date_course 
+       add constraint FKlr2cd0hikihg50iqai6tiyxm6 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:29:03,223 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943222 | took 1ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table location 
+       add constraint FKdvjuts0ufgovywnxuyxrs210l 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table location 
+       add constraint FKdvjuts0ufgovywnxuyxrs210l 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:29:03,228 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943228 | took 1ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table location_tag 
+       add constraint FK3v8cy6pwhs2ful50h2jirsx2g 
+       foreign key (location_id) 
+       references location
+
+    alter table location_tag 
+       add constraint FK3v8cy6pwhs2ful50h2jirsx2g 
+       foreign key (location_id) 
+       references location;
+2021-09-04 00:29:03,230 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943230 | took 1ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table location_tag 
+       add constraint FKgrpnco0g0npewc87e8he3oj5w 
+       foreign key (tag_id) 
+       references tag
+
+    alter table location_tag 
+       add constraint FKgrpnco0g0npewc87e8he3oj5w 
+       foreign key (tag_id) 
+       references tag;
+2021-09-04 00:29:03,238 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943238 | took 7ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table user_date_course_like 
+       add constraint FK3l65qpnuw0hcomdv5fsfccfbw 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table user_date_course_like 
+       add constraint FK3l65qpnuw0hcomdv5fsfccfbw 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:29:03,254 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943254 | took 6ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table user_date_course_like 
+       add constraint FK8wut9v5ondcc8ttymtpavttq6 
+       foreign key (user_id) 
+       references user
+
+    alter table user_date_course_like 
+       add constraint FK8wut9v5ondcc8ttymtpavttq6 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:29:03,256 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943256 | took 1ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table user_date_course_save 
+       add constraint FKs2ksnaqnx8cch4fl4os9o3l2q 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table user_date_course_save 
+       add constraint FKs2ksnaqnx8cch4fl4os9o3l2q 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:29:03,263 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943262 | took 5ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table user_date_course_save 
+       add constraint FKsml8b1ftuv866n2q0sgfvnx0q 
+       foreign key (user_id) 
+       references user
+
+    alter table user_date_course_save 
+       add constraint FKsml8b1ftuv866n2q0sgfvnx0q 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:29:03,267 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943267 | took 2ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table user_follow 
+       add constraint FKbqop8vyd1wcj0okjbxi96fd5o 
+       foreign key (follow_id) 
+       references follow
+
+    alter table user_follow 
+       add constraint FKbqop8vyd1wcj0okjbxi96fd5o 
+       foreign key (follow_id) 
+       references follow;
+2021-09-04 00:29:03,272 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682943271 | took 3ms | statement | connection 1| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+
+    alter table user_follow 
+       add constraint FKqoh67whudvkf3w7lovavd6s94 
+       foreign key (user_id) 
+       references user
+
+    alter table user_follow 
+       add constraint FKqoh67whudvkf3w7lovavd6s94 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:29:03,273 INFO  [main]
 [org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator.initiateService(JtaPlatformInitiator.java:52)] ::: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-09-03 00:53:47,879 INFO  [restartedMain]
+2021-09-04 00:29:03,289 INFO  [main]
 [org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:437)] ::: Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-09-03 00:53:47,950 INFO  [restartedMain]
-[org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer.startServer(OptionalLiveReloadServer.java:58)] ::: LiveReload server is running on port 35729
-2021-09-03 00:53:49,597 WARN  [restartedMain]
+2021-09-04 00:29:06,182 WARN  [main]
 [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor(JpaBaseConfiguration.java:221)] ::: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-09-03 00:53:49,673 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630598029673 | took 0ms | statement | connection 3| url jdbc:h2:tcp://localhost/~/datecourse
+2021-09-04 00:29:06,304 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682946304 | took 0ms | statement | connection 2| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
 call next value for hibernate_sequence
 call next value for hibernate_sequence;
-2021-09-03 00:53:49,723 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630598029723 | took 0ms | statement | connection 3| url jdbc:h2:tcp://localhost/~/datecourse
+2021-09-04 00:29:06,356 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682946355 | took 0ms | statement | connection 2| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
 insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)
-insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values ('2021-09-03T00:53:49.633+0900', NULL, 'test@naver.com', NULL, 'testUser', NULL, NULL, NULL, 208);
-2021-09-03 00:53:49,729 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630598029728 | took 0ms | commit | connection 3| url jdbc:h2:tcp://localhost/~/datecourse
+insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values ('2021-09-04T00:29:06.245+0900', NULL, 'test@naver.com', NULL, 'testUser', NULL, NULL, NULL, 1);
+2021-09-04 00:29:06,361 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682946361 | took 0ms | commit | connection 2| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
 
 ;
-2021-09-03 00:53:49,840 WARN  [restartedMain]
+2021-09-04 00:29:06,409 WARN  [main]
 [org.hibernate.hql.internal.ast.HqlSqlWalker.lookupProperty(HqlSqlWalker.java:670)] ::: HHH90000016: Found use of deprecated 'collection property' syntax in HQL/JPQL query [d.userDateCourseLikes.size]; use collection function syntax instead [size(d.userDateCourseLikes)].
-2021-09-03 00:53:50,801 INFO  [restartedMain]
-[org.springframework.security.web.DefaultSecurityFilterChain.<init>(DefaultSecurityFilterChain.java:51)] ::: Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6569ba34, org.springframework.security.web.context.SecurityContextPersistenceFilter@2544b402, org.springframework.security.web.header.HeaderWriterFilter@14c5aca3, org.springframework.web.filter.CorsFilter@55c98241, org.springframework.security.web.authentication.logout.LogoutFilter@7b2f7973, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@2732cd8d, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@12075ab1, me.toy.server.security.jwt.TokenAuthenticationFilter@2b89a376, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@14681215, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@4b91897d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1394257, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@362b780a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1b4d1771, org.springframework.security.web.session.SessionManagementFilter@13b84e59, org.springframework.security.web.access.ExceptionTranslationFilter@3276a74d, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@25fc7456]
-2021-09-03 00:53:50,895 INFO  [restartedMain]
+2021-09-04 00:29:08,317 INFO  [main]
+[org.springframework.security.web.DefaultSecurityFilterChain.<init>(DefaultSecurityFilterChain.java:51)] ::: Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1bd6bfb0, org.springframework.security.web.context.SecurityContextPersistenceFilter@5a5024eb, org.springframework.security.web.header.HeaderWriterFilter@5c8d685e, org.springframework.web.filter.CorsFilter@3b9c386d, org.springframework.security.web.authentication.logout.LogoutFilter@4ae435a3, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@63d43a5, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@6e68ccc9, me.toy.server.security.jwt.TokenAuthenticationFilter@362fd4e9, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@206de1f, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@7fb28ed, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@797ca322, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@399acce3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@536f389, org.springframework.security.web.session.SessionManagementFilter@4d0e6424, org.springframework.security.web.access.ExceptionTranslationFilter@3ca564aa, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@78de0f6f]
+2021-09-04 00:29:08,735 INFO  [main]
 [org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize(ExecutorConfigurationSupport.java:181)] ::: Initializing ExecutorService 'applicationTaskExecutor'
-2021-09-03 00:53:51,112 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Starting ProtocolHandler ["http-nio-8080"]
-2021-09-03 00:53:51,134 INFO  [restartedMain]
-[org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start(TomcatWebServer.java:220)] ::: Tomcat started on port(s): 8080 (http) with context path ''
-2021-09-03 00:53:51,495 INFO  [restartedMain]
-[org.springframework.boot.StartupInfoLogger.logStarted(StartupInfoLogger.java:61)] ::: Started OpenDateCourseApplication in 9.675 seconds (JVM running for 12.19)
-2021-09-03 00:54:14,423 INFO  [http-nio-8080-exec-1]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-09-03 00:54:14,423 INFO  [http-nio-8080-exec-1]
-[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:525)] ::: Initializing Servlet 'dispatcherServlet'
-2021-09-03 00:54:14,425 INFO  [http-nio-8080-exec-1]
-[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:547)] ::: Completed initialization in 2 ms
-2021-09-03 00:54:14,545 INFO  [http-nio-8080-exec-1]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630598054545 | took 0ms | statement | connection 4| url jdbc:h2:tcp://localhost/~/datecourse
-select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email=?
-select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email='kaktus418@gmail.com';
-2021-09-03 00:54:14,587 WARN  [http-nio-8080-exec-1]
-[org.hibernate.engine.jdbc.spi.SqlExceptionHelper.logExceptions(SqlExceptionHelper.java:137)] ::: SQL Error: 42001, SQLState: 42001
-2021-09-03 00:54:14,588 ERROR [http-nio-8080-exec-1]
-[org.hibernate.engine.jdbc.spi.SqlExceptionHelper.logExceptions(SqlExceptionHelper.java:142)] ::: Syntax error in SQL statement "SELECT U FROM USER U JOIN FETCH[*] U.USERFOLLOWS UF ON UF.USER.ID = U.ID JOIN FETCH UF.FOLLOW F ON UF.FOLLOW.ID = F.ID WHERE (SELECT U.ID FROM USER U WHERE U.EMAIL = ? LIMIT 1) = UF.USER.ID"; expected "identifier"; SQL statement:
-SELECT u FROM User u JOIN FETCH u.userFollows uf ON uf.user.id = u.id JOIN FETCH uf.follow f ON uf.follow.id = f.id WHERE (SELECT u.id from User u where u.email = ? limit 1) = uf.user.id [42001-200]
-2021-09-03 00:54:14,610 ERROR [http-nio-8080-exec-1]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:175)] ::: Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.dao.InvalidDataAccessResourceUsageException: could not prepare statement; SQL [SELECT u FROM User u JOIN FETCH u.userFollows uf ON uf.user.id = u.id JOIN FETCH uf.follow f ON uf.follow.id = f.id WHERE (SELECT u.id from User u where u.email = ? limit 1) = uf.user.id]; nested exception is org.hibernate.exception.SQLGrammarException: could not prepare statement] with root cause
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT U FROM USER U JOIN FETCH[*] U.USERFOLLOWS UF ON UF.USER.ID = U.ID JOIN FETCH UF.FOLLOW F ON UF.FOLLOW.ID = F.ID WHERE (SELECT U.ID FROM USER U WHERE U.EMAIL = ? LIMIT 1) = UF.USER.ID"; expected "identifier"; SQL statement:
-SELECT u FROM User u JOIN FETCH u.userFollows uf ON uf.user.id = u.id JOIN FETCH uf.follow f ON uf.follow.id = f.id WHERE (SELECT u.id from User u where u.email = ? limit 1) = uf.user.id [42001-200]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453) ~[h2-1.4.200.jar:1.4.200]
-	at org.h2.engine.SessionRemote.done(SessionRemote.java:611) ~[h2-1.4.200.jar:1.4.200]
-	at org.h2.command.CommandRemote.prepare(CommandRemote.java:85) ~[h2-1.4.200.jar:1.4.200]
-	at org.h2.command.CommandRemote.<init>(CommandRemote.java:51) ~[h2-1.4.200.jar:1.4.200]
-	at org.h2.engine.SessionRemote.prepareCommand(SessionRemote.java:481) ~[h2-1.4.200.jar:1.4.200]
-	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235) ~[h2-1.4.200.jar:1.4.200]
-	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:76) ~[h2-1.4.200.jar:1.4.200]
-	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:352) ~[h2-1.4.200.jar:1.4.200]
-	at com.zaxxer.hikari.pool.ProxyConnection.prepareStatement(ProxyConnection.java:337) ~[HikariCP-3.4.5.jar:?]
-	at com.zaxxer.hikari.pool.HikariProxyConnection.prepareStatement(HikariProxyConnection.java) ~[HikariCP-3.4.5.jar:?]
-	at com.p6spy.engine.wrapper.ConnectionWrapper.prepareStatement(ConnectionWrapper.java:118) ~[p6spy-3.8.2.jar:?]
-	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$5.doPrepare(StatementPreparerImpl.java:149) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.prepareStatement(StatementPreparerImpl.java:176) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareQueryStatement(StatementPreparerImpl.java:151) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.loader.Loader.prepareQueryStatement(Loader.java:2103) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:2040) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.loader.Loader.executeQueryStatement(Loader.java:2018) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.loader.Loader.doQuery(Loader.java:948) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:349) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.loader.Loader.doList(Loader.java:2849) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.loader.Loader.doList(Loader.java:2831) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2663) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.loader.Loader.list(Loader.java:2658) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.loader.custom.CustomLoader.list(CustomLoader.java:338) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.internal.SessionImpl.listCustomQuery(SessionImpl.java:2141) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.internal.AbstractSharedSessionContract.list(AbstractSharedSessionContract.java:1172) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.query.internal.NativeQueryImpl.doList(NativeQueryImpl.java:176) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.query.internal.AbstractProducedQuery.list(AbstractProducedQuery.java:1593) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.hibernate.query.Query.getResultList(Query.java:165) ~[hibernate-core-5.4.29.Final.jar:5.4.29.Final]
-	at org.springframework.data.jpa.repository.query.JpaQueryExecution$CollectionExecution.doExecute(JpaQueryExecution.java:126) ~[spring-data-jpa-2.4.6.jar:2.4.6]
-	at org.springframework.data.jpa.repository.query.JpaQueryExecution.execute(JpaQueryExecution.java:88) ~[spring-data-jpa-2.4.6.jar:2.4.6]
-	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.doExecute(AbstractJpaQuery.java:155) ~[spring-data-jpa-2.4.6.jar:2.4.6]
-	at org.springframework.data.jpa.repository.query.AbstractJpaQuery.execute(AbstractJpaQuery.java:143) ~[spring-data-jpa-2.4.6.jar:2.4.6]
-	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:137) ~[spring-data-commons-2.4.6.jar:2.4.6]
-	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:121) ~[spring-data-commons-2.4.6.jar:2.4.6]
-	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:152) ~[spring-data-commons-2.4.6.jar:2.4.6]
-	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:131) ~[spring-data-commons-2.4.6.jar:2.4.6]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:80) ~[spring-data-commons-2.4.6.jar:2.4.6]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123) ~[spring-tx-5.3.5.jar:5.3.5]
-	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388) ~[spring-tx-5.3.5.jar:5.3.5]
-	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119) ~[spring-tx-5.3.5.jar:5.3.5]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137) ~[spring-tx-5.3.5.jar:5.3.5]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:145) ~[spring-data-jpa-2.4.6.jar:2.4.6]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215) ~[spring-aop-5.3.5.jar:5.3.5]
-	at com.sun.proxy.$Proxy137.findAllFollowingUsers(Unknown Source) ~[?:?]
-	at me.toy.server.service.UserService.getUserFollowingUsers(UserService.java:165) ~[classes/:?]
-	at me.toy.server.service.UserService$$FastClassBySpringCGLIB$$6b326d0c.invoke(<generated>) ~[classes/:?]
-	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218) ~[spring-core-5.3.5.jar:5.3.5]
-	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688) ~[spring-aop-5.3.5.jar:5.3.5]
-	at me.toy.server.service.UserService$$EnhancerBySpringCGLIB$$feb74c65.getUserFollowingUsers(<generated>) ~[classes/:?]
-	at me.toy.server.controller.UserController.getUserFollowingUsers(UserController.java:100) ~[classes/:?]
-	at me.toy.server.controller.UserController$$FastClassBySpringCGLIB$$64087cb4.invoke(<generated>) ~[classes/:?]
-	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218) ~[spring-core-5.3.5.jar:5.3.5]
-	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:779) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor.invoke(MethodSecurityInterceptor.java:61) ~[spring-security-core-5.4.5.jar:5.4.5]
-	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:750) ~[spring-aop-5.3.5.jar:5.3.5]
-	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:692) ~[spring-aop-5.3.5.jar:5.3.5]
-	at me.toy.server.controller.UserController$$EnhancerBySpringCGLIB$$bf498e2f.getUserFollowingUsers(<generated>) ~[classes/:?]
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_261]
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_261]
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_261]
-	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_261]
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:197) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:141) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:894) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1060) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:962) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:626) ~[tomcat-embed-core-9.0.44.jar:4.0.FR]
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733) ~[tomcat-embed-core-9.0.44.jar:4.0.FR]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:113) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:327) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke(FilterSecurityInterceptor.java:115) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter(FilterSecurityInterceptor.java:81) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:113) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:126) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:81) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:105) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:149) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter.doFilterInternal(DefaultLogoutPageGeneratingFilter.java:58) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.doFilter(DefaultLoginPageGeneratingFilter.java:237) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.doFilter(DefaultLoginPageGeneratingFilter.java:223) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at me.toy.server.security.jwt.TokenAuthenticationFilter.doFilterInternal(TokenAuthenticationFilter.java:49) ~[classes/:?]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:218) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:212) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.doFilterInternal(OAuth2AuthorizationRequestRedirectFilter.java:178) ~[spring-security-oauth2-client-5.4.5.jar:5.4.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:103) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:89) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:110) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter(SecurityContextPersistenceFilter.java:80) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:55) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:336) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:183) ~[spring-security-web-5.4.5.jar:5.4.5]
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:358) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:271) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1707) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_261]
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_261]
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.44.jar:9.0.44]
-	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_261]
-2021-09-03 00:54:49,023 INFO  [SpringContextShutdownHook]
+2021-09-04 00:29:09,406 INFO  [main]
+[org.springframework.mock.web.MockServletContext.log(MockServletContext.java:455)] ::: Initializing Spring TestDispatcherServlet ''
+2021-09-04 00:29:09,406 INFO  [main]
+[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:525)] ::: Initializing Servlet ''
+2021-09-04 00:29:09,409 INFO  [main]
+[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:547)] ::: Completed initialization in 3 ms
+2021-09-04 00:29:09,898 INFO  [main]
+[org.springframework.boot.StartupInfoLogger.logStarted(StartupInfoLogger.java:61)] ::: Started UserControllerTest in 15.245 seconds (JVM running for 18.608)
+2021-09-04 00:29:10,027 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682950027 | took 0ms | statement | connection 3| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.name=?
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.name='testUser';
+2021-09-04 00:29:10,440 INFO  [SpringContextShutdownHook]
 [org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown(ExecutorConfigurationSupport.java:218)] ::: Shutting down ExecutorService 'applicationTaskExecutor'
-2021-09-03 00:54:49,045 INFO  [SpringContextShutdownHook]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630598089045 | took 0ms | statement | connection 5| url jdbc:h2:tcp://localhost/~/datecourse
+2021-09-04 00:29:10,454 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682950454 | took 0ms | statement | connection 4| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
 select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email=?
 select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email='test@naver.com';
-2021-09-03 00:54:49,065 WARN  [SpringContextShutdownHook]
-[org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.postProcessBeforeDestruction(InitDestroyAnnotationBeanPostProcessor.java:185)] ::: Destroy method on bean with name 'securityConfig' threw an exception: org.springframework.dao.IncorrectResultSizeDataAccessException: query did not return a unique result: 109; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 109
-2021-09-03 00:54:49,067 INFO  [SpringContextShutdownHook]
-[org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:651)] ::: Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-09-03 00:54:49,072 INFO  [SpringContextShutdownHook]
-[com.zaxxer.hikari.HikariDataSource.close(HikariDataSource.java:350)] ::: HikariCP - Shutdown initiated...
-2021-09-03 00:54:49,758 INFO  [SpringContextShutdownHook]
-[com.zaxxer.hikari.HikariDataSource.close(HikariDataSource.java:352)] ::: HikariCP - Shutdown completed.
-2021-09-03 01:21:41,024 INFO  [background-preinit]
-[org.hibernate.validator.internal.util.Version.<clinit>(Version.java:21)] ::: HV000001: Hibernate Validator 6.1.7.Final
-2021-09-03 01:21:41,063 INFO  [restartedMain]
-[org.springframework.boot.StartupInfoLogger.logStarting(StartupInfoLogger.java:55)] ::: Starting OpenDateCourseApplication using Java 1.8.0_261 on JCR with PID 125036 (D:\GitHub\open_date_course\back\out\production\classes started by pc in D:\GitHub\open_date_course\back)
-2021-09-03 01:21:41,067 INFO  [restartedMain]
-[org.springframework.boot.SpringApplication.logStartupProfileInfo(SpringApplication.java:666)] ::: The following profiles are active: dev
-2021-09-03 01:21:41,126 WARN  [restartedMain]
-[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 14:13]
-2021-09-03 01:21:41,126 WARN  [restartedMain]
-[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 7:13]
-2021-09-03 01:21:41,128 INFO  [restartedMain]
-[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:255)] ::: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2021-09-03 01:21:41,128 INFO  [restartedMain]
-[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:255)] ::: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-09-03 01:21:42,939 INFO  [restartedMain]
-[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:128)] ::: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-09-03 01:21:43,060 INFO  [restartedMain]
-[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:188)] ::: Finished Spring Data repository scanning in 110 ms. Found 10 JPA repository interfaces.
-2021-09-03 01:21:43,659 INFO  [restartedMain]
-[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@373e8e43' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-09-03 01:21:43,672 INFO  [restartedMain]
-[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-09-03 01:21:44,123 INFO  [restartedMain]
-[org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:108)] ::: Tomcat initialized with port(s): 8080 (http)
-2021-09-03 01:21:44,137 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Initializing ProtocolHandler ["http-nio-8080"]
-2021-09-03 01:21:44,137 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Starting service [Tomcat]
-2021-09-03 01:21:44,137 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Starting Servlet engine: [Apache Tomcat/9.0.44]
-2021-09-03 01:21:44,354 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Initializing Spring embedded WebApplicationContext
-2021-09-03 01:21:44,355 INFO  [restartedMain]
-[org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext(ServletWebServerApplicationContext.java:289)] ::: Root WebApplicationContext: initialization completed in 3226 ms
-2021-09-03 01:21:44,527 INFO  [restartedMain]
-[com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:110)] ::: HikariCP - Starting...
-2021-09-03 01:21:44,591 INFO  [restartedMain]
-[com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:123)] ::: HikariCP - Start completed.
-2021-09-03 01:21:44,601 INFO  [restartedMain]
-[org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration.lambda$h2Console$0(H2ConsoleAutoConfiguration.java:68)] ::: H2 console available at '/h2-console'. Database available at 'jdbc:h2:tcp://localhost/~/datecourse'
-2021-09-03 01:21:44,893 INFO  [restartedMain]
-[org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31)] ::: HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-09-03 01:21:45,007 INFO  [restartedMain]
-[org.hibernate.Version.logVersion(Version.java:44)] ::: HHH000412: Hibernate ORM core version 5.4.29.Final
-2021-09-03 01:21:45,191 INFO  [restartedMain]
-[org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:56)] ::: HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-09-03 01:21:45,356 INFO  [restartedMain]
-[org.hibernate.dialect.Dialect.<init>(Dialect.java:175)] ::: HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
-2021-09-03 01:21:46,534 INFO  [restartedMain]
-[org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:47)] ::: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@510deda2] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-2021-09-03 01:21:46,535 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630599706535 | took 0ms | commit | connection 2| url jdbc:h2:tcp://localhost/~/datecourse
+2021-09-04 00:29:10,471 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682950471 | took 0ms | statement | connection 5| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+select user0_.user_id as user_id1_6_0_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_ from user user0_ where user0_.user_id=?
+select user0_.user_id as user_id1_6_0_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_ from user user0_ where user0_.user_id=1;
+2021-09-04 00:29:10,496 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682950496 | took 1ms | statement | connection 5| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+select comments0_.user_id as user_id7_0_1_, comments0_.comment_id as comment_1_0_1_, comments0_.comment_id as comment_1_0_0_, comments0_.created_at as created_2_0_0_, comments0_.updated_at as updated_3_0_0_, comments0_.content as content4_0_0_, comments0_.datecourse_id as datecour6_0_0_, comments0_.likes as likes5_0_0_, comments0_.user_id as user_id7_0_0_ from comment comments0_ where comments0_.user_id=?
+select comments0_.user_id as user_id7_0_1_, comments0_.comment_id as comment_1_0_1_, comments0_.comment_id as comment_1_0_0_, comments0_.created_at as created_2_0_0_, comments0_.updated_at as updated_3_0_0_, comments0_.content as content4_0_0_, comments0_.datecourse_id as datecour6_0_0_, comments0_.likes as likes5_0_0_, comments0_.user_id as user_id7_0_0_ from comment comments0_ where comments0_.user_id=1;
+2021-09-04 00:29:10,502 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682950501 | took 0ms | statement | connection 5| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+select datecourse0_.user_id as user_id5_1_1_, datecourse0_.datecourse_id as datecour1_1_1_, datecourse0_.datecourse_id as datecour1_1_0_, datecourse0_.created_at as created_2_1_0_, datecourse0_.updated_at as updated_3_1_0_, datecourse0_.date_course_title as date_cou4_1_0_, datecourse0_.user_id as user_id5_1_0_ from date_course datecourse0_ where datecourse0_.user_id=?
+select datecourse0_.user_id as user_id5_1_1_, datecourse0_.datecourse_id as datecour1_1_1_, datecourse0_.datecourse_id as datecour1_1_0_, datecourse0_.created_at as created_2_1_0_, datecourse0_.updated_at as updated_3_1_0_, datecourse0_.date_course_title as date_cou4_1_0_, datecourse0_.user_id as user_id5_1_0_ from date_course datecourse0_ where datecourse0_.user_id=1;
+2021-09-04 00:29:10,504 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682950503 | took 0ms | statement | connection 5| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+select userdateco0_.user_id as user_id3_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_0_, userdateco0_.datecourse_id as datecour2_8_0_, userdateco0_.user_id as user_id3_8_0_ from user_date_course_save userdateco0_ where userdateco0_.user_id=?
+select userdateco0_.user_id as user_id3_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_0_, userdateco0_.datecourse_id as datecour2_8_0_, userdateco0_.user_id as user_id3_8_0_ from user_date_course_save userdateco0_ where userdateco0_.user_id=1;
+2021-09-04 00:29:10,506 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682950506 | took 0ms | statement | connection 5| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+select userdateco0_.user_id as user_id3_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_0_, userdateco0_.datecourse_id as datecour2_7_0_, userdateco0_.user_id as user_id3_7_0_ from user_date_course_like userdateco0_ where userdateco0_.user_id=?
+select userdateco0_.user_id as user_id3_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_0_, userdateco0_.datecourse_id as datecour2_7_0_, userdateco0_.user_id as user_id3_7_0_ from user_date_course_like userdateco0_ where userdateco0_.user_id=1;
+2021-09-04 00:29:10,509 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682950509 | took 0ms | statement | connection 5| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+select userfollow0_.user_id as user_id3_9_1_, userfollow0_.id as id1_9_1_, userfollow0_.id as id1_9_0_, userfollow0_.follow_id as follow_i2_9_0_, userfollow0_.user_id as user_id3_9_0_ from user_follow userfollow0_ where userfollow0_.user_id=?
+select userfollow0_.user_id as user_id3_9_1_, userfollow0_.id as id1_9_1_, userfollow0_.id as id1_9_0_, userfollow0_.follow_id as follow_i2_9_0_, userfollow0_.user_id as user_id3_9_0_ from user_follow userfollow0_ where userfollow0_.user_id=1;
+2021-09-04 00:29:10,520 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682950520 | took 2ms | statement | connection 5| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
+delete from user where user_id=?
+delete from user where user_id=1;
+2021-09-04 00:29:10,522 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630682950522 | took 0ms | commit | connection 5| url jdbc:h2:mem:7d36156d-c1e5-4493-a3b0-07ef19d2a8c6
 
 ;
-2021-09-03 01:21:46,540 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630599706539 | took 2ms | statement | connection 2| url jdbc:h2:tcp://localhost/~/datecourse
+2021-09-04 00:29:10,525 INFO  [SpringContextShutdownHook]
+[org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:651)] ::: Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-09-04 00:38:45,545 INFO  [background-preinit]
+[org.hibernate.validator.internal.util.Version.<clinit>(Version.java:21)] ::: HV000001: Hibernate Validator 6.1.7.Final
+2021-09-04 00:38:45,588 INFO  [main]
+[org.springframework.boot.StartupInfoLogger.logStarting(StartupInfoLogger.java:55)] ::: Starting UserControllerTest using Java 1.8.0_261 on JCR with PID 127976 (started by pc in D:\GitHub\open_date_course\back)
+2021-09-04 00:38:45,593 INFO  [main]
+[org.springframework.boot.SpringApplication.logStartupProfileInfo(SpringApplication.java:666)] ::: The following profiles are active: dev
+2021-09-04 00:38:45,612 WARN  [main]
+[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 14:13]
+2021-09-04 00:38:45,613 WARN  [main]
+[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 7:13]
+2021-09-04 00:38:47,085 INFO  [main]
+[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:128)] ::: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-09-04 00:38:47,209 INFO  [main]
+[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:188)] ::: Finished Spring Data repository scanning in 111 ms. Found 10 JPA repository interfaces.
+2021-09-04 00:38:47,449 INFO  [main]
+[org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration$EmbeddedDataSourceBeanFactoryPostProcessor.process(TestDatabaseAutoConfiguration.java:99)] ::: Replacing 'dataSource' DataSource bean with embedded version
+2021-09-04 00:38:48,321 INFO  [main]
+[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@45bbc52f' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-09-04 00:38:48,350 INFO  [main]
+[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-09-04 00:38:48,838 INFO  [main]
+[org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory.initDatabase(EmbeddedDatabaseFactory.java:190)] ::: Starting embedded database: url='jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2021-09-04 00:38:49,322 INFO  [main]
+[org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31)] ::: HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-09-04 00:38:49,402 INFO  [main]
+[org.hibernate.Version.logVersion(Version.java:44)] ::: HHH000412: Hibernate ORM core version 5.4.29.Final
+2021-09-04 00:38:49,466 INFO  [main]
+[org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:56)] ::: HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-09-04 00:38:49,704 INFO  [main]
+[org.hibernate.dialect.Dialect.<init>(Dialect.java:175)] ::: HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-09-04 00:38:50,701 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530700 | took 4ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
 select * from INFORMATION_SCHEMA.SEQUENCES
 select * from INFORMATION_SCHEMA.SEQUENCES;
-2021-09-03 01:21:46,602 INFO  [restartedMain]
+2021-09-04 00:38:50,760 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530760 | took 7ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    create table comment (
+       comment_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        content varchar(255),
+        likes bigint,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (comment_id)
+    )
+
+    create table comment (
+       comment_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        content varchar(255),
+        likes bigint,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (comment_id)
+    );
+2021-09-04 00:38:50,761 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530761 | took 0ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    create table date_course (
+       datecourse_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        date_course_title varchar(255),
+        user_id bigint,
+        primary key (datecourse_id)
+    )
+
+    create table date_course (
+       datecourse_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        date_course_title varchar(255),
+        user_id bigint,
+        primary key (datecourse_id)
+    );
+2021-09-04 00:38:50,763 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530763 | took 0ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    create table follow (
+       follow_id bigint not null,
+        follow_user_id bigint,
+        primary key (follow_id)
+    )
+
+    create table follow (
+       follow_id bigint not null,
+        follow_user_id bigint,
+        primary key (follow_id)
+    );
+2021-09-04 00:38:50,767 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530767 | took 2ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    create table location (
+       location_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        name varchar(255),
+        photo_url varchar(255),
+        posx float,
+        posy float,
+        text varchar(255),
+        datecourse_id bigint,
+        primary key (location_id)
+    )
+
+    create table location (
+       location_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        name varchar(255),
+        photo_url varchar(255),
+        posx float,
+        posy float,
+        text varchar(255),
+        datecourse_id bigint,
+        primary key (location_id)
+    );
+2021-09-04 00:38:50,770 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530769 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    create table location_tag (
+       locationtag_id bigint not null,
+        location_id bigint,
+        tag_id bigint,
+        primary key (locationtag_id)
+    )
+
+    create table location_tag (
+       locationtag_id bigint not null,
+        location_id bigint,
+        tag_id bigint,
+        primary key (locationtag_id)
+    );
+2021-09-04 00:38:50,773 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530772 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    create table tag (
+       tag_id bigint not null,
+        name varchar(255),
+        primary key (tag_id)
+    )
+
+    create table tag (
+       tag_id bigint not null,
+        name varchar(255),
+        primary key (tag_id)
+    );
+2021-09-04 00:38:50,775 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530775 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    create table user (
+       user_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        email varchar(255),
+        image_url varchar(255),
+        name varchar(255),
+        password varchar(255),
+        provider varchar(255),
+        provider_id varchar(255),
+        primary key (user_id)
+    )
+
+    create table user (
+       user_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        email varchar(255),
+        image_url varchar(255),
+        name varchar(255),
+        password varchar(255),
+        provider varchar(255),
+        provider_id varchar(255),
+        primary key (user_id)
+    );
+2021-09-04 00:38:50,778 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530778 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    create table user_date_course_like (
+       userdatecourselike_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecourselike_id)
+    )
+
+    create table user_date_course_like (
+       userdatecourselike_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecourselike_id)
+    );
+2021-09-04 00:38:50,783 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530782 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    create table user_date_course_save (
+       userdatecoursesave_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecoursesave_id)
+    )
+
+    create table user_date_course_save (
+       userdatecoursesave_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecoursesave_id)
+    );
+2021-09-04 00:38:50,785 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530785 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    create table user_follow (
+       id bigint not null,
+        follow_id bigint,
+        user_id bigint,
+        primary key (id)
+    )
+
+    create table user_follow (
+       id bigint not null,
+        follow_id bigint,
+        user_id bigint,
+        primary key (id)
+    );
+2021-09-04 00:38:50,789 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530789 | took 2ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+create sequence hibernate_sequence start with 1 increment by 1
+create sequence hibernate_sequence start with 1 increment by 1;
+2021-09-04 00:38:50,796 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530796 | took 6ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table comment 
+       add constraint FK2n8idrw4ttr3563tg0s481yfs 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table comment 
+       add constraint FK2n8idrw4ttr3563tg0s481yfs 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:38:50,799 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530799 | took 2ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table comment 
+       add constraint FK8kcum44fvpupyw6f5baccx25c 
+       foreign key (user_id) 
+       references user
+
+    alter table comment 
+       add constraint FK8kcum44fvpupyw6f5baccx25c 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:38:50,801 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530801 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table date_course 
+       add constraint FKlr2cd0hikihg50iqai6tiyxm6 
+       foreign key (user_id) 
+       references user
+
+    alter table date_course 
+       add constraint FKlr2cd0hikihg50iqai6tiyxm6 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:38:50,803 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530803 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table location 
+       add constraint FKdvjuts0ufgovywnxuyxrs210l 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table location 
+       add constraint FKdvjuts0ufgovywnxuyxrs210l 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:38:50,805 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530805 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table location_tag 
+       add constraint FK3v8cy6pwhs2ful50h2jirsx2g 
+       foreign key (location_id) 
+       references location
+
+    alter table location_tag 
+       add constraint FK3v8cy6pwhs2ful50h2jirsx2g 
+       foreign key (location_id) 
+       references location;
+2021-09-04 00:38:50,807 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530806 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table location_tag 
+       add constraint FKgrpnco0g0npewc87e8he3oj5w 
+       foreign key (tag_id) 
+       references tag
+
+    alter table location_tag 
+       add constraint FKgrpnco0g0npewc87e8he3oj5w 
+       foreign key (tag_id) 
+       references tag;
+2021-09-04 00:38:50,809 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530808 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table user_date_course_like 
+       add constraint FK3l65qpnuw0hcomdv5fsfccfbw 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table user_date_course_like 
+       add constraint FK3l65qpnuw0hcomdv5fsfccfbw 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:38:50,816 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530816 | took 3ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table user_date_course_like 
+       add constraint FK8wut9v5ondcc8ttymtpavttq6 
+       foreign key (user_id) 
+       references user
+
+    alter table user_date_course_like 
+       add constraint FK8wut9v5ondcc8ttymtpavttq6 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:38:50,820 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530819 | took 2ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table user_date_course_save 
+       add constraint FKs2ksnaqnx8cch4fl4os9o3l2q 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table user_date_course_save 
+       add constraint FKs2ksnaqnx8cch4fl4os9o3l2q 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:38:50,828 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530828 | took 2ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table user_date_course_save 
+       add constraint FKsml8b1ftuv866n2q0sgfvnx0q 
+       foreign key (user_id) 
+       references user
+
+    alter table user_date_course_save 
+       add constraint FKsml8b1ftuv866n2q0sgfvnx0q 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:38:50,833 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530832 | took 3ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table user_follow 
+       add constraint FKbqop8vyd1wcj0okjbxi96fd5o 
+       foreign key (follow_id) 
+       references follow
+
+    alter table user_follow 
+       add constraint FKbqop8vyd1wcj0okjbxi96fd5o 
+       foreign key (follow_id) 
+       references follow;
+2021-09-04 00:38:50,835 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683530834 | took 1ms | statement | connection 1| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+    alter table user_follow 
+       add constraint FKqoh67whudvkf3w7lovavd6s94 
+       foreign key (user_id) 
+       references user
+
+    alter table user_follow 
+       add constraint FKqoh67whudvkf3w7lovavd6s94 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:38:50,835 INFO  [main]
 [org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator.initiateService(JtaPlatformInitiator.java:52)] ::: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-09-03 01:21:46,618 INFO  [restartedMain]
+2021-09-04 00:38:50,849 INFO  [main]
 [org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:437)] ::: Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-09-03 01:21:46,680 INFO  [restartedMain]
-[org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer.startServer(OptionalLiveReloadServer.java:58)] ::: LiveReload server is running on port 35729
-2021-09-03 01:21:48,495 WARN  [restartedMain]
+2021-09-04 00:38:53,092 WARN  [main]
 [org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor(JpaBaseConfiguration.java:221)] ::: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-09-03 01:21:48,561 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630599708561 | took 0ms | statement | connection 3| url jdbc:h2:tcp://localhost/~/datecourse
+2021-09-04 00:38:53,229 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683533229 | took 0ms | statement | connection 2| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
 call next value for hibernate_sequence
 call next value for hibernate_sequence;
-2021-09-03 01:21:48,617 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630599708616 | took 0ms | statement | connection 3| url jdbc:h2:tcp://localhost/~/datecourse
+2021-09-04 00:38:53,289 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683533288 | took 0ms | statement | connection 2| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
 insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)
-insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values ('2021-09-03T01:21:48.521+0900', NULL, 'test@naver.com', NULL, 'testUser', NULL, NULL, NULL, 209);
-2021-09-03 01:21:48,622 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630599708622 | took 0ms | commit | connection 3| url jdbc:h2:tcp://localhost/~/datecourse
+insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values ('2021-09-04T00:38:53.168+0900', NULL, 'test@naver.com', NULL, 'testUser', NULL, NULL, NULL, 1);
+2021-09-04 00:38:53,294 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683533294 | took 0ms | commit | connection 2| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
 
 ;
-2021-09-03 01:21:48,660 WARN  [restartedMain]
+2021-09-04 00:38:53,374 WARN  [main]
 [org.hibernate.hql.internal.ast.HqlSqlWalker.lookupProperty(HqlSqlWalker.java:670)] ::: HHH90000016: Found use of deprecated 'collection property' syntax in HQL/JPQL query [d.userDateCourseLikes.size]; use collection function syntax instead [size(d.userDateCourseLikes)].
-2021-09-03 01:21:49,596 INFO  [restartedMain]
-[org.springframework.security.web.DefaultSecurityFilterChain.<init>(DefaultSecurityFilterChain.java:51)] ::: Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4a9187b9, org.springframework.security.web.context.SecurityContextPersistenceFilter@62f9ee31, org.springframework.security.web.header.HeaderWriterFilter@59b7b0f0, org.springframework.web.filter.CorsFilter@2e50dbfe, org.springframework.security.web.authentication.logout.LogoutFilter@7b700309, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@6fb5fc3d, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@64f547e9, me.toy.server.security.jwt.TokenAuthenticationFilter@75c9f3d, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@9a651b8, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@62ceb66a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3442c420, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6018d7b9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4c630344, org.springframework.security.web.session.SessionManagementFilter@6ab70ee, org.springframework.security.web.access.ExceptionTranslationFilter@6181ab8c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@717e8f3b]
-2021-09-03 01:21:49,749 INFO  [restartedMain]
+2021-09-04 00:38:55,356 INFO  [main]
+[org.springframework.security.web.DefaultSecurityFilterChain.<init>(DefaultSecurityFilterChain.java:51)] ::: Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@d0538b3, org.springframework.security.web.context.SecurityContextPersistenceFilter@5d94c50e, org.springframework.security.web.header.HeaderWriterFilter@206de1f, org.springframework.web.filter.CorsFilter@3b8c15de, org.springframework.security.web.authentication.logout.LogoutFilter@396f3bf2, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@2b33f7a0, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@29767156, me.toy.server.security.jwt.TokenAuthenticationFilter@294a3f2a, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@7adde776, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@26398f67, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@230e163b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@39ee07a9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@64ff0eaa, org.springframework.security.web.session.SessionManagementFilter@50bc0bbd, org.springframework.security.web.access.ExceptionTranslationFilter@25630ede, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@321c01c2]
+2021-09-04 00:38:55,731 INFO  [main]
 [org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize(ExecutorConfigurationSupport.java:181)] ::: Initializing ExecutorService 'applicationTaskExecutor'
-2021-09-03 01:21:50,109 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Starting ProtocolHandler ["http-nio-8080"]
-2021-09-03 01:21:50,132 INFO  [restartedMain]
-[org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start(TomcatWebServer.java:220)] ::: Tomcat started on port(s): 8080 (http) with context path ''
-2021-09-03 01:21:50,533 INFO  [restartedMain]
-[org.springframework.boot.StartupInfoLogger.logStarted(StartupInfoLogger.java:61)] ::: Started OpenDateCourseApplication in 10.276 seconds (JVM running for 13.027)
-2021-09-03 01:21:56,313 INFO  [http-nio-8080-exec-2]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-09-03 01:21:56,314 INFO  [http-nio-8080-exec-2]
-[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:525)] ::: Initializing Servlet 'dispatcherServlet'
-2021-09-03 01:21:56,316 INFO  [http-nio-8080-exec-2]
-[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:547)] ::: Completed initialization in 2 ms
-2021-09-03 01:21:56,437 INFO  [http-nio-8080-exec-2]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630599716436 | took 0ms | statement | connection 4| url jdbc:h2:tcp://localhost/~/datecourse
-select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email=?
-select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email='kaktus418@gmail.com';
-2021-09-03 01:21:56,489 INFO  [http-nio-8080-exec-2]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630599716488 | took 23ms | statement | connection 4| url jdbc:h2:tcp://localhost/~/datecourse
-select user0_.user_id as user_id1_6_0_, userfollow4_.id as id1_9_1_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_, userfollow4_.follow_id as follow_i2_9_1_, userfollow4_.user_id as user_id3_9_1_, userfollow4_.user_id as user_id3_9_0__, userfollow4_.id as id1_9_0__ from user user0_ left outer join user_follow userfollow4_ on user0_.user_id=userfollow4_.user_id where exists (select user1_.user_id from user user1_ inner join user_follow userfollow2_ on user1_.user_id=userfollow2_.user_id and (userfollow2_.user_id=user1_.user_id) inner join follow follow3_ on userfollow2_.follow_id=follow3_.follow_id and (follow3_.follow_id=userfollow2_.follow_id) where user1_.email=?)
-select user0_.user_id as user_id1_6_0_, userfollow4_.id as id1_9_1_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_, userfollow4_.follow_id as follow_i2_9_1_, userfollow4_.user_id as user_id3_9_1_, userfollow4_.user_id as user_id3_9_0__, userfollow4_.id as id1_9_0__ from user user0_ left outer join user_follow userfollow4_ on user0_.user_id=userfollow4_.user_id where exists (select user1_.user_id from user user1_ inner join user_follow userfollow2_ on user1_.user_id=userfollow2_.user_id and (userfollow2_.user_id=user1_.user_id) inner join follow follow3_ on userfollow2_.follow_id=follow3_.follow_id and (follow3_.follow_id=userfollow2_.follow_id) where user1_.email='kaktus418@gmail.com');
-2021-09-03 01:28:45,824 INFO  [SpringContextShutdownHook]
-[org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown(ExecutorConfigurationSupport.java:218)] ::: Shutting down ExecutorService 'applicationTaskExecutor'
-2021-09-03 01:28:45,853 INFO  [SpringContextShutdownHook]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630600125853 | took 0ms | statement | connection 5| url jdbc:h2:tcp://localhost/~/datecourse
-select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email=?
-select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email='test@naver.com';
-2021-09-03 01:28:45,875 WARN  [SpringContextShutdownHook]
-[org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.postProcessBeforeDestruction(InitDestroyAnnotationBeanPostProcessor.java:185)] ::: Destroy method on bean with name 'securityConfig' threw an exception: org.springframework.dao.IncorrectResultSizeDataAccessException: query did not return a unique result: 110; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 110
-2021-09-03 01:28:45,877 INFO  [SpringContextShutdownHook]
-[org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:651)] ::: Closing JPA EntityManagerFactory for persistence unit 'default'
-2021-09-03 01:28:45,884 INFO  [SpringContextShutdownHook]
-[com.zaxxer.hikari.HikariDataSource.close(HikariDataSource.java:350)] ::: HikariCP - Shutdown initiated...
-2021-09-03 01:28:45,916 INFO  [SpringContextShutdownHook]
-[com.zaxxer.hikari.HikariDataSource.close(HikariDataSource.java:352)] ::: HikariCP - Shutdown completed.
-2021-09-03 01:29:08,151 INFO  [background-preinit]
-[org.hibernate.validator.internal.util.Version.<clinit>(Version.java:21)] ::: HV000001: Hibernate Validator 6.1.7.Final
-2021-09-03 01:29:08,205 INFO  [restartedMain]
-[org.springframework.boot.StartupInfoLogger.logStarting(StartupInfoLogger.java:55)] ::: Starting OpenDateCourseApplication using Java 1.8.0_261 on JCR with PID 96972 (D:\GitHub\open_date_course\back\out\production\classes started by pc in D:\GitHub\open_date_course\back)
-2021-09-03 01:29:08,211 INFO  [restartedMain]
-[org.springframework.boot.SpringApplication.logStartupProfileInfo(SpringApplication.java:666)] ::: The following profiles are active: dev
-2021-09-03 01:29:08,275 WARN  [restartedMain]
-[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 14:13]
-2021-09-03 01:29:08,275 WARN  [restartedMain]
-[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 7:13]
-2021-09-03 01:29:08,277 INFO  [restartedMain]
-[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:255)] ::: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2021-09-03 01:29:08,277 INFO  [restartedMain]
-[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:255)] ::: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-09-03 01:29:10,049 INFO  [restartedMain]
-[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:128)] ::: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-09-03 01:29:10,195 INFO  [restartedMain]
-[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:188)] ::: Finished Spring Data repository scanning in 133 ms. Found 10 JPA repository interfaces.
-2021-09-03 01:29:10,888 INFO  [restartedMain]
-[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@7da643f6' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-09-03 01:29:10,899 INFO  [restartedMain]
-[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-09-03 01:29:11,325 INFO  [restartedMain]
-[org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:108)] ::: Tomcat initialized with port(s): 8080 (http)
-2021-09-03 01:29:11,339 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Initializing ProtocolHandler ["http-nio-8080"]
-2021-09-03 01:29:11,340 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Starting service [Tomcat]
-2021-09-03 01:29:11,340 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Starting Servlet engine: [Apache Tomcat/9.0.44]
-2021-09-03 01:29:11,536 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Initializing Spring embedded WebApplicationContext
-2021-09-03 01:29:11,537 INFO  [restartedMain]
-[org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext(ServletWebServerApplicationContext.java:289)] ::: Root WebApplicationContext: initialization completed in 3259 ms
-2021-09-03 01:29:11,681 INFO  [restartedMain]
-[com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:110)] ::: HikariCP - Starting...
-2021-09-03 01:29:11,740 INFO  [restartedMain]
-[com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:123)] ::: HikariCP - Start completed.
-2021-09-03 01:29:11,755 INFO  [restartedMain]
-[org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration.lambda$h2Console$0(H2ConsoleAutoConfiguration.java:68)] ::: H2 console available at '/h2-console'. Database available at 'jdbc:h2:tcp://localhost/~/datecourse'
-2021-09-03 01:29:12,249 INFO  [restartedMain]
-[org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31)] ::: HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-09-03 01:29:12,342 INFO  [restartedMain]
-[org.hibernate.Version.logVersion(Version.java:44)] ::: HHH000412: Hibernate ORM core version 5.4.29.Final
-2021-09-03 01:29:12,517 INFO  [restartedMain]
-[org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:56)] ::: HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-09-03 01:29:12,672 INFO  [restartedMain]
-[org.hibernate.dialect.Dialect.<init>(Dialect.java:175)] ::: HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
-2021-09-03 01:29:13,607 INFO  [restartedMain]
-[org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection(DdlTransactionIsolatorNonJtaImpl.java:47)] ::: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@666831bb] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-2021-09-03 01:29:13,607 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630600153607 | took 0ms | commit | connection 2| url jdbc:h2:tcp://localhost/~/datecourse
-
-;
-2021-09-03 01:29:13,612 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630600153611 | took 2ms | statement | connection 2| url jdbc:h2:tcp://localhost/~/datecourse
-select * from INFORMATION_SCHEMA.SEQUENCES
-select * from INFORMATION_SCHEMA.SEQUENCES;
-2021-09-03 01:29:13,668 INFO  [restartedMain]
-[org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator.initiateService(JtaPlatformInitiator.java:52)] ::: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-09-03 01:29:13,681 INFO  [restartedMain]
-[org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:437)] ::: Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-09-03 01:29:13,731 INFO  [restartedMain]
-[org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer.startServer(OptionalLiveReloadServer.java:58)] ::: LiveReload server is running on port 35729
-2021-09-03 01:29:15,428 WARN  [restartedMain]
-[org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor(JpaBaseConfiguration.java:221)] ::: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-09-03 01:29:15,501 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630600155501 | took 0ms | statement | connection 3| url jdbc:h2:tcp://localhost/~/datecourse
-call next value for hibernate_sequence
-call next value for hibernate_sequence;
-2021-09-03 01:29:15,554 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630600155554 | took 0ms | statement | connection 3| url jdbc:h2:tcp://localhost/~/datecourse
-insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)
-insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values ('2021-09-03T01:29:15.462+0900', NULL, 'test@naver.com', NULL, 'testUser', NULL, NULL, NULL, 210);
-2021-09-03 01:29:15,560 INFO  [restartedMain]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630600155559 | took 0ms | commit | connection 3| url jdbc:h2:tcp://localhost/~/datecourse
-
-;
-2021-09-03 01:29:15,595 WARN  [restartedMain]
-[org.hibernate.hql.internal.ast.HqlSqlWalker.lookupProperty(HqlSqlWalker.java:670)] ::: HHH90000016: Found use of deprecated 'collection property' syntax in HQL/JPQL query [d.userDateCourseLikes.size]; use collection function syntax instead [size(d.userDateCourseLikes)].
-2021-09-03 01:29:16,483 INFO  [restartedMain]
-[org.springframework.security.web.DefaultSecurityFilterChain.<init>(DefaultSecurityFilterChain.java:51)] ::: Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@754465e0, org.springframework.security.web.context.SecurityContextPersistenceFilter@484ef734, org.springframework.security.web.header.HeaderWriterFilter@51e27090, org.springframework.web.filter.CorsFilter@f875a0c, org.springframework.security.web.authentication.logout.LogoutFilter@4d9834a0, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@775cdbf8, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@204d8c1b, me.toy.server.security.jwt.TokenAuthenticationFilter@3da55912, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@7ca73e08, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@1b97a974, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3e343e88, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1b3892be, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@aff005e, org.springframework.security.web.session.SessionManagementFilter@d8aa42, org.springframework.security.web.access.ExceptionTranslationFilter@3e755542, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3f665a56]
-2021-09-03 01:29:16,578 INFO  [restartedMain]
-[org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize(ExecutorConfigurationSupport.java:181)] ::: Initializing ExecutorService 'applicationTaskExecutor'
-2021-09-03 01:29:16,811 INFO  [restartedMain]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Starting ProtocolHandler ["http-nio-8080"]
-2021-09-03 01:29:16,840 INFO  [restartedMain]
-[org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start(TomcatWebServer.java:220)] ::: Tomcat started on port(s): 8080 (http) with context path ''
-2021-09-03 01:29:17,387 INFO  [restartedMain]
-[org.springframework.boot.StartupInfoLogger.logStarted(StartupInfoLogger.java:61)] ::: Started OpenDateCourseApplication in 10.353 seconds (JVM running for 12.967)
-2021-09-03 01:29:21,586 INFO  [http-nio-8080-exec-1]
-[org.apache.juli.logging.DirectJDKLog.log(DirectJDKLog.java:173)] ::: Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-09-03 01:29:21,587 INFO  [http-nio-8080-exec-1]
-[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:525)] ::: Initializing Servlet 'dispatcherServlet'
-2021-09-03 01:29:21,588 INFO  [http-nio-8080-exec-1]
+2021-09-04 00:38:57,135 INFO  [main]
+[org.springframework.mock.web.MockServletContext.log(MockServletContext.java:455)] ::: Initializing Spring TestDispatcherServlet ''
+2021-09-04 00:38:57,136 INFO  [main]
+[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:525)] ::: Initializing Servlet ''
+2021-09-04 00:38:57,138 INFO  [main]
 [org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:547)] ::: Completed initialization in 1 ms
-2021-09-03 01:29:21,756 INFO  [http-nio-8080-exec-1]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630600161755 | took 3ms | statement | connection 4| url jdbc:h2:tcp://localhost/~/datecourse
+2021-09-04 00:38:58,167 INFO  [main]
+[org.springframework.boot.StartupInfoLogger.logStarted(StartupInfoLogger.java:61)] ::: Started UserControllerTest in 13.07 seconds (JVM running for 16.028)
+2021-09-04 00:38:58,371 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683538370 | took 0ms | statement | connection 3| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.name=?
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.name='testUser';
+2021-09-04 00:38:58,582 INFO  [SpringContextShutdownHook]
+[org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown(ExecutorConfigurationSupport.java:218)] ::: Shutting down ExecutorService 'applicationTaskExecutor'
+2021-09-04 00:38:58,601 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683538601 | took 0ms | statement | connection 4| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
 select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email=?
-select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email='kaktus418@gmail.com';
-2021-09-03 01:29:21,787 INFO  [http-nio-8080-exec-1]
-[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630600161787 | took 0ms | statement | connection 4| url jdbc:h2:tcp://localhost/~/datecourse
-select user0_.user_id as user_id1_6_0_, userfollow4_.id as id1_9_1_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_, userfollow4_.follow_id as follow_i2_9_1_, userfollow4_.user_id as user_id3_9_1_, userfollow4_.user_id as user_id3_9_0__, userfollow4_.id as id1_9_0__ from user user0_ left outer join user_follow userfollow4_ on user0_.user_id=userfollow4_.user_id where user0_.user_id in (select follow1_.follow_user_id from follow follow1_ inner join user_follow userfollow2_ on follow1_.follow_id=userfollow2_.follow_id and (userfollow2_.follow_id=follow1_.follow_id) inner join user user3_ on userfollow2_.user_id=user3_.user_id and (user3_.user_id=userfollow2_.user_id) where user3_.email=?)
-select user0_.user_id as user_id1_6_0_, userfollow4_.id as id1_9_1_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_, userfollow4_.follow_id as follow_i2_9_1_, userfollow4_.user_id as user_id3_9_1_, userfollow4_.user_id as user_id3_9_0__, userfollow4_.id as id1_9_0__ from user user0_ left outer join user_follow userfollow4_ on user0_.user_id=userfollow4_.user_id where user0_.user_id in (select follow1_.follow_user_id from follow follow1_ inner join user_follow userfollow2_ on follow1_.follow_id=userfollow2_.follow_id and (userfollow2_.follow_id=follow1_.follow_id) inner join user user3_ on userfollow2_.user_id=user3_.user_id and (user3_.user_id=userfollow2_.user_id) where user3_.email='kaktus418@gmail.com');
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email='test@naver.com';
+2021-09-04 00:38:58,623 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683538623 | took 0ms | statement | connection 5| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+select user0_.user_id as user_id1_6_0_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_ from user user0_ where user0_.user_id=?
+select user0_.user_id as user_id1_6_0_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_ from user user0_ where user0_.user_id=1;
+2021-09-04 00:38:58,642 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683538642 | took 0ms | statement | connection 5| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+select comments0_.user_id as user_id7_0_1_, comments0_.comment_id as comment_1_0_1_, comments0_.comment_id as comment_1_0_0_, comments0_.created_at as created_2_0_0_, comments0_.updated_at as updated_3_0_0_, comments0_.content as content4_0_0_, comments0_.datecourse_id as datecour6_0_0_, comments0_.likes as likes5_0_0_, comments0_.user_id as user_id7_0_0_ from comment comments0_ where comments0_.user_id=?
+select comments0_.user_id as user_id7_0_1_, comments0_.comment_id as comment_1_0_1_, comments0_.comment_id as comment_1_0_0_, comments0_.created_at as created_2_0_0_, comments0_.updated_at as updated_3_0_0_, comments0_.content as content4_0_0_, comments0_.datecourse_id as datecour6_0_0_, comments0_.likes as likes5_0_0_, comments0_.user_id as user_id7_0_0_ from comment comments0_ where comments0_.user_id=1;
+2021-09-04 00:38:58,647 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683538647 | took 0ms | statement | connection 5| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+select datecourse0_.user_id as user_id5_1_1_, datecourse0_.datecourse_id as datecour1_1_1_, datecourse0_.datecourse_id as datecour1_1_0_, datecourse0_.created_at as created_2_1_0_, datecourse0_.updated_at as updated_3_1_0_, datecourse0_.date_course_title as date_cou4_1_0_, datecourse0_.user_id as user_id5_1_0_ from date_course datecourse0_ where datecourse0_.user_id=?
+select datecourse0_.user_id as user_id5_1_1_, datecourse0_.datecourse_id as datecour1_1_1_, datecourse0_.datecourse_id as datecour1_1_0_, datecourse0_.created_at as created_2_1_0_, datecourse0_.updated_at as updated_3_1_0_, datecourse0_.date_course_title as date_cou4_1_0_, datecourse0_.user_id as user_id5_1_0_ from date_course datecourse0_ where datecourse0_.user_id=1;
+2021-09-04 00:38:58,649 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683538649 | took 0ms | statement | connection 5| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+select userdateco0_.user_id as user_id3_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_0_, userdateco0_.datecourse_id as datecour2_8_0_, userdateco0_.user_id as user_id3_8_0_ from user_date_course_save userdateco0_ where userdateco0_.user_id=?
+select userdateco0_.user_id as user_id3_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_0_, userdateco0_.datecourse_id as datecour2_8_0_, userdateco0_.user_id as user_id3_8_0_ from user_date_course_save userdateco0_ where userdateco0_.user_id=1;
+2021-09-04 00:38:58,653 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683538653 | took 0ms | statement | connection 5| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+select userdateco0_.user_id as user_id3_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_0_, userdateco0_.datecourse_id as datecour2_7_0_, userdateco0_.user_id as user_id3_7_0_ from user_date_course_like userdateco0_ where userdateco0_.user_id=?
+select userdateco0_.user_id as user_id3_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_0_, userdateco0_.datecourse_id as datecour2_7_0_, userdateco0_.user_id as user_id3_7_0_ from user_date_course_like userdateco0_ where userdateco0_.user_id=1;
+2021-09-04 00:38:58,655 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683538655 | took 0ms | statement | connection 5| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+select userfollow0_.user_id as user_id3_9_1_, userfollow0_.id as id1_9_1_, userfollow0_.id as id1_9_0_, userfollow0_.follow_id as follow_i2_9_0_, userfollow0_.user_id as user_id3_9_0_ from user_follow userfollow0_ where userfollow0_.user_id=?
+select userfollow0_.user_id as user_id3_9_1_, userfollow0_.id as id1_9_1_, userfollow0_.id as id1_9_0_, userfollow0_.follow_id as follow_i2_9_0_, userfollow0_.user_id as user_id3_9_0_ from user_follow userfollow0_ where userfollow0_.user_id=1;
+2021-09-04 00:38:58,712 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683538712 | took 4ms | statement | connection 5| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+delete from user where user_id=?
+delete from user where user_id=1;
+2021-09-04 00:38:58,715 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683538715 | took 0ms | commit | connection 5| url jdbc:h2:mem:e25fde99-1f13-4114-88bc-bfebb6dcadde
+
+;
+2021-09-04 00:38:58,717 INFO  [SpringContextShutdownHook]
+[org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:651)] ::: Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-09-04 00:39:20,603 INFO  [background-preinit]
+[org.hibernate.validator.internal.util.Version.<clinit>(Version.java:21)] ::: HV000001: Hibernate Validator 6.1.7.Final
+2021-09-04 00:39:20,664 INFO  [main]
+[org.springframework.boot.StartupInfoLogger.logStarting(StartupInfoLogger.java:55)] ::: Starting UserControllerTest using Java 1.8.0_261 on JCR with PID 151776 (started by pc in D:\GitHub\open_date_course\back)
+2021-09-04 00:39:20,669 INFO  [main]
+[org.springframework.boot.SpringApplication.logStartupProfileInfo(SpringApplication.java:666)] ::: The following profiles are active: dev
+2021-09-04 00:39:20,692 WARN  [main]
+[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 14:13]
+2021-09-04 00:39:20,692 WARN  [main]
+[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 7:13]
+2021-09-04 00:39:22,442 INFO  [main]
+[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:128)] ::: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-09-04 00:39:22,587 INFO  [main]
+[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:188)] ::: Finished Spring Data repository scanning in 134 ms. Found 10 JPA repository interfaces.
+2021-09-04 00:39:22,819 INFO  [main]
+[org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration$EmbeddedDataSourceBeanFactoryPostProcessor.process(TestDatabaseAutoConfiguration.java:99)] ::: Replacing 'dataSource' DataSource bean with embedded version
+2021-09-04 00:39:24,220 INFO  [main]
+[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@4c635edc' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-09-04 00:39:24,247 INFO  [main]
+[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-09-04 00:39:24,704 INFO  [main]
+[org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory.initDatabase(EmbeddedDatabaseFactory.java:190)] ::: Starting embedded database: url='jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2021-09-04 00:39:25,163 INFO  [main]
+[org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31)] ::: HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-09-04 00:39:25,234 INFO  [main]
+[org.hibernate.Version.logVersion(Version.java:44)] ::: HHH000412: Hibernate ORM core version 5.4.29.Final
+2021-09-04 00:39:25,291 INFO  [main]
+[org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:56)] ::: HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-09-04 00:39:25,554 INFO  [main]
+[org.hibernate.dialect.Dialect.<init>(Dialect.java:175)] ::: HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-09-04 00:39:26,505 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566505 | took 3ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+select * from INFORMATION_SCHEMA.SEQUENCES
+select * from INFORMATION_SCHEMA.SEQUENCES;
+2021-09-04 00:39:26,557 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566556 | took 11ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    create table comment (
+       comment_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        content varchar(255),
+        likes bigint,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (comment_id)
+    )
+
+    create table comment (
+       comment_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        content varchar(255),
+        likes bigint,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (comment_id)
+    );
+2021-09-04 00:39:26,560 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566560 | took 1ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    create table date_course (
+       datecourse_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        date_course_title varchar(255),
+        user_id bigint,
+        primary key (datecourse_id)
+    )
+
+    create table date_course (
+       datecourse_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        date_course_title varchar(255),
+        user_id bigint,
+        primary key (datecourse_id)
+    );
+2021-09-04 00:39:26,563 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566562 | took 1ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    create table follow (
+       follow_id bigint not null,
+        follow_user_id bigint,
+        primary key (follow_id)
+    )
+
+    create table follow (
+       follow_id bigint not null,
+        follow_user_id bigint,
+        primary key (follow_id)
+    );
+2021-09-04 00:39:26,567 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566567 | took 1ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    create table location (
+       location_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        name varchar(255),
+        photo_url varchar(255),
+        posx float,
+        posy float,
+        text varchar(255),
+        datecourse_id bigint,
+        primary key (location_id)
+    )
+
+    create table location (
+       location_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        name varchar(255),
+        photo_url varchar(255),
+        posx float,
+        posy float,
+        text varchar(255),
+        datecourse_id bigint,
+        primary key (location_id)
+    );
+2021-09-04 00:39:26,569 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566569 | took 1ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    create table location_tag (
+       locationtag_id bigint not null,
+        location_id bigint,
+        tag_id bigint,
+        primary key (locationtag_id)
+    )
+
+    create table location_tag (
+       locationtag_id bigint not null,
+        location_id bigint,
+        tag_id bigint,
+        primary key (locationtag_id)
+    );
+2021-09-04 00:39:26,571 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566570 | took 0ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    create table tag (
+       tag_id bigint not null,
+        name varchar(255),
+        primary key (tag_id)
+    )
+
+    create table tag (
+       tag_id bigint not null,
+        name varchar(255),
+        primary key (tag_id)
+    );
+2021-09-04 00:39:26,573 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566572 | took 0ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    create table user (
+       user_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        email varchar(255),
+        image_url varchar(255),
+        name varchar(255),
+        password varchar(255),
+        provider varchar(255),
+        provider_id varchar(255),
+        primary key (user_id)
+    )
+
+    create table user (
+       user_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        email varchar(255),
+        image_url varchar(255),
+        name varchar(255),
+        password varchar(255),
+        provider varchar(255),
+        provider_id varchar(255),
+        primary key (user_id)
+    );
+2021-09-04 00:39:26,574 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566574 | took 0ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    create table user_date_course_like (
+       userdatecourselike_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecourselike_id)
+    )
+
+    create table user_date_course_like (
+       userdatecourselike_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecourselike_id)
+    );
+2021-09-04 00:39:26,576 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566575 | took 0ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    create table user_date_course_save (
+       userdatecoursesave_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecoursesave_id)
+    )
+
+    create table user_date_course_save (
+       userdatecoursesave_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecoursesave_id)
+    );
+2021-09-04 00:39:26,577 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566577 | took 0ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    create table user_follow (
+       id bigint not null,
+        follow_id bigint,
+        user_id bigint,
+        primary key (id)
+    )
+
+    create table user_follow (
+       id bigint not null,
+        follow_id bigint,
+        user_id bigint,
+        primary key (id)
+    );
+2021-09-04 00:39:26,581 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566581 | took 2ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+create sequence hibernate_sequence start with 1 increment by 1
+create sequence hibernate_sequence start with 1 increment by 1;
+2021-09-04 00:39:26,587 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566587 | took 5ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table comment 
+       add constraint FK2n8idrw4ttr3563tg0s481yfs 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table comment 
+       add constraint FK2n8idrw4ttr3563tg0s481yfs 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:39:26,589 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566589 | took 1ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table comment 
+       add constraint FK8kcum44fvpupyw6f5baccx25c 
+       foreign key (user_id) 
+       references user
+
+    alter table comment 
+       add constraint FK8kcum44fvpupyw6f5baccx25c 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:39:26,591 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566590 | took 1ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table date_course 
+       add constraint FKlr2cd0hikihg50iqai6tiyxm6 
+       foreign key (user_id) 
+       references user
+
+    alter table date_course 
+       add constraint FKlr2cd0hikihg50iqai6tiyxm6 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:39:26,603 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566602 | took 1ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table location 
+       add constraint FKdvjuts0ufgovywnxuyxrs210l 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table location 
+       add constraint FKdvjuts0ufgovywnxuyxrs210l 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:39:26,604 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566604 | took 1ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table location_tag 
+       add constraint FK3v8cy6pwhs2ful50h2jirsx2g 
+       foreign key (location_id) 
+       references location
+
+    alter table location_tag 
+       add constraint FK3v8cy6pwhs2ful50h2jirsx2g 
+       foreign key (location_id) 
+       references location;
+2021-09-04 00:39:26,606 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566606 | took 1ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table location_tag 
+       add constraint FKgrpnco0g0npewc87e8he3oj5w 
+       foreign key (tag_id) 
+       references tag
+
+    alter table location_tag 
+       add constraint FKgrpnco0g0npewc87e8he3oj5w 
+       foreign key (tag_id) 
+       references tag;
+2021-09-04 00:39:26,609 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566609 | took 1ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table user_date_course_like 
+       add constraint FK3l65qpnuw0hcomdv5fsfccfbw 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table user_date_course_like 
+       add constraint FK3l65qpnuw0hcomdv5fsfccfbw 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:39:26,613 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566613 | took 3ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table user_date_course_like 
+       add constraint FK8wut9v5ondcc8ttymtpavttq6 
+       foreign key (user_id) 
+       references user
+
+    alter table user_date_course_like 
+       add constraint FK8wut9v5ondcc8ttymtpavttq6 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:39:26,616 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566616 | took 2ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table user_date_course_save 
+       add constraint FKs2ksnaqnx8cch4fl4os9o3l2q 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table user_date_course_save 
+       add constraint FKs2ksnaqnx8cch4fl4os9o3l2q 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:39:26,620 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566619 | took 2ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table user_date_course_save 
+       add constraint FKsml8b1ftuv866n2q0sgfvnx0q 
+       foreign key (user_id) 
+       references user
+
+    alter table user_date_course_save 
+       add constraint FKsml8b1ftuv866n2q0sgfvnx0q 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:39:26,622 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566622 | took 1ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table user_follow 
+       add constraint FKbqop8vyd1wcj0okjbxi96fd5o 
+       foreign key (follow_id) 
+       references follow
+
+    alter table user_follow 
+       add constraint FKbqop8vyd1wcj0okjbxi96fd5o 
+       foreign key (follow_id) 
+       references follow;
+2021-09-04 00:39:26,626 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683566626 | took 2ms | statement | connection 1| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+    alter table user_follow 
+       add constraint FKqoh67whudvkf3w7lovavd6s94 
+       foreign key (user_id) 
+       references user
+
+    alter table user_follow 
+       add constraint FKqoh67whudvkf3w7lovavd6s94 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:39:26,627 INFO  [main]
+[org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator.initiateService(JtaPlatformInitiator.java:52)] ::: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-09-04 00:39:26,639 INFO  [main]
+[org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:437)] ::: Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-09-04 00:39:29,078 WARN  [main]
+[org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor(JpaBaseConfiguration.java:221)] ::: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-09-04 00:39:29,202 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683569202 | took 0ms | statement | connection 2| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+call next value for hibernate_sequence
+call next value for hibernate_sequence;
+2021-09-04 00:39:29,257 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683569257 | took 0ms | statement | connection 2| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)
+insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values ('2021-09-04T00:39:29.139+0900', NULL, 'test@naver.com', NULL, 'testUser', NULL, NULL, NULL, 1);
+2021-09-04 00:39:29,266 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683569265 | took 0ms | commit | connection 2| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+;
+2021-09-04 00:39:29,318 WARN  [main]
+[org.hibernate.hql.internal.ast.HqlSqlWalker.lookupProperty(HqlSqlWalker.java:670)] ::: HHH90000016: Found use of deprecated 'collection property' syntax in HQL/JPQL query [d.userDateCourseLikes.size]; use collection function syntax instead [size(d.userDateCourseLikes)].
+2021-09-04 00:39:31,062 INFO  [main]
+[org.springframework.security.web.DefaultSecurityFilterChain.<init>(DefaultSecurityFilterChain.java:51)] ::: Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6ddc817f, org.springframework.security.web.context.SecurityContextPersistenceFilter@3feb93a, org.springframework.security.web.header.HeaderWriterFilter@6a827b0c, org.springframework.web.filter.CorsFilter@764d54a0, org.springframework.security.web.authentication.logout.LogoutFilter@13da6bc9, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@1da5635e, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@3b8c15de, me.toy.server.security.jwt.TokenAuthenticationFilter@b666366, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@3a22d69f, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@78c91d2a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7f69c4c0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4607cbe2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5b7d5eca, org.springframework.security.web.session.SessionManagementFilter@4cff38ff, org.springframework.security.web.access.ExceptionTranslationFilter@230e163b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@171b0d3]
+2021-09-04 00:39:31,376 INFO  [main]
+[org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize(ExecutorConfigurationSupport.java:181)] ::: Initializing ExecutorService 'applicationTaskExecutor'
+2021-09-04 00:39:31,870 INFO  [main]
+[org.springframework.mock.web.MockServletContext.log(MockServletContext.java:455)] ::: Initializing Spring TestDispatcherServlet ''
+2021-09-04 00:39:31,870 INFO  [main]
+[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:525)] ::: Initializing Servlet ''
+2021-09-04 00:39:31,872 INFO  [main]
+[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:547)] ::: Completed initialization in 1 ms
+2021-09-04 00:39:32,399 INFO  [main]
+[org.springframework.boot.StartupInfoLogger.logStarted(StartupInfoLogger.java:61)] ::: Started UserControllerTest in 12.257 seconds (JVM running for 14.954)
+2021-09-04 00:39:32,477 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683572477 | took 0ms | statement | connection 3| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.name=?
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.name='testUser';
+2021-09-04 00:39:32,651 INFO  [SpringContextShutdownHook]
+[org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown(ExecutorConfigurationSupport.java:218)] ::: Shutting down ExecutorService 'applicationTaskExecutor'
+2021-09-04 00:39:32,663 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683572662 | took 0ms | statement | connection 4| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email=?
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email='test@naver.com';
+2021-09-04 00:39:32,679 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683572679 | took 0ms | statement | connection 5| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+select user0_.user_id as user_id1_6_0_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_ from user user0_ where user0_.user_id=?
+select user0_.user_id as user_id1_6_0_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_ from user user0_ where user0_.user_id=1;
+2021-09-04 00:39:32,722 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683572722 | took 1ms | statement | connection 5| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+select comments0_.user_id as user_id7_0_1_, comments0_.comment_id as comment_1_0_1_, comments0_.comment_id as comment_1_0_0_, comments0_.created_at as created_2_0_0_, comments0_.updated_at as updated_3_0_0_, comments0_.content as content4_0_0_, comments0_.datecourse_id as datecour6_0_0_, comments0_.likes as likes5_0_0_, comments0_.user_id as user_id7_0_0_ from comment comments0_ where comments0_.user_id=?
+select comments0_.user_id as user_id7_0_1_, comments0_.comment_id as comment_1_0_1_, comments0_.comment_id as comment_1_0_0_, comments0_.created_at as created_2_0_0_, comments0_.updated_at as updated_3_0_0_, comments0_.content as content4_0_0_, comments0_.datecourse_id as datecour6_0_0_, comments0_.likes as likes5_0_0_, comments0_.user_id as user_id7_0_0_ from comment comments0_ where comments0_.user_id=1;
+2021-09-04 00:39:32,727 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683572727 | took 0ms | statement | connection 5| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+select datecourse0_.user_id as user_id5_1_1_, datecourse0_.datecourse_id as datecour1_1_1_, datecourse0_.datecourse_id as datecour1_1_0_, datecourse0_.created_at as created_2_1_0_, datecourse0_.updated_at as updated_3_1_0_, datecourse0_.date_course_title as date_cou4_1_0_, datecourse0_.user_id as user_id5_1_0_ from date_course datecourse0_ where datecourse0_.user_id=?
+select datecourse0_.user_id as user_id5_1_1_, datecourse0_.datecourse_id as datecour1_1_1_, datecourse0_.datecourse_id as datecour1_1_0_, datecourse0_.created_at as created_2_1_0_, datecourse0_.updated_at as updated_3_1_0_, datecourse0_.date_course_title as date_cou4_1_0_, datecourse0_.user_id as user_id5_1_0_ from date_course datecourse0_ where datecourse0_.user_id=1;
+2021-09-04 00:39:32,728 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683572728 | took 0ms | statement | connection 5| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+select userdateco0_.user_id as user_id3_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_0_, userdateco0_.datecourse_id as datecour2_8_0_, userdateco0_.user_id as user_id3_8_0_ from user_date_course_save userdateco0_ where userdateco0_.user_id=?
+select userdateco0_.user_id as user_id3_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_0_, userdateco0_.datecourse_id as datecour2_8_0_, userdateco0_.user_id as user_id3_8_0_ from user_date_course_save userdateco0_ where userdateco0_.user_id=1;
+2021-09-04 00:39:32,729 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683572729 | took 0ms | statement | connection 5| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+select userdateco0_.user_id as user_id3_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_0_, userdateco0_.datecourse_id as datecour2_7_0_, userdateco0_.user_id as user_id3_7_0_ from user_date_course_like userdateco0_ where userdateco0_.user_id=?
+select userdateco0_.user_id as user_id3_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_0_, userdateco0_.datecourse_id as datecour2_7_0_, userdateco0_.user_id as user_id3_7_0_ from user_date_course_like userdateco0_ where userdateco0_.user_id=1;
+2021-09-04 00:39:32,732 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683572731 | took 0ms | statement | connection 5| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+select userfollow0_.user_id as user_id3_9_1_, userfollow0_.id as id1_9_1_, userfollow0_.id as id1_9_0_, userfollow0_.follow_id as follow_i2_9_0_, userfollow0_.user_id as user_id3_9_0_ from user_follow userfollow0_ where userfollow0_.user_id=?
+select userfollow0_.user_id as user_id3_9_1_, userfollow0_.id as id1_9_1_, userfollow0_.id as id1_9_0_, userfollow0_.follow_id as follow_i2_9_0_, userfollow0_.user_id as user_id3_9_0_ from user_follow userfollow0_ where userfollow0_.user_id=1;
+2021-09-04 00:39:32,746 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683572745 | took 3ms | statement | connection 5| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+delete from user where user_id=?
+delete from user where user_id=1;
+2021-09-04 00:39:32,749 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683572749 | took 0ms | commit | connection 5| url jdbc:h2:mem:90ed9696-c746-4c42-9368-7aec0047ff1e
+
+;
+2021-09-04 00:39:32,751 INFO  [SpringContextShutdownHook]
+[org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:651)] ::: Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-09-04 00:39:42,204 INFO  [background-preinit]
+[org.hibernate.validator.internal.util.Version.<clinit>(Version.java:21)] ::: HV000001: Hibernate Validator 6.1.7.Final
+2021-09-04 00:39:42,248 INFO  [main]
+[org.springframework.boot.StartupInfoLogger.logStarting(StartupInfoLogger.java:55)] ::: Starting UserControllerTest using Java 1.8.0_261 on JCR with PID 112240 (started by pc in D:\GitHub\open_date_course\back)
+2021-09-04 00:39:42,253 INFO  [main]
+[org.springframework.boot.SpringApplication.logStartupProfileInfo(SpringApplication.java:666)] ::: The following profiles are active: dev
+2021-09-04 00:39:42,289 WARN  [main]
+[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 14:13]
+2021-09-04 00:39:42,290 WARN  [main]
+[org.springframework.boot.logging.DeferredLog.logTo(DeferredLog.java:258)] ::: Property 'spring.profiles' imported from location 'class path resource [application.yml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yml] - 7:13]
+2021-09-04 00:39:43,849 INFO  [main]
+[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:128)] ::: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-09-04 00:39:43,970 INFO  [main]
+[org.springframework.data.repository.config.RepositoryConfigurationDelegate.registerRepositoriesIn(RepositoryConfigurationDelegate.java:188)] ::: Finished Spring Data repository scanning in 110 ms. Found 10 JPA repository interfaces.
+2021-09-04 00:39:44,169 INFO  [main]
+[org.springframework.boot.test.autoconfigure.jdbc.TestDatabaseAutoConfiguration$EmbeddedDataSourceBeanFactoryPostProcessor.process(TestDatabaseAutoConfiguration.java:99)] ::: Replacing 'dataSource' DataSource bean with embedded version
+2021-09-04 00:39:45,059 INFO  [main]
+[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@700b9e6b' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-09-04 00:39:45,089 INFO  [main]
+[org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker.postProcessAfterInitialization(PostProcessorRegistrationDelegate.java:376)] ::: Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-09-04 00:39:45,555 INFO  [main]
+[org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory.initDatabase(EmbeddedDatabaseFactory.java:190)] ::: Starting embedded database: url='jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2021-09-04 00:39:46,121 INFO  [main]
+[org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation(LogHelper.java:31)] ::: HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-09-04 00:39:46,201 INFO  [main]
+[org.hibernate.Version.logVersion(Version.java:44)] ::: HHH000412: Hibernate ORM core version 5.4.29.Final
+2021-09-04 00:39:46,252 INFO  [main]
+[org.hibernate.annotations.common.reflection.java.JavaReflectionManager.<clinit>(JavaReflectionManager.java:56)] ::: HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-09-04 00:39:46,470 INFO  [main]
+[org.hibernate.dialect.Dialect.<init>(Dialect.java:175)] ::: HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-09-04 00:39:47,541 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587540 | took 3ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+select * from INFORMATION_SCHEMA.SEQUENCES
+select * from INFORMATION_SCHEMA.SEQUENCES;
+2021-09-04 00:39:47,588 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587587 | took 8ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    create table comment (
+       comment_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        content varchar(255),
+        likes bigint,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (comment_id)
+    )
+
+    create table comment (
+       comment_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        content varchar(255),
+        likes bigint,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (comment_id)
+    );
+2021-09-04 00:39:47,589 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587589 | took 0ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    create table date_course (
+       datecourse_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        date_course_title varchar(255),
+        user_id bigint,
+        primary key (datecourse_id)
+    )
+
+    create table date_course (
+       datecourse_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        date_course_title varchar(255),
+        user_id bigint,
+        primary key (datecourse_id)
+    );
+2021-09-04 00:39:47,591 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587591 | took 1ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    create table follow (
+       follow_id bigint not null,
+        follow_user_id bigint,
+        primary key (follow_id)
+    )
+
+    create table follow (
+       follow_id bigint not null,
+        follow_user_id bigint,
+        primary key (follow_id)
+    );
+2021-09-04 00:39:47,593 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587593 | took 0ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    create table location (
+       location_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        name varchar(255),
+        photo_url varchar(255),
+        posx float,
+        posy float,
+        text varchar(255),
+        datecourse_id bigint,
+        primary key (location_id)
+    )
+
+    create table location (
+       location_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        name varchar(255),
+        photo_url varchar(255),
+        posx float,
+        posy float,
+        text varchar(255),
+        datecourse_id bigint,
+        primary key (location_id)
+    );
+2021-09-04 00:39:47,609 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587608 | took 0ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    create table location_tag (
+       locationtag_id bigint not null,
+        location_id bigint,
+        tag_id bigint,
+        primary key (locationtag_id)
+    )
+
+    create table location_tag (
+       locationtag_id bigint not null,
+        location_id bigint,
+        tag_id bigint,
+        primary key (locationtag_id)
+    );
+2021-09-04 00:39:47,610 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587610 | took 0ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    create table tag (
+       tag_id bigint not null,
+        name varchar(255),
+        primary key (tag_id)
+    )
+
+    create table tag (
+       tag_id bigint not null,
+        name varchar(255),
+        primary key (tag_id)
+    );
+2021-09-04 00:39:47,611 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587611 | took 0ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    create table user (
+       user_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        email varchar(255),
+        image_url varchar(255),
+        name varchar(255),
+        password varchar(255),
+        provider varchar(255),
+        provider_id varchar(255),
+        primary key (user_id)
+    )
+
+    create table user (
+       user_id bigint not null,
+        created_at timestamp,
+        updated_at timestamp,
+        email varchar(255),
+        image_url varchar(255),
+        name varchar(255),
+        password varchar(255),
+        provider varchar(255),
+        provider_id varchar(255),
+        primary key (user_id)
+    );
+2021-09-04 00:39:47,614 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587614 | took 1ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    create table user_date_course_like (
+       userdatecourselike_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecourselike_id)
+    )
+
+    create table user_date_course_like (
+       userdatecourselike_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecourselike_id)
+    );
+2021-09-04 00:39:47,615 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587615 | took 0ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    create table user_date_course_save (
+       userdatecoursesave_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecoursesave_id)
+    )
+
+    create table user_date_course_save (
+       userdatecoursesave_id bigint not null,
+        datecourse_id bigint,
+        user_id bigint,
+        primary key (userdatecoursesave_id)
+    );
+2021-09-04 00:39:47,617 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587616 | took 0ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    create table user_follow (
+       id bigint not null,
+        follow_id bigint,
+        user_id bigint,
+        primary key (id)
+    )
+
+    create table user_follow (
+       id bigint not null,
+        follow_id bigint,
+        user_id bigint,
+        primary key (id)
+    );
+2021-09-04 00:39:47,620 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587620 | took 1ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+create sequence hibernate_sequence start with 1 increment by 1
+create sequence hibernate_sequence start with 1 increment by 1;
+2021-09-04 00:39:47,626 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587626 | took 5ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table comment 
+       add constraint FK2n8idrw4ttr3563tg0s481yfs 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table comment 
+       add constraint FK2n8idrw4ttr3563tg0s481yfs 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:39:47,628 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587627 | took 1ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table comment 
+       add constraint FK8kcum44fvpupyw6f5baccx25c 
+       foreign key (user_id) 
+       references user
+
+    alter table comment 
+       add constraint FK8kcum44fvpupyw6f5baccx25c 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:39:47,631 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587631 | took 2ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table date_course 
+       add constraint FKlr2cd0hikihg50iqai6tiyxm6 
+       foreign key (user_id) 
+       references user
+
+    alter table date_course 
+       add constraint FKlr2cd0hikihg50iqai6tiyxm6 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:39:47,633 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587633 | took 1ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table location 
+       add constraint FKdvjuts0ufgovywnxuyxrs210l 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table location 
+       add constraint FKdvjuts0ufgovywnxuyxrs210l 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:39:47,635 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587634 | took 1ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table location_tag 
+       add constraint FK3v8cy6pwhs2ful50h2jirsx2g 
+       foreign key (location_id) 
+       references location
+
+    alter table location_tag 
+       add constraint FK3v8cy6pwhs2ful50h2jirsx2g 
+       foreign key (location_id) 
+       references location;
+2021-09-04 00:39:47,636 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587636 | took 1ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table location_tag 
+       add constraint FKgrpnco0g0npewc87e8he3oj5w 
+       foreign key (tag_id) 
+       references tag
+
+    alter table location_tag 
+       add constraint FKgrpnco0g0npewc87e8he3oj5w 
+       foreign key (tag_id) 
+       references tag;
+2021-09-04 00:39:47,638 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587638 | took 1ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table user_date_course_like 
+       add constraint FK3l65qpnuw0hcomdv5fsfccfbw 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table user_date_course_like 
+       add constraint FK3l65qpnuw0hcomdv5fsfccfbw 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:39:47,641 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587641 | took 2ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table user_date_course_like 
+       add constraint FK8wut9v5ondcc8ttymtpavttq6 
+       foreign key (user_id) 
+       references user
+
+    alter table user_date_course_like 
+       add constraint FK8wut9v5ondcc8ttymtpavttq6 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:39:47,644 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587644 | took 1ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table user_date_course_save 
+       add constraint FKs2ksnaqnx8cch4fl4os9o3l2q 
+       foreign key (datecourse_id) 
+       references date_course
+
+    alter table user_date_course_save 
+       add constraint FKs2ksnaqnx8cch4fl4os9o3l2q 
+       foreign key (datecourse_id) 
+       references date_course;
+2021-09-04 00:39:47,649 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587648 | took 3ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table user_date_course_save 
+       add constraint FKsml8b1ftuv866n2q0sgfvnx0q 
+       foreign key (user_id) 
+       references user
+
+    alter table user_date_course_save 
+       add constraint FKsml8b1ftuv866n2q0sgfvnx0q 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:39:47,651 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587650 | took 1ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table user_follow 
+       add constraint FKbqop8vyd1wcj0okjbxi96fd5o 
+       foreign key (follow_id) 
+       references follow
+
+    alter table user_follow 
+       add constraint FKbqop8vyd1wcj0okjbxi96fd5o 
+       foreign key (follow_id) 
+       references follow;
+2021-09-04 00:39:47,653 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683587652 | took 1ms | statement | connection 1| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+    alter table user_follow 
+       add constraint FKqoh67whudvkf3w7lovavd6s94 
+       foreign key (user_id) 
+       references user
+
+    alter table user_follow 
+       add constraint FKqoh67whudvkf3w7lovavd6s94 
+       foreign key (user_id) 
+       references user;
+2021-09-04 00:39:47,653 INFO  [main]
+[org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator.initiateService(JtaPlatformInitiator.java:52)] ::: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-09-04 00:39:47,665 INFO  [main]
+[org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:437)] ::: Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-09-04 00:39:52,172 WARN  [main]
+[org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor(JpaBaseConfiguration.java:221)] ::: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-09-04 00:39:52,331 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683592330 | took 1ms | statement | connection 2| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+call next value for hibernate_sequence
+call next value for hibernate_sequence;
+2021-09-04 00:39:52,407 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683592406 | took 0ms | statement | connection 2| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)
+insert into user (created_at, updated_at, email, image_url, name, password, provider, provider_id, user_id) values ('2021-09-04T00:39:52.241+0900', NULL, 'test@naver.com', NULL, 'testUser', NULL, NULL, NULL, 1);
+2021-09-04 00:39:52,412 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683592412 | took 0ms | commit | connection 2| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+;
+2021-09-04 00:39:52,469 WARN  [main]
+[org.hibernate.hql.internal.ast.HqlSqlWalker.lookupProperty(HqlSqlWalker.java:670)] ::: HHH90000016: Found use of deprecated 'collection property' syntax in HQL/JPQL query [d.userDateCourseLikes.size]; use collection function syntax instead [size(d.userDateCourseLikes)].
+2021-09-04 00:39:55,534 INFO  [main]
+[org.springframework.security.web.DefaultSecurityFilterChain.<init>(DefaultSecurityFilterChain.java:51)] ::: Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@31c29db1, org.springframework.security.web.context.SecurityContextPersistenceFilter@4cff38ff, org.springframework.security.web.header.HeaderWriterFilter@7a41f4a7, org.springframework.web.filter.CorsFilter@751526a7, org.springframework.security.web.authentication.logout.LogoutFilter@299cddbf, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@31c800a5, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@4986b0ea, me.toy.server.security.jwt.TokenAuthenticationFilter@1299c874, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@4607cbe2, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@2279e7c7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3feb93a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1cdb290c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4c5e123d, org.springframework.security.web.session.SessionManagementFilter@6a827b0c, org.springframework.security.web.access.ExceptionTranslationFilter@5d94c50e, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6f6998b6]
+2021-09-04 00:39:56,861 INFO  [main]
+[org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.initialize(ExecutorConfigurationSupport.java:181)] ::: Initializing ExecutorService 'applicationTaskExecutor'
+2021-09-04 00:39:57,382 INFO  [main]
+[org.springframework.mock.web.MockServletContext.log(MockServletContext.java:455)] ::: Initializing Spring TestDispatcherServlet ''
+2021-09-04 00:39:57,382 INFO  [main]
+[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:525)] ::: Initializing Servlet ''
+2021-09-04 00:39:57,384 INFO  [main]
+[org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:547)] ::: Completed initialization in 2 ms
+2021-09-04 00:39:58,061 INFO  [main]
+[org.springframework.boot.StartupInfoLogger.logStarted(StartupInfoLogger.java:61)] ::: Started UserControllerTest in 16.307 seconds (JVM running for 19.892)
+2021-09-04 00:39:58,157 INFO  [main]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683598157 | took 0ms | statement | connection 3| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.name=?
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.name='testUser';
+2021-09-04 00:39:58,348 INFO  [SpringContextShutdownHook]
+[org.springframework.scheduling.concurrent.ExecutorConfigurationSupport.shutdown(ExecutorConfigurationSupport.java:218)] ::: Shutting down ExecutorService 'applicationTaskExecutor'
+2021-09-04 00:39:58,358 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683598357 | took 0ms | statement | connection 4| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email=?
+select user0_.user_id as user_id1_6_, user0_.created_at as created_2_6_, user0_.updated_at as updated_3_6_, user0_.email as email4_6_, user0_.image_url as image_ur5_6_, user0_.name as name6_6_, user0_.password as password7_6_, user0_.provider as provider8_6_, user0_.provider_id as provider9_6_ from user user0_ where user0_.email='test@naver.com';
+2021-09-04 00:39:58,375 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683598375 | took 0ms | statement | connection 5| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+select user0_.user_id as user_id1_6_0_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_ from user user0_ where user0_.user_id=?
+select user0_.user_id as user_id1_6_0_, user0_.created_at as created_2_6_0_, user0_.updated_at as updated_3_6_0_, user0_.email as email4_6_0_, user0_.image_url as image_ur5_6_0_, user0_.name as name6_6_0_, user0_.password as password7_6_0_, user0_.provider as provider8_6_0_, user0_.provider_id as provider9_6_0_ from user user0_ where user0_.user_id=1;
+2021-09-04 00:39:58,390 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683598390 | took 0ms | statement | connection 5| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+select comments0_.user_id as user_id7_0_1_, comments0_.comment_id as comment_1_0_1_, comments0_.comment_id as comment_1_0_0_, comments0_.created_at as created_2_0_0_, comments0_.updated_at as updated_3_0_0_, comments0_.content as content4_0_0_, comments0_.datecourse_id as datecour6_0_0_, comments0_.likes as likes5_0_0_, comments0_.user_id as user_id7_0_0_ from comment comments0_ where comments0_.user_id=?
+select comments0_.user_id as user_id7_0_1_, comments0_.comment_id as comment_1_0_1_, comments0_.comment_id as comment_1_0_0_, comments0_.created_at as created_2_0_0_, comments0_.updated_at as updated_3_0_0_, comments0_.content as content4_0_0_, comments0_.datecourse_id as datecour6_0_0_, comments0_.likes as likes5_0_0_, comments0_.user_id as user_id7_0_0_ from comment comments0_ where comments0_.user_id=1;
+2021-09-04 00:39:58,394 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683598393 | took 0ms | statement | connection 5| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+select datecourse0_.user_id as user_id5_1_1_, datecourse0_.datecourse_id as datecour1_1_1_, datecourse0_.datecourse_id as datecour1_1_0_, datecourse0_.created_at as created_2_1_0_, datecourse0_.updated_at as updated_3_1_0_, datecourse0_.date_course_title as date_cou4_1_0_, datecourse0_.user_id as user_id5_1_0_ from date_course datecourse0_ where datecourse0_.user_id=?
+select datecourse0_.user_id as user_id5_1_1_, datecourse0_.datecourse_id as datecour1_1_1_, datecourse0_.datecourse_id as datecour1_1_0_, datecourse0_.created_at as created_2_1_0_, datecourse0_.updated_at as updated_3_1_0_, datecourse0_.date_course_title as date_cou4_1_0_, datecourse0_.user_id as user_id5_1_0_ from date_course datecourse0_ where datecourse0_.user_id=1;
+2021-09-04 00:39:58,395 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683598394 | took 0ms | statement | connection 5| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+select userdateco0_.user_id as user_id3_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_0_, userdateco0_.datecourse_id as datecour2_8_0_, userdateco0_.user_id as user_id3_8_0_ from user_date_course_save userdateco0_ where userdateco0_.user_id=?
+select userdateco0_.user_id as user_id3_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_1_, userdateco0_.userdatecoursesave_id as userdate1_8_0_, userdateco0_.datecourse_id as datecour2_8_0_, userdateco0_.user_id as user_id3_8_0_ from user_date_course_save userdateco0_ where userdateco0_.user_id=1;
+2021-09-04 00:39:58,399 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683598395 | took 0ms | statement | connection 5| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+select userdateco0_.user_id as user_id3_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_0_, userdateco0_.datecourse_id as datecour2_7_0_, userdateco0_.user_id as user_id3_7_0_ from user_date_course_like userdateco0_ where userdateco0_.user_id=?
+select userdateco0_.user_id as user_id3_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_1_, userdateco0_.userdatecourselike_id as userdate1_7_0_, userdateco0_.datecourse_id as datecour2_7_0_, userdateco0_.user_id as user_id3_7_0_ from user_date_course_like userdateco0_ where userdateco0_.user_id=1;
+2021-09-04 00:39:58,401 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683598401 | took 0ms | statement | connection 5| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+select userfollow0_.user_id as user_id3_9_1_, userfollow0_.id as id1_9_1_, userfollow0_.id as id1_9_0_, userfollow0_.follow_id as follow_i2_9_0_, userfollow0_.user_id as user_id3_9_0_ from user_follow userfollow0_ where userfollow0_.user_id=?
+select userfollow0_.user_id as user_id3_9_1_, userfollow0_.id as id1_9_1_, userfollow0_.id as id1_9_0_, userfollow0_.follow_id as follow_i2_9_0_, userfollow0_.user_id as user_id3_9_0_ from user_follow userfollow0_ where userfollow0_.user_id=1;
+2021-09-04 00:39:58,410 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683598410 | took 2ms | statement | connection 5| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+delete from user where user_id=?
+delete from user where user_id=1;
+2021-09-04 00:39:58,413 INFO  [SpringContextShutdownHook]
+[com.p6spy.engine.spy.appender.Slf4JLogger.logSQL(Slf4JLogger.java:60)] ::: #1630683598413 | took 0ms | commit | connection 5| url jdbc:h2:mem:9bc46682-11f7-4707-8683-1af13633ec92
+
+;
+2021-09-04 00:39:58,416 INFO  [SpringContextShutdownHook]
+[org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.destroy(AbstractEntityManagerFactoryBean.java:651)] ::: Closing JPA EntityManagerFactory for persistence unit 'default'

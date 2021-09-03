@@ -5,11 +5,12 @@ import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
-import me.toy.server.dto.UserRequestDto.AddFollower;
-import me.toy.server.dto.UserResponseDto;
+import me.toy.server.dto.UserRequestDto.AddFollowerRequest;
+import me.toy.server.dto.UserRequestDto.RemoveFollowerRequest;
+import me.toy.server.dto.UserResponseDto.UserFollowers;
 import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
 import me.toy.server.dto.UserResponseDto.UserDto;
-import me.toy.server.dto.UserResponseDto.UserFollowingUsers;
+import me.toy.server.dto.UserResponseDto.UserFollowings;
 import me.toy.server.entity.LoginUser;
 import me.toy.server.service.UserService;
 import org.springframework.data.domain.Page;
@@ -87,14 +88,30 @@ public class UserController {
 
   @ApiOperation("사용자 팔로우")
   @PostMapping("/user/follows")
-  public void addFollower(@Valid AddFollower addFollower, @LoginUser String userEmail) {
+  public void addFollowingUser(@Valid AddFollowerRequest addFollowerRequest,
+      @LoginUser String userEmail) {
 
-    userService.addFollowerInUserFollowers(addFollower, userEmail);
+    userService.addFollowerInUserFollowers(addFollowerRequest, userEmail);
+  }
+
+  @ApiOperation("사용자 팔로우 취소")
+  @DeleteMapping("/user/follows")
+  public void removeFollowingUser(@Valid RemoveFollowerRequest removeFollowerRequest,
+      @LoginUser String userEmail) {
+    userService.removeFollowerInUserFollowers(removeFollowerRequest, userEmail);
+  }
+
+  @ApiOperation("사용자 팔로워 조회")
+  @GetMapping("/user/followers")
+  public ResponseEntity<UserFollowers> getUserFollowers(
+      @LoginUser String userEmail) {
+
+    return ResponseEntity.ok().body(userService.getUserFollowersUsers(userEmail));
   }
 
   @ApiOperation("팔로잉 사용자 조회")
   @GetMapping("/user/follows")
-  public ResponseEntity<UserFollowingUsers> getUserFollowingUsers(
+  public ResponseEntity<UserFollowings> getUserFollowings(
       @LoginUser String userEmail) {
 
     return ResponseEntity.ok().body(userService.getUserFollowingUsers(userEmail));

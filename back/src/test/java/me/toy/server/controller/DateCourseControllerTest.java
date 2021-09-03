@@ -9,6 +9,7 @@ import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.User;
 import me.toy.server.repository.DateCourseRepository;
 import me.toy.server.service.DateCourseService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
@@ -66,7 +72,7 @@ class DateCourseControllerTest {
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).regist(any(), any(), any());
+    verify(dateCourseService, times(1)).regist(any(), any());
   }
 
   @Test
@@ -92,33 +98,39 @@ class DateCourseControllerTest {
   @Test
   @DisplayName("최신 데이트 코스 리스트 요청시 최신순 데이트 코스 목록을 반환한다")
   public void recentDateCourseList() throws Exception {
+
+    //given
     User user = new User();
     user.setName("testOtherUser");
     user.setEmail("test@gmail.com");
     DateCourse dateCourse1 = new DateCourse(user, "testCourse1");
     DateCourse dateCourse2 = new DateCourse(user, "testCourse2");
-    RecentDateCourseDto recentDateCourseDto1 = new RecentDateCourseDto(
-        dateCourse1);
-    RecentDateCourseDto recentDateCourseDto2 = new RecentDateCourseDto(
-        dateCourse2);
-    List<RecentDateCourseDto> list = spy(new ArrayList<>());
+    RecentDateCourseDto recentDateCourseDto1 = new RecentDateCourseDto(dateCourse1);
+    RecentDateCourseDto recentDateCourseDto2 = new RecentDateCourseDto(dateCourse2);
+    List<RecentDateCourseDto> list = new ArrayList<>();
     list.add(recentDateCourseDto1);
     list.add(recentDateCourseDto2);
+    Pageable pageable = PageRequest.of(0, 2);
+    Page<RecentDateCourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    when(dateCourseService.getRecentDateCourseList()).thenReturn(list);
-    when(dateCourseRepository.findAll()).thenReturn(list);
-    mockMvc.perform(get("/datecourses/recent"))
+    //when
+    when(dateCourseService.getRecentDateCourseList(pageable)).thenReturn(page);
+
+    //then
+    mockMvc.perform(get("/datecourses/recent?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(content().json(objectMapper.writeValueAsString(list)))
+        .andExpect(content().json(objectMapper.writeValueAsString(page)))
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).getRecentDateCourseList();
+    verify(dateCourseService, times(1)).getRecentDateCourseList(pageable);
   }
 
   @Test
   @DisplayName("인기 데이트 코스 리스트 요청시 좋아요순 데이트 코스 목록을 반환한다")
   public void likeOrderDateCourseList() throws Exception {
+
+    //given
     User user = new User();
     user.setName("testOtherUser");
     user.setEmail("test@gmail.com");
@@ -126,18 +138,23 @@ class DateCourseControllerTest {
     DateCourse dateCourse2 = new DateCourse(user, "testCourse2");
     LikeOrderDateCourseDto likeOrderDateCourseDto1 = new LikeOrderDateCourseDto(dateCourse1);
     LikeOrderDateCourseDto likeOrderDateCourseDto2 = new LikeOrderDateCourseDto(dateCourse2);
-    List<LikeOrderDateCourseDto> list = spy(new ArrayList<>());
+    List<LikeOrderDateCourseDto> list = new ArrayList<>();
     list.add(likeOrderDateCourseDto1);
     list.add(likeOrderDateCourseDto2);
 
-    when(dateCourseService.getLikedOrderDateCourseList()).thenReturn(list);
-    mockMvc.perform(get("/datecourses/thumbUp"))
+    Pageable pageable = PageRequest.of(0, 2);
+    Page<LikeOrderDateCourseDto> page = new PageImpl<>(list, pageable, 2);
+
+    //when
+    when(dateCourseService.getLikedOrderDateCourseList(pageable)).thenReturn(page);
+
+    //then
+    mockMvc.perform(get("/datecourses/thumbUp?page=0j&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(content().json(objectMapper.writeValueAsString(list)))
+        .andExpect(content().json(objectMapper.writeValueAsString(page)))
         .andDo(print())
         .andExpect(status().isOk());
-
-    verify(dateCourseService, times(1)).getLikedOrderDateCourseList();
+    verify(dateCourseService, times(1)).getLikedOrderDateCourseList(pageable);
   }
 
   @Test

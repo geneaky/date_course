@@ -1,16 +1,25 @@
 package me.toy.server.service;
 
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
+import me.toy.server.dto.UserRequestDto.AddFollowerRequest;
+import me.toy.server.dto.UserRequestDto.RemoveFollowerRequest;
 import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
 import me.toy.server.dto.UserResponseDto.UserDto;
+import me.toy.server.dto.UserResponseDto.UserFollowers;
+import me.toy.server.dto.UserResponseDto.UserFollowings;
 import me.toy.server.entity.DateCourse;
+import me.toy.server.entity.Follow;
 import me.toy.server.entity.UserDateCourseLike;
 import me.toy.server.entity.UserDateCourseSave;
 import me.toy.server.entity.User;
+import me.toy.server.entity.UserFollow;
 import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.repository.DateCourseRepository;
+import me.toy.server.repository.FollowRepository;
 import me.toy.server.repository.UserDateCourseSaveRepository;
+import me.toy.server.repository.UserFollowRepository;
 import me.toy.server.repository.UserRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +31,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -37,6 +51,12 @@ public class UserServiceTest {
 
   @Mock
   UserDateCourseSaveRepository userDateCourseSaveRepository;
+
+  @Mock
+  FollowRepository followRepository;
+
+  @Mock
+  UserFollowRepository userFollowRepository;
 
   @InjectMocks
   UserService userService;
@@ -186,18 +206,14 @@ public class UserServiceTest {
     User user = new User();
     user.setEmail(userEmail);
     DateCourse dateCourse = new DateCourse(user, "test");
-    UserDateCourseSave userDateCourseSave = new UserDateCourseSave(user, dateCourse);
-    List<UserDateCourseSave> userDateCourseSaveList = new ArrayList<>();
-    userDateCourseSaveList.add(userDateCourseSave);
-    user.setUserDateCoursSaves(userDateCourseSaveList);
     //when
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
     when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
     userService.deleteSavedCourse(dateCourse.getId(), userEmail);
     //then
-    assertEquals(user.getUserDateCoursSaves().size(), 0);
     verify(userRepository, atLeast(1)).findByEmail(any());
     verify(dateCourseRepository, atLeast(1)).findById(any());
+    verify(userDateCourseSaveRepository, times(1)).deleteByUserIdAndDateCourseId(any(), any());
   }
 
   @Test
@@ -210,21 +226,19 @@ public class UserServiceTest {
     DateCourse dateCourse1 = new DateCourse(user, "test1");
     DateCourse dateCourse2 = new DateCourse(user, "test2");
     DateCourse dateCourse3 = new DateCourse(user, "test3");
-    List<DateCourse> dateCourseList = new ArrayList<>();
-    dateCourseList.add(dateCourse1);
-    dateCourseList.add(dateCourse2);
-    dateCourseList.add(dateCourse3);
-    user.setDateCourses(dateCourseList);
-    List<RecentDateCourseDto> testMyCourse = new ArrayList<>();
-    testMyCourse.add(new RecentDateCourseDto(dateCourse1));
-    testMyCourse.add(new RecentDateCourseDto(dateCourse2));
-    testMyCourse.add(new RecentDateCourseDto(dateCourse3));
+    List<DateCourse> list = new ArrayList<>();
+    list.add(dateCourse1);
+    list.add(dateCourse2);
+    list.add(dateCourse3);
+    Pageable pageable = PageRequest.of(0, 3);
+    Page<DateCourse> page = new PageImpl<DateCourse>(list, pageable, 3);
     //when
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(dateCourseRepository.findAllDateCourseByUserId(user.getId())).thenReturn(testMyCourse);
-    List<RecentDateCourseDto> myCourse = userService.findMyCourse(userEmail);
+    when(dateCourseRepository.findAllDateCourseByUserId(user.getId(), pageable)).thenReturn(page);
+    Page<RecentDateCourseDto> myCourse = userService.findMyCourse(userEmail, pageable);
     //then
-    assertEquals(myCourse.size(), 3);
+    verify(userRepository, times(1)).findByEmail(userEmail);
+    assertEquals(myCourse.getContent().size(), 3);
   }
 
   @Test
@@ -236,17 +250,126 @@ public class UserServiceTest {
     user.setEmail(userEmail);
     DateCourse dateCourse = new DateCourse(user, "test");
     UserDateCourseSave userDateCourseSave = new UserDateCourseSave(user, dateCourse);
-    List<UserDateCourseSave> userDateCourseSaveList = new ArrayList<>();
-    userDateCourseSaveList.add(userDateCourseSave);
-    user.setUserDateCoursSaves(userDateCourseSaveList);
-    List<SavedDateCourseDto> testSavedCourse = new ArrayList<>();
-    testSavedCourse.add(new SavedDateCourseDto(userDateCourseSave));
+    List<UserDateCourseSave> list = new ArrayList<>();
+    list.add(userDateCourseSave);
+    Pageable pageable = PageRequest.of(0, 1);
+    Page<UserDateCourseSave> page = new PageImpl<>(list, pageable, 1);
+
     //when
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(dateCourseRepository.findAllUserDateCourseSaveByUserId(user.getId()))
-        .thenReturn(testSavedCourse);
-    List<SavedDateCourseDto> savedCourseListResult = userService.findSavedCourseList(userEmail);
+    when(userDateCourseSaveRepository.findAllUserDateCourseSaveByUserId(user.getId(), pageable))
+        .thenReturn(page);
+    Page<SavedDateCourseDto> savedCourseListResult = userService
+        .findSavedCourseList(userEmail, pageable);
     //then
-    assertEquals(savedCourseListResult.size(), 1);
+    verify(userRepository, times(1)).findByEmail(userEmail);
+    assertEquals(savedCourseListResult.getContent().size(), 1);
+  }
+
+  @Test
+  @DisplayName("사용자 팔로우를 성공")
+  public void addFollowerInUserFollowersTest() throws Exception {
+    //given
+    List<UserFollow> list = new ArrayList<>();
+    User user = User.builder()
+        .email("test@naver.com")
+        .userFollows(list)
+        .build();
+    User targetUser = User.builder()
+        .id(3L)
+        .email("target@naver.com")
+        .build();
+    AddFollowerRequest addFollowerRequest = new AddFollowerRequest(targetUser.getId());
+
+    //when
+    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
+    when(userRepository.findById(targetUser.getId())).thenReturn(Optional.of(targetUser));
+    userService.addFollowerInUserFollowers(addFollowerRequest, user.getEmail());
+    //then
+    verify(followRepository, times(1)).save(any());
+    verify(userFollowRepository, times(1)).save(any());
+    assertThat(user.getUserFollows().size()).isEqualTo(1);
+  }
+
+  @Test
+  @DisplayName("팔로우하는 사용자들을 반환")
+  public void getUserFollowingUsersTest() throws Exception {
+    //given
+    List<UserFollow> list = new ArrayList<>();
+    User user = User.builder()
+        .email("test@naver.com")
+        .userFollows(list)
+        .build();
+    List<User> users = new ArrayList<>();
+    User user1 = User.builder()
+        .email("other@naver.com")
+        .build();
+    User user2 = User.builder()
+        .email("people@naver.com")
+        .build();
+    users.add(user1);
+    users.add(user2);
+    //when
+    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
+    when(userRepository.findAllFollowingUsers("test@naver.com")).thenReturn(users);
+    UserFollowings userFollowingUsers = userService.getUserFollowingUsers("test@naver.com");
+    //then
+    assertThat(userFollowingUsers.getFollowingUserDtos().size()).isEqualTo(2);
+  }
+
+  @Test
+  @DisplayName("사용자 팔로우 목록에서 선택한 팔로우 사용자를 언팔로우")
+  public void removeFollowerInUserFollowersTest() throws Exception {
+    //given
+    List<UserFollow> userFollows = new ArrayList<>();
+    Follow follow = new Follow(3L);
+    User user = User.builder()
+        .email("test@naver.com")
+        .userFollows(userFollows)
+        .build();
+    UserFollow userFollow = new UserFollow(user, follow);
+
+    RemoveFollowerRequest removeFollowerRequest = new RemoveFollowerRequest(
+        follow.getFollowUserId());
+    //when
+    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.ofNullable(user));
+    userService.removeFollowerInUserFollowers(removeFollowerRequest, "test@naver.com");
+    //then
+    verify(userFollowRepository, times(1)).deleteUserFollowInUserFollowings(any(), any());
+    verify(followRepository, times(1)).deleteFollowInUserFollowings(any(), any());
+  }
+
+  @Test
+  @DisplayName("사용자를 팔로우하는 팔루워 목록 반환")
+  public void getUserFollowersUsersTest() throws Exception {
+    //given
+    User user1 = User.builder()
+        .id(2L)
+        .email("other@naver.com")
+        .build();
+    User user2 = User.builder()
+        .id(3L)
+        .email("people@naver.com")
+        .build();
+    List<UserFollow> userFollows = new ArrayList<>();
+    Follow follow1 = new Follow(2L);
+    Follow follow2 = new Follow(3L);
+    User user = User.builder()
+        .id(1L)
+        .userFollows(userFollows)
+        .email("test@naver.com")
+        .build();
+    UserFollow userFollow1 = new UserFollow(user, follow1);
+    UserFollow userFollow2 = new UserFollow(user, follow2);
+    List<User> list = new ArrayList<>();
+    list.add(user1);
+    list.add(user2);
+    //when
+    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.ofNullable(user));
+    when(userRepository.findAllFollowerUsers(1L)).thenReturn(list);
+    UserFollowers userFollowersUsers = userService.getUserFollowersUsers("test@naver.com");
+    //then
+    assertThat(userFollowersUsers.getFollowerUserDtos().size()).isEqualTo(2);
+    assertThat(user.getUserFollows().size()).isEqualTo(2);
   }
 }
