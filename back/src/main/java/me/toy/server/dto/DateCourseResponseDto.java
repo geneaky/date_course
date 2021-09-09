@@ -57,7 +57,7 @@ public class DateCourseResponseDto {
 
     @Builder
     public DateCourseCommentDto(Comment comment) {
-      
+
       this.userName = comment.getUser().getName();
       this.commentContent = comment.getContent();
     }
@@ -90,22 +90,31 @@ public class DateCourseResponseDto {
 
 
   @Getter
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
   public static class LikeOrderDateCourseDto {
 
     private Long id;
-    private Long likesCount;
+    private int likesCount;
     private List<LikeOrderDateCourseLocationDto> locations;
 
-    @Builder
-    public LikeOrderDateCourseDto(DateCourse dateCourse) {
-      this.id = dateCourse.getId();
-      this.likesCount = dateCourse.getUserDateCourseLikes().stream().count();
-      this.locations = dateCourse.getLocations()
-          .stream()
-          .map(location -> new LikeOrderDateCourseLocationDto(location))
+    public LikeOrderDateCourseDto(Long id, int likesCount,
+        List<Location> locations) {
+      this.id = id;
+      this.likesCount = likesCount;
+      this.locations = locations.stream()
+          .map(LikeOrderDateCourseLocationDto::new)
           .collect(Collectors.toList());
+      ;
     }
+
+//    @Builder
+//    public LikeOrderDateCourseDto(DateCourse dateCourse) {
+//      this.id = dateCourse.getId();
+//      this.likesCount = dateCourse.getUserDateCourseLikes().stream().count();
+//      this.locations = dateCourse.getLocations()
+//          .stream()
+//          .map(LikeOrderDateCourseLocationDto::new)
+//          .collect(Collectors.toList());
+//    }
   }
 
   @Getter

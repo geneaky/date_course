@@ -45,7 +45,7 @@ public class SecurityConfig extends
   }
 
   @PostConstruct
-  @Profile("dev")
+  @Profile("test")
   public void settingUserTest() {
 
     User user = new User();
@@ -55,7 +55,7 @@ public class SecurityConfig extends
   }
 
   @PreDestroy
-  @Profile("dev")
+  @Profile("test")
   public void clearSettingUserTest() {
 
     Optional<User> testUser = userRepository.findByEmail("test@naver.com");
@@ -65,7 +65,7 @@ public class SecurityConfig extends
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    
+
     http.csrf().disable();
     http.cors();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

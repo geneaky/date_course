@@ -143,10 +143,7 @@ public class DateCourseService {
   @Transactional(readOnly = true)
   public Page<LikeOrderDateCourseDto> getLikedOrderDateCourseList(Pageable pageable) {
 
-    Page<DateCourse> likeOrderDateCourse = dateCourseRepository
-        .findLikeOrderDateCourse(pageable);
-
-    return likeOrderDateCourse.map(LikeOrderDateCourseDto::new);
+    return dateCourseRepository.findLikeOrderDateCourse(pageable);
   }
 
 }

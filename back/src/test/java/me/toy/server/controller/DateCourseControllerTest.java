@@ -136,8 +136,12 @@ class DateCourseControllerTest {
     user.setEmail("test@gmail.com");
     DateCourse dateCourse1 = new DateCourse(user, "testCourse1");
     DateCourse dateCourse2 = new DateCourse(user, "testCourse2");
-    LikeOrderDateCourseDto likeOrderDateCourseDto1 = new LikeOrderDateCourseDto(dateCourse1);
-    LikeOrderDateCourseDto likeOrderDateCourseDto2 = new LikeOrderDateCourseDto(dateCourse2);
+    LikeOrderDateCourseDto likeOrderDateCourseDto1 = new LikeOrderDateCourseDto(dateCourse1.getId(),
+        dateCourse1.getUserDateCourseLikes().size(),
+        dateCourse1.getLocations());
+    LikeOrderDateCourseDto likeOrderDateCourseDto2 = new LikeOrderDateCourseDto(dateCourse2.getId(),
+        dateCourse2.getUserDateCourseLikes().size(),
+        dateCourse2.getLocations());
     List<LikeOrderDateCourseDto> list = new ArrayList<>();
     list.add(likeOrderDateCourseDto1);
     list.add(likeOrderDateCourseDto2);
