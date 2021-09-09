@@ -8,8 +8,8 @@ const Login = () => {
       <p>간편하게 로그인하고</p>
       <h3>데이트 코스를 공유하세요</h3>
       <StyledLoginButton>
-        <a href="http://opendatecourse.duckdns.org:3030/oauth2/authorize/google?redirect_uri=http://opendatecourse.duckdns.org/oauth2/redirect">
-          {/* <a href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect"> */}
+        {/* <a href="http://opendatecourse.duckdns.org:3030/oauth2/authorize/google?redirect_uri=http://opendatecourse.duckdns.org/oauth2/redirect"> */}
+        <a href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect">
           <img
             alt="Google login"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
