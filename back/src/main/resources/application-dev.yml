@@ -1,5 +1,10 @@
 spring:
   servlet:
+    session:
+      timeout: 30m
+      cookie:
+        http-only: true
+    #        secure: true https에서 만 동작할지 설정
     multipart:
       enabled: true
       max-file-size: 2MB

@@ -1,10 +1,16 @@
 package me.toy.server.controller;
 
+import static me.toy.server.dto.UserRequestDto.*;
+
 import io.swagger.annotations.ApiOperation;
+import java.io.IOException;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
+import me.toy.server.dto.UserRequestDto;
 import me.toy.server.dto.UserRequestDto.AddFollowerRequest;
 import me.toy.server.dto.UserRequestDto.RemoveFollowerRequest;
 import me.toy.server.dto.UserResponseDto.UserFollowers;
@@ -21,10 +27,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Secured("ROLE_USER")
+//@Secured("ROLE_USER")
 public class UserController {
 
   private final UserService userService;
+
+  @ApiOperation("사용자 회원가입")
+  @PostMapping("/signUp")
+  public void registerUser(@Valid UserRegisterForm userRegisterForm, HttpServletResponse response)
+      throws IOException {
+    userService.createUserAccount(userRegisterForm);
+    response.sendRedirect("http://localhost:3000");
+  }
 
   @ApiOperation("로그인한 사용자 정보 제공")
   @GetMapping("/user/info")

@@ -1,68 +1,41 @@
 package me.toy.server.security.handler;
 
-import lombok.RequiredArgsConstructor;
-import me.toy.server.exception.user.BadRequestException;
-import me.toy.server.security.jwt.JwtTokenProvider;
-import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import me.toy.server.utils.CookieUtils;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Optional;
+import me.toy.server.exception.security.NoRedirectUriRequestException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
-import static me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
-
-@RequiredArgsConstructor
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-  private final JwtTokenProvider tokenProvider;
-  private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+  private final String REDIRECT_URI = "redirect_uri";
+  private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) throws IOException, ServletException {
-    String targetUrl = determineTargetUrl(request, response, authentication);
 
-    if (response.isCommitted()) {
-      logger.debug("response has already committed.unable to redirect to" + targetUrl);
-      return;
-    }
-    clearAuthenticationAttributes(request,
-        response);//jwt 방식은 로그인시 session에 데이터를 저장할 이유가 없기때문에 이미 있는 데이터를 비워준다.
-    getRedirectStrategy().sendRedirect(request, response, targetUrl);
+    String targetUrl = determineTargetUrl(request, response, authentication);
+    clearAuthenticationAttributes(request);//인증과정에서 인증 실패 exception을 session에 저장해두기 때문에 비워준다.
+    redirectStrategy.sendRedirect(request, response, targetUrl);
+//    getRedirectStrategy().sendRedirect(request, response, targetUrl);
   }
 
+  @Override
   protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) {
-    Optional<String> redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
-        .map(Cookie::getValue);
 
-    if (!redirectUri.isPresent()) {
-      throw new BadRequestException(
-          "Unauthorized redirect uri and can't proceed whit th authentication");
+    String targetUrl = request.getParameter(REDIRECT_URI);
+
+    if (targetUrl == null) {
+      throw new NoRedirectUriRequestException("리다이렉트 URI가 포함되지 않은 요청입니다.");
     }
-
-    String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
-
-    String token = tokenProvider.create(authentication);
-
-    return UriComponentsBuilder.fromUriString(targetUrl)
-        .queryParam("token", token)
-        .build().toUriString();
-  }
-
-  protected void clearAuthenticationAttributes(HttpServletRequest request,
-      HttpServletResponse response) {
-    super.clearAuthenticationAttributes(request);
-    httpCookieOAuth2AuthorizationRequestRepository
-        .removeAuthorizationRequestCookies(request, response);
+    return targetUrl;
   }
 }

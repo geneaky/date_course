@@ -2,8 +2,10 @@ package me.toy.server.service;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
+import me.toy.server.dto.UserRequestDto;
 import me.toy.server.dto.UserRequestDto.AddFollowerRequest;
 import me.toy.server.dto.UserRequestDto.RemoveFollowerRequest;
+import me.toy.server.dto.UserRequestDto.UserRegisterForm;
 import me.toy.server.dto.UserResponseDto.UserFollowers;
 import me.toy.server.dto.UserResponseDto.FollowerUserDto;
 import me.toy.server.dto.UserResponseDto.FollowingUserDto;
@@ -16,6 +18,7 @@ import me.toy.server.entity.UserDateCourseSave;
 import me.toy.server.entity.User;
 import me.toy.server.entity.UserFollow;
 import me.toy.server.exception.datecourse.DateCourseNotFoundException;
+import me.toy.server.exception.user.EmailDuplicationException;
 import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.repository.DateCourseRepository;
 import me.toy.server.repository.FollowRepository;
@@ -24,6 +27,7 @@ import me.toy.server.repository.UserFollowRepository;
 import me.toy.server.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +43,7 @@ public class UserService {
   private final UserDateCourseSaveRepository userDateCourseSaveRepository;
   private final UserFollowRepository userFollowRepository;
   private final FollowRepository followRepository;
+  private final PasswordEncoder bCrypPasswordEncorder;
 
   @Transactional(readOnly = true)
   public UserDto findUser(String userEmail) {
@@ -197,5 +202,20 @@ public class UserService {
         .collect(Collectors.toList());
 
     return new UserFollowers(followerUserDtos);
+  }
+
+  @Transactional
+  public void createUserAccount(UserRegisterForm userRegisterForm) {
+    if (userRepository.findByEmail(userRegisterForm.getEmail()).isPresent()) {
+      throw new EmailDuplicationException("해당 이메일로 이미 가입한 사용자 입니다.");
+    }
+
+    User newUser = User.builder()
+        .email(userRegisterForm.getEmail())
+        .password(bCrypPasswordEncorder.encode(userRegisterForm.getPassword()))
+        .name(userRegisterForm.getNickName())
+        .build();
+
+    userRepository.save(newUser);
   }
 }

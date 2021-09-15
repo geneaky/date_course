@@ -3,10 +3,12 @@ package me.toy.server.config;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.entity.User;
 import me.toy.server.repository.UserRepository;
-import me.toy.server.security.jwt.TokenAuthenticationFilter;
-import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import me.toy.server.security.handler.CustomAuthenticationFailureHandelr;
+import me.toy.server.security.CustomAuthenticationFilter;
+import me.toy.server.security.handler.CustomAuthenticationFailureHandler;
 import me.toy.server.security.handler.CustomAuthenticationSuccessHandler;
+import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
+import me.toy.server.security.handler.CustomOAuth2AuthenticationFailureHandelr;
+import me.toy.server.security.handler.CustomOAuth2AuthenticationSuccessHandler;
 import me.toy.server.security.oauth2.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,12 +18,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.Optional;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -32,9 +33,10 @@ public class SecurityConfig extends
 
   private final CustomOAuth2UserService customOAuth2UserService;
   private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+  private final CustomOAuth2AuthenticationSuccessHandler customOAuth2AuthenticationSuccessHandler;
+  private final CustomOAuth2AuthenticationFailureHandelr customOAuth2AuthenticationFailureHandelr;
   private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-  private final CustomAuthenticationFailureHandelr customAuthenticationFailureHandelr;
-  private final TokenAuthenticationFilter tokenAuthenticationFilter;
+  private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
   private final UserRepository userRepository;
 
   @Bean
@@ -63,23 +65,39 @@ public class SecurityConfig extends
     userRepository.delete(testUser.get());
   }
 
+  @Bean
+  public CustomAuthenticationFilter getFilter() throws Exception {
+    CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(
+        userRepository);
+    customAuthenticationFilter.setAuthenticationManager(authenticationManager());
+    return customAuthenticationFilter;
+  }
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
 
     http.csrf().disable();
     http.cors();
-    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    http.formLogin().disable();
-    http.httpBasic().disable();
+    http.httpBasic();
+//    http.formLogin()
+//        .usernameParameter("email")
+//        .passwordParameter("password")
+//        .loginProcessingUrl("/signIn")
+//        .permitAll()
+//        .successHandler(customAuthenticationSuccessHandler)
+//        .failureHandler(customAuthenticationFailureHandler);
+
+    http.logout().disable();
+    http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true)
+        .expiredUrl("http://localhost:3000/login");
+//        .sessionRegistry(sessionRegistry);
 
     http.authorizeRequests()
         .antMatchers("/user/**").access("hasRole('ROLE_USER')")
-        .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
         .antMatchers("/datecourse/*/**").access("hasRole('ROLE_USER')")
-        .antMatchers("/user/saved/**").access("hasRole('ROLE_USER')")
         .antMatchers("/v2/api-docs", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**")
         .permitAll()
-        .antMatchers("/auth/**", "/oauth2/**", "/datecourse/*").permitAll()
+        .antMatchers("/auth/**", "/oauth2/**", "/datecourse/*", "/signUp").permitAll()
         .anyRequest().authenticated()
         .and()
         .oauth2Login()
@@ -93,10 +111,17 @@ public class SecurityConfig extends
         .userInfoEndpoint()
         .userService(customOAuth2UserService)
         .and()
-        .successHandler(customAuthenticationSuccessHandler)
-        .failureHandler(customAuthenticationFailureHandelr);
+        .successHandler(customOAuth2AuthenticationSuccessHandler)
+        .failureHandler(customOAuth2AuthenticationFailureHandelr);
 
-    http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    http.addFilterAt(getFilter(), UsernamePasswordAuthenticationFilter.class)
+        .formLogin()
+        .usernameParameter("email")
+        .passwordParameter("password")
+        .loginProcessingUrl("/signIn")
+        .permitAll()
+        .successHandler(customAuthenticationSuccessHandler)
+        .failureHandler(customAuthenticationFailureHandler);
   }
 
 }

@@ -21,13 +21,16 @@ public class User extends BaseEntity {
   @GeneratedValue
   @Column(name = "USER_ID")
   private Long id;
-  private String name;
-  private String password;
-  private String imageUrl;
   private String email;
+  private String password;
+  private String name;
+
+  private String imageUrl;
+
   @Enumerated(EnumType.STRING)
   private AuthProvider provider;
   private String providerId;
+
   @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<DateCourse> dateCourses = new ArrayList<>();
   @OneToMany(mappedBy = "user", orphanRemoval = true)

@@ -16,4 +16,10 @@ public class ResponseConstants {
 
   public static final ResponseEntity<String> INVALID_REQUEST =
       new ResponseEntity<>("유효하지 않은 요청", HttpStatus.BAD_REQUEST);
+
+  public static final ResponseEntity<String> DUPLICATED_EMAIL =
+      new ResponseEntity<>("이미 존재하는 이메일입니다.", HttpStatus.CONFLICT);
+
+  public static final ResponseEntity<String> NO_REDIRECTURI_PARAM =
+      new ResponseEntity<>("리다이렉트 파라미터가 포함되지 않은 요청입니다.", HttpStatus.BAD_REQUEST);
 }

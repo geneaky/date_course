@@ -18,7 +18,7 @@ import static me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequest
 
 @Component
 @RequiredArgsConstructor
-public class CustomAuthenticationFailureHandelr extends SimpleUrlAuthenticationFailureHandler {
+public class CustomOAuth2AuthenticationFailureHandelr extends SimpleUrlAuthenticationFailureHandler {
 
   private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
