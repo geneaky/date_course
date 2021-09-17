@@ -1,16 +1,14 @@
-package me.toy.server.security.oauth2.user;
+package me.toy.server.security.auth;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.entity.User;
 import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.repository.UserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
+import me.toy.server.security.UserPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 //@WithMockUser @WithMockUserDetails의 사용에 필요한 UserDetailsService 구현체
 @Service

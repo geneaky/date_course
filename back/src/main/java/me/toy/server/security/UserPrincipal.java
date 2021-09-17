@@ -1,6 +1,5 @@
-package me.toy.server.security.oauth2.user;
+package me.toy.server.security;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import me.toy.server.entity.User;

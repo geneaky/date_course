@@ -6,7 +6,7 @@ import me.toy.server.exception.user.OAuth2AuthenticationProcessingException;
 import me.toy.server.security.oauth2.user.OAuth2UserInfo;
 import me.toy.server.repository.UserRepository;
 import me.toy.server.security.oauth2.user.OAuth2UserInfoFactory;
-import me.toy.server.security.oauth2.user.UserPrincipal;
+import me.toy.server.security.UserPrincipal;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -41,7 +41,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
   }
 
-  private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
+  private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest,
+      OAuth2User oAuth2User) {
     String registrationId = oAuth2UserRequest.getClientRegistration().getRegistrationId();
     Map<String, Object> attributes = oAuth2User.getAttributes();
     OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory
@@ -55,13 +56,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     if (userOptional.isPresent()) {
       user = userOptional.get();
       if (!user.getProvider().equals(
-          AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
+          OAuth2Provider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
         throw new OAuth2AuthenticationProcessingException("you can use this account to login");
       }
       user = updateExistingUser(user, oAuth2UserInfo);
     } else {
       user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
     }
+
     return UserPrincipal.create(user, oAuth2User.getAttributes());
   }
 
@@ -69,7 +71,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     User user = new User();
 
     user.setProvider(
-        AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
+        OAuth2Provider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
     user.setProviderId(oAuth2UserInfo.getId());
     user.setName(oAuth2UserInfo.getName());
     user.setEmail(oAuth2UserInfo.getEmail());

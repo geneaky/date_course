@@ -1,4 +1,4 @@
-package me.toy.server.security.handler;
+package me.toy.server.security.auth.handler;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

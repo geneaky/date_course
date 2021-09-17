@@ -11,7 +11,6 @@ import axios from "axios";
 import UserMenu from "../components/user/UserMenu";
 
 const Home = () => {
-  const token = localStorage.getItem("accessToken");
   const sideMenu = useSelector((store) => store.sideMenu);
   const userMenu = useSelector((store) => store.userMenu);
   const myCourseMenu = useSelector((store) => store.myCourseMenu);
@@ -20,15 +19,9 @@ const Home = () => {
 
   useEffect(async () => {
     mapScript();
-    if (token) {
-      const res = await axios.get("/user/info", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      dispatcher(getUserInfo(res.data));
-    }
-  }, [token]);
+    const res = await axios.get("/user/info");
+    dispatcher(getUserInfo(res.data));
+  });
 
   const mapScript = () => {
     const container = document.getElementById("map");

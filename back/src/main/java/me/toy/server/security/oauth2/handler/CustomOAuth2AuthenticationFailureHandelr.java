@@ -1,4 +1,4 @@
-package me.toy.server.security.handler;
+package me.toy.server.security.oauth2.handler;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
@@ -18,7 +18,8 @@ import static me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequest
 
 @Component
 @RequiredArgsConstructor
-public class CustomOAuth2AuthenticationFailureHandelr extends SimpleUrlAuthenticationFailureHandler {
+public class CustomOAuth2AuthenticationFailureHandelr extends
+    SimpleUrlAuthenticationFailureHandler {
 
   private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 

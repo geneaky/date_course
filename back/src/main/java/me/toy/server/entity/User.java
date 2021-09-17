@@ -1,8 +1,7 @@
 package me.toy.server.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import me.toy.server.security.oauth2.AuthProvider;
+import me.toy.server.security.oauth2.OAuth2Provider;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class User extends BaseEntity {
   private String imageUrl;
 
   @Enumerated(EnumType.STRING)
-  private AuthProvider provider;
+  private OAuth2Provider provider;
   private String providerId;
 
   @OneToMany(mappedBy = "user", orphanRemoval = true)

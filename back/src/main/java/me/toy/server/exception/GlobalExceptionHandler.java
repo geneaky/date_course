@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
   public final ResponseEntity<String> hadleValidationException(
       ConstraintViolationException exception) {
 
-    log.info(exception.getMessage());
+    log.info(exception.getMessage(), exception.getCause());
     return INVALID_REQUEST;
   }
 
@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
   public final ResponseEntity<String> handleNoRedirectUriRequestException(
       NoRedirectUriRequestException exception) {
 
-    log.info(exception.getMessage());
+    log.info(exception.getMessage(), exception.getCause());
     return NO_REDIRECTURI_PARAM;
   }
 
@@ -42,14 +42,14 @@ public class GlobalExceptionHandler {
   public final ResponseEntity<String> handleEmailDuplicationException(
       EmailDuplicationException exception) {
 
-    log.info(exception.getMessage());
+    log.info(exception.getMessage(), exception.getCause());
     return DUPLICATED_EMAIL;
   }
 
   @ExceptionHandler(UserNotFoundException.class)
   public final ResponseEntity<String> handleUserNotFoundException(UserNotFoundException exception) {
 
-    log.info(exception.getMessage());
+    log.info(exception.getMessage(), exception.getCause());
     return USER_NOT_FOUND;
   }
 
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
   public final ResponseEntity<String> handleDateCourseNotFoundException(
       DateCourseNotFoundException exception) {
 
-    log.info(exception.getMessage());
+    log.info(exception.getMessage(), exception.getCause());
     return DATE_COURSE_NOT_FOUND;
   }
 
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
   public final ResponseEntity<String> handleImageConvertFailedException(
       ImageConvertFailedException exception) {
 
-    log.info(exception.getMessage());
+    log.info(exception.getMessage(), exception.getCause());
     return IMAGE_NOT_CONVERTED;
   }
 

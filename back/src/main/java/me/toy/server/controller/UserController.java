@@ -18,16 +18,19 @@ import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
 import me.toy.server.dto.UserResponseDto.UserDto;
 import me.toy.server.dto.UserResponseDto.UserFollowings;
 import me.toy.server.entity.LoginUser;
+import me.toy.server.security.UserPrincipal;
 import me.toy.server.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 
 @RestController
 @RequiredArgsConstructor
-//@Secured("ROLE_USER")
+@Secured("ROLE_USER")
 public class UserController {
 
   private final UserService userService;

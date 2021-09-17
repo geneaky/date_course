@@ -1,4 +1,4 @@
-package me.toy.server.security.handler;
+package me.toy.server.security.oauth2.handler;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.exception.user.BadRequestException;

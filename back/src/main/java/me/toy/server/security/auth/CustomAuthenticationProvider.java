@@ -1,14 +1,12 @@
-package me.toy.server.security;
+package me.toy.server.security.auth;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.exception.user.UserNotFoundException;
-import me.toy.server.security.oauth2.user.CustomUserDetailService;
-import me.toy.server.security.oauth2.user.UserPrincipal;
+import me.toy.server.security.UserPrincipal;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

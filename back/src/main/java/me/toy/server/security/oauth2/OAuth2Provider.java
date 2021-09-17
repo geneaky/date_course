@@ -1,5 +1,5 @@
 package me.toy.server.security.oauth2;
 
-public enum AuthProvider {
+public enum OAuth2Provider {
   google,
 }

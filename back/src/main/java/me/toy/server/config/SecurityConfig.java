@@ -3,12 +3,12 @@ package me.toy.server.config;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.entity.User;
 import me.toy.server.repository.UserRepository;
-import me.toy.server.security.CustomAuthenticationFilter;
-import me.toy.server.security.handler.CustomAuthenticationFailureHandler;
-import me.toy.server.security.handler.CustomAuthenticationSuccessHandler;
+import me.toy.server.security.auth.CustomAuthenticationFilter;
+import me.toy.server.security.auth.handler.CustomAuthenticationFailureHandler;
+import me.toy.server.security.auth.handler.CustomAuthenticationSuccessHandler;
 import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import me.toy.server.security.handler.CustomOAuth2AuthenticationFailureHandelr;
-import me.toy.server.security.handler.CustomOAuth2AuthenticationSuccessHandler;
+import me.toy.server.security.oauth2.handler.CustomOAuth2AuthenticationFailureHandelr;
+import me.toy.server.security.oauth2.handler.CustomOAuth2AuthenticationSuccessHandler;
 import me.toy.server.security.oauth2.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +22,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.Optional;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -79,18 +80,6 @@ public class SecurityConfig extends
     http.csrf().disable();
     http.cors();
     http.httpBasic();
-//    http.formLogin()
-//        .usernameParameter("email")
-//        .passwordParameter("password")
-//        .loginProcessingUrl("/signIn")
-//        .permitAll()
-//        .successHandler(customAuthenticationSuccessHandler)
-//        .failureHandler(customAuthenticationFailureHandler);
-
-    http.logout().disable();
-    http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true)
-        .expiredUrl("http://localhost:3000/login");
-//        .sessionRegistry(sessionRegistry);
 
     http.authorizeRequests()
         .antMatchers("/user/**").access("hasRole('ROLE_USER')")
@@ -98,9 +87,27 @@ public class SecurityConfig extends
         .antMatchers("/v2/api-docs", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**")
         .permitAll()
         .antMatchers("/auth/**", "/oauth2/**", "/datecourse/*", "/signUp").permitAll()
-        .anyRequest().authenticated()
+        .anyRequest().authenticated();
+
+    http.addFilterAt(getFilter(), UsernamePasswordAuthenticationFilter.class)
+        .formLogin()
+        .usernameParameter("email")
+        .passwordParameter("password")
+        .loginProcessingUrl("/signIn")
+        .permitAll()
+        .successHandler(customAuthenticationSuccessHandler)
+        .failureHandler(customAuthenticationFailureHandler);
+
+    http.logout().disable();
+    http.sessionManagement()
+        .maximumSessions(1)
+        .maxSessionsPreventsLogin(true)
+        .expiredUrl("http://localhost:3000/login")
         .and()
-        .oauth2Login()
+        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+//        .sessionRegistry(sessionRegistry);
+
+    http.oauth2Login()
         .authorizationEndpoint()
         .baseUri("/oauth2/authorize")
         .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
@@ -114,14 +121,6 @@ public class SecurityConfig extends
         .successHandler(customOAuth2AuthenticationSuccessHandler)
         .failureHandler(customOAuth2AuthenticationFailureHandelr);
 
-    http.addFilterAt(getFilter(), UsernamePasswordAuthenticationFilter.class)
-        .formLogin()
-        .usernameParameter("email")
-        .passwordParameter("password")
-        .loginProcessingUrl("/signIn")
-        .permitAll()
-        .successHandler(customAuthenticationSuccessHandler)
-        .failureHandler(customAuthenticationFailureHandler);
   }
 
 }

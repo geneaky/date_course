@@ -1,14 +1,17 @@
-package me.toy.server.security.oauth2;
+package me.toy.server.config;
 
 import lombok.RequiredArgsConstructor;
 import me.toy.server.entity.LoginUser;
 import me.toy.server.exception.user.UserNotFoundException;
-import me.toy.server.security.oauth2.user.UserPrincipal;
+import me.toy.server.security.UserPrincipal;
 import org.springframework.core.MethodParameter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -23,7 +26,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     Authentication authentication = SecurityContextHolder
         .getContext().getAuthentication();
     return parameter.getParameterAnnotation(LoginUser.class) != null
-        && authentication instanceof UsernamePasswordAuthenticationToken;
+        && authentication instanceof AbstractAuthenticationToken;
   }
 
   @Override
@@ -32,10 +35,10 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
       NativeWebRequest webRequest,
       WebDataBinderFactory binderFactory) throws Exception {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication instanceof UsernamePasswordAuthenticationToken) {
-      UsernamePasswordAuthenticationToken authenticationToken =
-          (UsernamePasswordAuthenticationToken) authentication;
-      UserPrincipal userPrincipal = (UserPrincipal) authenticationToken.getPrincipal();
+
+    if (authentication instanceof UsernamePasswordAuthenticationToken
+        || authentication instanceof OAuth2AuthenticationToken) {
+      UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
       return userPrincipal.getEmail();
     }
     throw new UserNotFoundException("인증되지 않은 사용자의 요청입니다.");
