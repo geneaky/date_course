@@ -30,7 +30,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends
-    WebSecurityConfigurerAdapter { //이 클래스는 스프링 시큐리티 필터이고 이 필터가 스프링 필터체인에 등록이된다.
+    WebSecurityConfigurerAdapter {
 
   private final CustomOAuth2UserService customOAuth2UserService;
   private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
@@ -101,11 +101,10 @@ public class SecurityConfig extends
     http.logout().disable();
     http.sessionManagement()
         .maximumSessions(1)
-        .maxSessionsPreventsLogin(true)
+        .maxSessionsPreventsLogin(false)
         .expiredUrl("http://localhost:3000/login")
         .and()
         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-//        .sessionRegistry(sessionRegistry);
 
     http.oauth2Login()
         .authorizationEndpoint()

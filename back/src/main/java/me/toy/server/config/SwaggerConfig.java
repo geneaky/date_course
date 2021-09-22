@@ -35,7 +35,7 @@ public class SwaggerConfig {
   private final TypeResolver typeResolver;
 
   private ApiKey apiKey() {
-    return new ApiKey("JWT", "Authorization", "header");
+    return new ApiKey("SESSION-COOKIE", "JSESSIONID", "header");
   }
 
   private SecurityContext securityContext() {
