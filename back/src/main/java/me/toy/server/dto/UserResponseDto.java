@@ -2,7 +2,6 @@ package me.toy.server.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.validation.constraints.Email;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -57,7 +56,6 @@ public class UserResponseDto {
   public static class UserDto {
 
     private String name;
-    @Email
     private String email;
     private String profileImage;
 

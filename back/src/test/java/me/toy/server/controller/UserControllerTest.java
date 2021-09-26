@@ -59,11 +59,14 @@ class UserControllerTest {
   @Test
   @DisplayName("로그인한 사용자가 사용자 정보 요청시 사용자 정보를 응답한다")
   public void getUserInfo() throws Exception {
+
     User user = new User();
     user.setName("testUser");
     user.setEmail("test@naver.com");
     UserDto userDto = new UserDto(user);
-    when(userService.findUser("test@naver.com")).thenReturn(userDto);
+
+    when(userService.getUserInfo("test@naver.com")).thenReturn(userDto);
+
     mockMvc.perform(get("/user/info"))
         .andDo(print())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -74,8 +77,10 @@ class UserControllerTest {
   @Test
   @DisplayName("좋아요 누른 데이트 코스 요청시 사용자가 좋아요 누른 데이트 코스 ID 목록을 응답한다")
   public void getUserLikedDateCoure() throws Exception {
+
     List<Long> likeCourseList = new ArrayList<>(Arrays.asList(1L, 2L, 3L));
-    when(userService.findLikedCourseIds("test@naver.com")).thenReturn(likeCourseList);
+
+    when(userService.getLikedCourseIds("test@naver.com")).thenReturn(likeCourseList);
 
     mockMvc.perform(get("/user/like/courses/ids"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -87,28 +92,33 @@ class UserControllerTest {
   @Test
   @DisplayName("사용자가 코스 저장 요청시 해당 코스를 저장한다")
   public void registUserSavedCourse() throws Exception {
+
     mockMvc.perform(post("/user/save/courses/1"))
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(userService, times(1)).registSavedCourse(any(), any());
+    verify(userService, times(1)).addCourse(any(), any());
   }
 
   @Test
   @DisplayName("사용자가 저장한 코스를 저장 취소 요청시 저장한 코스에서 삭제한다")
   public void delteUserSavedCourse() throws Exception {
+
     mockMvc.perform(delete("/user/save/courses/1"))
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(userService, times(1)).deleteSavedCourse(any(), any());
+    verify(userService, times(1)).removeCourse(any(), any());
   }
 
   @Test
   @DisplayName("저장한 코스 목록 요청시 사용자가 저장한 코스 ID 목록을 반환한다")
   public void getUserSavedCourse() throws Exception {
+
     List<Long> savedCourseIDs = new ArrayList<>(Arrays.asList(1L, 2L, 3L, 4L));
-    when(userService.findSavedCourseIds("test@naver.com")).thenReturn(savedCourseIDs);
+
+    when(userService.getSavedCourseIds("test@naver.com")).thenReturn(savedCourseIDs);
+
     mockMvc.perform(get("/user/save/courses/ids"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(savedCourseIDs)))
@@ -133,14 +143,13 @@ class UserControllerTest {
     Pageable pageable = PageRequest.of(0, 2);
     Page<RecentDateCourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    when(userService.findMyCourse("test@naver.com", pageable)).thenReturn(page);
+    when(userService.getMyCourses("test@naver.com", pageable)).thenReturn(page);
 
     mockMvc.perform(get("/user/courses?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(page)))
         .andDo(print())
         .andExpect(status().isOk());
-
   }
 
   @Test
@@ -163,7 +172,7 @@ class UserControllerTest {
     Pageable pageable = PageRequest.of(0, 2);
     Page<SavedDateCourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    when(userService.findSavedCourseList("test@naver.com", pageable)).thenReturn(page);
+    when(userService.getSavedCourses("test@naver.com", pageable)).thenReturn(page);
 
     mockMvc.perform(get("/user/save/courses?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -187,7 +196,8 @@ class UserControllerTest {
             .content(objectMapper.writeValueAsString(addFollowerRequest)))
         .andDo(print())
         .andExpect(status().isOk());
-    verify(userService, times(1)).addFollowerInUserFollowers(any(), any());
+
+    verify(userService, times(1)).followUser(any(), any());
   }
 
   @Test
@@ -201,14 +211,14 @@ class UserControllerTest {
     followingUserDtos.add(followingUserDto2);
     UserFollowings userFollowings = new UserFollowings(followingUserDtos);
 
-    when(userService.getUserFollowingUsers("test@naver.com")).thenReturn(userFollowings);
+    when(userService.getUserFollowings("test@naver.com")).thenReturn(userFollowings);
 
     mockMvc.perform(get("/user/follows"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(userFollowings)))
         .andDo(print())
         .andExpect(status().isOk());
-    verify(userService, times(1)).getUserFollowingUsers(any());
+    verify(userService, times(1)).getUserFollowings(any());
   }
 
   @Test
@@ -225,7 +235,7 @@ class UserControllerTest {
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(userService, times(1)).removeFollowerInUserFollowers(any(), any());
+    verify(userService, times(1)).unfollowUser(any(), any());
   }
 
   @Test
@@ -239,7 +249,7 @@ class UserControllerTest {
     list.add(followerUserDto2);
     UserFollowers userFollowers = new UserFollowers(list);
 
-    when(userService.getUserFollowersUsers("test@naver.com")).thenReturn(userFollowers);
+    when(userService.getUserFollowers("test@naver.com")).thenReturn(userFollowers);
 
     mockMvc.perform(get("/user/followers"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))

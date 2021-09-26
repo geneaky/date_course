@@ -1,29 +1,34 @@
 package me.toy.server.service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import me.toy.server.cloud.S3Uploader;
-import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseFormDto;
-import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
-import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
-import me.toy.server.entity.*;
-import me.toy.server.exception.datecourse.DateCourseNotFoundException;
-import me.toy.server.exception.user.UserNotFoundException;
-import me.toy.server.repository.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import me.toy.server.cloud.S3Uploader;
+import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseFormDto;
+import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
+import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
+import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
+import me.toy.server.entity.Comment;
+import me.toy.server.entity.DateCourse;
+import me.toy.server.entity.Location;
+import me.toy.server.entity.LocationTag;
+import me.toy.server.entity.Tag;
+import me.toy.server.entity.User;
+import me.toy.server.entity.UserDateCourseLike;
+import me.toy.server.exception.datecourse.DateCourseNotFoundException;
+import me.toy.server.exception.user.UserNotFoundException;
+import me.toy.server.repository.CommentRepository;
+import me.toy.server.repository.DateCourseRepository;
+import me.toy.server.repository.LocationRepository;
+import me.toy.server.repository.LocationTagRepository;
+import me.toy.server.repository.TagRepository;
+import me.toy.server.repository.UserDateCourseLikeRepository;
+import me.toy.server.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +44,7 @@ public class DateCourseService {
   private final S3Uploader s3Uploader;
 
   @Transactional
-  public void regist(RegistDateCourseFormDto registDateCourseFormDto, String userEmail) {
+  public void registDateCourse(RegistDateCourseFormDto registDateCourseFormDto, String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일을 가진 사용자는 없습니다.")
@@ -97,7 +102,7 @@ public class DateCourseService {
   }
 
   @Transactional
-  public void like(Long dateCourseId, String userEmail) {
+  public void likeDateCourse(Long dateCourseId, String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
@@ -110,7 +115,7 @@ public class DateCourseService {
   }
 
   @Transactional
-  public void unlike(Long dateCourseId, String userEmail) {
+  public void unlikeDateCourse(Long dateCourseId, String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
@@ -134,14 +139,14 @@ public class DateCourseService {
   }
 
   @Transactional(readOnly = true)
-  public Page<RecentDateCourseDto> getRecentDateCourseList(Pageable pageable) {
+  public Page<RecentDateCourseDto> getRecentDateCourses(Pageable pageable) {
 
     Page<DateCourse> allDateCourse = dateCourseRepository.findAll(pageable);
     return allDateCourse.map(RecentDateCourseDto::new);
   }
 
   @Transactional(readOnly = true)
-  public Page<LikeOrderDateCourseDto> getLikedOrderDateCourseList(Pageable pageable) {
+  public Page<LikeOrderDateCourseDto> getLikedOrderDateCourses(Pageable pageable) {
 
     return dateCourseRepository.findLikeOrderDateCourse(pageable);
   }

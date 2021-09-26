@@ -58,14 +58,18 @@ class DateCourseServiceTest {
   DateCourseService dateCourseService;
 
   private User createUser() {
+
     String userEmail = "test@naver.com";
     User user = new User();
     user.setEmail(userEmail);
+
     return user;
   }
 
   private ArrayList<RegistLocationFormDto> createRequestList() {
+
     ArrayList<RegistLocationFormDto> list = new ArrayList<>();
+
     return list;
   }
 
@@ -84,7 +88,8 @@ class DateCourseServiceTest {
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
     when(registDateCourseFormDto.getLocationList()).thenReturn(list);
 
-    dateCourseService.regist(registDateCourseFormDto, userEmail);
+    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+
     verify(userRepository, atLeastOnce()).findByEmail(userEmail);
     verify(dateCourseRepository, times(1)).save(any());
     verify(locationRepository, times(1)).saveAll(any());
@@ -108,7 +113,8 @@ class DateCourseServiceTest {
     when(registDateCourseFormDto.getLocationList()).thenReturn(list);
     when(requestDto.getFile()).thenReturn(null);
 
-    dateCourseService.regist(registDateCourseFormDto, userEmail);
+    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+
     verify(dateCourseRepository, atMostOnce()).save(any());
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
@@ -132,7 +138,8 @@ class DateCourseServiceTest {
     when(registDateCourseFormDto.getLocationList()).thenReturn(list);
     when(requestDto.getFile()).thenReturn(mock(MultipartFile.class));
 
-    dateCourseService.regist(registDateCourseFormDto, userEmail);
+    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+
     verify(dateCourseRepository, atMostOnce()).save(any());
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
@@ -162,7 +169,8 @@ class DateCourseServiceTest {
     when(requestDto2.getFile()).thenReturn(mock(MultipartFile.class));
     when(requestDto3.getFile()).thenReturn(mock(MultipartFile.class));
 
-    dateCourseService.regist(registDateCourseFormDto, userEmail);
+    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+
     verify(dateCourseRepository, atMostOnce()).save(any());
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
@@ -193,7 +201,8 @@ class DateCourseServiceTest {
     when(tagRepository.findByName("#bi")).thenReturn(Optional.of(tag2));
     when(tagRepository.findByName("#gg")).thenReturn(Optional.of(tag3));
 
-    dateCourseService.regist(registDateCourseFormDto, userEmail);
+    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+
     verify(dateCourseRepository, atMostOnce()).save(any());
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
@@ -222,7 +231,8 @@ class DateCourseServiceTest {
     when(tagRepository.findByName("#hi")).thenReturn(Optional.of(tag1));
     when(tagRepository.findByName("#bi")).thenReturn(Optional.of(tag2));
 
-    dateCourseService.regist(registDateCourseFormDto, userEmail);
+    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+
     verify(dateCourseRepository, atMostOnce()).save(any());
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
@@ -242,13 +252,15 @@ class DateCourseServiceTest {
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
     when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
 
-    dateCourseService.like(dateCourse.getId(), userEmail);
+    dateCourseService.likeDateCourse(dateCourse.getId(), userEmail);
+
     verify(userDateCourseLikeRepository, times(1)).save(any());
   }
 
   @Test
   @DisplayName("좋아요를 누른 코스라면 좋아요 카운트를 1 감소 시킨다")
   public void minusLikeCount() throws Exception {
+
     String title = "testTitle";
     String userEmail = "test@naver.com";
     User user = createUser();
@@ -257,7 +269,8 @@ class DateCourseServiceTest {
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
     when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
 
-    dateCourseService.unlike(dateCourse.getId(), userEmail);
+    dateCourseService.unlikeDateCourse(dateCourse.getId(), userEmail);
+
     verify(userDateCourseLikeRepository, times(1)).unlikeUserDateCourseLike(user.getId(),
         dateCourse.getId());
   }
@@ -277,6 +290,7 @@ class DateCourseServiceTest {
     when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
     when(commentRepository.findById(dateCourseComment.getId()))
         .thenReturn(Optional.of(dateCourseComment));
+
     dateCourseService.registComment(dateCourse.getId(), comment, userEmail);
 
     verify(commentRepository, times(1)).save(any());

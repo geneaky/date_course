@@ -38,7 +38,8 @@ public class UserRequestDto {
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class UserRegisterForm {
+  public static class
+  UserRegisterForm {
 
     @NotBlank
     @Email

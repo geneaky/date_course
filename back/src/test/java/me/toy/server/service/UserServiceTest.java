@@ -70,7 +70,7 @@ public class UserServiceTest {
   public void throwUserNotFoundExceptionWhenUserNotLogin() throws Exception {
 
     assertThrows(UserNotFoundException.class, () -> {
-      userService.findUser("");
+      userService.getUserInfo("");
     });
   }
 
@@ -89,7 +89,7 @@ public class UserServiceTest {
     when(userRepository.findByEmail("test@naver.com"))
         .thenReturn(oUser);
 
-    UserDto userDto = userService.findUser("test@naver.com");
+    UserDto userDto = userService.getUserInfo("test@naver.com");
 
     assertEquals(userDto.getEmail(), "test@naver.com");
     verify(userRepository, atLeast(1)).findByEmail(any());
@@ -115,7 +115,7 @@ public class UserServiceTest {
         .stream()
         .map(testLike -> testLike.getDateCourse().getId())
         .collect(Collectors.toList());
-    List<Long> likedCourse = userService.findLikedCourseIds(userEmail);
+    List<Long> likedCourse = userService.getLikedCourseIds(userEmail);
 
     assertEquals(testLikedCourse, likedCourse);
     verify(userRepository, atLeast(1)).findByEmail(any());
@@ -134,7 +134,7 @@ public class UserServiceTest {
 
     when(userRepository.findByEmail(userEmail))
         .thenReturn(Optional.of(user));
-    List<Long> likedCourse = userService.findLikedCourseIds(userEmail);
+    List<Long> likedCourse = userService.getLikedCourseIds(userEmail);
 
     assertEquals(userDateCourseLikes, likedCourse);
     verify(userRepository, atLeast(1)).findByEmail(any());
@@ -152,9 +152,7 @@ public class UserServiceTest {
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
     when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
-    Long savedCourseId = userService.registSavedCourse(dateCourse.getId(), userEmail);
 
-    assertEquals(savedCourseId, userDateCourseSave.getId());
     verify(userRepository, atLeast(1)).findByEmail(any());
     verify(dateCourseRepository, atLeast(1)).findById(any());
   }
@@ -173,7 +171,7 @@ public class UserServiceTest {
     user.setUserDateCoursSaves(userDateCourseSaveList);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    List<Long> resultSavedCourse = userService.findSavedCourseIds(userEmail);
+    List<Long> resultSavedCourse = userService.getSavedCourseIds(userEmail);
     List<Long> testSavedCourseList = user.getUserDateCoursSaves()
         .stream()
         .map(testSavedCourse -> testSavedCourse.getDateCourse().getId())
@@ -193,7 +191,7 @@ public class UserServiceTest {
     List<Long> testSavedCourse = new ArrayList<>();
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    List<Long> savedCourse = userService.findSavedCourseIds(userEmail);
+    List<Long> savedCourse = userService.getSavedCourseIds(userEmail);
 
     assertEquals(savedCourse, testSavedCourse);
     verify(userRepository, atLeast(1)).findByEmail(any());
@@ -210,7 +208,7 @@ public class UserServiceTest {
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
     when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
-    userService.deleteSavedCourse(dateCourse.getId(), userEmail);
+    userService.removeCourse(dateCourse.getId(), userEmail);
 
     verify(userRepository, atLeast(1)).findByEmail(any());
     verify(dateCourseRepository, atLeast(1)).findById(any());
@@ -232,11 +230,11 @@ public class UserServiceTest {
     list.add(dateCourse2);
     list.add(dateCourse3);
     Pageable pageable = PageRequest.of(0, 3);
-    Page<DateCourse> page = new PageImpl<DateCourse>(list, pageable, 3);
+    Page<DateCourse> page = new PageImpl<>(list, pageable, 3);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
     when(dateCourseRepository.findAllDateCourseByUserId(user.getId(), pageable)).thenReturn(page);
-    Page<RecentDateCourseDto> myCourse = userService.findMyCourse(userEmail, pageable);
+    Page<RecentDateCourseDto> myCourse = userService.getMyCourses(userEmail, pageable);
 
     verify(userRepository, times(1)).findByEmail(userEmail);
     assertEquals(myCourse.getContent().size(), 3);
@@ -260,7 +258,7 @@ public class UserServiceTest {
     when(userDateCourseSaveRepository.findAllUserDateCourseSaveByUserId(user.getId(), pageable))
         .thenReturn(page);
     Page<SavedDateCourseDto> savedCourseListResult = userService
-        .findSavedCourseList(userEmail, pageable);
+        .getSavedCourses(userEmail, pageable);
 
     verify(userRepository, times(1)).findByEmail(userEmail);
     assertEquals(savedCourseListResult.getContent().size(), 1);
@@ -283,7 +281,8 @@ public class UserServiceTest {
 
     when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
     when(userRepository.findById(targetUser.getId())).thenReturn(Optional.of(targetUser));
-    userService.addFollowerInUserFollowers(addFollowerRequest, user.getEmail());
+
+    userService.followUser(addFollowerRequest, user.getEmail());
 
     verify(followRepository, times(1)).save(any());
     verify(userFollowRepository, times(1)).save(any());
@@ -311,7 +310,8 @@ public class UserServiceTest {
 
     when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
     when(userRepository.findAllFollowingUsers("test@naver.com")).thenReturn(users);
-    UserFollowings userFollowingUsers = userService.getUserFollowingUsers("test@naver.com");
+
+    UserFollowings userFollowingUsers = userService.getUserFollowings("test@naver.com");
 
     assertThat(userFollowingUsers.getFollowingUserDtos().size()).isEqualTo(2);
   }
@@ -332,7 +332,8 @@ public class UserServiceTest {
         follow.getFollowUserId());
 
     when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.ofNullable(user));
-    userService.removeFollowerInUserFollowers(removeFollowerRequest, "test@naver.com");
+
+    userService.unfollowUser(removeFollowerRequest, "test@naver.com");
 
     verify(userFollowRepository, times(1)).deleteUserFollowInUserFollowings(any(), any());
     verify(followRepository, times(1)).deleteFollowInUserFollowings(any(), any());
@@ -366,7 +367,8 @@ public class UserServiceTest {
 
     when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.ofNullable(user));
     when(userRepository.findAllFollowerUsers(1L)).thenReturn(list);
-    UserFollowers userFollowersUsers = userService.getUserFollowersUsers("test@naver.com");
+
+    UserFollowers userFollowersUsers = userService.getUserFollowers("test@naver.com");
 
     assertThat(userFollowersUsers.getFollowerUserDtos().size()).isEqualTo(2);
     assertThat(user.getUserFollows().size()).isEqualTo(2);

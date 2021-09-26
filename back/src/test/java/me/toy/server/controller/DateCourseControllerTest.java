@@ -55,6 +55,7 @@ class DateCourseControllerTest {
   @Test
   @DisplayName("데이트 코스 등록 요청시 데이트 코스와 제목을 받아 등록 시킨다")
   public void registDateCourse() throws Exception {
+
     RegistLocationFormDto requestDto1 = RegistLocationFormDto.builder()
         .placeName("testPlace1").posX(26F).posY(126F).build();
     RegistLocationFormDto requestDto2 = RegistLocationFormDto.builder()
@@ -65,6 +66,7 @@ class DateCourseControllerTest {
     RegistDateCourseFormDto requestDtoList = RegistDateCourseFormDto.builder()
         .locationList(locationList).build();
     String body = objectMapper.writeValueAsString(requestDtoList);
+
     mockMvc.perform(post("/datecourses")
             .contentType(MediaType.APPLICATION_JSON)
             .param("courseTitle", "testCourse")
@@ -72,27 +74,29 @@ class DateCourseControllerTest {
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).regist(any(), any());
+    verify(dateCourseService, times(1)).registDateCourse(any(), any());
   }
 
   @Test
   @DisplayName("사용자가 좋아요 버튼 누를시 해당 코스의 좋아요 값을 1 증가 시킨다")
   public void updateDateCourseLike() throws Exception {
+
     mockMvc.perform(post("/datecourses/1/like"))
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).like(any(), any());
+    verify(dateCourseService, times(1)).likeDateCourse(any(), any());
   }
 
   @Test
   @DisplayName("사용자가 좋아요 누른 코스의 좋아요 버튼을 다시 누를시 해당 코스의 좋아요를 1 감소 시킨다")
   public void updateDateCourseUnlike() throws Exception {
+
     mockMvc.perform(delete("/datecourses/1/like"))
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).unlike(any(), any());
+    verify(dateCourseService, times(1)).unlikeDateCourse(any(), any());
   }
 
   @Test
@@ -112,7 +116,7 @@ class DateCourseControllerTest {
     Pageable pageable = PageRequest.of(0, 2);
     Page<RecentDateCourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    when(dateCourseService.getRecentDateCourseList(pageable)).thenReturn(page);
+    when(dateCourseService.getRecentDateCourses(pageable)).thenReturn(page);
 
     mockMvc.perform(get("/datecourses/recent?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -120,7 +124,7 @@ class DateCourseControllerTest {
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).getRecentDateCourseList(pageable);
+    verify(dateCourseService, times(1)).getRecentDateCourses(pageable);
   }
 
   @Test
@@ -145,19 +149,21 @@ class DateCourseControllerTest {
     Pageable pageable = PageRequest.of(0, 2);
     Page<LikeOrderDateCourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    when(dateCourseService.getLikedOrderDateCourseList(pageable)).thenReturn(page);
+    when(dateCourseService.getLikedOrderDateCourses(pageable)).thenReturn(page);
 
     mockMvc.perform(get("/datecourses/thumbUp?page=0j&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(page)))
         .andDo(print())
         .andExpect(status().isOk());
-    verify(dateCourseService, times(1)).getLikedOrderDateCourseList(pageable);
+
+    verify(dateCourseService, times(1)).getLikedOrderDateCourses(pageable);
   }
 
   @Test
   @DisplayName("사용자가 데이트 코스에 댓글 입력 요청시 데이트 코스에 댓글 등록시킨다")
   public void registDateCourseComment() throws Exception {
+
     mockMvc.perform(post("/datecourses/1/comments")
             .content("comment for test!")
             .contentType(MediaType.APPLICATION_JSON))

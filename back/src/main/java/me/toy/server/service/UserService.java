@@ -1,21 +1,22 @@
 package me.toy.server.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
-import me.toy.server.dto.UserRequestDto;
 import me.toy.server.dto.UserRequestDto.AddFollowerRequest;
 import me.toy.server.dto.UserRequestDto.RemoveFollowerRequest;
 import me.toy.server.dto.UserRequestDto.UserRegisterForm;
-import me.toy.server.dto.UserResponseDto.UserFollowers;
 import me.toy.server.dto.UserResponseDto.FollowerUserDto;
 import me.toy.server.dto.UserResponseDto.FollowingUserDto;
 import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
 import me.toy.server.dto.UserResponseDto.UserDto;
+import me.toy.server.dto.UserResponseDto.UserFollowers;
 import me.toy.server.dto.UserResponseDto.UserFollowings;
 import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.Follow;
-import me.toy.server.entity.UserDateCourseSave;
 import me.toy.server.entity.User;
+import me.toy.server.entity.UserDateCourseSave;
 import me.toy.server.entity.UserFollow;
 import me.toy.server.exception.datecourse.DateCourseNotFoundException;
 import me.toy.server.exception.user.EmailDuplicationException;
@@ -29,9 +30,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -43,10 +41,26 @@ public class UserService {
   private final UserDateCourseSaveRepository userDateCourseSaveRepository;
   private final UserFollowRepository userFollowRepository;
   private final FollowRepository followRepository;
-  private final PasswordEncoder bCrypPasswordEncorder;
+  private final PasswordEncoder bCryptPasswordEncorder;
+
+  @Transactional
+  public void createUserAccount(UserRegisterForm userRegisterForm) {
+
+    if (userRepository.findByEmail(userRegisterForm.getEmail()).isPresent()) {
+      throw new EmailDuplicationException("해당 이메일로 이미 가입한 사용자 입니다.");
+    }
+
+    User newUser = User.builder()
+        .email(userRegisterForm.getEmail())
+        .password(bCryptPasswordEncorder.encode(userRegisterForm.getPassword()))
+        .name(userRegisterForm.getNickName())
+        .build();
+
+    userRepository.save(newUser);
+  }
 
   @Transactional(readOnly = true)
-  public UserDto findUser(String userEmail) {
+  public UserDto getUserInfo(String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
@@ -56,24 +70,20 @@ public class UserService {
   }
 
   @Transactional(readOnly = true)
-  public List<Long> findLikedCourseIds(String userEmail) {
+  public List<Long> getLikedCourseIds(String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
     );
-
-    return getLikedCourseIds(user);
-  }
-
-  private List<Long> getLikedCourseIds(User user) {
-
+//쿼리 확인 point -> batch size 적용되는지 확인
     return user.getUserDateCourseLikes()
         .stream()
         .map(like -> like.getDateCourse().getId())
         .collect(Collectors.toList());
   }
 
-  public Long registSavedCourse(Long courseId, String userEmail) {
+  @Transactional
+  public void addCourse(Long courseId, String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
@@ -83,29 +93,10 @@ public class UserService {
     UserDateCourseSave userDateCourseSave = new UserDateCourseSave(user, dateCourse);
 
     userDateCourseSaveRepository.save(userDateCourseSave);
-
-    return userDateCourseSave.getId();
-  }
-
-  @Transactional(readOnly = true)
-  public List<Long> findSavedCourseIds(String userEmail) {
-
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-
-    return getSavedCourseIds(user);
-  }
-
-  private List<Long> getSavedCourseIds(User user) {
-
-    return user.getUserDateCoursSaves()
-        .stream()
-        .map(savedCourse -> savedCourse.getDateCourse().getId())
-        .collect(Collectors.toList());
   }
 
   @Transactional
-  public void deleteSavedCourse(Long courseId, String userEmail) {
+  public void removeCourse(Long courseId, String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
@@ -116,18 +107,7 @@ public class UserService {
   }
 
   @Transactional(readOnly = true)
-  public Page<RecentDateCourseDto> findMyCourse(String userEmail, Pageable pageable) {
-
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-
-    Page<DateCourse> allDateCourseByUserId = dateCourseRepository
-        .findAllDateCourseByUserId(user.getId(), pageable);
-    return allDateCourseByUserId.map(RecentDateCourseDto::new);
-  }
-
-  @Transactional(readOnly = true)
-  public Page<SavedDateCourseDto> findSavedCourseList(String userEmail, Pageable pageable) {
+  public Page<SavedDateCourseDto> getSavedCourses(String userEmail, Pageable pageable) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
@@ -137,10 +117,34 @@ public class UserService {
     return allSavedCourseByUserId.map(SavedDateCourseDto::new);
   }
 
-  @Transactional
-  public void deleteCourseMadeByUser(Long courseId, String userEmail) {
+  @Transactional(readOnly = true)
+  public List<Long> getSavedCourseIds(String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
+        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
+
+//    쿼리 확인 point
+    return user.getUserDateCoursSaves()
+        .stream()
+        .map(savedCourse -> savedCourse.getDateCourse().getId())
+        .collect(Collectors.toList());
+  }
+
+  @Transactional(readOnly = true)
+  public Page<RecentDateCourseDto> getMyCourses(String userEmail, Pageable pageable) {
+
+    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
+        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
+
+    Page<DateCourse> allDateCourseByUserId = dateCourseRepository
+        .findAllDateCourseByUserId(user.getId(), pageable);
+    return allDateCourseByUserId.map(RecentDateCourseDto::new);
+  }
+
+  @Transactional
+  public void removeMyCourse(Long courseId, String userEmail) {
+
+    userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
     DateCourse dateCourse = dateCourseRepository.findById(courseId).orElseThrow(() ->
         new DateCourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
@@ -149,12 +153,12 @@ public class UserService {
   }
 
   @Transactional
-  public void addFollowerInUserFollowers(AddFollowerRequest addFollowerRequest, String userEmail) {
+  public void followUser(AddFollowerRequest addFollowerRequest, String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-    User targetUser = userRepository.findById(addFollowerRequest.getFollowerId()).orElseThrow(() ->
-        new UserNotFoundException("존재하지 않는 사용자 입니다."));
+    userRepository.findById(addFollowerRequest.getFollowerId())
+        .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자 입니다."));
     Follow follow = new Follow(addFollowerRequest.getFollowerId());
     UserFollow userFollow = new UserFollow(user, follow);
 
@@ -162,23 +166,8 @@ public class UserService {
     userFollowRepository.save(userFollow);
   }
 
-  @Transactional(readOnly = true)
-  public UserFollowings getUserFollowingUsers(
-      String userEmail) {
-
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-
-    List<User> allFollowingUsers = userRepository.findAllFollowingUsers(userEmail);
-
-    List<FollowingUserDto> followingUserDtos = allFollowingUsers.stream()
-        .map(u -> new FollowingUserDto(u.getId(), u.getName(), u.getEmail())).collect(
-            Collectors.toList());
-    return new UserFollowings(followingUserDtos);
-  }
-
   @Transactional
-  public void removeFollowerInUserFollowers(RemoveFollowerRequest removeFollowerRequest,
+  public void unfollowUser(RemoveFollowerRequest removeFollowerRequest,
       String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
@@ -190,7 +179,22 @@ public class UserService {
   }
 
   @Transactional(readOnly = true)
-  public UserFollowers getUserFollowersUsers(String userEmail) {
+  public UserFollowings getUserFollowings(
+      String userEmail) {
+
+    userRepository.findByEmail(userEmail).orElseThrow(() ->
+        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
+
+    List<User> allFollowingUsers = userRepository.findAllFollowingUsers(userEmail);
+
+    List<FollowingUserDto> followingUserDtos = allFollowingUsers.stream()
+        .map(u -> new FollowingUserDto(u.getId(), u.getName(), u.getEmail())).collect(
+            Collectors.toList());
+    return new UserFollowings(followingUserDtos);
+  }
+
+  @Transactional(readOnly = true)
+  public UserFollowers getUserFollowers(String userEmail) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
@@ -202,20 +206,5 @@ public class UserService {
         .collect(Collectors.toList());
 
     return new UserFollowers(followerUserDtos);
-  }
-
-  @Transactional
-  public void createUserAccount(UserRegisterForm userRegisterForm) {
-    if (userRepository.findByEmail(userRegisterForm.getEmail()).isPresent()) {
-      throw new EmailDuplicationException("해당 이메일로 이미 가입한 사용자 입니다.");
-    }
-
-    User newUser = User.builder()
-        .email(userRegisterForm.getEmail())
-        .password(bCrypPasswordEncorder.encode(userRegisterForm.getPassword()))
-        .name(userRegisterForm.getNickName())
-        .build();
-
-    userRepository.save(newUser);
   }
 }
