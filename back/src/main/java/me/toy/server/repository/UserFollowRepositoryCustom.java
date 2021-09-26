@@ -2,6 +2,6 @@ package me.toy.server.repository;
 
 public interface UserFollowRepositoryCustom {
 
-  public void deleteUserFollowInUserFollowings(Long userId, Long followerId);
+  public void deleteUserFollow(Long userId, Long followerId);
 
 }

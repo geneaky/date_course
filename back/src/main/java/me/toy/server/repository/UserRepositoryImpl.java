@@ -1,8 +1,8 @@
 package me.toy.server.repository;
 
-import static me.toy.server.entity.QFollow.*;
-import static me.toy.server.entity.QUser.*;
-import static me.toy.server.entity.QUserFollow.*;
+import static me.toy.server.entity.QFollow.follow;
+import static me.toy.server.entity.QUser.user;
+import static me.toy.server.entity.QUserFollow.userFollow;
 
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,7 +16,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public List<User> findAllFollowingUsers(String userEmail) {
+  public List<User> findAllFollowings(String userEmail) {
 
     return queryFactory
         .selectFrom(user)
@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
   }
 
   @Override
-  public List<User> findAllFollowerUsers(Long followUserId) {
+  public List<User> findAllFollowers(Long followUserId) {
 
     return queryFactory
         .selectFrom(user)

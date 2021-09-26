@@ -1,6 +1,6 @@
 package me.toy.server.repository;
 
-import static me.toy.server.entity.QUserDateCourseLike.*;
+import static me.toy.server.entity.QUserDateCourseLike.userDateCourseLike;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ public class UserDateCourseLikeRepositoryImpl implements UserDateCourseLikeRepos
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public void unlikeUserDateCourseLike(Long userId, Long dateCourseId) {
+  public void unlikeDateCourse(Long userId, Long dateCourseId) {
 
     queryFactory
         .delete(userDateCourseLike)

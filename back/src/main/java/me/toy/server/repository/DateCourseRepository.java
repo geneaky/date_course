@@ -13,7 +13,7 @@ public interface DateCourseRepository extends JpaRepository<DateCourse, Long>,
     DateCourseRepositoryCustom {
 
   @EntityGraph(attributePaths = {"user"})
-  Page<DateCourse> findAll(Pageable pageable);
+  Page<DateCourse> findDateCoursePage(Pageable pageable);
 
   @EntityGraph(attributePaths = {"user"})
   Page<DateCourse> findAllDateCourseByUserId(@Param("userId") Long userId, Pageable pageable);

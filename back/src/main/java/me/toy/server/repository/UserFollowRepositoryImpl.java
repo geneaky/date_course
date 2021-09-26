@@ -1,6 +1,6 @@
 package me.toy.server.repository;
 
-import static me.toy.server.entity.QUserFollow.*;
+import static me.toy.server.entity.QUserFollow.userFollow;
 
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -13,7 +13,7 @@ public class UserFollowRepositoryImpl implements UserFollowRepositoryCustom {
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public void deleteUserFollowInUserFollowings(Long userId, Long followerId) {
+  public void deleteUserFollow(Long userId, Long followerId) {
 
     QUserFollow userFollowSub = new QUserFollow("userFollowSub");
 

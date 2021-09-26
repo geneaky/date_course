@@ -255,7 +255,7 @@ public class UserServiceTest {
     Page<UserDateCourseSave> page = new PageImpl<>(list, pageable, 1);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(userDateCourseSaveRepository.findAllUserDateCourseSaveByUserId(user.getId(), pageable))
+    when(userDateCourseSaveRepository.findAllUserDateCourseSavePageByUserId(user.getId(), pageable))
         .thenReturn(page);
     Page<SavedDateCourseDto> savedCourseListResult = userService
         .getSavedCourses(userEmail, pageable);
@@ -309,7 +309,7 @@ public class UserServiceTest {
     users.add(user2);
 
     when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
-    when(userRepository.findAllFollowingUsers("test@naver.com")).thenReturn(users);
+    when(userRepository.findAllFollowings("test@naver.com")).thenReturn(users);
 
     UserFollowings userFollowingUsers = userService.getUserFollowings("test@naver.com");
 
@@ -335,8 +335,8 @@ public class UserServiceTest {
 
     userService.unfollowUser(removeFollowerRequest, "test@naver.com");
 
-    verify(userFollowRepository, times(1)).deleteUserFollowInUserFollowings(any(), any());
-    verify(followRepository, times(1)).deleteFollowInUserFollowings(any(), any());
+    verify(userFollowRepository, times(1)).deleteUserFollow(any(), any());
+    verify(followRepository, times(1)).deleteFollow(any(), any());
   }
 
   @Test
@@ -366,7 +366,7 @@ public class UserServiceTest {
     list.add(user2);
 
     when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.ofNullable(user));
-    when(userRepository.findAllFollowerUsers(1L)).thenReturn(list);
+    when(userRepository.findAllFollowers(1L)).thenReturn(list);
 
     UserFollowers userFollowersUsers = userService.getUserFollowers("test@naver.com");
 

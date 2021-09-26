@@ -12,6 +12,6 @@ public interface UserDateCourseSaveRepository extends JpaRepository<UserDateCour
   void deleteByUserIdAndDateCourseId(Long userId, Long dateCourseId);
 
   @EntityGraph(attributePaths = {"user", "dateCourse"})
-  Page<UserDateCourseSave> findAllUserDateCourseSaveByUserId(
+  Page<UserDateCourseSave> findAllUserDateCourseSavePageByUserId(
       @Param("userId") Long userId, Pageable pageable);
 }

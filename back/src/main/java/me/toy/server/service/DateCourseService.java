@@ -122,7 +122,8 @@ public class DateCourseService {
     );
     DateCourse dateCourse = dateCourseRepository.findById(dateCourseId).orElseThrow(() ->
         new DateCourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
-    userDateCourseLikeRepository.unlikeUserDateCourseLike(user.getId(), dateCourse.getId());
+
+    userDateCourseLikeRepository.unlikeDateCourse(user.getId(), dateCourse.getId());
   }
 
   @Transactional
@@ -141,7 +142,8 @@ public class DateCourseService {
   @Transactional(readOnly = true)
   public Page<RecentDateCourseDto> getRecentDateCourses(Pageable pageable) {
 
-    Page<DateCourse> allDateCourse = dateCourseRepository.findAll(pageable);
+    Page<DateCourse> allDateCourse = dateCourseRepository.findDateCoursePage(pageable);
+
     return allDateCourse.map(RecentDateCourseDto::new);
   }
 

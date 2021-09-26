@@ -271,7 +271,7 @@ class DateCourseServiceTest {
 
     dateCourseService.unlikeDateCourse(dateCourse.getId(), userEmail);
 
-    verify(userDateCourseLikeRepository, times(1)).unlikeUserDateCourseLike(user.getId(),
+    verify(userDateCourseLikeRepository, times(1)).unlikeDateCourse(user.getId(),
         dateCourse.getId());
   }
 

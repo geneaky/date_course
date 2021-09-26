@@ -113,7 +113,7 @@ public class UserService {
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
 
     Page<UserDateCourseSave> allSavedCourseByUserId = userDateCourseSaveRepository
-        .findAllUserDateCourseSaveByUserId(user.getId(), pageable);
+        .findAllUserDateCourseSavePageByUserId(user.getId(), pageable);
     return allSavedCourseByUserId.map(SavedDateCourseDto::new);
   }
 
@@ -173,9 +173,9 @@ public class UserService {
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
     userFollowRepository
-        .deleteUserFollowInUserFollowings(user.getId(), removeFollowerRequest.getFollowerId());
+        .deleteUserFollow(user.getId(), removeFollowerRequest.getFollowerId());
     followRepository
-        .deleteFollowInUserFollowings(user.getId(), removeFollowerRequest.getFollowerId());
+        .deleteFollow(user.getId(), removeFollowerRequest.getFollowerId());
   }
 
   @Transactional(readOnly = true)
@@ -185,7 +185,7 @@ public class UserService {
     userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
 
-    List<User> allFollowingUsers = userRepository.findAllFollowingUsers(userEmail);
+    List<User> allFollowingUsers = userRepository.findAllFollowings(userEmail);
 
     List<FollowingUserDto> followingUserDtos = allFollowingUsers.stream()
         .map(u -> new FollowingUserDto(u.getId(), u.getName(), u.getEmail())).collect(
@@ -199,7 +199,7 @@ public class UserService {
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
 
-    List<User> allFollowerUsers = userRepository.findAllFollowerUsers(user.getId());
+    List<User> allFollowerUsers = userRepository.findAllFollowers(user.getId());
 
     List<FollowerUserDto> followerUserDtos = allFollowerUsers.stream()
         .map(u -> new FollowerUserDto(u.getId(), u.getName(), u.getEmail()))
