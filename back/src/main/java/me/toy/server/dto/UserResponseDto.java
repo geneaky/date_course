@@ -9,8 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.toy.server.dto.DateCourseResponseDto.DateCourseCommentDto;
 import me.toy.server.dto.DateCourseResponseDto.RecentLocationDto;
-import me.toy.server.entity.UserDateCourseSave;
 import me.toy.server.entity.User;
+import me.toy.server.entity.UserDateCourseSave;
 
 public class UserResponseDto {
 

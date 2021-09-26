@@ -1,10 +1,23 @@
 package me.toy.server.controller;
 
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
 import me.toy.server.dto.UserRequestDto.AddFollowerRequest;
 import me.toy.server.dto.UserRequestDto.RemoveFollowerRequest;
-import me.toy.server.dto.UserResponseDto;
 import me.toy.server.dto.UserResponseDto.FollowerUserDto;
 import me.toy.server.dto.UserResponseDto.FollowingUserDto;
 import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
@@ -12,10 +25,11 @@ import me.toy.server.dto.UserResponseDto.UserDto;
 import me.toy.server.dto.UserResponseDto.UserFollowers;
 import me.toy.server.dto.UserResponseDto.UserFollowings;
 import me.toy.server.entity.DateCourse;
-import me.toy.server.entity.UserDateCourseSave;
 import me.toy.server.entity.User;
+import me.toy.server.entity.UserDateCourseSave;
 import me.toy.server.service.UserService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,27 +43,16 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-@SpringBootTest()
+@SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
-@WithUserDetails(value = "testUser")
+@WithUserDetails(value = "test@naver.com")
 class UserControllerTest {
-
-  @Autowired
-  private MockMvc mockMvc;
 
   @MockBean
   UserService userService;
-
+  @Autowired
+  private MockMvc mockMvc;
   @Autowired
   private ObjectMapper objectMapper;
 
@@ -116,7 +119,7 @@ class UserControllerTest {
   @Test
   @DisplayName("자신이 작성한 코스 목록을 요청시 사용자가 작성한 코스들 목록을 반환한다")
   public void getMyCourseList() throws Exception {
-    //given
+
     User user = new User();
     user.setName("testUser");
     user.setEmail("test@naver.com");
@@ -129,9 +132,9 @@ class UserControllerTest {
     list.add(dateCourseDto2);
     Pageable pageable = PageRequest.of(0, 2);
     Page<RecentDateCourseDto> page = new PageImpl<>(list, pageable, 2);
-    //when
+
     when(userService.findMyCourse("test@naver.com", pageable)).thenReturn(page);
-    //then
+
     mockMvc.perform(get("/user/courses?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(page)))
@@ -144,7 +147,6 @@ class UserControllerTest {
   @DisplayName("사용자가 저장한 코스 요청시 사용자가 저장한 코스들 목록을 반환한다")
   public void getSavedCourseList() throws Exception {
 
-    //given
     User user = new User();
     user.setName("testOtherUser");
     user.setEmail("testOtherUser@naver.com");
@@ -161,10 +163,8 @@ class UserControllerTest {
     Pageable pageable = PageRequest.of(0, 2);
     Page<SavedDateCourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    //when
     when(userService.findSavedCourseList("test@naver.com", pageable)).thenReturn(page);
 
-    //then
     mockMvc.perform(get("/user/save/courses?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(page)))
@@ -176,18 +176,15 @@ class UserControllerTest {
   @DisplayName("사용자가 특정 사용자를 팔로우하는데 성공")
   public void addFollowingUser() throws Exception {
 
-    //given
     User user = new User();
     user.setId(3L);
     user.setName("testOtherUser");
     user.setEmail("testOtherUser@naver.com");
     AddFollowerRequest addFollowerRequest = AddFollowerRequest.builder().followerId(3L).build();
-    //when
 
-    //then
     mockMvc.perform(post("/user/follows")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(objectMapper.writeValueAsString(addFollowerRequest)))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(addFollowerRequest)))
         .andDo(print())
         .andExpect(status().isOk());
     verify(userService, times(1)).addFollowerInUserFollowers(any(), any());
@@ -197,16 +194,15 @@ class UserControllerTest {
   @DisplayName("사용자가 팔로잉하는 사용자들 조회")
   public void getUserFollowings() throws Exception {
 
-    //given
     FollowingUserDto followingUserDto1 = new FollowingUserDto(1L, "other", "other@naver.com");
     FollowingUserDto followingUserDto2 = new FollowingUserDto(2L, "theother", "theother@naver.com");
     List<FollowingUserDto> followingUserDtos = new ArrayList<>();
     followingUserDtos.add(followingUserDto1);
     followingUserDtos.add(followingUserDto2);
     UserFollowings userFollowings = new UserFollowings(followingUserDtos);
-    //when
+
     when(userService.getUserFollowingUsers("test@naver.com")).thenReturn(userFollowings);
-    //then
+
     mockMvc.perform(get("/user/follows"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(userFollowings)))
@@ -219,17 +215,13 @@ class UserControllerTest {
   @DisplayName("사용자 팔로우 취소 요청시 취소 성공")
   public void cancleUserFollwing() throws Exception {
 
-    //given
-
     RemoveFollowerRequest removeFollowerRequest = RemoveFollowerRequest.builder()
         .followerId(3L)
         .build();
-    //when
 
-    //then
     mockMvc.perform(delete("/user/follows")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(objectMapper.writeValueAsString(removeFollowerRequest)))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(removeFollowerRequest)))
         .andDo(print())
         .andExpect(status().isOk());
 
@@ -239,16 +231,16 @@ class UserControllerTest {
   @Test
   @DisplayName("팔로워 목록 조회 요청시 사용자의 팔로워들을 응답에 성공")
   public void getUserFollowers() throws Exception {
-    //given
+
     FollowerUserDto followerUserDto1 = new FollowerUserDto(3L, "other", "other@naver.com");
     FollowerUserDto followerUserDto2 = new FollowerUserDto(4L, "people", "people@naver.com");
     List<FollowerUserDto> list = new ArrayList<>();
     list.add(followerUserDto1);
     list.add(followerUserDto2);
     UserFollowers userFollowers = new UserFollowers(list);
-    //when
+
     when(userService.getUserFollowersUsers("test@naver.com")).thenReturn(userFollowers);
-    //then
+
     mockMvc.perform(get("/user/followers"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(userFollowers)))
