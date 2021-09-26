@@ -1,27 +1,21 @@
 package me.toy.server.config;
 
 import lombok.RequiredArgsConstructor;
-import me.toy.server.entity.User;
 import me.toy.server.repository.UserRepository;
 import me.toy.server.security.auth.CustomAuthenticationFilter;
 import me.toy.server.security.auth.handler.CustomAuthenticationFailureHandler;
 import me.toy.server.security.auth.handler.CustomAuthenticationSuccessHandler;
+import me.toy.server.security.oauth2.CustomOAuth2UserService;
 import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import me.toy.server.security.oauth2.handler.CustomOAuth2AuthenticationFailureHandelr;
 import me.toy.server.security.oauth2.handler.CustomOAuth2AuthenticationSuccessHandler;
-import me.toy.server.security.oauth2.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import java.util.Optional;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -30,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends
-    WebSecurityConfigurerAdapter { //이 클래스는 스프링 시큐리티 필터이고 이 필터가 스프링 필터체인에 등록이된다.
+    WebSecurityConfigurerAdapter {
 
   private final CustomOAuth2UserService customOAuth2UserService;
   private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
@@ -45,25 +39,6 @@ public class SecurityConfig extends
   public AuthenticationManager authenticationManagerBean() throws Exception {
 
     return super.authenticationManagerBean();
-  }
-
-  @PostConstruct
-  @Profile("test")
-  public void settingUserTest() {
-
-    User user = new User();
-    user.setEmail("test@naver.com");
-    user.setName("testUser");
-    userRepository.save(user);
-  }
-
-  @PreDestroy
-  @Profile("test")
-  public void clearSettingUserTest() {
-
-    Optional<User> testUser = userRepository.findByEmail("test@naver.com");
-
-    userRepository.delete(testUser.get());
   }
 
   @Bean
@@ -86,7 +61,7 @@ public class SecurityConfig extends
         .antMatchers("/datecourse/*/**").access("hasRole('ROLE_USER')")
         .antMatchers("/v2/api-docs", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**")
         .permitAll()
-        .antMatchers("/auth/**", "/oauth2/**", "/datecourse/*", "/signUp").permitAll()
+        .antMatchers("/auth/**", "/oauth2/**", "/datecourses/recent", "/signUp").permitAll()
         .anyRequest().authenticated();
 
     http.addFilterAt(getFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -101,11 +76,10 @@ public class SecurityConfig extends
     http.logout().disable();
     http.sessionManagement()
         .maximumSessions(1)
-        .maxSessionsPreventsLogin(true)
+        .maxSessionsPreventsLogin(false)
         .expiredUrl("http://localhost:3000/login")
         .and()
         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-//        .sessionRegistry(sessionRegistry);
 
     http.oauth2Login()
         .authorizationEndpoint()

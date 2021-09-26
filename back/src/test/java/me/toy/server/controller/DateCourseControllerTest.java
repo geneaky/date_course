@@ -1,15 +1,27 @@
 package me.toy.server.controller;
 
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
+import java.util.ArrayList;
+import java.util.List;
 import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseFormDto;
-import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
+import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
 import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
+import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
 import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.User;
 import me.toy.server.repository.DateCourseRepository;
 import me.toy.server.service.DateCourseService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,34 +33,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-@SpringBootTest()
+@SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
-@WithUserDetails(value = "testUser")
+@WithUserDetails(value = "test@naver.com")
 class DateCourseControllerTest {
-
-  @Autowired
-  private MockMvc mockMvc;
 
   @MockBean
   DateCourseService dateCourseService;
-
   @MockBean
   DateCourseRepository dateCourseRepository;
-
+  @Autowired
+  private MockMvc mockMvc;
   @Autowired
   private ObjectMapper objectMapper;
 
@@ -66,9 +66,9 @@ class DateCourseControllerTest {
         .locationList(locationList).build();
     String body = objectMapper.writeValueAsString(requestDtoList);
     mockMvc.perform(post("/datecourses")
-        .contentType(MediaType.APPLICATION_JSON)
-        .param("courseTitle", "testCourse")
-        .content(body))
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("courseTitle", "testCourse")
+            .content(body))
         .andDo(print())
         .andExpect(status().isOk());
 
@@ -99,7 +99,6 @@ class DateCourseControllerTest {
   @DisplayName("최신 데이트 코스 리스트 요청시 최신순 데이트 코스 목록을 반환한다")
   public void recentDateCourseList() throws Exception {
 
-    //given
     User user = new User();
     user.setName("testOtherUser");
     user.setEmail("test@gmail.com");
@@ -113,10 +112,8 @@ class DateCourseControllerTest {
     Pageable pageable = PageRequest.of(0, 2);
     Page<RecentDateCourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    //when
     when(dateCourseService.getRecentDateCourseList(pageable)).thenReturn(page);
 
-    //then
     mockMvc.perform(get("/datecourses/recent?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(page)))
@@ -130,7 +127,6 @@ class DateCourseControllerTest {
   @DisplayName("인기 데이트 코스 리스트 요청시 좋아요순 데이트 코스 목록을 반환한다")
   public void likeOrderDateCourseList() throws Exception {
 
-    //given
     User user = new User();
     user.setName("testOtherUser");
     user.setEmail("test@gmail.com");
@@ -149,10 +145,8 @@ class DateCourseControllerTest {
     Pageable pageable = PageRequest.of(0, 2);
     Page<LikeOrderDateCourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    //when
     when(dateCourseService.getLikedOrderDateCourseList(pageable)).thenReturn(page);
 
-    //then
     mockMvc.perform(get("/datecourses/thumbUp?page=0j&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(page)))
@@ -165,8 +159,8 @@ class DateCourseControllerTest {
   @DisplayName("사용자가 데이트 코스에 댓글 입력 요청시 데이트 코스에 댓글 등록시킨다")
   public void registDateCourseComment() throws Exception {
     mockMvc.perform(post("/datecourses/1/comments")
-        .content("comment for test!")
-        .contentType(MediaType.APPLICATION_JSON))
+            .content("comment for test!")
+            .contentType(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isOk());
 
