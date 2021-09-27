@@ -12,6 +12,9 @@ import java.time.format.DateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.toy.server.exception.s3.ImageConvertFailedException;
+import me.toy.server.exception.s3.NotSupportedExtentionException;
+import me.toy.server.utils.SupportedFileExtention;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +36,12 @@ public class S3Uploader {
     if (file == null) {
       return "";
     }
+
+    if (!SupportedFileExtention.isSupported(
+        FilenameUtils.getExtension(file.getName()))) {
+      throw new NotSupportedExtentionException("지원되지 않은 파일 형식입니다.");
+    }
+
     buffer.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
     buffer.append(".jpg");
     String saveFileName = buffer.toString();

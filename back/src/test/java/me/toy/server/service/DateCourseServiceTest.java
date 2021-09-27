@@ -20,6 +20,7 @@ import me.toy.server.entity.Comment;
 import me.toy.server.entity.DateCourse;
 import me.toy.server.entity.Tag;
 import me.toy.server.entity.User;
+import me.toy.server.entity.UserDateCourseLike;
 import me.toy.server.repository.CommentRepository;
 import me.toy.server.repository.DateCourseRepository;
 import me.toy.server.repository.LocationRepository;
@@ -241,7 +242,7 @@ class DateCourseServiceTest {
   }
 
   @Test
-  @DisplayName("좋아요를 누르지 않은 코스라면 좋아요 좋아요 카운트를 1 증가 시킨다")
+  @DisplayName("좋아요를 누르지 않은 코스라면 좋아요를 등록한다.")
   public void plusLikeCount() throws Exception {
 
     String title = "testTitle";
@@ -251,6 +252,8 @@ class DateCourseServiceTest {
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
     when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
+    when(userDateCourseLikeRepository.findLikeByUserIdAndDateCourseId(user.getId(),
+        dateCourse.getId())).thenReturn(Optional.empty());
 
     dateCourseService.likeDateCourse(dateCourse.getId(), userEmail);
 
@@ -258,16 +261,17 @@ class DateCourseServiceTest {
   }
 
   @Test
-  @DisplayName("좋아요를 누른 코스라면 좋아요 카운트를 1 감소 시킨다")
+  @DisplayName("좋아요를 누른 코스라면 좋아요를 취소한다")
   public void minusLikeCount() throws Exception {
-
     String title = "testTitle";
     String userEmail = "test@naver.com";
     User user = createUser();
     DateCourse dateCourse = new DateCourse(user, title);
-
+    UserDateCourseLike userDateCourseLike = mock(UserDateCourseLike.class);
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
     when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
+    when(userDateCourseLikeRepository.findLikeByUserIdAndDateCourseId(user.getId(),
+        dateCourse.getId())).thenReturn(Optional.of(userDateCourseLike));
 
     dateCourseService.unlikeDateCourse(dateCourse.getId(), userEmail);
 

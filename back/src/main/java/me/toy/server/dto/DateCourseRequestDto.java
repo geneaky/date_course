@@ -25,8 +25,8 @@ public class DateCourseRequestDto {
     @Builder
     public RegistDateCourseFormDto(List<RegistLocationFormDto> locationList,
         String courseTitle) {
-      this.courseTitle = courseTitle;
       this.locationList = locationList;
+      this.courseTitle = courseTitle;
     }
   }
 

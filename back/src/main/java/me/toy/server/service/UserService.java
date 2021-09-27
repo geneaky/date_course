@@ -19,6 +19,8 @@ import me.toy.server.entity.User;
 import me.toy.server.entity.UserDateCourseSave;
 import me.toy.server.entity.UserFollow;
 import me.toy.server.exception.datecourse.DateCourseNotFoundException;
+import me.toy.server.exception.user.AlreadyFollowUserException;
+import me.toy.server.exception.user.AlreadyUnfollowUserException;
 import me.toy.server.exception.user.EmailDuplicationException;
 import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.repository.DateCourseRepository;
@@ -159,6 +161,10 @@ public class UserService {
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
     userRepository.findById(addFollowerRequest.getFollowerId())
         .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자 입니다."));
+
+    if (userFollowRepository.isFollow(user.getId(), addFollowerRequest.getFollowerId())) {
+      throw new AlreadyFollowUserException("이미 팔로우 상태 입니다.");
+    }
     Follow follow = new Follow(addFollowerRequest.getFollowerId());
     UserFollow userFollow = new UserFollow(user, follow);
 
@@ -172,6 +178,13 @@ public class UserService {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
+    userRepository.findById(removeFollowerRequest.getFollowerId())
+        .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자 입니다."));
+
+    if (!userFollowRepository.isFollow(user.getId(), removeFollowerRequest.getFollowerId())) {
+      throw new AlreadyUnfollowUserException("해당 유저를 팔로우 하고 있지 않습니다.");
+    }
+
     userFollowRepository
         .deleteUserFollow(user.getId(), removeFollowerRequest.getFollowerId());
     followRepository

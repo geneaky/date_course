@@ -9,6 +9,7 @@ import me.toy.server.entity.LoginUser;
 import me.toy.server.service.DateCourseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class DateCourseController {
   private final DateCourseService dateCourseService;
 
   @Secured("ROLE_USER")
-  @PostMapping
+  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   @ApiOperation("데이트 코스 등록")
   public void registDateCourse(
       @ModelAttribute RegistDateCourseFormDto registDateCourseFormDto,

@@ -164,7 +164,7 @@ class DateCourseControllerTest {
   @DisplayName("사용자가 데이트 코스에 댓글 입력 요청시 데이트 코스에 댓글 등록시킨다")
   public void registDateCourseComment() throws Exception {
 
-    mockMvc.perform(post("/datecourses/1/comments")
+    mockMvc.perform(post("/datecourses/1/comment")
             .content("comment for test!")
             .contentType(MediaType.APPLICATION_JSON))
         .andDo(print())

@@ -16,6 +16,8 @@ import me.toy.server.entity.LocationTag;
 import me.toy.server.entity.Tag;
 import me.toy.server.entity.User;
 import me.toy.server.entity.UserDateCourseLike;
+import me.toy.server.exception.datecourse.AlreadyLikeCourseException;
+import me.toy.server.exception.datecourse.AlreadyUnlikeCourseException;
 import me.toy.server.exception.datecourse.DateCourseNotFoundException;
 import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.repository.CommentRepository;
@@ -110,6 +112,11 @@ public class DateCourseService {
     DateCourse dateCourse = dateCourseRepository.findById(dateCourseId).orElseThrow(() ->
         new DateCourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
 
+    if (userDateCourseLikeRepository.findLikeByUserIdAndDateCourseId(user.getId(),
+        dateCourse.getId()).isPresent()) {
+      throw new AlreadyLikeCourseException("이미 좋아요 표시된 코스입니다.");
+    }
+
     UserDateCourseLike userDateCourseLike = new UserDateCourseLike(user, dateCourse);
     userDateCourseLikeRepository.save(userDateCourseLike);
   }
@@ -122,6 +129,11 @@ public class DateCourseService {
     );
     DateCourse dateCourse = dateCourseRepository.findById(dateCourseId).orElseThrow(() ->
         new DateCourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
+
+    if (!userDateCourseLikeRepository.findLikeByUserIdAndDateCourseId(user.getId(),
+        dateCourse.getId()).isPresent()) {
+      throw new AlreadyUnlikeCourseException("좋아요 표시되지 않은 코스는 좋아요 취소가 불가능합니다.");
+    }
 
     userDateCourseLikeRepository.unlikeDateCourse(user.getId(), dateCourse.getId());
   }
@@ -142,7 +154,7 @@ public class DateCourseService {
   @Transactional(readOnly = true)
   public Page<RecentDateCourseDto> getRecentDateCourses(Pageable pageable) {
 
-    Page<DateCourse> allDateCourse = dateCourseRepository.findDateCoursePage(pageable);
+    Page<DateCourse> allDateCourse = dateCourseRepository.findAll(pageable);
 
     return allDateCourse.map(RecentDateCourseDto::new);
   }

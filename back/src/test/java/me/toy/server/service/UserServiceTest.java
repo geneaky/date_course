@@ -153,8 +153,11 @@ public class UserServiceTest {
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
     when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
 
-    verify(userRepository, atLeast(1)).findByEmail(any());
-    verify(dateCourseRepository, atLeast(1)).findById(any());
+    userService.addCourse(dateCourse.getId(), userEmail);
+
+    verify(userRepository).findByEmail(userEmail);
+    verify(dateCourseRepository).findById(any());
+    verify(userDateCourseSaveRepository).save(any());
   }
 
   @Test
@@ -321,18 +324,22 @@ public class UserServiceTest {
   public void removeFollowerInUserFollowersTest() throws Exception {
 
     List<UserFollow> userFollows = new ArrayList<>();
-    Follow follow = new Follow(3L);
+    User followUser = User.builder()
+        .id(3L)
+        .build();
     User user = User.builder()
         .email("test@naver.com")
         .userFollows(userFollows)
         .build();
+    Follow follow = new Follow(followUser.getId());
     UserFollow userFollow = new UserFollow(user, follow);
 
     RemoveFollowerRequest removeFollowerRequest = new RemoveFollowerRequest(
         follow.getFollowUserId());
 
-    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.ofNullable(user));
-
+    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
+    when(userRepository.findById(follow.getFollowUserId())).thenReturn(Optional.of(followUser));
+    when(userFollowRepository.isFollow(user.getId(), follow.getFollowUserId())).thenReturn(true);
     userService.unfollowUser(removeFollowerRequest, "test@naver.com");
 
     verify(userFollowRepository, times(1)).deleteUserFollow(any(), any());
