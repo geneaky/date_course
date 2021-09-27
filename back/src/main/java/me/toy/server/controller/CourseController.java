@@ -2,11 +2,11 @@ package me.toy.server.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseFormDto;
-import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
-import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
-import me.toy.server.entity.LoginUser;
-import me.toy.server.service.DateCourseService;
+import me.toy.server.annotation.LoginUser;
+import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
+import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
+import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
+import me.toy.server.service.CourseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -22,18 +22,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/datecourses")
 @RequiredArgsConstructor
-public class DateCourseController {
+public class CourseController {
 
-  private final DateCourseService dateCourseService;
+  private final CourseService courseService;
 
   @Secured("ROLE_USER")
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   @ApiOperation("데이트 코스 등록")
   public void registDateCourse(
-      @ModelAttribute RegistDateCourseFormDto registDateCourseFormDto,
+      @ModelAttribute RegistCourseFormDto registCourseFormDto,
       @LoginUser String userEmail) {
 
-    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+    courseService.registCourse(registCourseFormDto, userEmail);
   }
 
   @Secured("ROLE_USER")
@@ -42,7 +42,7 @@ public class DateCourseController {
   public void likeDateCourse(@PathVariable Long dateCourseId,
       @LoginUser String userEmail) {
 
-    dateCourseService.likeDateCourse(dateCourseId, userEmail);
+    courseService.likeCourse(dateCourseId, userEmail);
   }
 
   @Secured("ROLE_USER")
@@ -51,21 +51,21 @@ public class DateCourseController {
   public void unlikeDateCourse(@PathVariable Long dateCourseId,
       @LoginUser String userEmail) {
 
-    dateCourseService.unlikeDateCourse(dateCourseId, userEmail);
+    courseService.unlikeCourse(dateCourseId, userEmail);
   }
 
   @GetMapping("/recent")
   @ApiOperation("최신순 데이트 코스 제공")
-  public Page<RecentDateCourseDto> getRecentOrderDateCourses(Pageable pageable) {
+  public Page<RecentCourseDto> getRecentOrderDateCourses(Pageable pageable) {
 
-    return dateCourseService.getRecentDateCourses(pageable);
+    return courseService.getRecentCourses(pageable);
   }
 
   @GetMapping("/thumbUp")
   @ApiOperation("좋아요순 데이트 코스 제공")
-  public Page<LikeOrderDateCourseDto> getLikeOrderDateCourses(Pageable pageable) {
+  public Page<LikeOrderCourseDto> getLikeOrderDateCourses(Pageable pageable) {
 
-    return dateCourseService.getLikedOrderDateCourses(pageable);
+    return courseService.getLikedOrderCourses(pageable);
   }
 
   @Secured("ROLE_USER")
@@ -75,6 +75,6 @@ public class DateCourseController {
       String comment,
       @LoginUser String userEmail) {
 
-    dateCourseService.registComment(courseId, comment, userEmail);
+    courseService.registComment(courseId, comment, userEmail);
   }
 }

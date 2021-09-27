@@ -1,4 +1,4 @@
-package me.toy.server.dto;
+package me.toy.server.dto.course;
 
 import java.util.List;
 import javax.validation.constraints.NotBlank;
@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-public class DateCourseRequestDto {
+public class CourseRequestDto {
 
   @Getter
   @Setter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class RegistDateCourseFormDto {
+  public static class RegistCourseFormDto {
 
     @NotNull
     private List<RegistLocationFormDto> locationList;
@@ -23,7 +23,7 @@ public class DateCourseRequestDto {
     private String courseTitle;
 
     @Builder
-    public RegistDateCourseFormDto(List<RegistLocationFormDto> locationList,
+    public RegistCourseFormDto(List<RegistLocationFormDto> locationList,
         String courseTitle) {
       this.locationList = locationList;
       this.courseTitle = courseTitle;

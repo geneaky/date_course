@@ -1,7 +1,7 @@
 package me.toy.server.config;
 
 import lombok.RequiredArgsConstructor;
-import me.toy.server.entity.LoginUser;
+import me.toy.server.annotation.LoginUser;
 import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.security.UserPrincipal;
 import org.springframework.core.MethodParameter;
@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

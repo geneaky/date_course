@@ -8,7 +8,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import me.toy.server.entity.LoginUser;
+import me.toy.server.annotation.LoginUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;

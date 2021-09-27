@@ -1,4 +1,4 @@
-package me.toy.server.dto;
+package me.toy.server.dto.user;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

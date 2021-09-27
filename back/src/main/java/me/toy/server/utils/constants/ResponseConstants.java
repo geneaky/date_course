@@ -8,7 +8,7 @@ public class ResponseConstants {
   public static final ResponseEntity<String> USER_NOT_FOUND =
       new ResponseEntity<>("해당 사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
 
-  public static final ResponseEntity<String> DATE_COURSE_NOT_FOUND =
+  public static final ResponseEntity<String> COURSE_NOT_FOUND =
       new ResponseEntity<>("해당되는 데이트 코스가 없습니다.", HttpStatus.NOT_FOUND);
 
   public static final ResponseEntity<String> IMAGE_NOT_CONVERTED =

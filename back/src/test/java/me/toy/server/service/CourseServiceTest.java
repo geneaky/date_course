@@ -14,19 +14,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import me.toy.server.cloud.S3Uploader;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseFormDto;
-import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
+import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
+import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
 import me.toy.server.entity.Comment;
-import me.toy.server.entity.DateCourse;
+import me.toy.server.entity.Course;
 import me.toy.server.entity.Tag;
 import me.toy.server.entity.User;
-import me.toy.server.entity.UserDateCourseLike;
+import me.toy.server.entity.UserCourseLike;
 import me.toy.server.repository.CommentRepository;
-import me.toy.server.repository.DateCourseRepository;
+import me.toy.server.repository.CourseRepository;
 import me.toy.server.repository.LocationRepository;
 import me.toy.server.repository.LocationTagRepository;
 import me.toy.server.repository.TagRepository;
-import me.toy.server.repository.UserDateCourseLikeRepository;
+import me.toy.server.repository.UserCourseLikeRepository;
 import me.toy.server.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,16 +37,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
 
 @ExtendWith(MockitoExtension.class)
-class DateCourseServiceTest {
+class CourseServiceTest {
 
   @Mock
   UserRepository userRepository;
   @Mock
-  DateCourseRepository dateCourseRepository;
+  CourseRepository courseRepository;
   @Mock
   LocationRepository locationRepository;
   @Mock
-  UserDateCourseLikeRepository userDateCourseLikeRepository;
+  UserCourseLikeRepository userCourseLikeRepository;
   @Mock
   CommentRepository commentRepository;
   @Mock
@@ -56,7 +56,7 @@ class DateCourseServiceTest {
   @Mock
   S3Uploader s3Uploader;
   @InjectMocks
-  DateCourseService dateCourseService;
+  CourseService courseService;
 
   private User createUser() {
 
@@ -81,18 +81,18 @@ class DateCourseServiceTest {
     String userEmail = "test@naver.com";
     String title = "testTitle";
     User user = createUser();
-    RegistDateCourseFormDto registDateCourseFormDto = mock(RegistDateCourseFormDto.class);
+    RegistCourseFormDto registCourseFormDto = mock(RegistCourseFormDto.class);
     RegistLocationFormDto requestDto = mock(RegistLocationFormDto.class);
     ArrayList<RegistLocationFormDto> list = createRequestList();
     list.add(requestDto);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(registDateCourseFormDto.getLocationList()).thenReturn(list);
+    when(registCourseFormDto.getLocationList()).thenReturn(list);
 
-    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+    courseService.registCourse(registCourseFormDto, userEmail);
 
     verify(userRepository, atLeastOnce()).findByEmail(userEmail);
-    verify(dateCourseRepository, times(1)).save(any());
+    verify(courseRepository, times(1)).save(any());
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
     verify(locationTagRepository, times(1)).saveAll(any());
@@ -100,23 +100,23 @@ class DateCourseServiceTest {
 
   @Test
   @DisplayName("사진 첨부 없는 데이트 코스 등록 성공")
-  public void dateCourseRegistWithoutPhotos() throws Exception {
+  public void courseRegistWithoutPhotos() throws Exception {
 
     String userEmail = "test@naver.com";
     String title = "testTitle";
     User user = createUser();
-    RegistDateCourseFormDto registDateCourseFormDto = mock(RegistDateCourseFormDto.class);
+    RegistCourseFormDto registCourseFormDto = mock(RegistCourseFormDto.class);
     RegistLocationFormDto requestDto = mock(RegistLocationFormDto.class);
     ArrayList<RegistLocationFormDto> list = createRequestList();
     list.add(requestDto);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(registDateCourseFormDto.getLocationList()).thenReturn(list);
+    when(registCourseFormDto.getLocationList()).thenReturn(list);
     when(requestDto.getFile()).thenReturn(null);
 
-    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+    courseService.registCourse(registCourseFormDto, userEmail);
 
-    verify(dateCourseRepository, atMostOnce()).save(any());
+    verify(courseRepository, atMostOnce()).save(any());
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
     verify(locationTagRepository, times(1)).saveAll(any());
@@ -125,23 +125,23 @@ class DateCourseServiceTest {
 
   @Test
   @DisplayName("사진 첨부된 데이트 코스 등록 성공")
-  public void dateCourseRegistWithPhotos() throws Exception {
+  public void courseRegistWithPhotos() throws Exception {
 
     String userEmail = "test@naver.com";
     String title = "testTitle";
     User user = createUser();
-    RegistDateCourseFormDto registDateCourseFormDto = mock(RegistDateCourseFormDto.class);
+    RegistCourseFormDto registCourseFormDto = mock(RegistCourseFormDto.class);
     RegistLocationFormDto requestDto = mock(RegistLocationFormDto.class);
     ArrayList<RegistLocationFormDto> list = createRequestList();
     list.add(requestDto);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(registDateCourseFormDto.getLocationList()).thenReturn(list);
+    when(registCourseFormDto.getLocationList()).thenReturn(list);
     when(requestDto.getFile()).thenReturn(mock(MultipartFile.class));
 
-    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+    courseService.registCourse(registCourseFormDto, userEmail);
 
-    verify(dateCourseRepository, atMostOnce()).save(any());
+    verify(courseRepository, atMostOnce()).save(any());
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
     verify(locationTagRepository, times(1)).saveAll(any());
@@ -155,7 +155,7 @@ class DateCourseServiceTest {
     String userEmail = "test@naver.com";
     String title = "testTitle";
     User user = createUser();
-    RegistDateCourseFormDto registDateCourseFormDto = mock(RegistDateCourseFormDto.class);
+    RegistCourseFormDto registCourseFormDto = mock(RegistCourseFormDto.class);
     RegistLocationFormDto requestDto1 = mock(RegistLocationFormDto.class);
     RegistLocationFormDto requestDto2 = mock(RegistLocationFormDto.class);
     RegistLocationFormDto requestDto3 = mock(RegistLocationFormDto.class);
@@ -165,14 +165,14 @@ class DateCourseServiceTest {
     list.add(requestDto3);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(registDateCourseFormDto.getLocationList()).thenReturn(list);
+    when(registCourseFormDto.getLocationList()).thenReturn(list);
     when(requestDto1.getFile()).thenReturn(null);
     when(requestDto2.getFile()).thenReturn(mock(MultipartFile.class));
     when(requestDto3.getFile()).thenReturn(mock(MultipartFile.class));
 
-    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+    courseService.registCourse(registCourseFormDto, userEmail);
 
-    verify(dateCourseRepository, atMostOnce()).save(any());
+    verify(courseRepository, atMostOnce()).save(any());
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
     verify(locationTagRepository, times(1)).saveAll(any());
@@ -186,7 +186,7 @@ class DateCourseServiceTest {
     String title = "testTitle";
     String userEmail = "test@naver.com";
     User user = createUser();
-    RegistDateCourseFormDto registDateCourseFormDto = mock(RegistDateCourseFormDto.class);
+    RegistCourseFormDto registCourseFormDto = mock(RegistCourseFormDto.class);
     RegistLocationFormDto requestDto = mock(RegistLocationFormDto.class);
     ArrayList<RegistLocationFormDto> list = createRequestList();
     list.add(requestDto);
@@ -196,15 +196,15 @@ class DateCourseServiceTest {
     Tag tag3 = new Tag("#gg");
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(registDateCourseFormDto.getLocationList()).thenReturn(list);
+    when(registCourseFormDto.getLocationList()).thenReturn(list);
     when(requestDto.getHashTag()).thenReturn(hashTag);
     when(tagRepository.findByName("#hi")).thenReturn(Optional.of(tag1));
     when(tagRepository.findByName("#bi")).thenReturn(Optional.of(tag2));
     when(tagRepository.findByName("#gg")).thenReturn(Optional.of(tag3));
 
-    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+    courseService.registCourse(registCourseFormDto, userEmail);
 
-    verify(dateCourseRepository, atMostOnce()).save(any());
+    verify(courseRepository, atMostOnce()).save(any());
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
     verify(locationTagRepository, times(1)).saveAll(any());
@@ -218,7 +218,7 @@ class DateCourseServiceTest {
     String title = "testTitle";
     String userEmail = "test@naver.com";
     User user = createUser();
-    RegistDateCourseFormDto registDateCourseFormDto = mock(RegistDateCourseFormDto.class);
+    RegistCourseFormDto registCourseFormDto = mock(RegistCourseFormDto.class);
     RegistLocationFormDto requestDto = mock(RegistLocationFormDto.class);
     ArrayList<RegistLocationFormDto> list = createRequestList();
     list.add(requestDto);
@@ -227,14 +227,14 @@ class DateCourseServiceTest {
     Tag tag2 = new Tag("#bi");
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(registDateCourseFormDto.getLocationList()).thenReturn(list);
+    when(registCourseFormDto.getLocationList()).thenReturn(list);
     when(requestDto.getHashTag()).thenReturn(hashTag);
     when(tagRepository.findByName("#hi")).thenReturn(Optional.of(tag1));
     when(tagRepository.findByName("#bi")).thenReturn(Optional.of(tag2));
 
-    dateCourseService.registDateCourse(registDateCourseFormDto, userEmail);
+    courseService.registCourse(registCourseFormDto, userEmail);
 
-    verify(dateCourseRepository, atMostOnce()).save(any());
+    verify(courseRepository, atMostOnce()).save(any());
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
     verify(locationTagRepository, times(1)).saveAll(any());
@@ -248,16 +248,16 @@ class DateCourseServiceTest {
     String title = "testTitle";
     String userEmail = "test@naver.com";
     User user = createUser();
-    DateCourse dateCourse = new DateCourse(user, title);
+    Course course = new Course(user, title);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
-    when(userDateCourseLikeRepository.findLikeByUserIdAndDateCourseId(user.getId(),
-        dateCourse.getId())).thenReturn(Optional.empty());
+    when(courseRepository.findById(course.getId())).thenReturn(Optional.of(course));
+    when(userCourseLikeRepository.findLikeByUserIdAndCourseId(user.getId(),
+        course.getId())).thenReturn(Optional.empty());
 
-    dateCourseService.likeDateCourse(dateCourse.getId(), userEmail);
+    courseService.likeCourse(course.getId(), userEmail);
 
-    verify(userDateCourseLikeRepository, times(1)).save(any());
+    verify(userCourseLikeRepository, times(1)).save(any());
   }
 
   @Test
@@ -266,17 +266,17 @@ class DateCourseServiceTest {
     String title = "testTitle";
     String userEmail = "test@naver.com";
     User user = createUser();
-    DateCourse dateCourse = new DateCourse(user, title);
-    UserDateCourseLike userDateCourseLike = mock(UserDateCourseLike.class);
+    Course course = new Course(user, title);
+    UserCourseLike userCourseLike = mock(UserCourseLike.class);
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
-    when(userDateCourseLikeRepository.findLikeByUserIdAndDateCourseId(user.getId(),
-        dateCourse.getId())).thenReturn(Optional.of(userDateCourseLike));
+    when(courseRepository.findById(course.getId())).thenReturn(Optional.of(course));
+    when(userCourseLikeRepository.findLikeByUserIdAndCourseId(user.getId(),
+        course.getId())).thenReturn(Optional.of(userCourseLike));
 
-    dateCourseService.unlikeDateCourse(dateCourse.getId(), userEmail);
+    courseService.unlikeCourse(course.getId(), userEmail);
 
-    verify(userDateCourseLikeRepository, times(1)).unlikeDateCourse(user.getId(),
-        dateCourse.getId());
+    verify(userCourseLikeRepository, times(1)).unlikeCourse(user.getId(),
+        course.getId());
   }
 
   @Test
@@ -287,15 +287,15 @@ class DateCourseServiceTest {
     String userEmail = "test@naver.com";
     String comment = "test comment";
     User user = createUser();
-    DateCourse dateCourse = new DateCourse(user, title);
-    Comment dateCourseComment = new Comment(user, dateCourse, comment);
+    Course course = new Course(user, title);
+    Comment dateCourseComment = new Comment(user, course, comment);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
+    when(courseRepository.findById(course.getId())).thenReturn(Optional.of(course));
     when(commentRepository.findById(dateCourseComment.getId()))
         .thenReturn(Optional.of(dateCourseComment));
 
-    dateCourseService.registComment(dateCourse.getId(), comment, userEmail);
+    courseService.registComment(course.getId(), comment, userEmail);
 
     verify(commentRepository, times(1)).save(any());
     assertThat(commentRepository.findById(dateCourseComment.getId()).get().getContent())

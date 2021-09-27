@@ -10,40 +10,41 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserFollow {
+@Getter
+@Setter
+public class UserCourseLike {
 
   @Id
   @GeneratedValue
-  @Column(name = "USER_FOLLOW_ID")
+  @Column(name = "USER_COURSE_LIKE_ID")
   private Long id;
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "USER_ID")
   private User user;
-
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "FOLLOW_ID")
-  private Follow follow;
+  @JoinColumn(name = "COURSE_ID")
+  private Course course;
 
-  public UserFollow(User user, Follow follow) {
+  public UserCourseLike(User user, Course course) {
 
     setUser(user);
-    setFollow(follow);
+    setCourse(course);
   }
 
   public void setUser(User user) {
 
     this.user = user;
-    user.getUserFollows().add(this);
+    user.getUserCourseLikes().add(this);
   }
 
-  public void setFollow(Follow follow) {
+  public void setCourse(Course course) {
 
-    this.follow = follow;
-    follow.getUserFollows().add(this);
+    this.course = course;
+    course.getUserCourseLikes().add(this);
   }
+
 }

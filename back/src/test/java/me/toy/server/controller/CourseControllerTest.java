@@ -14,14 +14,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
-import me.toy.server.dto.DateCourseRequestDto.RegistDateCourseFormDto;
-import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
-import me.toy.server.dto.DateCourseResponseDto.LikeOrderDateCourseDto;
-import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
-import me.toy.server.entity.DateCourse;
+import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
+import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
+import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
+import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
+import me.toy.server.entity.Course;
 import me.toy.server.entity.User;
-import me.toy.server.repository.DateCourseRepository;
-import me.toy.server.service.DateCourseService;
+import me.toy.server.repository.CourseRepository;
+import me.toy.server.service.CourseService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +41,12 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @WithUserDetails(value = "test@naver.com")
-class DateCourseControllerTest {
+class CourseControllerTest {
 
   @MockBean
-  DateCourseService dateCourseService;
+  CourseService courseService;
   @MockBean
-  DateCourseRepository dateCourseRepository;
+  CourseRepository courseRepository;
   @Autowired
   private MockMvc mockMvc;
   @Autowired
@@ -54,7 +54,7 @@ class DateCourseControllerTest {
 
   @Test
   @DisplayName("데이트 코스 등록 요청시 데이트 코스와 제목을 받아 등록 시킨다")
-  public void registDateCourse() throws Exception {
+  public void registCourse() throws Exception {
 
     RegistLocationFormDto requestDto1 = RegistLocationFormDto.builder()
         .placeName("testPlace1").posX(26F).posY(126F).build();
@@ -63,60 +63,60 @@ class DateCourseControllerTest {
     ArrayList<RegistLocationFormDto> locationList = new ArrayList<>();
     locationList.add(requestDto1);
     locationList.add(requestDto2);
-    RegistDateCourseFormDto requestDtoList = RegistDateCourseFormDto.builder()
+    RegistCourseFormDto requestDtoList = RegistCourseFormDto.builder()
         .locationList(locationList).build();
     String body = objectMapper.writeValueAsString(requestDtoList);
 
     mockMvc.perform(post("/datecourses")
-            .contentType(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
             .param("courseTitle", "testCourse")
             .content(body))
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).registDateCourse(any(), any());
+    verify(courseService, times(1)).registCourse(any(), any());
   }
 
   @Test
   @DisplayName("사용자가 좋아요 버튼 누를시 해당 코스의 좋아요 값을 1 증가 시킨다")
-  public void updateDateCourseLike() throws Exception {
+  public void updateCourseLike() throws Exception {
 
     mockMvc.perform(post("/datecourses/1/like"))
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).likeDateCourse(any(), any());
+    verify(courseService, times(1)).likeCourse(any(), any());
   }
 
   @Test
   @DisplayName("사용자가 좋아요 누른 코스의 좋아요 버튼을 다시 누를시 해당 코스의 좋아요를 1 감소 시킨다")
-  public void updateDateCourseUnlike() throws Exception {
+  public void updateCourseUnlike() throws Exception {
 
     mockMvc.perform(delete("/datecourses/1/like"))
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).unlikeDateCourse(any(), any());
+    verify(courseService, times(1)).unlikeCourse(any(), any());
   }
 
   @Test
   @DisplayName("최신 데이트 코스 리스트 요청시 최신순 데이트 코스 목록을 반환한다")
-  public void recentDateCourseList() throws Exception {
+  public void recentCourseList() throws Exception {
 
     User user = new User();
     user.setName("testOtherUser");
     user.setEmail("test@gmail.com");
-    DateCourse dateCourse1 = new DateCourse(user, "testCourse1");
-    DateCourse dateCourse2 = new DateCourse(user, "testCourse2");
-    RecentDateCourseDto recentDateCourseDto1 = new RecentDateCourseDto(dateCourse1);
-    RecentDateCourseDto recentDateCourseDto2 = new RecentDateCourseDto(dateCourse2);
-    List<RecentDateCourseDto> list = new ArrayList<>();
-    list.add(recentDateCourseDto1);
-    list.add(recentDateCourseDto2);
+    Course course1 = new Course(user, "testCourse1");
+    Course course2 = new Course(user, "testCourse2");
+    RecentCourseDto recentCourseDto1 = new RecentCourseDto(course1);
+    RecentCourseDto recentCourseDto2 = new RecentCourseDto(course2);
+    List<RecentCourseDto> list = new ArrayList<>();
+    list.add(recentCourseDto1);
+    list.add(recentCourseDto2);
     Pageable pageable = PageRequest.of(0, 2);
-    Page<RecentDateCourseDto> page = new PageImpl<>(list, pageable, 2);
+    Page<RecentCourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    when(dateCourseService.getRecentDateCourses(pageable)).thenReturn(page);
+    when(courseService.getRecentCourses(pageable)).thenReturn(page);
 
     mockMvc.perform(get("/datecourses/recent?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -124,32 +124,32 @@ class DateCourseControllerTest {
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).getRecentDateCourses(pageable);
+    verify(courseService, times(1)).getRecentCourses(pageable);
   }
 
   @Test
   @DisplayName("인기 데이트 코스 리스트 요청시 좋아요순 데이트 코스 목록을 반환한다")
-  public void likeOrderDateCourseList() throws Exception {
+  public void likeOrderCourseList() throws Exception {
 
     User user = new User();
     user.setName("testOtherUser");
     user.setEmail("test@gmail.com");
-    DateCourse dateCourse1 = new DateCourse(user, "testCourse1");
-    DateCourse dateCourse2 = new DateCourse(user, "testCourse2");
-    LikeOrderDateCourseDto likeOrderDateCourseDto1 = new LikeOrderDateCourseDto(dateCourse1.getId(),
-        dateCourse1.getUserDateCourseLikes().size(),
-        dateCourse1.getLocations());
-    LikeOrderDateCourseDto likeOrderDateCourseDto2 = new LikeOrderDateCourseDto(dateCourse2.getId(),
-        dateCourse2.getUserDateCourseLikes().size(),
-        dateCourse2.getLocations());
-    List<LikeOrderDateCourseDto> list = new ArrayList<>();
-    list.add(likeOrderDateCourseDto1);
-    list.add(likeOrderDateCourseDto2);
+    Course course1 = new Course(user, "testCourse1");
+    Course course2 = new Course(user, "testCourse2");
+    LikeOrderCourseDto likeOrderCourseDto1 = new LikeOrderCourseDto(course1.getId(),
+        course1.getUserCourseLikes().size(),
+        course1.getLocations());
+    LikeOrderCourseDto likeOrderCourseDto2 = new LikeOrderCourseDto(course2.getId(),
+        course2.getUserCourseLikes().size(),
+        course2.getLocations());
+    List<LikeOrderCourseDto> list = new ArrayList<>();
+    list.add(likeOrderCourseDto1);
+    list.add(likeOrderCourseDto2);
 
     Pageable pageable = PageRequest.of(0, 2);
-    Page<LikeOrderDateCourseDto> page = new PageImpl<>(list, pageable, 2);
+    Page<LikeOrderCourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    when(dateCourseService.getLikedOrderDateCourses(pageable)).thenReturn(page);
+    when(courseService.getLikedOrderCourses(pageable)).thenReturn(page);
 
     mockMvc.perform(get("/datecourses/thumbUp?page=0j&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -157,12 +157,12 @@ class DateCourseControllerTest {
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).getLikedOrderDateCourses(pageable);
+    verify(courseService, times(1)).getLikedOrderCourses(pageable);
   }
 
   @Test
   @DisplayName("사용자가 데이트 코스에 댓글 입력 요청시 데이트 코스에 댓글 등록시킨다")
-  public void registDateCourseComment() throws Exception {
+  public void registCourseComment() throws Exception {
 
     mockMvc.perform(post("/datecourses/1/comment")
             .content("comment for test!")
@@ -170,7 +170,7 @@ class DateCourseControllerTest {
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(dateCourseService, times(1)).registComment(any(), any(), any());
+    verify(courseService, times(1)).registComment(any(), any(), any());
   }
 
 }

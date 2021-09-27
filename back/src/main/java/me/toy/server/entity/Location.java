@@ -1,11 +1,19 @@
 package me.toy.server.entity;
 
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import me.toy.server.dto.DateCourseRequestDto.RegistLocationFormDto;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
 
 @Entity
 @Getter
@@ -22,8 +30,8 @@ public class Location extends BaseEntity {
   private Float posx;
   private Float posy;
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "DATECOURSE_ID")
-  private DateCourse dateCourse;
+  @JoinColumn(name = "COURSE_ID")
+  private Course course;
   @OneToMany(mappedBy = "location", orphanRemoval = true)
   private List<LocationTag> locationTags = new ArrayList<>();
 
@@ -45,9 +53,9 @@ public class Location extends BaseEntity {
     this.posy = posy;
   }
 
-  public void setDateCourse(DateCourse dateCourse) {
+  public void setCourse(Course course) {
 
-    this.dateCourse = dateCourse;
-    dateCourse.getLocations().add(this);
+    this.course = course;
+    course.getLocations().add(this);
   }
 }

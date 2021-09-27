@@ -1,11 +1,20 @@
 package me.toy.server.entity;
 
-import lombok.*;
-import me.toy.server.security.oauth2.OAuth2Provider;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import me.toy.server.security.oauth2.OAuth2Provider;
 
 
 @Entity
@@ -31,11 +40,11 @@ public class User extends BaseEntity {
   private String providerId;
 
   @OneToMany(mappedBy = "user", orphanRemoval = true)
-  private List<DateCourse> dateCourses = new ArrayList<>();
+  private List<Course> course = new ArrayList<>();
   @OneToMany(mappedBy = "user", orphanRemoval = true)
-  private List<UserDateCourseSave> userDateCoursSaves = new ArrayList<>();
+  private List<UserCourseSave> userCourseSaves = new ArrayList<>();
   @OneToMany(mappedBy = "user", orphanRemoval = true)
-  private List<UserDateCourseLike> userDateCourseLikes = new ArrayList<>();
+  private List<UserCourseLike> userCourseLikes = new ArrayList<>();
   @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<Comment> comments = new ArrayList<>();
   @OneToMany(mappedBy = "user", orphanRemoval = true)

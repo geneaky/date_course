@@ -1,4 +1,4 @@
-package me.toy.server.exception.datecourse;
+package me.toy.server.exception.course;
 
 public class AlreadyUnlikeCourseException extends
     RuntimeException {

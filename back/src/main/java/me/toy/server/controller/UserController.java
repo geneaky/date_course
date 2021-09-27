@@ -1,6 +1,6 @@
 package me.toy.server.controller;
 
-import static me.toy.server.dto.UserRequestDto.UserRegisterForm;
+import static me.toy.server.dto.user.UserRequestDto.UserRegisterForm;
 
 import io.swagger.annotations.ApiOperation;
 import java.io.IOException;
@@ -8,14 +8,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
-import me.toy.server.dto.UserRequestDto.AddFollowerRequest;
-import me.toy.server.dto.UserRequestDto.RemoveFollowerRequest;
-import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
-import me.toy.server.dto.UserResponseDto.UserDto;
-import me.toy.server.dto.UserResponseDto.UserFollowers;
-import me.toy.server.dto.UserResponseDto.UserFollowings;
-import me.toy.server.entity.LoginUser;
+import me.toy.server.annotation.LoginUser;
+import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
+import me.toy.server.dto.user.UserRequestDto.AddFollowerRequest;
+import me.toy.server.dto.user.UserRequestDto.RemoveFollowerRequest;
+import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
+import me.toy.server.dto.user.UserResponseDto.UserDto;
+import me.toy.server.dto.user.UserResponseDto.UserFollowers;
+import me.toy.server.dto.user.UserResponseDto.UserFollowings;
 import me.toy.server.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -77,7 +77,7 @@ public class UserController {
 
   @ApiOperation("사용자가 저장한 데이트 코스 리스트 제공")
   @GetMapping("/save/courses")
-  public ResponseEntity<Page<SavedDateCourseDto>> getSavedCourses(@LoginUser String userEmail,
+  public ResponseEntity<Page<SavedCourseDto>> getSavedCourses(@LoginUser String userEmail,
       Pageable pageable) {
 
     return ResponseEntity.ok().body(userService.getSavedCourses(userEmail, pageable));
@@ -92,7 +92,7 @@ public class UserController {
 
   @ApiOperation("사용자가 작성한 데이트 코스 제공")
   @GetMapping("/courses")
-  public ResponseEntity<Page<RecentDateCourseDto>> getMyCourses(@LoginUser String userEmail,
+  public ResponseEntity<Page<RecentCourseDto>> getMyCourses(@LoginUser String userEmail,
       Pageable pageable) {
 
     return ResponseEntity.ok().body(userService.getMyCourses(userEmail, pageable));

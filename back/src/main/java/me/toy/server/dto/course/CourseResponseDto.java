@@ -1,4 +1,4 @@
-package me.toy.server.dto;
+package me.toy.server.dto.course;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,41 +7,41 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.toy.server.entity.Comment;
-import me.toy.server.entity.DateCourse;
+import me.toy.server.entity.Course;
 import me.toy.server.entity.Location;
 
-public class DateCourseResponseDto {
+public class CourseResponseDto {
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class RecentDateCourseDto {
+  public static class RecentCourseDto {
 
     private Long id;
     private Long likesCount;
     private String userName;
     private Long userId;
-    private String dateCourseTitle;
+    private String courseTitle;
     private List<Long> userLikedCoursesIds;
     private List<RecentLocationDto> locations;
-    private List<DateCourseCommentDto> comments;
+    private List<CourseCommentDto> comments;
 
     @Builder
-    public RecentDateCourseDto(DateCourse dateCourse) {
+    public RecentCourseDto(Course course) {
 
-      this.id = dateCourse.getId();
-      this.likesCount = dateCourse.getUserDateCourseLikes().stream().count();
-      this.dateCourseTitle = dateCourse.getDateCourseTitle();
-      this.userId = dateCourse.getUser().getId();
-      this.userName = dateCourse.getUser().getName();
-      this.userLikedCoursesIds = dateCourse.getUser().getUserDateCourseLikes()
+      this.id = course.getId();
+      this.likesCount = course.getUserCourseLikes().stream().count();
+      this.courseTitle = course.getCourseTitle();
+      this.userId = course.getUser().getId();
+      this.userName = course.getUser().getName();
+      this.userLikedCoursesIds = course.getUser().getUserCourseLikes()
           .stream()
-          .map(likeCourse -> likeCourse.getDateCourse().getId())
+          .map(likeCourse -> likeCourse.getCourse().getId())
           .collect(Collectors.toList());
-      this.comments = dateCourse.getComments()
+      this.comments = course.getComments()
           .stream()
-          .map(comment -> new DateCourseCommentDto(comment))
+          .map(comment -> new CourseCommentDto(comment))
           .collect(Collectors.toList());
-      this.locations = dateCourse.getLocations()
+      this.locations = course.getLocations()
           .stream()
           .map(location -> new RecentLocationDto(location))
           .collect(Collectors.toList());
@@ -50,13 +50,13 @@ public class DateCourseResponseDto {
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class DateCourseCommentDto {
+  public static class CourseCommentDto {
 
     private String userName;
     private String commentContent;
 
     @Builder
-    public DateCourseCommentDto(Comment comment) {
+    public CourseCommentDto(Comment comment) {
 
       this.userName = comment.getUser().getName();
       this.commentContent = comment.getContent();
@@ -90,18 +90,18 @@ public class DateCourseResponseDto {
 
 
   @Getter
-  public static class LikeOrderDateCourseDto {
+  public static class LikeOrderCourseDto {
 
     private Long id;
     private int likesCount;
-    private List<LikeOrderDateCourseLocationDto> locations;
+    private List<LikeOrderCourseLocationDto> locations;
 
-    public LikeOrderDateCourseDto(Long id, int likesCount,
+    public LikeOrderCourseDto(Long id, int likesCount,
         List<Location> locations) {
       this.id = id;
       this.likesCount = likesCount;
       this.locations = locations.stream()
-          .map(LikeOrderDateCourseLocationDto::new)
+          .map(LikeOrderCourseLocationDto::new)
           .collect(Collectors.toList());
       ;
     }
@@ -119,7 +119,7 @@ public class DateCourseResponseDto {
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class LikeOrderDateCourseLocationDto {
+  public static class LikeOrderCourseLocationDto {
 
     private String locationName;
     private String photoUrl;
@@ -128,7 +128,7 @@ public class DateCourseResponseDto {
     private float posy;
 
     @Builder
-    public LikeOrderDateCourseLocationDto(Location location) {
+    public LikeOrderCourseLocationDto(Location location) {
       this.locationName = location.getName();
       this.photoUrl = location.getPhotoUrl();
       this.text = location.getText();
@@ -139,7 +139,7 @@ public class DateCourseResponseDto {
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class CurrentLocationDateCourseDto {
+  public static class CurrentLocationCourseDto {
 
     private Long id;
 
@@ -148,10 +148,10 @@ public class DateCourseResponseDto {
     private List<CurrentLocationDto> locations;
 
     @Builder
-    public CurrentLocationDateCourseDto(DateCourse dateCourse) {
-      this.id = dateCourse.getId();
-      this.likesCount = dateCourse.getUserDateCourseLikes().stream().count();
-      this.locations = dateCourse.getLocations()
+    public CurrentLocationCourseDto(Course course) {
+      this.id = course.getId();
+      this.likesCount = course.getUserCourseLikes().stream().count();
+      this.locations = course.getLocations()
           .stream()
           .map(location -> new CurrentLocationDto(location))
           .collect(Collectors.toList());

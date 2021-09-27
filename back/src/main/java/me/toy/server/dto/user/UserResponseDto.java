@@ -1,4 +1,4 @@
-package me.toy.server.dto;
+package me.toy.server.dto.user;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,45 +6,45 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import me.toy.server.dto.DateCourseResponseDto.DateCourseCommentDto;
-import me.toy.server.dto.DateCourseResponseDto.RecentLocationDto;
+import me.toy.server.dto.course.CourseResponseDto.CourseCommentDto;
+import me.toy.server.dto.course.CourseResponseDto.RecentLocationDto;
 import me.toy.server.entity.User;
-import me.toy.server.entity.UserDateCourseSave;
+import me.toy.server.entity.UserCourseSave;
 
 public class UserResponseDto {
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class SavedDateCourseDto {
+  public static class SavedCourseDto {
 
     private Long id;
     private Long courseLikesCount;
     private String userName;
     private Long userId;
-    private String dateCourseTitle;
+    private String courseTitle;
     private List<Long> userLikedCoursesIds;//boolean isUserLikeCourse로 변경 front랑 같이
     private List<RecentLocationDto> locations;
-    private List<DateCourseCommentDto> comments;
+    private List<CourseCommentDto> comments;
 
     @Builder
-    public SavedDateCourseDto(UserDateCourseSave userDateCourseSave) {
+    public SavedCourseDto(UserCourseSave userCourseSave) {
 
-      this.id = userDateCourseSave.getDateCourse().getId();
-      this.courseLikesCount = userDateCourseSave.getDateCourse().getUserDateCourseLikes().stream()
+      this.id = userCourseSave.getCourse().getId();
+      this.courseLikesCount = userCourseSave.getCourse().getUserCourseLikes().stream()
           .count();//feedback
-      this.dateCourseTitle = userDateCourseSave.getDateCourse().getDateCourseTitle();
-      this.userId = userDateCourseSave.getDateCourse().getUser().getId();
-      this.userName = userDateCourseSave.getDateCourse().getUser().getName();
-      this.userLikedCoursesIds = userDateCourseSave.getDateCourse().getUser()
-          .getUserDateCourseLikes()
+      this.courseTitle = userCourseSave.getCourse().getCourseTitle();
+      this.userId = userCourseSave.getCourse().getUser().getId();
+      this.userName = userCourseSave.getCourse().getUser().getName();
+      this.userLikedCoursesIds = userCourseSave.getCourse().getUser()
+          .getUserCourseLikes()
           .stream()
-          .map(likeCourse -> likeCourse.getDateCourse().getId())
+          .map(likeCourse -> likeCourse.getCourse().getId())
           .collect(Collectors.toList());
-      this.comments = userDateCourseSave.getDateCourse().getComments()
+      this.comments = userCourseSave.getCourse().getComments()
           .stream()
-          .map(comment -> new DateCourseCommentDto(comment))
+          .map(comment -> new CourseCommentDto(comment))
           .collect(Collectors.toList());
-      this.locations = userDateCourseSave.getDateCourse().getLocations()
+      this.locations = userCourseSave.getCourse().getLocations()
           .stream()
           .map(location -> new RecentLocationDto(location))
           .collect(Collectors.toList());

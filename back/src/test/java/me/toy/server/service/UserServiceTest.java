@@ -13,23 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import me.toy.server.dto.DateCourseResponseDto.RecentDateCourseDto;
-import me.toy.server.dto.UserRequestDto.AddFollowerRequest;
-import me.toy.server.dto.UserRequestDto.RemoveFollowerRequest;
-import me.toy.server.dto.UserResponseDto.SavedDateCourseDto;
-import me.toy.server.dto.UserResponseDto.UserDto;
-import me.toy.server.dto.UserResponseDto.UserFollowers;
-import me.toy.server.dto.UserResponseDto.UserFollowings;
-import me.toy.server.entity.DateCourse;
+import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
+import me.toy.server.dto.user.UserRequestDto.AddFollowerRequest;
+import me.toy.server.dto.user.UserRequestDto.RemoveFollowerRequest;
+import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
+import me.toy.server.dto.user.UserResponseDto.UserDto;
+import me.toy.server.dto.user.UserResponseDto.UserFollowers;
+import me.toy.server.dto.user.UserResponseDto.UserFollowings;
+import me.toy.server.entity.Course;
 import me.toy.server.entity.Follow;
 import me.toy.server.entity.User;
-import me.toy.server.entity.UserDateCourseLike;
-import me.toy.server.entity.UserDateCourseSave;
+import me.toy.server.entity.UserCourseLike;
+import me.toy.server.entity.UserCourseSave;
 import me.toy.server.entity.UserFollow;
 import me.toy.server.exception.user.UserNotFoundException;
-import me.toy.server.repository.DateCourseRepository;
+import me.toy.server.repository.CourseRepository;
 import me.toy.server.repository.FollowRepository;
-import me.toy.server.repository.UserDateCourseSaveRepository;
+import me.toy.server.repository.UserCourseSaveRepository;
 import me.toy.server.repository.UserFollowRepository;
 import me.toy.server.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -50,10 +50,10 @@ public class UserServiceTest {
   UserRepository userRepository;
 
   @Mock
-  DateCourseRepository dateCourseRepository;
+  CourseRepository courseRepository;
 
   @Mock
-  UserDateCourseSaveRepository userDateCourseSaveRepository;
+  UserCourseSaveRepository userCourseSaveRepository;
 
   @Mock
   FollowRepository followRepository;
@@ -102,18 +102,18 @@ public class UserServiceTest {
     String userEmail = "test@naver.com";
     User user = new User();
     user.setEmail(userEmail);
-    DateCourse dateCourse = new DateCourse(user, "test");
-    List<UserDateCourseLike> userDateCourseLikes = new ArrayList<>();
-    UserDateCourseLike userDateCourseLike = new UserDateCourseLike(user, dateCourse);
-    userDateCourseLikes.add(userDateCourseLike);
-    user.setUserDateCourseLikes(userDateCourseLikes);
+    Course course = new Course(user, "test");
+    List<UserCourseLike> userCourseLikes = new ArrayList<>();
+    UserCourseLike userCourseLike = new UserCourseLike(user, course);
+    userCourseLikes.add(userCourseLike);
+    user.setUserCourseLikes(userCourseLikes);
     userRepository.save(user);
     when(userRepository.findByEmail(userEmail))
         .thenReturn(Optional.of(user));
 
-    List<Long> testLikedCourse = user.getUserDateCourseLikes()
+    List<Long> testLikedCourse = user.getUserCourseLikes()
         .stream()
-        .map(testLike -> testLike.getDateCourse().getId())
+        .map(testLike -> testLike.getCourse().getId())
         .collect(Collectors.toList());
     List<Long> likedCourse = userService.getLikedCourseIds(userEmail);
 
@@ -128,15 +128,15 @@ public class UserServiceTest {
     String userEmail = "test@naver.com";
     User user = new User();
     user.setEmail(userEmail);
-    List<UserDateCourseLike> userDateCourseLikes = new ArrayList<>();
-    user.setUserDateCourseLikes(userDateCourseLikes);
+    List<UserCourseLike> userCourseLikes = new ArrayList<>();
+    user.setUserCourseLikes(userCourseLikes);
     userRepository.save(user);
 
     when(userRepository.findByEmail(userEmail))
         .thenReturn(Optional.of(user));
     List<Long> likedCourse = userService.getLikedCourseIds(userEmail);
 
-    assertEquals(userDateCourseLikes, likedCourse);
+    assertEquals(userCourseLikes, likedCourse);
     verify(userRepository, atLeast(1)).findByEmail(any());
   }
 
@@ -147,17 +147,17 @@ public class UserServiceTest {
     String userEmail = "test@naver.com";
     User user = new User();
     user.setEmail(userEmail);
-    DateCourse dateCourse = new DateCourse(user, "test");
-    UserDateCourseSave userDateCourseSave = new UserDateCourseSave(user, dateCourse);
+    Course course = new Course(user, "test");
+    UserCourseSave userCourseSave = new UserCourseSave(user, course);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
+    when(courseRepository.findById(course.getId())).thenReturn(Optional.of(course));
 
-    userService.addCourse(dateCourse.getId(), userEmail);
+    userService.addCourse(course.getId(), userEmail);
 
     verify(userRepository).findByEmail(userEmail);
-    verify(dateCourseRepository).findById(any());
-    verify(userDateCourseSaveRepository).save(any());
+    verify(courseRepository).findById(any());
+    verify(userCourseSaveRepository).save(any());
   }
 
   @Test
@@ -167,17 +167,17 @@ public class UserServiceTest {
     String userEmail = "test@naver.com";
     User user = new User();
     user.setEmail(userEmail);
-    DateCourse dateCourse = new DateCourse(user, "test");
-    UserDateCourseSave userDateCourseSave = new UserDateCourseSave(user, dateCourse);
-    List<UserDateCourseSave> userDateCourseSaveList = new ArrayList<>();
-    userDateCourseSaveList.add(userDateCourseSave);
-    user.setUserDateCoursSaves(userDateCourseSaveList);
+    Course course = new Course(user, "test");
+    UserCourseSave userCourseSave = new UserCourseSave(user, course);
+    List<UserCourseSave> userCourseSaveList = new ArrayList<>();
+    userCourseSaveList.add(userCourseSave);
+    user.setUserCourseSaves(userCourseSaveList);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
     List<Long> resultSavedCourse = userService.getSavedCourseIds(userEmail);
-    List<Long> testSavedCourseList = user.getUserDateCoursSaves()
+    List<Long> testSavedCourseList = user.getUserCourseSaves()
         .stream()
-        .map(testSavedCourse -> testSavedCourse.getDateCourse().getId())
+        .map(testSavedCourse -> testSavedCourse.getCourse().getId())
         .collect(Collectors.toList());
 
     assertEquals(resultSavedCourse, testSavedCourseList);
@@ -207,15 +207,15 @@ public class UserServiceTest {
     String userEmail = "test@naver.com";
     User user = new User();
     user.setEmail(userEmail);
-    DateCourse dateCourse = new DateCourse(user, "test");
+    Course course = new Course(user, "test");
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(dateCourseRepository.findById(dateCourse.getId())).thenReturn(Optional.of(dateCourse));
-    userService.removeCourse(dateCourse.getId(), userEmail);
+    when(courseRepository.findById(course.getId())).thenReturn(Optional.of(course));
+    userService.removeCourse(course.getId(), userEmail);
 
     verify(userRepository, atLeast(1)).findByEmail(any());
-    verify(dateCourseRepository, atLeast(1)).findById(any());
-    verify(userDateCourseSaveRepository, times(1)).deleteByUserIdAndDateCourseId(any(), any());
+    verify(courseRepository, atLeast(1)).findById(any());
+    verify(userCourseSaveRepository, times(1)).deleteByUserIdAndCourseId(any(), any());
   }
 
   @Test
@@ -225,19 +225,19 @@ public class UserServiceTest {
     String userEmail = "test@naver.com";
     User user = new User();
     user.setEmail(userEmail);
-    DateCourse dateCourse1 = new DateCourse(user, "test1");
-    DateCourse dateCourse2 = new DateCourse(user, "test2");
-    DateCourse dateCourse3 = new DateCourse(user, "test3");
-    List<DateCourse> list = new ArrayList<>();
-    list.add(dateCourse1);
-    list.add(dateCourse2);
-    list.add(dateCourse3);
+    Course course1 = new Course(user, "test1");
+    Course course2 = new Course(user, "test2");
+    Course course3 = new Course(user, "test3");
+    List<Course> list = new ArrayList<>();
+    list.add(course1);
+    list.add(course2);
+    list.add(course3);
     Pageable pageable = PageRequest.of(0, 3);
-    Page<DateCourse> page = new PageImpl<>(list, pageable, 3);
+    Page<Course> page = new PageImpl<>(list, pageable, 3);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(dateCourseRepository.findAllDateCourseByUserId(user.getId(), pageable)).thenReturn(page);
-    Page<RecentDateCourseDto> myCourse = userService.getMyCourses(userEmail, pageable);
+    when(courseRepository.findAllCourseByUserId(user.getId(), pageable)).thenReturn(page);
+    Page<RecentCourseDto> myCourse = userService.getMyCourses(userEmail, pageable);
 
     verify(userRepository, times(1)).findByEmail(userEmail);
     assertEquals(myCourse.getContent().size(), 3);
@@ -250,17 +250,17 @@ public class UserServiceTest {
     String userEmail = "test@naver.com";
     User user = new User();
     user.setEmail(userEmail);
-    DateCourse dateCourse = new DateCourse(user, "test");
-    UserDateCourseSave userDateCourseSave = new UserDateCourseSave(user, dateCourse);
-    List<UserDateCourseSave> list = new ArrayList<>();
-    list.add(userDateCourseSave);
+    Course course = new Course(user, "test");
+    UserCourseSave userCourseSave = new UserCourseSave(user, course);
+    List<UserCourseSave> list = new ArrayList<>();
+    list.add(userCourseSave);
     Pageable pageable = PageRequest.of(0, 1);
-    Page<UserDateCourseSave> page = new PageImpl<>(list, pageable, 1);
+    Page<UserCourseSave> page = new PageImpl<>(list, pageable, 1);
 
     when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    when(userDateCourseSaveRepository.findAllUserDateCourseSavePageByUserId(user.getId(), pageable))
+    when(userCourseSaveRepository.findAllUserCourseSavePageByUserId(user.getId(), pageable))
         .thenReturn(page);
-    Page<SavedDateCourseDto> savedCourseListResult = userService
+    Page<SavedCourseDto> savedCourseListResult = userService
         .getSavedCourses(userEmail, pageable);
 
     verify(userRepository, times(1)).findByEmail(userEmail);

@@ -1,4 +1,4 @@
-package me.toy.server.entity;
+package me.toy.server.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
