@@ -67,7 +67,7 @@ class CourseControllerTest {
         .locationList(locationList).build();
     String body = objectMapper.writeValueAsString(requestDtoList);
 
-    mockMvc.perform(post("/datecourses")
+    mockMvc.perform(post("/courses")
             .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
             .param("courseTitle", "testCourse")
             .content(body))
@@ -78,10 +78,10 @@ class CourseControllerTest {
   }
 
   @Test
-  @DisplayName("사용자가 좋아요 버튼 누를시 해당 코스의 좋아요 값을 1 증가 시킨다")
+  @DisplayName("사용자가 좋아요 버튼 누를시 해당 코스의 좋아요 시킨다")
   public void updateCourseLike() throws Exception {
 
-    mockMvc.perform(post("/datecourses/1/like"))
+    mockMvc.perform(post("/courses/1/like"))
         .andDo(print())
         .andExpect(status().isOk());
 
@@ -89,10 +89,10 @@ class CourseControllerTest {
   }
 
   @Test
-  @DisplayName("사용자가 좋아요 누른 코스의 좋아요 버튼을 다시 누를시 해당 코스의 좋아요를 1 감소 시킨다")
+  @DisplayName("사용자가 좋아요 누른 코스의 좋아요 버튼을 다시 누를시 좋아요를 취소 시킨다")
   public void updateCourseUnlike() throws Exception {
 
-    mockMvc.perform(delete("/datecourses/1/like"))
+    mockMvc.perform(delete("/courses/1/like"))
         .andDo(print())
         .andExpect(status().isOk());
 
@@ -118,7 +118,7 @@ class CourseControllerTest {
 
     when(courseService.getRecentCourses(pageable)).thenReturn(page);
 
-    mockMvc.perform(get("/datecourses/recent?page=0&size=2"))
+    mockMvc.perform(get("/courses/recent?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(page)))
         .andDo(print())
@@ -151,7 +151,7 @@ class CourseControllerTest {
 
     when(courseService.getLikedOrderCourses(pageable)).thenReturn(page);
 
-    mockMvc.perform(get("/datecourses/thumbUp?page=0j&size=2"))
+    mockMvc.perform(get("/courses/like?page=0j&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(page)))
         .andDo(print())
@@ -164,7 +164,7 @@ class CourseControllerTest {
   @DisplayName("사용자가 데이트 코스에 댓글 입력 요청시 데이트 코스에 댓글 등록시킨다")
   public void registCourseComment() throws Exception {
 
-    mockMvc.perform(post("/datecourses/1/comment")
+    mockMvc.perform(post("/courses/1/comment")
             .content("comment for test!")
             .contentType(MediaType.APPLICATION_JSON))
         .andDo(print())

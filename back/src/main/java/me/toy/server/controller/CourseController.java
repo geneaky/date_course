@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/datecourses")
+@RequestMapping("/courses")
 @RequiredArgsConstructor
 public class CourseController {
 
@@ -29,7 +29,7 @@ public class CourseController {
   @Secured("ROLE_USER")
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   @ApiOperation("데이트 코스 등록")
-  public void registDateCourse(
+  public void registCourse(
       @ModelAttribute RegistCourseFormDto registCourseFormDto,
       @LoginUser String userEmail) {
 
@@ -37,33 +37,33 @@ public class CourseController {
   }
 
   @Secured("ROLE_USER")
-  @PostMapping("/{dateCourseId}/like")
+  @PostMapping("/{courseId}/like")
   @ApiOperation("데이트 코스 좋아요")
-  public void likeDateCourse(@PathVariable Long dateCourseId,
+  public void likeCourse(@PathVariable Long courseId,
       @LoginUser String userEmail) {
 
-    courseService.likeCourse(dateCourseId, userEmail);
+    courseService.likeCourse(courseId, userEmail);
   }
 
   @Secured("ROLE_USER")
-  @DeleteMapping("/{dateCourseId}/like")
+  @DeleteMapping("/{courseId}/like")
   @ApiOperation("데이트 코스 좋아요 취소")
-  public void unlikeDateCourse(@PathVariable Long dateCourseId,
+  public void unlikeCourse(@PathVariable Long courseId,
       @LoginUser String userEmail) {
 
-    courseService.unlikeCourse(dateCourseId, userEmail);
+    courseService.unlikeCourse(courseId, userEmail);
   }
 
   @GetMapping("/recent")
   @ApiOperation("최신순 데이트 코스 제공")
-  public Page<RecentCourseDto> getRecentOrderDateCourses(Pageable pageable) {
+  public Page<RecentCourseDto> getRecentOrderCourses(Pageable pageable) {
 
     return courseService.getRecentCourses(pageable);
   }
 
-  @GetMapping("/thumbUp")
+  @GetMapping("/like")
   @ApiOperation("좋아요순 데이트 코스 제공")
-  public Page<LikeOrderCourseDto> getLikeOrderDateCourses(Pageable pageable) {
+  public Page<LikeOrderCourseDto> getLikeOrderCourses(Pageable pageable) {
 
     return courseService.getLikedOrderCourses(pageable);
   }
