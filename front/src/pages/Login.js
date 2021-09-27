@@ -19,7 +19,7 @@ const Login = () => {
       </StyledLoginButton>
       <div>
         <p>회원가입</p>
-        <form action="/signUp" method="POST">
+        <form action="/user/signUp" method="POST">
           <input type="text" name="email" placeholder="email" />
           <input type="password" name="password" placeholder="password" />
           <input type="text" name="nickName" placeholder="nickname" />
