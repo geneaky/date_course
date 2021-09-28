@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +19,7 @@ import java.util.List;
 import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
 import me.toy.server.dto.user.UserRequestDto.AddFollowerRequest;
 import me.toy.server.dto.user.UserRequestDto.RemoveFollowerRequest;
+import me.toy.server.dto.user.UserRequestDto.UserRegisterForm;
 import me.toy.server.dto.user.UserResponseDto.FollowerUserDto;
 import me.toy.server.dto.user.UserResponseDto.FollowingUserDto;
 import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
@@ -55,6 +57,22 @@ class UserControllerTest {
   private MockMvc mockMvc;
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Test
+  @DisplayName("사용자의 정보를 받아서 회원가입 후 리다이렉션 시킨다.")
+  public void registerUserTest() throws Exception {
+
+    UserRegisterForm userRegisterForm = new UserRegisterForm("test@naver.com", "asdf", "testUser");
+
+    mockMvc.perform(post("/user/signUp")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(userRegisterForm)))
+        .andDo(print())
+        .andExpect(redirectedUrl("http://localhost:3000"))
+        .andExpect(status().is3xxRedirection());
+
+    verify(userService).createUserAccount(any());
+  }
 
   @Test
   @DisplayName("로그인한 사용자가 사용자 정보 요청시 사용자 정보를 응답한다")
@@ -102,7 +120,7 @@ class UserControllerTest {
 
   @Test
   @DisplayName("사용자가 저장한 코스를 저장 취소 요청시 저장한 코스에서 삭제한다")
-  public void delteUserSavedCourse() throws Exception {
+  public void deleteUserSavedCourse() throws Exception {
 
     mockMvc.perform(delete("/user/save/courses/1"))
         .andDo(print())
@@ -150,6 +168,17 @@ class UserControllerTest {
         .andExpect(content().json(objectMapper.writeValueAsString(page)))
         .andDo(print())
         .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("사용자가 작성한 코스 삭제 요청시 지정한 코스를 삭제한다.")
+  public void removeMyCourseTest() throws Exception {
+
+    mockMvc.perform(delete("/user/courses/1"))
+        .andDo(print())
+        .andExpect(status().isOk());
+
+    verify(userService).removeMyCourse(any(), any());
   }
 
   @Test

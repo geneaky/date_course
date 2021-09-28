@@ -1,6 +1,7 @@
 package me.toy.server.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.atMostOnce;
@@ -16,11 +17,17 @@ import java.util.Optional;
 import me.toy.server.cloud.S3Uploader;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
 import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
+import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
+import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
 import me.toy.server.entity.Comment;
 import me.toy.server.entity.Course;
 import me.toy.server.entity.Tag;
 import me.toy.server.entity.User;
 import me.toy.server.entity.UserCourseLike;
+import me.toy.server.exception.course.AlreadyLikeCourseException;
+import me.toy.server.exception.course.AlreadyUnlikeCourseException;
+import me.toy.server.exception.course.CourseNotFoundException;
+import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.repository.CommentRepository;
 import me.toy.server.repository.CourseRepository;
 import me.toy.server.repository.LocationRepository;
@@ -34,6 +41,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.multipart.MultipartFile;
 
 @ExtendWith(MockitoExtension.class)
@@ -76,7 +88,7 @@ class CourseServiceTest {
 
   @Test
   @DisplayName("데이트 코스 등록 성공")
-  public void registDateCourse() throws Exception {
+  public void registCourseTest() throws Exception {
 
     String userEmail = "test@naver.com";
     String title = "testTitle";
@@ -99,8 +111,21 @@ class CourseServiceTest {
   }
 
   @Test
+  @DisplayName("인가 받지 않은 사용자의 코스 등록은 예외가 발생 합니다.")
+  public void registCourseWithUnAuthorizedUser() throws Exception {
+
+    RegistCourseFormDto registCourseFormDto = mock(RegistCourseFormDto.class);
+    String unAuthorizedUserEmail = "NONONO@gmail.com";
+
+    assertThrows(UserNotFoundException.class, () -> {
+      courseService.registCourse(registCourseFormDto, unAuthorizedUserEmail);
+    });
+
+  }
+
+  @Test
   @DisplayName("사진 첨부 없는 데이트 코스 등록 성공")
-  public void courseRegistWithoutPhotos() throws Exception {
+  public void registCourseWithoutPhotosTest() throws Exception {
 
     String userEmail = "test@naver.com";
     String title = "testTitle";
@@ -125,7 +150,7 @@ class CourseServiceTest {
 
   @Test
   @DisplayName("사진 첨부된 데이트 코스 등록 성공")
-  public void courseRegistWithPhotos() throws Exception {
+  public void registCourseWithPhotosTest() throws Exception {
 
     String userEmail = "test@naver.com";
     String title = "testTitle";
@@ -150,7 +175,7 @@ class CourseServiceTest {
 
   @Test
   @DisplayName("사진 첨부가 일부만 되어있는 데이트 코스 등록 성공")
-  public void registDateCourseWithPartialPhotos() throws Exception {
+  public void registCourseWithPartialPhotosTest() throws Exception {
 
     String userEmail = "test@naver.com";
     String title = "testTitle";
@@ -181,7 +206,7 @@ class CourseServiceTest {
 
   @Test
   @DisplayName("태그가 걸려있는 데이트 코스 태그 등록 성공")
-  public void registDateCourseWithExistedTags() throws Exception {
+  public void registCourseWithExistedTagsTest() throws Exception {
 
     String title = "testTitle";
     String userEmail = "test@naver.com";
@@ -213,7 +238,7 @@ class CourseServiceTest {
 
   @Test
   @DisplayName("새로운 데이트 코스 태그 등록")
-  public void registDateCourseWithNewTags() throws Exception {
+  public void registCourseWithNewTagsTest() throws Exception {
 
     String title = "testTitle";
     String userEmail = "test@naver.com";
@@ -243,7 +268,7 @@ class CourseServiceTest {
 
   @Test
   @DisplayName("좋아요를 누르지 않은 코스라면 좋아요를 등록한다.")
-  public void plusLikeCount() throws Exception {
+  public void likeCourseTest() throws Exception {
 
     String title = "testTitle";
     String userEmail = "test@naver.com";
@@ -261,8 +286,55 @@ class CourseServiceTest {
   }
 
   @Test
+  @DisplayName("인가 받지 않은 사용자의 좋아요는 예외가 발생 합니다.")
+  public void likeCourseWithUnAuthorizedUserTest() throws Exception {
+
+    Long courseId = 1L;
+    String unAuthorizedUserEmail = "NONONONO@gamil.com";
+
+    assertThrows(UserNotFoundException.class, () -> {
+      courseService.likeCourse(courseId, unAuthorizedUserEmail);
+    });
+  }
+
+  @Test
+  @DisplayName("존재하지 않는 코스에 대한 좋아요는 예외가 발생 합니다.")
+  public void likeNotExistedCourseTest() throws Exception {
+
+    Long courseId = 1L;
+    String unAuthorizedUserEmail = "NONONONO@gamil.com";
+    User mockedUser = mock(User.class);
+    when(userRepository.findByEmail(unAuthorizedUserEmail)).thenReturn(
+        Optional.ofNullable(mockedUser));
+
+    assertThrows(CourseNotFoundException.class, () -> {
+      courseService.likeCourse(courseId, unAuthorizedUserEmail);
+    });
+
+  }
+
+  @Test
+  @DisplayName("이미 좋아요 등록된 코스에 대한 좋아요는 예외를 발생시킵니다.")
+  public void likeAlreadyLikedCourseTest() throws Exception {
+
+    User mockedUser = mock(User.class);
+    String mockedUserEmail = "nonono@gmail.com";
+    Course mockedCourse = mock(Course.class);
+    Long mockedCourseId = 1L;
+    UserCourseLike userCourseLike = mock(UserCourseLike.class);
+    when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(mockedUser));
+    when(courseRepository.findById(any())).thenReturn(Optional.ofNullable(mockedCourse));
+    when(userCourseLikeRepository.findLikeByUserIdAndCourseId(any(), any())).thenReturn(
+        Optional.of(userCourseLike));
+
+    assertThrows(AlreadyLikeCourseException.class, () -> {
+      courseService.likeCourse(mockedCourseId, mockedUserEmail);
+    });
+  }
+
+  @Test
   @DisplayName("좋아요를 누른 코스라면 좋아요를 취소한다")
-  public void minusLikeCount() throws Exception {
+  public void unlikeCourseTest() throws Exception {
     String title = "testTitle";
     String userEmail = "test@naver.com";
     User user = createUser();
@@ -280,8 +352,56 @@ class CourseServiceTest {
   }
 
   @Test
+  @DisplayName("인가 받지 않은 사용자의 좋아요 취소는 예외가 발생한다.")
+  public void unlikeCourseWithUnAuthorizedUserTest() throws Exception {
+
+    Long courseId = 1L;
+    String unAuthorizedUserEmail = "NONONONO@gamil.com";
+
+    assertThrows(UserNotFoundException.class, () -> {
+
+      courseService.unlikeCourse(courseId, unAuthorizedUserEmail);
+    });
+  }
+
+  @Test
+  @DisplayName("존재하지 않는 코스에 대한 좋아요 취소는 예외가 발생한다.")
+  public void unlikeNotExistedCourseTest() throws Exception {
+
+    String mockedUserEmail = "OKOKOK@gmail.com";
+    Long mockedCourseId = 1L;
+    User user = mock(User.class);
+
+    when(userRepository.findByEmail(mockedUserEmail)).thenReturn(Optional.ofNullable(user));
+    when(courseRepository.findById(mockedCourseId)).thenReturn(Optional.empty());
+
+    assertThrows(CourseNotFoundException.class, () -> {
+      courseService.unlikeCourse(mockedCourseId, mockedUserEmail);
+    });
+  }
+
+  @Test
+  @DisplayName("좋아요를 누르지 않은 코스를 좋아요 취소시 예외가 발생합니다.")
+  public void unlikeCousreAlreadyUnlikedTest() throws Exception {
+
+    User mockedUser = mock(User.class);
+    String mockedUserEmail = "OKOKOK@gmail.com";
+    Course mockedCourse = mock(Course.class);
+    Long mockedCourseId = 1L;
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(mockedUser));
+    when(courseRepository.findById(any())).thenReturn(Optional.ofNullable(mockedCourse));
+    when(userCourseLikeRepository.findLikeByUserIdAndCourseId(any(), any())).thenReturn(
+        Optional.empty());
+
+    assertThrows(AlreadyUnlikeCourseException.class, () -> {
+      courseService.unlikeCourse(mockedCourseId, mockedUserEmail);
+    });
+  }
+
+  @Test
   @DisplayName("데이트 코스에 댓글을 등록 시킨다")
-  public void registCommentOnDateCourse() throws Exception {
+  public void registCommentTest() throws Exception {
 
     String title = "testTitle";
     String userEmail = "test@naver.com";
@@ -300,5 +420,94 @@ class CourseServiceTest {
     verify(commentRepository, times(1)).save(any());
     assertThat(commentRepository.findById(dateCourseComment.getId()).get().getContent())
         .isEqualTo(comment);
+  }
+
+  @Test
+  @DisplayName("인가 받지 않은 사용자의 댓글 등록은 예외가 발생합니다.")
+  public void registCommentWithUnAuthorizedUser() throws Exception {
+
+    String unAuthorizedUserEmail = "NONONO@gmail.com";
+    Long courseId = 1L;
+    String comment = "test comment";
+
+    assertThrows(UserNotFoundException.class, () -> {
+      courseService.registComment(courseId, comment, unAuthorizedUserEmail);
+    });
+  }
+
+  @Test
+  @DisplayName("존재 하지 않는 코스에 댓글 등록시 예외가 발생합니다.")
+  public void registCommentNotExistedCourseTest() throws Exception {
+
+    User mockedUser = mock(User.class);
+    String mockedUserEmail = "OKOKOK@gmail.com";
+    Long courseId = 1L;
+    String comment = "test comment";
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(mockedUser));
+
+    assertThrows(CourseNotFoundException.class, () -> {
+      courseService.registComment(courseId, comment, mockedUserEmail);
+    });
+  }
+
+  @Test
+  @DisplayName("최신순 코스를 페이징하여 반환 합니다.")
+  public void getRecentCoursesTest() throws Exception {
+
+    User user = User.builder()
+        .email("test@naver.com")
+        .course(new ArrayList<>())
+        .userCourseLikes(new ArrayList<>())
+        .userCourseSaves(new ArrayList<>())
+        .userFollows(new ArrayList<>())
+        .build();
+    Course course1 = new Course(user, "course1");
+    Course course2 = new Course(user, "course2");
+    Course course3 = new Course(user, "course3");
+    List<Course> courses = new ArrayList<>(Arrays.asList(course3, course2, course1));
+
+    Pageable pageable = PageRequest.of(1, 3, Direction.DESC, "recent");
+    Page<Course> coursePage = new PageImpl<>(courses, pageable, 3);
+    Page<RecentCourseDto> result = coursePage.map(RecentCourseDto::new);
+    when(courseRepository.findAll(pageable)).thenReturn(coursePage);
+
+    Page<RecentCourseDto> recentCourses = courseService.getRecentCourses(pageable);
+
+    assertThat(recentCourses.getContent()).size().isEqualTo(3);
+    assertThat(recentCourses.getContent()).usingRecursiveComparison().isEqualTo(result);
+    verify(courseRepository).findAll(pageable);
+  }
+
+  @Test
+  @DisplayName("좋아요순 코스를 페이징하여 반환합니다.")
+  public void getLikeOrderCoursesTest() throws Exception {
+
+    Pageable pageable = PageRequest.of(1, 3, Direction.DESC, "likeCount");
+    User user = User.builder()
+        .email("test@naver.com")
+        .course(new ArrayList<>())
+        .userCourseLikes(new ArrayList<>())
+        .userCourseSaves(new ArrayList<>())
+        .userFollows(new ArrayList<>())
+        .build();
+    Course course1 = new Course(user, "course1");
+    Course course2 = new Course(user, "course2");
+    Course course3 = new Course(user, "course3");
+    LikeOrderCourseDto courseDto1 = new LikeOrderCourseDto(1L, 3, course1.getLocations());
+    LikeOrderCourseDto courseDto2 = new LikeOrderCourseDto(2L, 2, course2.getLocations());
+    LikeOrderCourseDto courseDto3 = new LikeOrderCourseDto(3L, 1, course3.getLocations());
+    List<LikeOrderCourseDto> courses = new ArrayList<>(
+        Arrays.asList(courseDto1, courseDto2, courseDto3));
+
+    Page<LikeOrderCourseDto> page = new PageImpl<>(courses, pageable, 3);
+
+    when(courseRepository.findLikeOrderCourse(pageable)).thenReturn(page);
+
+    Page<LikeOrderCourseDto> likedOrderCourses = courseService.getLikedOrderCourses(pageable);
+
+    assertThat(likedOrderCourses.getContent()).size().isEqualTo(3);
+    assertThat(likedOrderCourses.getContent()).usingRecursiveComparison().isEqualTo(page);
+    verify(courseRepository).findLikeOrderCourse((pageable));
   }
 }

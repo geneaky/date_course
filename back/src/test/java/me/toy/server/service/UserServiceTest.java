@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
 import me.toy.server.dto.user.UserRequestDto.AddFollowerRequest;
 import me.toy.server.dto.user.UserRequestDto.RemoveFollowerRequest;
+import me.toy.server.dto.user.UserRequestDto.UserRegisterForm;
 import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
 import me.toy.server.dto.user.UserResponseDto.UserDto;
 import me.toy.server.dto.user.UserResponseDto.UserFollowers;
@@ -26,6 +28,10 @@ import me.toy.server.entity.User;
 import me.toy.server.entity.UserCourseLike;
 import me.toy.server.entity.UserCourseSave;
 import me.toy.server.entity.UserFollow;
+import me.toy.server.exception.course.CourseNotFoundException;
+import me.toy.server.exception.user.AlreadyFollowUserException;
+import me.toy.server.exception.user.AlreadyUnfollowUserException;
+import me.toy.server.exception.user.EmailDuplicationException;
 import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.repository.CourseRepository;
 import me.toy.server.repository.FollowRepository;
@@ -42,6 +48,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -61,9 +68,38 @@ public class UserServiceTest {
   @Mock
   UserFollowRepository userFollowRepository;
 
+  @Mock
+  PasswordEncoder bCryptPasswordEncorder;
+
   @InjectMocks
   UserService userService;
 
+  @Test
+  @DisplayName("사용자 정보 폼으로 사용자 계정을 생성한다.")
+  public void createUserAccountTest() throws Exception {
+
+    UserRegisterForm userRegisterFrom = new UserRegisterForm("test@naver.com", "asdf", "testUser");
+
+    when(userRepository.findByEmail(userRegisterFrom.getEmail())).thenReturn(Optional.empty());
+
+    userService.createUserAccount(userRegisterFrom);
+
+    verify(userRepository).save(any());
+  }
+
+  @Test
+  @DisplayName("이미 가입합 유저가 다시 회원가입을 요청하면 예외가 발생한다.")
+  public void createUserAccountWithDuplicatedEmailTest() throws Exception {
+
+    User mockedDuplicatedUser = mock(User.class);
+    UserRegisterForm userRegisterForm = mock(UserRegisterForm.class);
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(mockedDuplicatedUser));
+
+    assertThrows(EmailDuplicationException.class, () -> {
+      userService.createUserAccount(userRegisterForm);
+    });
+  }
 
   @Test
   @DisplayName("로그인하지 않은 사용자의 정보 요청시 예외가 발생한다")
@@ -122,6 +158,17 @@ public class UserServiceTest {
   }
 
   @Test
+  @DisplayName("인가 받지 않은 사용자가 좋아요를 등록한 코스의 ID를 요청시 예외가 발생한다.")
+  public void getLikedCourseIdsWithUnAuthorizedUser() throws Exception {
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.getLikedCourseIds(any());
+    });
+  }
+
+  @Test
   @DisplayName("사용자가 좋아요 누른 코스가 없을시 빈 목록을 반환한다")
   public void whenNoUserLikedDateCourseThenReturnEmptyList() throws Exception {
 
@@ -161,6 +208,32 @@ public class UserServiceTest {
   }
 
   @Test
+  @DisplayName("인가 받지 않은 사용자가 코스 등록시 예외가 발생한다.")
+  public void addCourseWithUnAuthorizedUserTest() throws Exception {
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.addCourse(any(), "NONO@naver.com");
+    });
+  }
+
+  @Test
+  @DisplayName("존재하지 않는 코스를 등록하려고 하면 예외가 발생한다.")
+  public void addNotExistedCourseTest() throws Exception {
+
+    User mockedUser = mock(User.class);
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(mockedUser));
+    when(courseRepository.findById(any())).thenReturn(Optional.empty());
+
+    assertThrows(CourseNotFoundException.class, () -> {
+      userService.addCourse(1L, "OKOK@naver.com");
+    });
+  }
+
+
+  @Test
   @DisplayName("사용자가 저장한 데이트 코스의 ID 목록을 반환한다")
   public void getUserSavedDateCourseIDs() throws Exception {
 
@@ -182,6 +255,17 @@ public class UserServiceTest {
 
     assertEquals(resultSavedCourse, testSavedCourseList);
     verify(userRepository, atLeast(1)).findByEmail(any());
+  }
+
+  @Test
+  @DisplayName("인가 받지 않은 사용자가 저장된 코스 ID 요청시 예외가 발생한다.")
+  public void getSavedCourseIdsWithUnAuthorizedUserTest() throws Exception {
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.getSavedCourseIds("NONO@naver.com");
+    });
   }
 
   @Test
@@ -219,6 +303,31 @@ public class UserServiceTest {
   }
 
   @Test
+  @DisplayName("인가 받지 않은 사용자가 코스를 지우려고 하면 예외가 발생한다.")
+  public void removeCourseWithUnAuthorizedUser() throws Exception {
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.removeCourse(any(), "NONO@naver.com");
+    });
+  }
+
+  @Test
+  @DisplayName("등록되지 않은 코스를 삭제 시도시 예외가 발생한다.")
+  public void removeNotExistedCourseTest() throws Exception {
+
+    User mockedUser = mock(User.class);
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(mockedUser));
+    when(courseRepository.findById(any())).thenReturn(Optional.empty());
+
+    assertThrows(CourseNotFoundException.class, () -> {
+      userService.removeCourse(1L, "OKOK@naver.com");
+    });
+  }
+
+  @Test
   @DisplayName("사용자가 작성한 데이트 코스 목록을 반환한다")
   public void getDateCoursesMadeByUser() throws Exception {
 
@@ -241,6 +350,56 @@ public class UserServiceTest {
 
     verify(userRepository, times(1)).findByEmail(userEmail);
     assertEquals(myCourse.getContent().size(), 3);
+  }
+
+  @Test
+  @DisplayName("인가 받지 않은 사용자가 자신이 만든 코스 요청시 예외가 발생한다.")
+  public void getMyCourseWithUnAuthorizedUserTest() throws Exception {
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.getMyCourses("NONO@gmail.com", any());
+    });
+  }
+
+  @Test
+  @DisplayName("사용자가 작성한 코스를 삭제한다.")
+  public void removeMyCourseTest() throws Exception {
+    User mockedUser = mock(User.class);
+    Course mockedCourse = mock(Course.class);
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(mockedUser));
+    when(courseRepository.findById(any())).thenReturn(Optional.ofNullable(mockedCourse));
+
+    userService.removeMyCourse(1L, "OKOK@naver.com");
+
+    verify(courseRepository).delete(mockedCourse);
+  }
+
+  @Test
+  @DisplayName("인가받지 않은 사용자가 자신이 작성한 코스를 삭제 시도시 예외가 발생한다.")
+  public void removeMyCourseWithUnAuthorizedUserTest() throws Exception {
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.removeMyCourse(any(), "NONO@naver.com");
+    });
+  }
+
+  @Test
+  @DisplayName("자신이 작성한 코스에 존재하지 않는 코스를 삭제 시도시 예외가 발생한다.")
+  public void removeMyCourseNotExistedTest() throws Exception {
+
+    User mockedUser = mock(User.class);
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(mockedUser));
+    when(courseRepository.findById(any())).thenReturn(Optional.empty());
+
+    assertThrows(CourseNotFoundException.class, () -> {
+      userService.removeMyCourse(1L, "OKOK@naver.com");
+    });
   }
 
   @Test
@@ -268,6 +427,17 @@ public class UserServiceTest {
   }
 
   @Test
+  @DisplayName("인가 받지 않은 사용자가 저장된 코스 요청시 예외가 발생한다.")
+  public void getSavedCoursesWithUnAuthorizedUser() throws Exception {
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.getSavedCourses("NONO@naver.com", any());
+    });
+  }
+
+  @Test
   @DisplayName("사용자 팔로우를 성공")
   public void addFollowerInUserFollowersTest() throws Exception {
 
@@ -290,6 +460,51 @@ public class UserServiceTest {
     verify(followRepository, times(1)).save(any());
     verify(userFollowRepository, times(1)).save(any());
     assertThat(user.getUserFollows().size()).isEqualTo(1);
+  }
+
+  @Test
+  @DisplayName("인가받지 않은 사용자가 팔로우 시도시 예외가 발생한다.")
+  public void followUserWithUnAuthorizedUserTest() throws Exception {
+
+    AddFollowerRequest addFollowerRequest = mock(AddFollowerRequest.class);
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.followUser(addFollowerRequest, "NONO@naver.com");
+    });
+  }
+
+  @Test
+  @DisplayName("존재하지 않는 사용자를 팔로우 시도시 예외가 발생한다.")
+  public void followNotExistedUserTest() throws Exception {
+
+    User mockedUser = mock(User.class);
+    AddFollowerRequest addFollowerRequest = new AddFollowerRequest(13L);
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(mockedUser));
+    when(userRepository.findById(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.followUser(addFollowerRequest, "OKOK@naver.com");
+    });
+  }
+
+  @Test
+  @DisplayName("이미 팔로우 상태인 사용자를 팔로우 시도시 예외가 발생한다.")
+  public void AlreadyFollowUserFollowTest() throws Exception {
+
+    User mockedUser = mock(User.class);
+    User mockedTargetUser = mock(User.class);
+    AddFollowerRequest addFollowerRequest = new AddFollowerRequest(13L);
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(mockedUser));
+    when(userRepository.findById(any())).thenReturn(Optional.ofNullable(mockedTargetUser));
+    when(userFollowRepository.isFollow(any(), any())).thenReturn(true);
+
+    assertThrows(AlreadyFollowUserException.class, () -> {
+      userService.followUser(addFollowerRequest, "OKOK@naver.com");
+    });
   }
 
   @Test
@@ -320,6 +535,17 @@ public class UserServiceTest {
   }
 
   @Test
+  @DisplayName("인가 받지 않은 사용자가 팔로잉 목록 조회 시도시 예외가 발생한다.")
+  public void getUserFollowingsWithUnAuthorizedUserTest() throws Exception {
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.getUserFollowings("NONO@naver.com");
+    });
+  }
+
+  @Test
   @DisplayName("사용자 팔로우 목록에서 선택한 팔로우 사용자를 언팔로우")
   public void removeFollowerInUserFollowersTest() throws Exception {
 
@@ -338,12 +564,36 @@ public class UserServiceTest {
         follow.getFollowUserId());
 
     when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
-    when(userRepository.findById(follow.getFollowUserId())).thenReturn(Optional.of(followUser));
     when(userFollowRepository.isFollow(user.getId(), follow.getFollowUserId())).thenReturn(true);
     userService.unfollowUser(removeFollowerRequest, "test@naver.com");
 
     verify(userFollowRepository, times(1)).deleteUserFollow(any(), any());
     verify(followRepository, times(1)).deleteFollow(any(), any());
+  }
+
+  @Test
+  @DisplayName("인가 받지 않은 사용자가 팔로우 취소 시도시 예외가 발생한다.")
+  public void unfollowUserWithUnAuthorizedUserTest() throws Exception {
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.unfollowUser(any(), "NONO@naver.com");
+    });
+  }
+
+  @Test
+  @DisplayName("팔로우하고 있지 않는 사용자 팔로우 취소시 예외가 발생한다.")
+  public void unfollowAlreadyUnfollowUserTest() throws Exception {
+
+    User mockedUser = mock(User.class);
+    RemoveFollowerRequest removeFollowerRequest = new RemoveFollowerRequest(1L);
+    when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(mockedUser));
+    when(userFollowRepository.isFollow(any(), any())).thenReturn(false);
+
+    assertThrows(AlreadyUnfollowUserException.class, () -> {
+      userService.unfollowUser(removeFollowerRequest, "OKOK@naver.com");
+    });
   }
 
   @Test
@@ -379,5 +629,16 @@ public class UserServiceTest {
 
     assertThat(userFollowersUsers.getFollowerUserDtos().size()).isEqualTo(2);
     assertThat(user.getUserFollows().size()).isEqualTo(2);
+  }
+
+  @Test
+  @DisplayName("인가 받지 않은 사용자가 자신의 팔로워 조회시 예외가 발생한다.")
+  public void getUserFollowersWithUnAuthorizedUserTest() throws Exception {
+
+    when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> {
+      userService.getUserFollowers("NONO@gmail.com");
+    });
   }
 }

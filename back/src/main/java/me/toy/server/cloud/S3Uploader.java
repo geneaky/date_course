@@ -42,12 +42,10 @@ public class S3Uploader {
       throw new NotSupportedExtentionException("지원되지 않은 파일 형식입니다.");
     }
 
-    buffer.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
-    buffer.append(".jpg");
-    String saveFileName = buffer.toString();
+    String saveFileName = createFileName();
     Path filePath = convert(file, saveFileName);
-
     amazonS3.putObject(BUCKET, saveFileName, filePath.toFile());
+
     try {
       Files.deleteIfExists(filePath);
     } catch (IOException exception) {
@@ -57,7 +55,13 @@ public class S3Uploader {
     return saveFileName;
   }
 
-  public Path convert(MultipartFile file, String saveFileName) {
+  private String createFileName() {
+    buffer.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
+    buffer.append(".jpg");
+    return buffer.toString();
+  }
+
+  private Path convert(MultipartFile file, String saveFileName) {
 
     Path filePath = Paths.get(saveFileName);
     try {

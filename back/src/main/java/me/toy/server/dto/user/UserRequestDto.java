@@ -2,6 +2,7 @@ package me.toy.server.dto.user;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class UserRequestDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   public static class AddFollowerRequest {
 
+    @NotNull
     private Long followerId;
 
     @Builder
@@ -28,6 +30,7 @@ public class UserRequestDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   public static class RemoveFollowerRequest {
 
+    @NotNull
     private Long followerId;
 
     @Builder

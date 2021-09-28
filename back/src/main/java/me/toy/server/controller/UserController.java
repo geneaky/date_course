@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,7 +39,8 @@ public class UserController {
 
   @ApiOperation("사용자 회원가입")
   @PostMapping("/signUp")
-  public void registerUser(@Valid UserRegisterForm userRegisterForm, HttpServletResponse response)
+  public void registerUser(@Valid @RequestBody UserRegisterForm userRegisterForm,
+      HttpServletResponse response)
       throws IOException {
 
     userService.createUserAccount(userRegisterForm);
@@ -107,7 +109,7 @@ public class UserController {
 
   @ApiOperation("사용자 팔로우")
   @PostMapping("/follows")
-  public void followUser(@Valid AddFollowerRequest addFollowerRequest,
+  public void followUser(@Valid @RequestBody AddFollowerRequest addFollowerRequest,
       @LoginUser String userEmail) {
 
     userService.followUser(addFollowerRequest, userEmail);
@@ -115,7 +117,7 @@ public class UserController {
 
   @ApiOperation("사용자 언팔로우")
   @DeleteMapping("/follows")
-  public void unfollowUser(@Valid RemoveFollowerRequest removeFollowerRequest,
+  public void unfollowUser(@Valid @RequestBody RemoveFollowerRequest removeFollowerRequest,
       @LoginUser String userEmail) {
 
     userService.unfollowUser(removeFollowerRequest, userEmail);
