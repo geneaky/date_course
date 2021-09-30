@@ -78,9 +78,10 @@ class UserControllerTest {
   @DisplayName("로그인한 사용자가 사용자 정보 요청시 사용자 정보를 응답한다")
   public void getUserInfo() throws Exception {
 
-    User user = new User();
-    user.setName("testUser");
-    user.setEmail("test@naver.com");
+    User user = User.builder()
+        .name("testUser")
+        .email("test@naver.com")
+        .build();
     UserDto userDto = new UserDto(user);
 
     when(userService.getUserInfo("test@naver.com")).thenReturn(userDto);
@@ -148,9 +149,12 @@ class UserControllerTest {
   @DisplayName("자신이 작성한 코스 목록을 요청시 사용자가 작성한 코스들 목록을 반환한다")
   public void getMyCourseList() throws Exception {
 
-    User user = new User();
-    user.setName("testUser");
-    user.setEmail("test@naver.com");
+    User user = User.builder()
+        .name("testUser")
+        .email("test@naver.com")
+        .course(new ArrayList<>())
+        .userCourseLikes(new ArrayList<>())
+        .build();
     Course course1 = new Course(user, "testCousr1");
     Course course2 = new Course(user, "testCousr2");
     RecentCourseDto dateCourseDto1 = new RecentCourseDto(course1);
@@ -185,9 +189,13 @@ class UserControllerTest {
   @DisplayName("사용자가 저장한 코스 요청시 사용자가 저장한 코스들 목록을 반환한다")
   public void getSavedCourseList() throws Exception {
 
-    User user = new User();
-    user.setName("testOtherUser");
-    user.setEmail("testOtherUser@naver.com");
+    User user = User.builder()
+        .name("testOtherUser")
+        .email("testOtherUser@naver.com")
+        .course(new ArrayList<>())
+        .userCourseLikes(new ArrayList<>())
+        .userCourseSaves(new ArrayList<>())
+        .build();
     Course course1 = new Course(user, "testCousr1");
     Course course2 = new Course(user, "testCousr2");
     UserCourseSave userCourseSave1 = new UserCourseSave(user, course1);
@@ -214,10 +222,11 @@ class UserControllerTest {
   @DisplayName("사용자가 특정 사용자를 팔로우하는데 성공")
   public void addFollowingUser() throws Exception {
 
-    User user = new User();
-    user.setId(3L);
-    user.setName("testOtherUser");
-    user.setEmail("testOtherUser@naver.com");
+    User user = User.builder()
+        .id(3L)
+        .name("testOtherUser")
+        .email("testOtherUser@naver.com")
+        .build();
     AddFollowerRequest addFollowerRequest = AddFollowerRequest.builder().followerId(3L).build();
 
     mockMvc.perform(post("/user/follows")

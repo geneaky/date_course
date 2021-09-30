@@ -71,6 +71,7 @@ public class UserService {
     return new UserDto(user);
   }
 
+  //  courseService의 역할임
   @Transactional(readOnly = true)
   public List<Long> getLikedCourseIds(String userEmail) {
 
@@ -84,6 +85,7 @@ public class UserService {
         .collect(Collectors.toList());
   }
 
+  //  courseService의 역할임 맞나? 새로운 서비스 ?
   @Transactional
   public void addCourse(Long courseId, String userEmail) {
 
@@ -97,6 +99,7 @@ public class UserService {
     userCourseSaveRepository.save(userCourseSave);
   }
 
+  //  courseService의 역할임
   @Transactional
   public void removeCourse(Long courseId, String userEmail) {
 
@@ -108,6 +111,7 @@ public class UserService {
     userCourseSaveRepository.deleteByUserIdAndCourseId(user.getId(), course.getId());
   }
 
+  //  courseService의 역할임
   @Transactional(readOnly = true)
   public Page<SavedCourseDto> getSavedCourses(String userEmail, Pageable pageable) {
 
@@ -119,6 +123,7 @@ public class UserService {
     return allSavedCourseByUserId.map(SavedCourseDto::new);
   }
 
+  //  courseService의 역할임
   @Transactional(readOnly = true)
   public List<Long> getSavedCourseIds(String userEmail) {
 
@@ -132,6 +137,7 @@ public class UserService {
         .collect(Collectors.toList());
   }
 
+  //  여긴 누구의 역할일까 사용자의 코스를 가져오는거면 userService일까 courseService일까
   @Transactional(readOnly = true)
   public Page<RecentCourseDto> getMyCourses(String userEmail, Pageable pageable) {
 

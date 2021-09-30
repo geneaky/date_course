@@ -1,12 +1,14 @@
 package me.toy.server.security.oauth2;
 
+import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.entity.User;
 import me.toy.server.exception.user.OAuth2AuthenticationProcessingException;
-import me.toy.server.security.oauth2.user.OAuth2UserInfo;
 import me.toy.server.repository.UserRepository;
-import me.toy.server.security.oauth2.user.OAuth2UserInfoFactory;
 import me.toy.server.security.UserPrincipal;
+import me.toy.server.security.oauth2.user.OAuth2UserInfo;
+import me.toy.server.security.oauth2.user.OAuth2UserInfoFactory;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -15,9 +17,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.util.Map;
-import java.util.Optional;
 
 
 @Service
@@ -68,20 +67,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
   }
 
   private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-    User user = new User();
 
-    user.setProvider(
-        OAuth2Provider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
-    user.setProviderId(oAuth2UserInfo.getId());
-    user.setName(oAuth2UserInfo.getName());
-    user.setEmail(oAuth2UserInfo.getEmail());
-    user.setImageUrl(oAuth2UserInfo.getImageUrl());
+    User user = User.builder()
+        .provider(
+            OAuth2Provider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
+        .providerId(oAuth2UserInfo.getId())
+        .name(oAuth2UserInfo.getName())
+        .email(oAuth2UserInfo.getEmail())
+        .imageUrl(oAuth2UserInfo.getImageUrl()).build();
+
     return userRepository.save(user);
   }
 
   private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
-    existingUser.setName(oAuth2UserInfo.getName());
-    existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
+
+    existingUser.updateUserName(oAuth2UserInfo.getName());
+    existingUser.updateImageUrl(oAuth2UserInfo.getImageUrl());
     return userRepository.save(existingUser);
   }
 }

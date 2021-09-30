@@ -103,9 +103,12 @@ class CourseControllerTest {
   @DisplayName("최신 데이트 코스 리스트 요청시 최신순 데이트 코스 목록을 반환한다")
   public void recentCourseList() throws Exception {
 
-    User user = new User();
-    user.setName("testOtherUser");
-    user.setEmail("test@gmail.com");
+    User user = User.builder()
+        .name("testOtherUser")
+        .email("test@gmail.com")
+        .course(new ArrayList<>())
+        .userCourseLikes(new ArrayList<>())
+        .build();
     Course course1 = new Course(user, "testCourse1");
     Course course2 = new Course(user, "testCourse2");
     RecentCourseDto recentCourseDto1 = new RecentCourseDto(course1);
@@ -131,9 +134,11 @@ class CourseControllerTest {
   @DisplayName("인기 데이트 코스 리스트 요청시 좋아요순 데이트 코스 목록을 반환한다")
   public void likeOrderCourseList() throws Exception {
 
-    User user = new User();
-    user.setName("testOtherUser");
-    user.setEmail("test@gmail.com");
+    User user = User.builder()
+        .name("tsetOtherUser")
+        .email("test@gmail.com")
+        .course(new ArrayList<>())
+        .build();
     Course course1 = new Course(user, "testCourse1");
     Course course2 = new Course(user, "testCourse2");
     LikeOrderCourseDto likeOrderCourseDto1 = new LikeOrderCourseDto(course1.getId(),

@@ -72,11 +72,13 @@ class CourseServiceTest {
 
   private User createUser() {
 
-    String userEmail = "test@naver.com";
-    User user = new User();
-    user.setEmail(userEmail);
-
-    return user;
+    return User.builder()
+        .email("test@naver.com")
+        .course(new ArrayList<>())
+        .userCourseLikes(new ArrayList<>())
+        .userCourseSaves(new ArrayList<>())
+        .comments(new ArrayList<>())
+        .build();
   }
 
   private ArrayList<RegistLocationFormDto> createRequestList() {

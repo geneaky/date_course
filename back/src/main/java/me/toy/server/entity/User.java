@@ -13,13 +13,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import me.toy.server.security.oauth2.OAuth2Provider;
 
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -29,12 +27,11 @@ public class User extends BaseEntity {
   @GeneratedValue
   @Column(name = "USER_ID")
   private Long id;
+  @Column(unique = true)
   private String email;
   private String password;
   private String name;
-
   private String imageUrl;
-
   @Enumerated(EnumType.STRING)
   private OAuth2Provider provider;
   private String providerId;
@@ -50,4 +47,11 @@ public class User extends BaseEntity {
   @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<UserFollow> userFollows = new ArrayList<>();
 
+  public void updateUserName(String userName) {
+    this.name = userName;
+  }
+
+  public void updateImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
 }

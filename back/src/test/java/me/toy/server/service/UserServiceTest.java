@@ -135,23 +135,24 @@ public class UserServiceTest {
   @DisplayName("사용자가 좋아요 누른 코스의 ID 목록을 반환한다")
   public void getUserLikedDateCourseIDs() throws Exception {
 
-    String userEmail = "test@naver.com";
-    User user = new User();
-    user.setEmail(userEmail);
+    User user = User.builder()
+        .email("test@naver.com")
+        .course(new ArrayList<>())
+        .userCourseLikes(new ArrayList<>())
+        .build();
     Course course = new Course(user, "test");
-    List<UserCourseLike> userCourseLikes = new ArrayList<>();
     UserCourseLike userCourseLike = new UserCourseLike(user, course);
-    userCourseLikes.add(userCourseLike);
-    user.setUserCourseLikes(userCourseLikes);
     userRepository.save(user);
-    when(userRepository.findByEmail(userEmail))
+
+    when(userRepository.findByEmail("test@naver.com"))
         .thenReturn(Optional.of(user));
 
     List<Long> testLikedCourse = user.getUserCourseLikes()
         .stream()
         .map(testLike -> testLike.getCourse().getId())
         .collect(Collectors.toList());
-    List<Long> likedCourse = userService.getLikedCourseIds(userEmail);
+
+    List<Long> likedCourse = userService.getLikedCourseIds("test@naver.com");
 
     assertEquals(testLikedCourse, likedCourse);
     verify(userRepository, atLeast(1)).findByEmail(any());
@@ -172,18 +173,17 @@ public class UserServiceTest {
   @DisplayName("사용자가 좋아요 누른 코스가 없을시 빈 목록을 반환한다")
   public void whenNoUserLikedDateCourseThenReturnEmptyList() throws Exception {
 
-    String userEmail = "test@naver.com";
-    User user = new User();
-    user.setEmail(userEmail);
-    List<UserCourseLike> userCourseLikes = new ArrayList<>();
-    user.setUserCourseLikes(userCourseLikes);
+    User user = User.builder()
+        .email("test@naver.com")
+        .userCourseLikes(new ArrayList<>())
+        .build();
     userRepository.save(user);
 
-    when(userRepository.findByEmail(userEmail))
+    when(userRepository.findByEmail("test@naver.com"))
         .thenReturn(Optional.of(user));
-    List<Long> likedCourse = userService.getLikedCourseIds(userEmail);
+    List<Long> likedCourse = userService.getLikedCourseIds("test@naver.com");
 
-    assertEquals(userCourseLikes, likedCourse);
+    assertEquals(user.getUserCourseLikes(), likedCourse);
     verify(userRepository, atLeast(1)).findByEmail(any());
   }
 
@@ -191,18 +191,20 @@ public class UserServiceTest {
   @DisplayName("사용자가 저장할 코스를 등록한다.")
   public void registDateCourseUserWantToSave() throws Exception {
 
-    String userEmail = "test@naver.com";
-    User user = new User();
-    user.setEmail(userEmail);
+    User user = User.builder()
+        .email("test@naver.com")
+        .course(new ArrayList<>())
+        .userCourseSaves(new ArrayList<>())
+        .build();
     Course course = new Course(user, "test");
     UserCourseSave userCourseSave = new UserCourseSave(user, course);
 
-    when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
+    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
     when(courseRepository.findById(course.getId())).thenReturn(Optional.of(course));
 
-    userService.addCourse(course.getId(), userEmail);
+    userService.addCourse(course.getId(), "test@naver.com");
 
-    verify(userRepository).findByEmail(userEmail);
+    verify(userRepository).findByEmail("test@naver.com");
     verify(courseRepository).findById(any());
     verify(userCourseSaveRepository).save(any());
   }
@@ -237,17 +239,16 @@ public class UserServiceTest {
   @DisplayName("사용자가 저장한 데이트 코스의 ID 목록을 반환한다")
   public void getUserSavedDateCourseIDs() throws Exception {
 
-    String userEmail = "test@naver.com";
-    User user = new User();
-    user.setEmail(userEmail);
+    User user = User.builder()
+        .email("test@naver.com")
+        .course(new ArrayList<>())
+        .userCourseSaves(new ArrayList<>())
+        .build();
     Course course = new Course(user, "test");
     UserCourseSave userCourseSave = new UserCourseSave(user, course);
-    List<UserCourseSave> userCourseSaveList = new ArrayList<>();
-    userCourseSaveList.add(userCourseSave);
-    user.setUserCourseSaves(userCourseSaveList);
 
-    when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    List<Long> resultSavedCourse = userService.getSavedCourseIds(userEmail);
+    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
+    List<Long> resultSavedCourse = userService.getSavedCourseIds("test@naver.com");
     List<Long> testSavedCourseList = user.getUserCourseSaves()
         .stream()
         .map(testSavedCourse -> testSavedCourse.getCourse().getId())
@@ -272,13 +273,14 @@ public class UserServiceTest {
   @DisplayName("사용자가 저장한 데이트 코스가 없을시 빈 목록을 반환한다")
   public void whenNoUserSavedDateCourseThenReturnEmptyList() throws Exception {
 
-    String userEmail = "test@naver.com";
-    User user = new User();
-    user.setEmail(userEmail);
+    User user = User.builder()
+        .email("test@naver.com")
+        .userCourseSaves(new ArrayList<>())
+        .build();
     List<Long> testSavedCourse = new ArrayList<>();
 
-    when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
-    List<Long> savedCourse = userService.getSavedCourseIds(userEmail);
+    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
+    List<Long> savedCourse = userService.getSavedCourseIds("test@naver.com");
 
     assertEquals(savedCourse, testSavedCourse);
     verify(userRepository, atLeast(1)).findByEmail(any());
@@ -288,14 +290,15 @@ public class UserServiceTest {
   @DisplayName("사용자가 지정한 데이트 코스를 저장한 데이트 코스에서 삭제한다")
   public void deleteDateCourseAtUserSavedDateCourses() throws Exception {
 
-    String userEmail = "test@naver.com";
-    User user = new User();
-    user.setEmail(userEmail);
+    User user = User.builder()
+        .email("test@naver.com")
+        .course(new ArrayList<>())
+        .build();
     Course course = new Course(user, "test");
 
-    when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
+    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
     when(courseRepository.findById(course.getId())).thenReturn(Optional.of(course));
-    userService.removeCourse(course.getId(), userEmail);
+    userService.removeCourse(course.getId(), "test@naver.com");
 
     verify(userRepository, atLeast(1)).findByEmail(any());
     verify(courseRepository, atLeast(1)).findById(any());
@@ -331,9 +334,11 @@ public class UserServiceTest {
   @DisplayName("사용자가 작성한 데이트 코스 목록을 반환한다")
   public void getDateCoursesMadeByUser() throws Exception {
 
-    String userEmail = "test@naver.com";
-    User user = new User();
-    user.setEmail(userEmail);
+    User user = User.builder()
+        .email("test@naver.com")
+        .course(new ArrayList<>())
+        .userCourseLikes(new ArrayList<>())
+        .build();
     Course course1 = new Course(user, "test1");
     Course course2 = new Course(user, "test2");
     Course course3 = new Course(user, "test3");
@@ -344,11 +349,11 @@ public class UserServiceTest {
     Pageable pageable = PageRequest.of(0, 3);
     Page<Course> page = new PageImpl<>(list, pageable, 3);
 
-    when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
+    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
     when(courseRepository.findAllCourseByUserId(user.getId(), pageable)).thenReturn(page);
-    Page<RecentCourseDto> myCourse = userService.getMyCourses(userEmail, pageable);
+    Page<RecentCourseDto> myCourse = userService.getMyCourses("test@naver.com", pageable);
 
-    verify(userRepository, times(1)).findByEmail(userEmail);
+    verify(userRepository, times(1)).findByEmail("test@naver.com");
     assertEquals(myCourse.getContent().size(), 3);
   }
 
@@ -406,9 +411,12 @@ public class UserServiceTest {
   @DisplayName("사용자가 저장한 데이트 코스 목록을 반환한다")
   public void getUserSavedDateCourses() throws Exception {
 
-    String userEmail = "test@naver.com";
-    User user = new User();
-    user.setEmail(userEmail);
+    User user = User.builder()
+        .email("test@naver.com")
+        .course(new ArrayList<>())
+        .userCourseLikes(new ArrayList<>())
+        .userCourseSaves(new ArrayList<>())
+        .build();
     Course course = new Course(user, "test");
     UserCourseSave userCourseSave = new UserCourseSave(user, course);
     List<UserCourseSave> list = new ArrayList<>();
@@ -416,13 +424,13 @@ public class UserServiceTest {
     Pageable pageable = PageRequest.of(0, 1);
     Page<UserCourseSave> page = new PageImpl<>(list, pageable, 1);
 
-    when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(user));
+    when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
     when(userCourseSaveRepository.findAllUserCourseSavePageByUserId(user.getId(), pageable))
         .thenReturn(page);
     Page<SavedCourseDto> savedCourseListResult = userService
-        .getSavedCourses(userEmail, pageable);
+        .getSavedCourses("test@naver.com", pageable);
 
-    verify(userRepository, times(1)).findByEmail(userEmail);
+    verify(userRepository, times(1)).findByEmail("test@naver.com");
     assertEquals(savedCourseListResult.getContent().size(), 1);
   }
 

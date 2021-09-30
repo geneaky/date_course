@@ -19,9 +19,9 @@ public class TestInit {
   @PostConstruct
   public void settingUserTest() {
 
-    User user = new User();
-    user.setEmail("test@naver.com");
-    user.setName("testUser");
+    User user = User.builder()
+        .email("test@naver.com")
+        .name("testUser").build();
     userRepository.save(user);
   }
 
