@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import me.toy.server.cloud.S3Uploader;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
 import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
 import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
@@ -66,7 +65,7 @@ class CourseServiceTest {
   @Mock
   LocationTagRepository locationTagRepository;
   @Mock
-  S3Uploader s3Uploader;
+  FileService s3Service;
   @InjectMocks
   CourseService courseService;
 
@@ -147,7 +146,7 @@ class CourseServiceTest {
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
     verify(locationTagRepository, times(1)).saveAll(any());
-    verify(s3Uploader, times(1)).upload(any());
+    verify(s3Service, times(1)).upload(any());
   }
 
   @Test
@@ -172,7 +171,7 @@ class CourseServiceTest {
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
     verify(locationTagRepository, times(1)).saveAll(any());
-    verify(s3Uploader, times(1)).upload(any());
+    verify(s3Service, times(1)).upload(any());
   }
 
   @Test
@@ -203,7 +202,7 @@ class CourseServiceTest {
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
     verify(locationTagRepository, times(1)).saveAll(any());
-    verify(s3Uploader, times(3)).upload(any());
+    verify(s3Service, times(3)).upload(any());
   }
 
   @Test
@@ -235,7 +234,7 @@ class CourseServiceTest {
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
     verify(locationTagRepository, times(1)).saveAll(any());
-    verify(s3Uploader, times(1)).upload(any());
+    verify(s3Service, times(1)).upload(any());
   }
 
   @Test
@@ -265,7 +264,7 @@ class CourseServiceTest {
     verify(locationRepository, times(1)).saveAll(any());
     verify(tagRepository, times(1)).saveAll(any());
     verify(locationTagRepository, times(1)).saveAll(any());
-    verify(s3Uploader, times(1)).upload(any());
+    verify(s3Service, times(1)).upload(any());
   }
 
   @Test
@@ -462,7 +461,6 @@ class CourseServiceTest {
         .course(new ArrayList<>())
         .userCourseLikes(new ArrayList<>())
         .userCourseSaves(new ArrayList<>())
-        .userFollows(new ArrayList<>())
         .build();
     Course course1 = new Course(user, "course1");
     Course course2 = new Course(user, "course2");
@@ -491,7 +489,6 @@ class CourseServiceTest {
         .course(new ArrayList<>())
         .userCourseLikes(new ArrayList<>())
         .userCourseSaves(new ArrayList<>())
-        .userFollows(new ArrayList<>())
         .build();
     Course course1 = new Course(user, "course1");
     Course course2 = new Course(user, "course2");

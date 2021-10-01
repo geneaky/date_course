@@ -1,4 +1,4 @@
-package me.toy.server.cloud;
+package me.toy.server.service;
 
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -16,14 +16,14 @@ import me.toy.server.exception.s3.NotSupportedExtentionException;
 import me.toy.server.utils.SupportedFileExtention;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
 @Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
-public class S3Uploader {
+public class S3Service implements FileService {
 
   private final AmazonS3 amazonS3;
   @Value("${cloud.aws.s3.image.bucket}")

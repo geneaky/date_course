@@ -10,12 +10,8 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.annotation.LoginUser;
 import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
-import me.toy.server.dto.user.UserRequestDto.AddFollowerRequest;
-import me.toy.server.dto.user.UserRequestDto.RemoveFollowerRequest;
 import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
 import me.toy.server.dto.user.UserResponseDto.UserDto;
-import me.toy.server.dto.user.UserResponseDto.UserFollowers;
-import me.toy.server.dto.user.UserResponseDto.UserFollowings;
 import me.toy.server.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -105,37 +101,5 @@ public class UserController {
   public void removeMyCourse(@PathVariable Long courseId, @LoginUser String userEmail) {
 
     userService.removeMyCourse(courseId, userEmail);
-  }
-
-  @ApiOperation("사용자 팔로우")
-  @PostMapping("/follows")
-  public void followUser(@Valid @RequestBody AddFollowerRequest addFollowerRequest,
-      @LoginUser String userEmail) {
-
-    userService.followUser(addFollowerRequest, userEmail);
-  }
-
-  @ApiOperation("사용자 언팔로우")
-  @DeleteMapping("/follows")
-  public void unfollowUser(@Valid @RequestBody RemoveFollowerRequest removeFollowerRequest,
-      @LoginUser String userEmail) {
-
-    userService.unfollowUser(removeFollowerRequest, userEmail);
-  }
-
-  @ApiOperation("사용자 팔로잉 조회")
-  @GetMapping("/follows")
-  public ResponseEntity<UserFollowings> getUserFollowings(
-      @LoginUser String userEmail) {
-
-    return ResponseEntity.ok().body(userService.getUserFollowings(userEmail));
-  }
-
-  @ApiOperation("사용자 팔로워 조회")
-  @GetMapping("/followers")
-  public ResponseEntity<UserFollowers> getUserFollowers(
-      @LoginUser String userEmail) {
-
-    return ResponseEntity.ok().body(userService.getUserFollowers(userEmail));
   }
 }

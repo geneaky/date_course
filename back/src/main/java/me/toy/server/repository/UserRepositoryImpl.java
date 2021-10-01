@@ -2,7 +2,6 @@ package me.toy.server.repository;
 
 import static me.toy.server.entity.QFollow.follow;
 import static me.toy.server.entity.QUser.user;
-import static me.toy.server.entity.QUserFollow.userFollow;
 
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,34 +15,35 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public List<User> findAllFollowings(String userEmail) {
+  public List<User> findFollowees(Long followerId) {
 
     return queryFactory
         .selectFrom(user)
-        .where(user.id.in(
-            JPAExpressions
-                .select(follow.followUserId)
-                .from(follow)
-                .join(follow.userFollows, userFollow)
-                .join(userFollow.user, user)
-                .where(user.email.eq(userEmail)
-                    .and(userFollow.follow.id.eq(follow.id))
-                    .and(user.id.eq(userFollow.user.id)))
-        )).fetch();
+        .where(
+            user.id.in(
+                JPAExpressions
+                    .select(follow.followeeId)
+                    .from(follow)
+                    .where(follow.user.id.eq(followerId))
+            )
+        )
+        .fetch();
+
   }
 
   @Override
-  public List<User> findAllFollowers(Long followUserId) {
+  public List<User> findFollowers(Long followeeId) {
 
     return queryFactory
         .selectFrom(user)
-        .where(user.id.in(
-            JPAExpressions
-                .select(userFollow.user.id)
-                .from(userFollow)
-                .join(userFollow.follow, follow)
-                .where(userFollow.follow.id.eq(follow.id)
-                    .and(follow.followUserId.eq(followUserId)))
-        )).fetch();
+        .where(
+            user.id.in(
+                JPAExpressions
+                    .select(follow.user.id)
+                    .from(follow)
+                    .where(follow.followeeId.eq(followeeId))
+            )
+        )
+        .fetch();
   }
 }

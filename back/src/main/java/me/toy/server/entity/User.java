@@ -45,7 +45,7 @@ public class User extends BaseEntity {
   @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<Comment> comments = new ArrayList<>();
   @OneToMany(mappedBy = "user", orphanRemoval = true)
-  private List<UserFollow> userFollows = new ArrayList<>();
+  private List<Follow> follows = new ArrayList<>();
 
   public void updateUserName(String userName) {
     this.name = userName;

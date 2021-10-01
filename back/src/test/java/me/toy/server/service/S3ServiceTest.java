@@ -1,4 +1,4 @@
-package me.toy.server.cloud;
+package me.toy.server.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,12 +27,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
 
 @ExtendWith(MockitoExtension.class)
-class S3UploaderTest {
+class S3ServiceTest {
 
   @Mock
   AmazonS3 amazonS3;
   @InjectMocks
-  S3Uploader s3Uploader;
+  S3Service s3Service;
 
   @Test
   @DisplayName("file 인자가 null인 경우 빈 리터럴을 반환한다.")
@@ -40,7 +40,7 @@ class S3UploaderTest {
 
     MultipartFile file = null;
 
-    String upload = s3Uploader.upload(file);
+    String upload = s3Service.upload(file);
 
     assertThat(upload).isEqualTo("");
     verify(amazonS3, never()).putObject(anyString(), anyString(), (File) any());
@@ -55,7 +55,7 @@ class S3UploaderTest {
     when(file.getName()).thenReturn("test.txt");
 
     Assertions.assertThrows(NotSupportedExtentionException.class, () -> {
-      s3Uploader.upload(file);
+      s3Service.upload(file);
     });
     verify(amazonS3, never()).putObject(anyString(), anyString(), (File) any());
   }
@@ -70,7 +70,7 @@ class S3UploaderTest {
     when(file.getName()).thenReturn("test.jpg");
     when(file.getInputStream()).thenReturn(inputStream);
 
-    String saveFileName = s3Uploader.upload(file);
+    String saveFileName = s3Service.upload(file);
 
     assertThat(saveFileName).isExactlyInstanceOf(String.class);
     verify(amazonS3).putObject(any(), any(), (File) any());
@@ -90,7 +90,7 @@ class S3UploaderTest {
 
       when(Files.copy((InputStream) any(), any(), any())).thenThrow(IOException.class);
       Assertions.assertThrows(ImageConvertFailedException.class, () -> {
-        s3Uploader.upload(file);
+        s3Service.upload(file);
       });
     }
   }

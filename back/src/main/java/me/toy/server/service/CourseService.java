@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import me.toy.server.cloud.S3Uploader;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
 import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
 import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
@@ -43,7 +42,7 @@ public class CourseService {
   private final CommentRepository commentRepository;
   private final UserCourseLikeRepository userCourseLikeRepository;
   private final TagRepository tagRepository;
-  private final S3Uploader s3Uploader;
+  private final FileService s3Service;
 
   @Transactional
   public void registCourse(RegistCourseFormDto registCourseFormDto, String userEmail) {
@@ -57,7 +56,7 @@ public class CourseService {
     List<LocationTag> locationTagList = new ArrayList<>();
 
     for (RegistLocationFormDto registLocationFormDto : registCourseFormDto.getLocationList()) {
-      String fileSaveName = s3Uploader.upload(registLocationFormDto.getFile());
+      String fileSaveName = s3Service.upload(registLocationFormDto.getFile());
       addLocation(
           course,
           registLocationFormDto,

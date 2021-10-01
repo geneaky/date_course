@@ -5,8 +5,8 @@ import me.toy.server.entity.User;
 
 public interface UserRepositoryCustom {
 
-  public List<User> findAllFollowings(String userEmail);
+  List<User> findFollowees(Long followerId);
 
-  public List<User> findAllFollowers(Long followUserId);
+  List<User> findFollowers(Long followeeId);
 
 }

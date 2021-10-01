@@ -14,28 +14,28 @@ public class UserRequestDto {
   @Getter
   @Setter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class AddFollowerRequest {
+  public static class FollowRequest {
 
     @NotNull
-    private Long followerId;
+    private Long followeeId;
 
     @Builder
-    public AddFollowerRequest(Long followerId) {
-      this.followerId = followerId;
+    public FollowRequest(Long followeeId) {
+      this.followeeId = followeeId;
     }
   }
 
   @Getter
   @Setter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class RemoveFollowerRequest {
+  public static class UnfollowRequest {
 
     @NotNull
-    private Long followerId;
+    private Long followeeId;
 
     @Builder
-    public RemoveFollowerRequest(Long followerId) {
-      this.followerId = followerId;
+    public UnfollowRequest(Long followeeId) {
+      this.followeeId = followeeId;
     }
   }
 

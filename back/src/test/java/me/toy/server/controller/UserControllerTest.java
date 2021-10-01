@@ -17,15 +17,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
-import me.toy.server.dto.user.UserRequestDto.AddFollowerRequest;
-import me.toy.server.dto.user.UserRequestDto.RemoveFollowerRequest;
 import me.toy.server.dto.user.UserRequestDto.UserRegisterForm;
-import me.toy.server.dto.user.UserResponseDto.FollowerUserDto;
-import me.toy.server.dto.user.UserResponseDto.FollowingUserDto;
 import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
 import me.toy.server.dto.user.UserResponseDto.UserDto;
-import me.toy.server.dto.user.UserResponseDto.UserFollowers;
-import me.toy.server.dto.user.UserResponseDto.UserFollowings;
 import me.toy.server.entity.Course;
 import me.toy.server.entity.User;
 import me.toy.server.entity.UserCourseSave;
@@ -214,84 +208,6 @@ class UserControllerTest {
     mockMvc.perform(get("/user/save/courses?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().json(objectMapper.writeValueAsString(page)))
-        .andDo(print())
-        .andExpect(status().isOk());
-  }
-
-  @Test
-  @DisplayName("사용자가 특정 사용자를 팔로우하는데 성공")
-  public void addFollowingUser() throws Exception {
-
-    User user = User.builder()
-        .id(3L)
-        .name("testOtherUser")
-        .email("testOtherUser@naver.com")
-        .build();
-    AddFollowerRequest addFollowerRequest = AddFollowerRequest.builder().followerId(3L).build();
-
-    mockMvc.perform(post("/user/follows")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(addFollowerRequest)))
-        .andDo(print())
-        .andExpect(status().isOk());
-
-    verify(userService, times(1)).followUser(any(), any());
-  }
-
-  @Test
-  @DisplayName("사용자가 팔로잉하는 사용자들 조회")
-  public void getUserFollowings() throws Exception {
-
-    FollowingUserDto followingUserDto1 = new FollowingUserDto(1L, "other", "other@naver.com");
-    FollowingUserDto followingUserDto2 = new FollowingUserDto(2L, "theother", "theother@naver.com");
-    List<FollowingUserDto> followingUserDtos = new ArrayList<>();
-    followingUserDtos.add(followingUserDto1);
-    followingUserDtos.add(followingUserDto2);
-    UserFollowings userFollowings = new UserFollowings(followingUserDtos);
-
-    when(userService.getUserFollowings("test@naver.com")).thenReturn(userFollowings);
-
-    mockMvc.perform(get("/user/follows"))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(content().json(objectMapper.writeValueAsString(userFollowings)))
-        .andDo(print())
-        .andExpect(status().isOk());
-    verify(userService, times(1)).getUserFollowings(any());
-  }
-
-  @Test
-  @DisplayName("사용자 팔로우 취소 요청시 취소 성공")
-  public void cancleUserFollwing() throws Exception {
-
-    RemoveFollowerRequest removeFollowerRequest = RemoveFollowerRequest.builder()
-        .followerId(3L)
-        .build();
-
-    mockMvc.perform(delete("/user/follows")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(removeFollowerRequest)))
-        .andDo(print())
-        .andExpect(status().isOk());
-
-    verify(userService, times(1)).unfollowUser(any(), any());
-  }
-
-  @Test
-  @DisplayName("팔로워 목록 조회 요청시 사용자의 팔로워들을 응답에 성공")
-  public void getUserFollowers() throws Exception {
-
-    FollowerUserDto followerUserDto1 = new FollowerUserDto(3L, "other", "other@naver.com");
-    FollowerUserDto followerUserDto2 = new FollowerUserDto(4L, "people", "people@naver.com");
-    List<FollowerUserDto> list = new ArrayList<>();
-    list.add(followerUserDto1);
-    list.add(followerUserDto2);
-    UserFollowers userFollowers = new UserFollowers(list);
-
-    when(userService.getUserFollowers("test@naver.com")).thenReturn(userFollowers);
-
-    mockMvc.perform(get("/user/followers"))
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(content().json(objectMapper.writeValueAsString(userFollowers)))
         .andDo(print())
         .andExpect(status().isOk());
   }

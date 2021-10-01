@@ -70,26 +70,26 @@ public class UserResponseDto {
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class UserFollowings {
+  public static class UserFollowees {
 
-    private List<FollowingUserDto> followingUserDtos;
+    private List<FolloweeDto> followeeDtos;
 
     @Builder
-    public UserFollowings(List<FollowingUserDto> followingUserDtos) {
-      this.followingUserDtos = followingUserDtos;
+    public UserFollowees(List<FolloweeDto> followeeDtos) {
+      this.followeeDtos = followeeDtos;
     }
   }
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class FollowingUserDto {
+  public static class FolloweeDto {
 
     private Long userId;
     private String name;
     private String email;
 
     @Builder
-    public FollowingUserDto(Long userId, String name, String email) {
+    public FolloweeDto(Long userId, String name, String email) {
       this.userId = userId;
       this.name = name;
       this.email = email;
@@ -100,24 +100,24 @@ public class UserResponseDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   public static class UserFollowers {
 
-    private List<FollowerUserDto> followerUserDtos;
+    private List<FollowerDto> followerDtos;
 
     @Builder
-    public UserFollowers(List<FollowerUserDto> followerUserDtos) {
-      this.followerUserDtos = followerUserDtos;
+    public UserFollowers(List<FollowerDto> followerDtos) {
+      this.followerDtos = followerDtos;
     }
   }
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class FollowerUserDto {
+  public static class FollowerDto {
 
     private Long userId;
     private String name;
     private String email;
 
     @Builder
-    public FollowerUserDto(Long userId, String name, String email) {
+    public FollowerDto(Long userId, String name, String email) {
       this.userId = userId;
       this.name = name;
       this.email = email;
