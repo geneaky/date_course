@@ -1,15 +1,18 @@
 package me.toy.server.controller;
 
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.annotation.LoginUser;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
 import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
 import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
+import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
 import me.toy.server.service.CourseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,13 +71,56 @@ public class CourseController {
     return courseService.getLikedOrderCourses(pageable);
   }
 
-  @Secured("ROLE_USER")
-  @PostMapping("/{courseId}/comment")
-  @ApiOperation("데이트 코스에 댓글 등록")
-  public void registComment(@PathVariable Long courseId,
-      String comment,
+  @ApiOperation("사용자가 좋아요 누른 데이트 코스ID 리스트 제공")
+  @GetMapping("/like/ids")
+  public ResponseEntity<List<Long>> getLikedCourseIds(@LoginUser String userEmail) {
+
+    return ResponseEntity.ok().body(courseService.getLikedCourseIds(userEmail));
+  }
+
+  @ApiOperation("사용자 데이트 코스 저장")
+  @PostMapping("/save/{courseId}")
+  public void addCourse(@PathVariable Long courseId,
       @LoginUser String userEmail) {
 
-    courseService.registComment(courseId, comment, userEmail);
+    courseService.addCourse(courseId, userEmail);
+  }
+
+  @ApiOperation("사용자 저장한 데이트 코스 삭제")
+  @DeleteMapping("/save/{courseId}")
+  public void removeCourse(@PathVariable Long courseId,
+      @LoginUser String userEmail) {
+
+    courseService.removeCourse(courseId, userEmail);
+  }
+
+  @ApiOperation("사용자가 저장한 데이트 코스 리스트 제공")
+  @GetMapping("/save")
+  public ResponseEntity<Page<SavedCourseDto>> getSavedCourses(@LoginUser String userEmail,
+      Pageable pageable) {
+
+    return ResponseEntity.ok().body(courseService.getSavedCourses(userEmail, pageable));
+  }
+
+  @ApiOperation("사용자가 저장한 데이트 코스ID 리스트 제공")
+  @GetMapping("/save/ids")
+  public ResponseEntity<List<Long>> getSavedCourseIds(@LoginUser String userEmail) {
+
+    return ResponseEntity.ok().body(courseService.getSavedCourseIds(userEmail));
+  }
+
+  @ApiOperation("사용자가 작성한 데이트 코스 제공")
+  @GetMapping("/my")
+  public ResponseEntity<Page<RecentCourseDto>> getMyCourses(@LoginUser String userEmail,
+      Pageable pageable) {
+
+    return ResponseEntity.ok().body(courseService.getMyCourses(userEmail, pageable));
+  }
+
+  @ApiOperation("사용자가 작성한 데이트 코스 삭제")
+  @DeleteMapping("/my/{courseId}")
+  public void removeMyCourse(@PathVariable Long courseId, @LoginUser String userEmail) {
+
+    courseService.removeMyCourse(courseId, userEmail);
   }
 }

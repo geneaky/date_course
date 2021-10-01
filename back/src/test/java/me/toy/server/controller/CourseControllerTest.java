@@ -13,14 +13,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
 import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
 import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
 import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
+import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
 import me.toy.server.entity.Course;
 import me.toy.server.entity.User;
-import me.toy.server.repository.CourseRepository;
+import me.toy.server.entity.UserCourseSave;
 import me.toy.server.service.CourseService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,8 +47,6 @@ class CourseControllerTest {
 
   @MockBean
   CourseService courseService;
-  @MockBean
-  CourseRepository courseRepository;
   @Autowired
   private MockMvc mockMvc;
   @Autowired
@@ -166,16 +166,127 @@ class CourseControllerTest {
   }
 
   @Test
-  @DisplayName("사용자가 데이트 코스에 댓글 입력 요청시 데이트 코스에 댓글 등록시킨다")
-  public void registCourseComment() throws Exception {
+  @DisplayName("좋아요 누른 데이트 코스 요청시 사용자가 좋아요 누른 데이트 코스 ID 목록을 응답한다")
+  public void getUserLikedDateCoure() throws Exception {
 
-    mockMvc.perform(post("/courses/1/comment")
-            .content("comment for test!")
-            .contentType(MediaType.APPLICATION_JSON))
+    List<Long> likeCourseList = new ArrayList<>(Arrays.asList(1L, 2L, 3L));
+
+    when(courseService.getLikedCourseIds("test@naver.com")).thenReturn(likeCourseList);
+
+    mockMvc.perform(get("/courses/like/ids"))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(likeCourseList)))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("사용자가 코스 저장 요청시 해당 코스를 저장한다")
+  public void registUserSavedCourse() throws Exception {
+
+    mockMvc.perform(post("/courses/save/1"))
         .andDo(print())
         .andExpect(status().isOk());
 
-    verify(courseService, times(1)).registComment(any(), any(), any());
+    verify(courseService, times(1)).addCourse(any(), any());
   }
 
+  @Test
+  @DisplayName("사용자가 저장한 코스를 저장 취소 요청시 저장한 코스에서 삭제한다")
+  public void deleteUserSavedCourse() throws Exception {
+
+    mockMvc.perform(delete("/courses/save/1"))
+        .andDo(print())
+        .andExpect(status().isOk());
+
+    verify(courseService, times(1)).removeCourse(any(), any());
+  }
+
+  @Test
+  @DisplayName("저장한 코스 목록 요청시 사용자가 저장한 코스 ID 목록을 반환한다")
+  public void getUserSavedCourse() throws Exception {
+
+    List<Long> savedCourseIDs = new ArrayList<>(Arrays.asList(1L, 2L, 3L, 4L));
+
+    when(courseService.getSavedCourseIds("test@naver.com")).thenReturn(savedCourseIDs);
+
+    mockMvc.perform(get("/courses/save/ids"))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(savedCourseIDs)))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("자신이 작성한 코스 목록을 요청시 사용자가 작성한 코스들 목록을 반환한다")
+  public void getMyCourseList() throws Exception {
+
+    User user = User.builder()
+        .name("testUser")
+        .email("test@naver.com")
+        .course(new ArrayList<>())
+        .userCourseLikes(new ArrayList<>())
+        .build();
+    Course course1 = new Course(user, "testCousr1");
+    Course course2 = new Course(user, "testCousr2");
+    RecentCourseDto dateCourseDto1 = new RecentCourseDto(course1);
+    RecentCourseDto dateCourseDto2 = new RecentCourseDto(course2);
+    List<RecentCourseDto> list = new ArrayList<>();
+    list.add(dateCourseDto1);
+    list.add(dateCourseDto2);
+    Pageable pageable = PageRequest.of(0, 2);
+    Page<RecentCourseDto> page = new PageImpl<>(list, pageable, 2);
+
+    when(courseService.getMyCourses("test@naver.com", pageable)).thenReturn(page);
+
+    mockMvc.perform(get("/courses/my?page=0&size=2"))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(page)))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("사용자가 작성한 코스 삭제 요청시 지정한 코스를 삭제한다.")
+  public void removeMyCourseTest() throws Exception {
+
+    mockMvc.perform(delete("/courses/my/1"))
+        .andDo(print())
+        .andExpect(status().isOk());
+
+    verify(courseService).removeMyCourse(any(), any());
+  }
+
+  @Test
+  @DisplayName("사용자가 저장한 코스 요청시 사용자가 저장한 코스들 목록을 반환한다")
+  public void getSavedCourseList() throws Exception {
+
+    User user = User.builder()
+        .name("testOtherUser")
+        .email("testOtherUser@naver.com")
+        .course(new ArrayList<>())
+        .userCourseLikes(new ArrayList<>())
+        .userCourseSaves(new ArrayList<>())
+        .build();
+    Course course1 = new Course(user, "testCousr1");
+    Course course2 = new Course(user, "testCousr2");
+    UserCourseSave userCourseSave1 = new UserCourseSave(user, course1);
+    UserCourseSave userCourseSave2 = new UserCourseSave(user, course2);
+    SavedCourseDto savedCourseDto1 = new SavedCourseDto(userCourseSave1);
+    SavedCourseDto savedCourseDto2 = new SavedCourseDto(userCourseSave2);
+    List<SavedCourseDto> list = new ArrayList<>();
+    list.add(savedCourseDto1);
+    list.add(savedCourseDto2);
+
+    Pageable pageable = PageRequest.of(0, 2);
+    Page<SavedCourseDto> page = new PageImpl<>(list, pageable, 2);
+
+    when(courseService.getSavedCourses("test@naver.com", pageable)).thenReturn(page);
+
+    mockMvc.perform(get("/courses/save?page=0&size=2"))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().json(objectMapper.writeValueAsString(page)))
+        .andDo(print())
+        .andExpect(status().isOk());
+  }
 }
