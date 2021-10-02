@@ -2,20 +2,18 @@ package me.toy.server.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
 import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
 import me.toy.server.dto.course.CourseResponseDto.CourseDto;
-import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
 import me.toy.server.entity.Course;
 import me.toy.server.entity.Location;
 import me.toy.server.entity.LocationTag;
 import me.toy.server.entity.Tag;
 import me.toy.server.entity.User;
 import me.toy.server.entity.UserCourseLike;
-import me.toy.server.entity.UserCourseSave;
 import me.toy.server.exception.course.AlreadyLikeCourseException;
 import me.toy.server.exception.course.AlreadyUnlikeCourseException;
 import me.toy.server.exception.course.CourseNotFoundException;
@@ -25,7 +23,6 @@ import me.toy.server.repository.LocationRepository;
 import me.toy.server.repository.LocationTagRepository;
 import me.toy.server.repository.TagRepository;
 import me.toy.server.repository.UserCourseLikeRepository;
-import me.toy.server.repository.UserCourseSaveRepository;
 import me.toy.server.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +39,6 @@ public class CourseService {
   private final TagRepository tagRepository;
   private final LocationTagRepository locationTagRepository;
   private final UserCourseLikeRepository userCourseLikeRepository;
-  private final UserCourseSaveRepository userCourseSaveRepository;
   private final FileService s3Service;
 
   @Transactional
@@ -139,99 +135,12 @@ public class CourseService {
   }
 
   @Transactional(readOnly = true)
-  public Page<CourseDto> getRecentCourses(Pageable pageable) {
+  public Page<CourseDto> getCoursePage(Pageable pageable) {
 
+    if (Objects.nonNull(pageable.getSort().getOrderFor("likes"))) {
+      return courseRepository.findLikeOrderCourse(pageable);
+    }
     Page<Course> coursePage = courseRepository.findAll(pageable);
-
     return coursePage.map(CourseDto::new);
-  }
-
-  @Transactional(readOnly = true)
-  public Page<CourseDto> getLikedOrderCourses(Pageable pageable) {
-
-    return courseRepository.findLikeOrderCourse(pageable);
-  }
-
-  @Transactional(readOnly = true)
-  public List<Long> getLikedCourseIds(String userEmail) {
-
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
-    );
-//쿼리 확인 point -> batch size 적용되는지 확인
-    return user.getUserCourseLikes()
-        .stream()
-        .map(like -> like.getCourse().getId())
-        .collect(Collectors.toList());
-  }
-
-  @Transactional
-  public void addCourse(Long courseId, String userEmail) {
-
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
-    );
-    Course course = courseRepository.findById(courseId).orElseThrow(() ->
-        new CourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
-    UserCourseSave userCourseSave = new UserCourseSave(user, course);
-
-    userCourseSaveRepository.save(userCourseSave);
-  }
-
-  @Transactional
-  public void removeCourse(Long courseId, String userEmail) {
-
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-    Course course = courseRepository.findById(courseId).orElseThrow(() ->
-        new CourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
-
-    userCourseSaveRepository.deleteByUserIdAndCourseId(user.getId(), course.getId());
-  }
-
-  @Transactional(readOnly = true)
-  public Page<SavedCourseDto> getSavedCourses(String userEmail, Pageable pageable) {
-
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-
-    Page<UserCourseSave> allSavedCourseByUserId = userCourseSaveRepository
-        .findAllUserCourseSavePageByUserId(user.getId(), pageable);
-    return allSavedCourseByUserId.map(SavedCourseDto::new);
-  }
-
-  @Transactional(readOnly = true)
-  public List<Long> getSavedCourseIds(String userEmail) {
-
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-
-//    쿼리 확인 point
-    return user.getUserCourseSaves()
-        .stream()
-        .map(savedCourse -> savedCourse.getCourse().getId())
-        .collect(Collectors.toList());
-  }
-
-  @Transactional(readOnly = true)
-  public Page<CourseDto> getMyCourses(String userEmail, Pageable pageable) {
-
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-
-    Page<Course> coursePage = courseRepository
-        .findAllCourseByUserId(user.getId(), pageable);
-    return coursePage.map(CourseDto::new);
-  }
-
-  @Transactional
-  public void removeMyCourse(Long courseId, String userEmail) {
-
-    userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-    Course course = courseRepository.findById(courseId).orElseThrow(() ->
-        new CourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
-
-    courseRepository.delete(course);
   }
 }

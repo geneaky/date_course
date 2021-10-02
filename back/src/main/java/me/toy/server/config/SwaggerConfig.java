@@ -72,7 +72,7 @@ public class SwaggerConfig {
     private String page;
     @ApiModelProperty(value = "페이지 크기")
     private String size;
-    @ApiModelProperty(value = "정렬(사용법: 컬럼명,ASC|DESC)")
+    @ApiModelProperty(value = "정렬(id|likes,ASC|DESC)")
     private List<String> sort;
   }
 }
