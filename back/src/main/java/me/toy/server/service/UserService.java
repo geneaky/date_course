@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
   private final UserRepository userRepository;
-  private final PasswordEncoder bCryptPasswordEncorder;
+  private final PasswordEncoder bCryptPasswordEncoder;
 
   @Transactional
   public void createUserAccount(UserRegisterForm userRegisterForm) {
@@ -27,7 +27,7 @@ public class UserService {
 
     User newUser = User.builder()
         .email(userRegisterForm.getEmail())
-        .password(bCryptPasswordEncorder.encode(userRegisterForm.getPassword()))
+        .password(bCryptPasswordEncoder.encode(userRegisterForm.getPassword()))
         .name(userRegisterForm.getNickName())
         .build();
 

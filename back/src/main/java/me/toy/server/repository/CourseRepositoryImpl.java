@@ -2,8 +2,12 @@ package me.toy.server.repository;
 
 import static me.toy.server.entity.QCourse.course;
 import static me.toy.server.entity.QLocation.location;
+import static me.toy.server.entity.QLocationTag.locationTag;
+import static me.toy.server.entity.QTag.tag;
 import static me.toy.server.entity.QUserCourseLike.userCourseLike;
 
+import com.querydsl.core.QueryResults;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Comparator;
 import java.util.List;
@@ -28,7 +32,7 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
     Direction direction = Objects.requireNonNull(pageable.getSort().getOrderFor("likes"))
         .getDirection();
 
-    List<Course> fetch = queryFactory
+    List<Course> courses = queryFactory
         .selectFrom(course)
         .leftJoin(course.locations, location).fetchJoin()
         .leftJoin(course.userCourseLikes, userCourseLike)
@@ -40,11 +44,55 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
 
     if (direction.isAscending()) {
 
-      List<CourseDto> results = getAscendingCourseDtos(fetch);
+      List<CourseDto> results = getAscendingCourseDtos(courses);
       return new PageImpl<>(results, pageable, total);
     }
-    List<CourseDto> results = getDescendingCourseDtos(fetch);
+    List<CourseDto> results = getDescendingCourseDtos(courses);
     return new PageImpl<>(results, pageable, total);
+  }
+
+  @Override
+  public Page<CourseDto> findCoursesByTag(String tagName, Pageable pageable) {
+
+    QueryResults<Course> courseQueryResults = queryFactory
+        .selectFrom(course)
+        .where(
+            course.id.in(
+                JPAExpressions
+                    .select(course.id)
+                    .from(course)
+                    .join(course.locations, location)
+                    .join(location.locationTags, locationTag)
+                    .join(locationTag.tag, tag)
+                    .where(tag.name.eq(tagName))
+            )
+        )
+        .offset(pageable.getOffset())
+        .limit(pageable.getPageSize())
+        .fetchResults();
+
+    List<CourseDto> courseDtos = courseQueryResults.getResults().stream()
+        .map(CourseDto::new)
+        .collect(Collectors.toList());
+
+    return new PageImpl<>(courseDtos, pageable, courseQueryResults.getTotal());
+  }
+
+  @Override
+  public Page<CourseDto> findCoursesByTitle(String title, Pageable pageable) {
+
+    QueryResults<Course> courseQueryResults = queryFactory
+        .selectFrom(course)
+        .where(course.courseTitle.contains(title))
+        .offset(pageable.getOffset())
+        .limit(pageable.getPageSize())
+        .fetchResults();
+
+    List<CourseDto> courseDtos = courseQueryResults.getResults().stream()
+        .map(CourseDto::new)
+        .collect(Collectors.toList());
+
+    return new PageImpl<>(courseDtos, pageable, courseQueryResults.getTotal());
   }
 
   private List<CourseDto> getAscendingCourseDtos(

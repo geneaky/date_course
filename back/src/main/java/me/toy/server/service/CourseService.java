@@ -143,4 +143,14 @@ public class CourseService {
     Page<Course> coursePage = courseRepository.findAll(pageable);
     return coursePage.map(CourseDto::new);
   }
+
+  public Page<CourseDto> searchCoursesByTag(String name, Pageable pageable) {
+
+    return courseRepository.findCoursesByTag(name, pageable);
+  }
+
+  public Page<CourseDto> searchCoursesByTitle(String title, Pageable pageable) {
+
+    return courseRepository.findCoursesByTitle(title, pageable);
+  }
 }

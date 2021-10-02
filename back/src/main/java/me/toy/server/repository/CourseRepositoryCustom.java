@@ -8,4 +8,7 @@ public interface CourseRepositoryCustom {
 
   Page<CourseDto> findLikeOrderCourse(Pageable pageable);
 
+  Page<CourseDto> findCoursesByTag(String tagName, Pageable pageable);
+
+  Page<CourseDto> findCoursesByTitle(String title, Pageable pageable);
 }

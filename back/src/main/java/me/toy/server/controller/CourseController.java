@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -60,12 +61,20 @@ public class CourseController {
     return courseService.getCoursePage(pageable);
   }
 
-//  @GetMapping("/tag")
-//  @ApiOperation("코스 태그 검색")
-//  public Page<CourseResponseDto.CourseDto> searchCoursesByTag(
-//      @RequestParam(name = "name") String name,
-//      Pageable pageable) {
-//
-//    return courseService.searchCoursesByTag(name, pageable);
-//  }
+  @GetMapping("/tag")
+  @ApiOperation("코스 태그 검색")
+  public Page<CourseDto> searchCoursesByTag(
+      @RequestParam(name = "name") String name,
+      Pageable pageable) {
+
+    return courseService.searchCoursesByTag(name, pageable);
+  }
+
+  @GetMapping("/title")
+  @ApiOperation("코스 제목 검색")
+  public Page<CourseDto> searchCoursesByTitle(@RequestParam(name = "title") String title,
+      Pageable pageable) {
+
+    return courseService.searchCoursesByTitle(title, pageable);
+  }
 }
