@@ -14,58 +14,43 @@ public class CourseResponseDto {
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class RecentCourseDto {
+  public static class CourseDto {
 
     private Long id;
-    private Long likesCount;
+    private int likesCount;
     private String userName;
     private Long userId;
     private String courseTitle;
-    private List<Long> userLikedCoursesIds;
-    private List<RecentLocationDto> locations;
-    private List<CourseCommentDto> comments;
+    private List<Long> userCourseLikesIds;
+    private List<LocationDto> locations;
+    private List<CommentDto> comments;
 
     @Builder
-    public RecentCourseDto(Course course) {
+    public CourseDto(Course course) {
 
       this.id = course.getId();
-      this.likesCount = course.getUserCourseLikes().stream().count();
+      this.likesCount = course.getUserCourseLikes().size();
       this.courseTitle = course.getCourseTitle();
       this.userId = course.getUser().getId();
       this.userName = course.getUser().getName();
-      this.userLikedCoursesIds = course.getUser().getUserCourseLikes()
+      this.userCourseLikesIds = course.getUser().getUserCourseLikes()
           .stream()
           .map(likeCourse -> likeCourse.getCourse().getId())
           .collect(Collectors.toList());
       this.comments = course.getComments()
           .stream()
-          .map(comment -> new CourseCommentDto(comment))
+          .map(CommentDto::new)
           .collect(Collectors.toList());
       this.locations = course.getLocations()
           .stream()
-          .map(location -> new RecentLocationDto(location))
+          .map(LocationDto::new)
           .collect(Collectors.toList());
     }
   }
 
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class CourseCommentDto {
-
-    private String userName;
-    private String commentContent;
-
-    @Builder
-    public CourseCommentDto(Comment comment) {
-
-      this.userName = comment.getUser().getName();
-      this.commentContent = comment.getContent();
-    }
-  }
-
-  @Getter
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class RecentLocationDto {
+  public static class LocationDto {
 
     private String locationName;
     private String photoUrl;
@@ -75,7 +60,7 @@ public class CourseResponseDto {
     private List<String> tags;
 
     @Builder
-    public RecentLocationDto(Location location) {
+    public LocationDto(Location location) {
       this.locationName = location.getName();
       this.photoUrl = location.getPhotoUrl();
       this.text = location.getText();
@@ -88,95 +73,18 @@ public class CourseResponseDto {
     }
   }
 
-
-  @Getter
-  public static class LikeOrderCourseDto {
-
-    private Long id;
-    private int likesCount;
-    private List<LikeOrderCourseLocationDto> locations;
-
-    public LikeOrderCourseDto(Long id, int likesCount,
-        List<Location> locations) {
-      this.id = id;
-      this.likesCount = likesCount;
-      this.locations = locations.stream()
-          .map(LikeOrderCourseLocationDto::new)
-          .collect(Collectors.toList());
-      ;
-    }
-
-//    @Builder
-//    public LikeOrderDateCourseDto(DateCourse dateCourse) {
-//      this.id = dateCourse.getId();
-//      this.likesCount = dateCourse.getUserDateCourseLikes().stream().count();
-//      this.locations = dateCourse.getLocations()
-//          .stream()
-//          .map(LikeOrderDateCourseLocationDto::new)
-//          .collect(Collectors.toList());
-//    }
-  }
-
   @Getter
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class LikeOrderCourseLocationDto {
+  public static class CommentDto {
 
-    private String locationName;
-    private String photoUrl;
-    private String text;
-    private float posx;
-    private float posy;
+    private String userName;
+    private String commentContent;
 
     @Builder
-    public LikeOrderCourseLocationDto(Location location) {
-      this.locationName = location.getName();
-      this.photoUrl = location.getPhotoUrl();
-      this.text = location.getText();
-      this.posx = location.getPosx();
-      this.posy = location.getPosy();
+    public CommentDto(Comment comment) {
+
+      this.userName = comment.getUser().getName();
+      this.commentContent = comment.getContent();
     }
   }
-
-  @Getter
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class CurrentLocationCourseDto {
-
-    private Long id;
-
-    private Long likesCount;
-
-    private List<CurrentLocationDto> locations;
-
-    @Builder
-    public CurrentLocationCourseDto(Course course) {
-      this.id = course.getId();
-      this.likesCount = course.getUserCourseLikes().stream().count();
-      this.locations = course.getLocations()
-          .stream()
-          .map(location -> new CurrentLocationDto(location))
-          .collect(Collectors.toList());
-    }
-  }
-
-  @Getter
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class CurrentLocationDto {
-
-    private String locationName;
-    private String photoUrl;
-    private String text;
-    private float posx;
-    private float posy;
-
-    @Builder
-    public CurrentLocationDto(Location location) {
-      this.locationName = location.getName();
-      this.photoUrl = location.getPhotoUrl();
-      this.text = location.getText();
-      this.posx = location.getPosx();
-      this.posy = location.getPosy();
-    }
-  }
-
-
 }

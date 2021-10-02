@@ -6,6 +6,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import BookmarksIcon from "@material-ui/icons/Bookmarks";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import axios from 'axios';
 import {
   logoutUser,
   setSideMenu,
@@ -19,8 +20,8 @@ const UserMenu = () => {
   const myCourseMenu = useSelector((store) => store.myCourseMenu);
   const savedCourseMenu = useSelector((store) => store.savedCourseMenu);
   const logOut = () => {
-    localStorage.removeItem("accessToken");
     dispatcher(logoutUser());
+    axios.post("/logout");
     history.push("/login");
   };
 

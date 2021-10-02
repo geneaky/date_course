@@ -73,7 +73,11 @@ public class SecurityConfig extends
         .successHandler(customAuthenticationSuccessHandler)
         .failureHandler(customAuthenticationFailureHandler);
 
-    http.logout().disable();
+    http.logout(logout -> logout
+        .logoutUrl("/logout")
+        .invalidateHttpSession(true)
+        .deleteCookies("JSESSIONID"));
+
     http.sessionManagement()
         .maximumSessions(1)
         .maxSessionsPreventsLogin(false)

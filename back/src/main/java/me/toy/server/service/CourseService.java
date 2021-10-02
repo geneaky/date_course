@@ -7,8 +7,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
 import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
-import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
-import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
+import me.toy.server.dto.course.CourseResponseDto.CourseDto;
 import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
 import me.toy.server.entity.Course;
 import me.toy.server.entity.Location;
@@ -21,7 +20,6 @@ import me.toy.server.exception.course.AlreadyLikeCourseException;
 import me.toy.server.exception.course.AlreadyUnlikeCourseException;
 import me.toy.server.exception.course.CourseNotFoundException;
 import me.toy.server.exception.user.UserNotFoundException;
-import me.toy.server.repository.CommentRepository;
 import me.toy.server.repository.CourseRepository;
 import me.toy.server.repository.LocationRepository;
 import me.toy.server.repository.LocationTagRepository;
@@ -43,7 +41,6 @@ public class CourseService {
   private final LocationRepository locationRepository;
   private final TagRepository tagRepository;
   private final LocationTagRepository locationTagRepository;
-  private final CommentRepository commentRepository;
   private final UserCourseLikeRepository userCourseLikeRepository;
   private final UserCourseSaveRepository userCourseSaveRepository;
   private final FileService s3Service;
@@ -142,15 +139,15 @@ public class CourseService {
   }
 
   @Transactional(readOnly = true)
-  public Page<RecentCourseDto> getRecentCourses(Pageable pageable) {
+  public Page<CourseDto> getRecentCourses(Pageable pageable) {
 
     Page<Course> coursePage = courseRepository.findAll(pageable);
 
-    return coursePage.map(RecentCourseDto::new);
+    return coursePage.map(CourseDto::new);
   }
 
   @Transactional(readOnly = true)
-  public Page<LikeOrderCourseDto> getLikedOrderCourses(Pageable pageable) {
+  public Page<CourseDto> getLikedOrderCourses(Pageable pageable) {
 
     return courseRepository.findLikeOrderCourse(pageable);
   }
@@ -217,14 +214,14 @@ public class CourseService {
   }
 
   @Transactional(readOnly = true)
-  public Page<RecentCourseDto> getMyCourses(String userEmail, Pageable pageable) {
+  public Page<CourseDto> getMyCourses(String userEmail, Pageable pageable) {
 
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
 
     Page<Course> coursePage = courseRepository
         .findAllCourseByUserId(user.getId(), pageable);
-    return coursePage.map(RecentCourseDto::new);
+    return coursePage.map(CourseDto::new);
   }
 
   @Transactional

@@ -5,8 +5,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.annotation.LoginUser;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
-import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
-import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
+import me.toy.server.dto.course.CourseResponseDto.CourseDto;
 import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
 import me.toy.server.service.CourseService;
 import org.springframework.data.domain.Page;
@@ -59,17 +58,26 @@ public class CourseController {
 
   @GetMapping("/recent")
   @ApiOperation("최신순 데이트 코스 제공")
-  public Page<RecentCourseDto> getRecentOrderCourses(Pageable pageable) {
+  public Page<CourseDto> getRecentOrderCourses(Pageable pageable) {
 
     return courseService.getRecentCourses(pageable);
   }
 
   @GetMapping("/like")
   @ApiOperation("좋아요순 데이트 코스 제공")
-  public Page<LikeOrderCourseDto> getLikeOrderCourses(Pageable pageable) {
+  public Page<CourseDto> getLikeOrderCourses(Pageable pageable) {
 
     return courseService.getLikedOrderCourses(pageable);
   }
+
+//  @GetMapping("/tag")
+//  @ApiOperation("코스 태그 검색")
+//  public Page<CourseResponseDto.CourseDto> searchCoursesByTag(
+//      @RequestParam(name = "name") String name,
+//      Pageable pageable) {
+//
+//    return courseService.searchCoursesByTag(name, pageable);
+//  }
 
   @ApiOperation("사용자가 좋아요 누른 데이트 코스ID 리스트 제공")
   @GetMapping("/like/ids")
@@ -111,7 +119,7 @@ public class CourseController {
 
   @ApiOperation("사용자가 작성한 데이트 코스 제공")
   @GetMapping("/my")
-  public ResponseEntity<Page<RecentCourseDto>> getMyCourses(@LoginUser String userEmail,
+  public ResponseEntity<Page<CourseDto>> getMyCourses(@LoginUser String userEmail,
       Pageable pageable) {
 
     return ResponseEntity.ok().body(courseService.getMyCourses(userEmail, pageable));

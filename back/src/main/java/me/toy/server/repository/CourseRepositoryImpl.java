@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
+import me.toy.server.dto.course.CourseResponseDto.CourseDto;
 import me.toy.server.entity.Course;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,7 +22,7 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public Page<LikeOrderCourseDto> findLikeOrderCourse(Pageable pageable) {
+  public Page<CourseDto> findLikeOrderCourse(Pageable pageable) {
 
     Direction likesCount = Objects.requireNonNull(pageable.getSort().getOrderFor("likesCount"))
         .getDirection();
@@ -36,22 +36,21 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
     long total = queryFactory.selectFrom(course).fetchCount();
 
     if (likesCount.isAscending()) {
-      List<LikeOrderCourseDto> results = getAscendingLikeOrderCourseDtos(fetch);
+      List<CourseDto> results = getAscendingLikeOrderCourseDtos(fetch);
 
       return new PageImpl<>(results, pageable, total);
     }
 
-    List<LikeOrderCourseDto> results = getDescendingLikeOrderCourseDtos(fetch);
+    List<CourseDto> results = getDescendingLikeOrderCourseDtos(fetch);
     return new PageImpl<>(results, pageable, total);
   }
 
-  private List<LikeOrderCourseDto> getDescendingLikeOrderCourseDtos(
+  private List<CourseDto> getDescendingLikeOrderCourseDtos(
       List<Course> fetch) {
 
     return fetch
         .stream()
-        .map(d -> new LikeOrderCourseDto(d.getId(), d.getUserCourseLikes().size(),
-            d.getLocations()))
+        .map(CourseDto::new)
         .sorted((dateCourseDto1, dateCourseDto2) -> {
           if (dateCourseDto1.getLikesCount() > dateCourseDto2.getLikesCount()) {
             return -1;
@@ -66,13 +65,12 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
         .collect(Collectors.toList());
   }
 
-  private List<LikeOrderCourseDto> getAscendingLikeOrderCourseDtos(
+  private List<CourseDto> getAscendingLikeOrderCourseDtos(
       List<Course> fetch) {
 
     return fetch
         .stream()
-        .map(d -> new LikeOrderCourseDto(d.getId(), d.getUserCourseLikes().size(),
-            d.getLocations()))
+        .map(CourseDto::new)
         .sorted((dateCourseDto1, dateCourseDto2) -> {
           if (dateCourseDto1.getLikesCount() > dateCourseDto2.getLikesCount()) {
             return 1;

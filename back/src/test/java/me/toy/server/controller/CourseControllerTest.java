@@ -17,8 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
 import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
-import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
-import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
+import me.toy.server.dto.course.CourseResponseDto.CourseDto;
 import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
 import me.toy.server.entity.Course;
 import me.toy.server.entity.User;
@@ -111,13 +110,13 @@ class CourseControllerTest {
         .build();
     Course course1 = new Course(user, "testCourse1");
     Course course2 = new Course(user, "testCourse2");
-    RecentCourseDto recentCourseDto1 = new RecentCourseDto(course1);
-    RecentCourseDto recentCourseDto2 = new RecentCourseDto(course2);
-    List<RecentCourseDto> list = new ArrayList<>();
-    list.add(recentCourseDto1);
-    list.add(recentCourseDto2);
+    CourseDto courseDto1 = new CourseDto(course1);
+    CourseDto courseDto2 = new CourseDto(course2);
+    List<CourseDto> list = new ArrayList<>();
+    list.add(courseDto1);
+    list.add(courseDto2);
     Pageable pageable = PageRequest.of(0, 2);
-    Page<RecentCourseDto> page = new PageImpl<>(list, pageable, 2);
+    Page<CourseDto> page = new PageImpl<>(list, pageable, 2);
 
     when(courseService.getRecentCourses(pageable)).thenReturn(page);
 
@@ -137,22 +136,19 @@ class CourseControllerTest {
     User user = User.builder()
         .name("tsetOtherUser")
         .email("test@gmail.com")
+        .userCourseLikes(new ArrayList<>())
         .course(new ArrayList<>())
         .build();
     Course course1 = new Course(user, "testCourse1");
     Course course2 = new Course(user, "testCourse2");
-    LikeOrderCourseDto likeOrderCourseDto1 = new LikeOrderCourseDto(course1.getId(),
-        course1.getUserCourseLikes().size(),
-        course1.getLocations());
-    LikeOrderCourseDto likeOrderCourseDto2 = new LikeOrderCourseDto(course2.getId(),
-        course2.getUserCourseLikes().size(),
-        course2.getLocations());
-    List<LikeOrderCourseDto> list = new ArrayList<>();
+    CourseDto likeOrderCourseDto1 = new CourseDto(course1);
+    CourseDto likeOrderCourseDto2 = new CourseDto(course2);
+    List<CourseDto> list = new ArrayList<>();
     list.add(likeOrderCourseDto1);
     list.add(likeOrderCourseDto2);
 
     Pageable pageable = PageRequest.of(0, 2);
-    Page<LikeOrderCourseDto> page = new PageImpl<>(list, pageable, 2);
+    Page<CourseDto> page = new PageImpl<>(list, pageable, 2);
 
     when(courseService.getLikedOrderCourses(pageable)).thenReturn(page);
 
@@ -229,13 +225,13 @@ class CourseControllerTest {
         .build();
     Course course1 = new Course(user, "testCousr1");
     Course course2 = new Course(user, "testCousr2");
-    RecentCourseDto dateCourseDto1 = new RecentCourseDto(course1);
-    RecentCourseDto dateCourseDto2 = new RecentCourseDto(course2);
-    List<RecentCourseDto> list = new ArrayList<>();
+    CourseDto dateCourseDto1 = new CourseDto(course1);
+    CourseDto dateCourseDto2 = new CourseDto(course2);
+    List<CourseDto> list = new ArrayList<>();
     list.add(dateCourseDto1);
     list.add(dateCourseDto2);
     Pageable pageable = PageRequest.of(0, 2);
-    Page<RecentCourseDto> page = new PageImpl<>(list, pageable, 2);
+    Page<CourseDto> page = new PageImpl<>(list, pageable, 2);
 
     when(courseService.getMyCourses("test@naver.com", pageable)).thenReturn(page);
 

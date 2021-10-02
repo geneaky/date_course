@@ -9,14 +9,14 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableRedisHttpSession
 public class RedisConfig {
 
-    @Value("${spring.redis.session.host}")
-    private String HOST;
+  @Value("${spring.redis.session.host}")
+  private String HOST;
 
-    @Value("${spring.redis.session.port}")
-    private int PORT;
+  @Value("${spring.redis.session.port}")
+  private int PORT;
 
-    @Bean
-    public RedisConnectionFactory redisConnectionFactory(){
-        return new LettuceConnectionFactory(HOST,PORT);
-    }
+  @Bean
+  public RedisConnectionFactory redisConnectionFactory() {
+    return new LettuceConnectionFactory(HOST, PORT);
+  }
 }

@@ -6,8 +6,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import me.toy.server.dto.course.CourseResponseDto.CourseCommentDto;
-import me.toy.server.dto.course.CourseResponseDto.RecentLocationDto;
+import me.toy.server.dto.course.CourseResponseDto.CommentDto;
+import me.toy.server.dto.course.CourseResponseDto.LocationDto;
 import me.toy.server.entity.User;
 import me.toy.server.entity.UserCourseSave;
 
@@ -23,8 +23,8 @@ public class UserResponseDto {
     private Long userId;
     private String courseTitle;
     private List<Long> userLikedCoursesIds;//boolean isUserLikeCourse로 변경 front랑 같이
-    private List<RecentLocationDto> locations;
-    private List<CourseCommentDto> comments;
+    private List<LocationDto> locations;
+    private List<CommentDto> comments;
 
     @Builder
     public SavedCourseDto(UserCourseSave userCourseSave) {
@@ -42,11 +42,11 @@ public class UserResponseDto {
           .collect(Collectors.toList());
       this.comments = userCourseSave.getCourse().getComments()
           .stream()
-          .map(comment -> new CourseCommentDto(comment))
+          .map(comment -> new CommentDto(comment))
           .collect(Collectors.toList());
       this.locations = userCourseSave.getCourse().getLocations()
           .stream()
-          .map(location -> new RecentLocationDto(location))
+          .map(location -> new LocationDto(location))
           .collect(Collectors.toList());
     }
   }

@@ -19,8 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
 import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
-import me.toy.server.dto.course.CourseResponseDto.LikeOrderCourseDto;
-import me.toy.server.dto.course.CourseResponseDto.RecentCourseDto;
+import me.toy.server.dto.course.CourseResponseDto.CourseDto;
 import me.toy.server.dto.user.UserResponseDto.SavedCourseDto;
 import me.toy.server.entity.Course;
 import me.toy.server.entity.Tag;
@@ -424,10 +423,10 @@ class CourseServiceTest {
 
     Pageable pageable = PageRequest.of(1, 3, Direction.DESC, "recent");
     Page<Course> coursePage = new PageImpl<>(courses, pageable, 3);
-    Page<RecentCourseDto> result = coursePage.map(RecentCourseDto::new);
+    Page<CourseDto> result = coursePage.map(CourseDto::new);
     when(courseRepository.findAll(pageable)).thenReturn(coursePage);
 
-    Page<RecentCourseDto> recentCourses = courseService.getRecentCourses(pageable);
+    Page<CourseDto> recentCourses = courseService.getRecentCourses(pageable);
 
     assertThat(recentCourses.getContent()).size().isEqualTo(3);
     assertThat(recentCourses.getContent()).usingRecursiveComparison().isEqualTo(result);
@@ -448,17 +447,17 @@ class CourseServiceTest {
     Course course1 = new Course(user, "course1");
     Course course2 = new Course(user, "course2");
     Course course3 = new Course(user, "course3");
-    LikeOrderCourseDto courseDto1 = new LikeOrderCourseDto(1L, 3, course1.getLocations());
-    LikeOrderCourseDto courseDto2 = new LikeOrderCourseDto(2L, 2, course2.getLocations());
-    LikeOrderCourseDto courseDto3 = new LikeOrderCourseDto(3L, 1, course3.getLocations());
-    List<LikeOrderCourseDto> courses = new ArrayList<>(
+    CourseDto courseDto1 = new CourseDto(course1);
+    CourseDto courseDto2 = new CourseDto(course2);
+    CourseDto courseDto3 = new CourseDto(course3);
+    List<CourseDto> courses = new ArrayList<>(
         Arrays.asList(courseDto1, courseDto2, courseDto3));
 
-    Page<LikeOrderCourseDto> page = new PageImpl<>(courses, pageable, 3);
+    Page<CourseDto> page = new PageImpl<>(courses, pageable, 3);
 
     when(courseRepository.findLikeOrderCourse(pageable)).thenReturn(page);
 
-    Page<LikeOrderCourseDto> likedOrderCourses = courseService.getLikedOrderCourses(pageable);
+    Page<CourseDto> likedOrderCourses = courseService.getLikedOrderCourses(pageable);
 
     assertThat(likedOrderCourses.getContent()).size().isEqualTo(3);
     assertThat(likedOrderCourses.getContent()).usingRecursiveComparison().isEqualTo(page);
@@ -685,7 +684,7 @@ class CourseServiceTest {
 
     when(userRepository.findByEmail("test@naver.com")).thenReturn(Optional.of(user));
     when(courseRepository.findAllCourseByUserId(user.getId(), pageable)).thenReturn(page);
-    Page<RecentCourseDto> myCourse = courseService.getMyCourses("test@naver.com", pageable);
+    Page<CourseDto> myCourse = courseService.getMyCourses("test@naver.com", pageable);
 
     verify(userRepository, times(1)).findByEmail("test@naver.com");
     assertEquals(myCourse.getContent().size(), 3);
