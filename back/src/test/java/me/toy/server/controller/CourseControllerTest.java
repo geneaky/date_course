@@ -102,8 +102,6 @@ class CourseControllerTest {
     User user = User.builder()
         .name("testOtherUser")
         .email("test@gmail.com")
-        .course(new ArrayList<>())
-        .userCourseLikes(new ArrayList<>())
         .build();
     Course course1 = new Course(user, "testCourse1");
     Course course2 = new Course(user, "testCourse2");
@@ -133,8 +131,6 @@ class CourseControllerTest {
     User user = User.builder()
         .name("tsetOtherUser")
         .email("test@gmail.com")
-        .userCourseLikes(new ArrayList<>())
-        .course(new ArrayList<>())
         .build();
     Course course1 = new Course(user, "testCourse1");
     Course course2 = new Course(user, "testCourse2");

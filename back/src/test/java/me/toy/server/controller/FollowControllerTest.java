@@ -77,7 +77,7 @@ class FollowControllerTest {
     followeeDtos.add(followeeDto2);
     UserFollowees userFollowees = new UserFollowees(followeeDtos);
 
-    when(followService.getUserFollowees("test@naver.com")).thenReturn(userFollowees);
+    when(followService.getUserFollowees(1L)).thenReturn(userFollowees);
 
     mockMvc.perform(get("/followees"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -115,7 +115,7 @@ class FollowControllerTest {
     list.add(followerDto2);
     UserFollowers userFollowers = new UserFollowers(list);
 
-    when(followService.getUserFollowers("test@naver.com")).thenReturn(userFollowers);
+    when(followService.getUserFollowers(1L)).thenReturn(userFollowers);
 
     mockMvc.perform(get("/followers"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))

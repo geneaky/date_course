@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import me.toy.server.annotation.LoginUser;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
 import me.toy.server.dto.course.CourseResponseDto.CourseDto;
+import me.toy.server.security.UserPrincipal;
 import me.toy.server.service.CourseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,27 +32,27 @@ public class CourseController {
   @ApiOperation("데이트 코스 등록")
   public void registCourse(
       @ModelAttribute RegistCourseFormDto registCourseFormDto,
-      @LoginUser String userEmail) {
+      @LoginUser UserPrincipal user) {
 
-    courseService.registCourse(registCourseFormDto, userEmail);
+    courseService.registCourse(registCourseFormDto, user.getEmail());
   }
 
   @Secured("ROLE_USER")
   @PostMapping("/{courseId}/like")
   @ApiOperation("데이트 코스 좋아요")
   public void likeCourse(@PathVariable Long courseId,
-      @LoginUser String userEmail) {
+      @LoginUser UserPrincipal user) {
 
-    courseService.likeCourse(courseId, userEmail);
+    courseService.likeCourse(courseId, user.getEmail());
   }
 
   @Secured("ROLE_USER")
   @DeleteMapping("/{courseId}/like")
   @ApiOperation("데이트 코스 좋아요 취소")
   public void unlikeCourse(@PathVariable Long courseId,
-      @LoginUser String userEmail) {
+      @LoginUser UserPrincipal user) {
 
-    courseService.unlikeCourse(courseId, userEmail);
+    courseService.unlikeCourse(courseId, user.getId());
   }
 
   @GetMapping

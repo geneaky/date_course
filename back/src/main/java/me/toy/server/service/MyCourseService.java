@@ -53,24 +53,19 @@ public class MyCourseService {
   }
 
   @Transactional
-  public void removeCourse(Long courseId, String userEmail) {
+  public void removeCourse(Long courseId, Long userId) {
 
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
     Course course = courseRepository.findById(courseId).orElseThrow(() ->
         new CourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
 
-    userCourseSaveRepository.deleteByUserIdAndCourseId(user.getId(), course.getId());
+    userCourseSaveRepository.deleteByUserIdAndCourseId(userId, course.getId());
   }
 
   @Transactional(readOnly = true)
-  public Page<SavedCourseDto> getSavedCourses(String userEmail, Pageable pageable) {
-
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
+  public Page<SavedCourseDto> getSavedCourses(Long userId, Pageable pageable) {
 
     Page<UserCourseSave> allSavedCourseByUserId = userCourseSaveRepository
-        .findAllUserCourseSavePageByUserId(user.getId(), pageable);
+        .findAllUserCourseSavePageByUserId(userId, pageable);
     return allSavedCourseByUserId.map(SavedCourseDto::new);
   }
 
@@ -88,22 +83,17 @@ public class MyCourseService {
   }
 
   @Transactional(readOnly = true)
-  public Page<CourseDto> getMyCourses(String userEmail, Pageable pageable) {
-
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
+  public Page<CourseDto> getMyCourses(Long userId, Pageable pageable) {
 
     Page<Course> coursePage = courseRepository
-        .findAllCourseByUserId(user.getId(), pageable);
+        .findAllCourseByUserId(userId, pageable);
     return coursePage.map(CourseDto::new);
   }
 
   @Transactional
-  public void removeMyCourse(Long courseId, String userEmail) {
+  public void removeMyCourse(Long courseId, Long userId) {
 
-    userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-    Course course = courseRepository.findById(courseId).orElseThrow(() ->
+    Course course = courseRepository.findByIdAndUserId(courseId, userId).orElseThrow(() ->
         new CourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
 
     courseRepository.delete(course);

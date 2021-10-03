@@ -44,14 +44,12 @@ public class FollowService {
 
   @Transactional
   public void unfollowUser(UnfollowRequest unfollowRequest,
-      String userEmail) {
+      Long userId) {
 
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
     User followee = userRepository.findById(unfollowRequest.getFolloweeId()).orElseThrow(() ->
         new UserNotFoundException("없는 사용자 입니다."));
 
-    Follow follow = followRepository.findByUserIdAndFolloweeId(user.getId(),
+    Follow follow = followRepository.findByUserIdAndFolloweeId(userId,
         followee.getId()).orElseThrow(() ->
         new AlreadyUnfollowUserException("해당 유저를 팔로우 하고 있지 않습니다."));
 
@@ -60,12 +58,9 @@ public class FollowService {
 
   @Transactional(readOnly = true)
   public UserFollowees getUserFollowees(
-      String userEmail) {
+      Long userId) {
 
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-
-    List<User> followees = userRepository.findFollowees(user.getId());
+    List<User> followees = userRepository.findFollowees(userId);
     List<FolloweeDto> followeeDtos = followees.stream()
         .map(u -> new FolloweeDto(u.getId(), u.getName(), u.getEmail())).collect(
             Collectors.toList());
@@ -74,12 +69,9 @@ public class FollowService {
   }
 
   @Transactional(readOnly = true)
-  public UserFollowers getUserFollowers(String userEmail) {
+  public UserFollowers getUserFollowers(Long userId) {
 
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
-
-    List<User> followers = userRepository.findFollowers(user.getId());
+    List<User> followers = userRepository.findFollowers(userId);
 
     List<FollowerDto> followerDtos = followers.stream()
         .map(u -> new FollowerDto(u.getId(), u.getName(), u.getEmail()))

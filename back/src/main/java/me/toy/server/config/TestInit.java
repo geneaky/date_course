@@ -20,6 +20,7 @@ public class TestInit {
   public void settingUserTest() {
 
     User user = User.builder()
+        .id(1L)
         .email("test@naver.com")
         .name("testUser").build();
     userRepository.save(user);

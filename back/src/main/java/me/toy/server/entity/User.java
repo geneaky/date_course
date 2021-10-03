@@ -9,7 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +18,7 @@ import me.toy.server.security.oauth2.OAuth2Provider;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
   @Id
@@ -46,6 +44,18 @@ public class User extends BaseEntity {
   private List<Comment> comments = new ArrayList<>();
   @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<Follow> follows = new ArrayList<>();
+
+  @Builder
+  public User(Long id, String email, String password, String name, String imageUrl,
+      OAuth2Provider provider, String providerId) {
+    this.id = id;
+    this.email = email;
+    this.password = password;
+    this.name = name;
+    this.imageUrl = imageUrl;
+    this.provider = provider;
+    this.providerId = providerId;
+  }
 
   public void updateUserName(String userName) {
     this.name = userName;

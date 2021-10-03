@@ -108,8 +108,6 @@ class MyCourseControllerTest {
     User user = User.builder()
         .name("testUser")
         .email("test@naver.com")
-        .course(new ArrayList<>())
-        .userCourseLikes(new ArrayList<>())
         .build();
     Course course1 = new Course(user, "testCousr1");
     Course course2 = new Course(user, "testCousr2");
@@ -121,7 +119,7 @@ class MyCourseControllerTest {
     Pageable pageable = PageRequest.of(0, 2);
     Page<CourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    when(myCourseService.getMyCourses("test@naver.com", pageable)).thenReturn(page);
+    when(myCourseService.getMyCourses(1L, pageable)).thenReturn(page);
 
     mockMvc.perform(get("/my-courses?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -148,9 +146,6 @@ class MyCourseControllerTest {
     User user = User.builder()
         .name("testOtherUser")
         .email("testOtherUser@naver.com")
-        .course(new ArrayList<>())
-        .userCourseLikes(new ArrayList<>())
-        .userCourseSaves(new ArrayList<>())
         .build();
     Course course1 = new Course(user, "testCousr1");
     Course course2 = new Course(user, "testCousr2");
@@ -165,7 +160,7 @@ class MyCourseControllerTest {
     Pageable pageable = PageRequest.of(0, 2);
     Page<SavedCourseDto> page = new PageImpl<>(list, pageable, 2);
 
-    when(myCourseService.getSavedCourses("test@naver.com", pageable)).thenReturn(page);
+    when(myCourseService.getSavedCourses(1L, pageable)).thenReturn(page);
 
     mockMvc.perform(get("/my-courses/save/courses?page=0&size=2"))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))

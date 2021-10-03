@@ -7,6 +7,7 @@ import me.toy.server.annotation.LoginUser;
 import me.toy.server.dto.user.UserRequestDto;
 import me.toy.server.dto.user.UserResponseDto.UserFollowees;
 import me.toy.server.dto.user.UserResponseDto.UserFollowers;
+import me.toy.server.security.UserPrincipal;
 import me.toy.server.service.FollowService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -26,32 +27,32 @@ public class FollowController {
   @ApiOperation("사용자 팔로우")
   @PostMapping("/followees")
   public void followUser(@Valid @RequestBody UserRequestDto.FollowRequest followRequest,
-      @LoginUser String userEmail) {
+      @LoginUser UserPrincipal user) {
 
-    followService.followUser(followRequest, userEmail);
+    followService.followUser(followRequest, user.getEmail());
   }
 
   @ApiOperation("사용자 언팔로우")
   @DeleteMapping("/followees")
   public void unfollowUser(@Valid @RequestBody UserRequestDto.UnfollowRequest unfollowRequest,
-      @LoginUser String userEmail) {
+      @LoginUser UserPrincipal user) {
 
-    followService.unfollowUser(unfollowRequest, userEmail);
+    followService.unfollowUser(unfollowRequest, user.getId());
   }
 
   @ApiOperation("사용자 팔로잉 조회")
   @GetMapping("/followees")
   public ResponseEntity<UserFollowees> getUserFollowings(
-      @LoginUser String userEmail) {
+      @LoginUser UserPrincipal user) {
 
-    return ResponseEntity.ok().body(followService.getUserFollowees(userEmail));
+    return ResponseEntity.ok().body(followService.getUserFollowees(user.getId()));
   }
 
   @ApiOperation("사용자 팔로워 조회")
   @GetMapping("/followers")
   public ResponseEntity<UserFollowers> getUserFollowers(
-      @LoginUser String userEmail) {
+      @LoginUser UserPrincipal user) {
 
-    return ResponseEntity.ok().body(followService.getUserFollowers(userEmail));
+    return ResponseEntity.ok().body(followService.getUserFollowers(user.getId()));
   }
 }

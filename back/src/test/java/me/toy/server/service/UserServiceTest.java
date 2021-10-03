@@ -39,11 +39,14 @@ public class UserServiceTest {
   @DisplayName("사용자 정보 폼으로 사용자 계정을 생성한다.")
   public void createUserAccountTest() throws Exception {
 
-    UserRegisterForm userRegisterFrom = new UserRegisterForm("test@naver.com", "asdf", "testUser");
+    UserRegisterForm userRegisterForm = UserRegisterForm.builder()
+        .email("test@Naver.com")
+        .nickName("testUser")
+        .password("asdf")
+        .build();
+    when(userRepository.findByEmail(userRegisterForm.getEmail())).thenReturn(Optional.empty());
 
-    when(userRepository.findByEmail(userRegisterFrom.getEmail())).thenReturn(Optional.empty());
-
-    userService.createUserAccount(userRegisterFrom);
+    userService.createUserAccount(userRegisterForm);
 
     verify(userRepository).save(any());
   }
@@ -67,7 +70,7 @@ public class UserServiceTest {
   public void throwUserNotFoundExceptionWhenUserNotLogin() throws Exception {
 
     assertThrows(UserNotFoundException.class, () -> {
-      userService.getUserInfo("");
+      userService.getUserInfo(any());
     });
   }
 
@@ -82,9 +85,8 @@ public class UserServiceTest {
         .password("nopassword")
         .build();
     Optional<User> oUser = Optional.of(user);
-    userRepository.save(user);
-    when(userRepository.findByEmail("test@naver.com"))
-        .thenReturn(oUser);
+
+    when(userRepository.findByEmail(any())).thenReturn(oUser);
 
     UserDto userDto = userService.getUserInfo("test@naver.com");
 

@@ -37,9 +37,9 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     if (authentication instanceof UsernamePasswordAuthenticationToken
         || authentication instanceof OAuth2AuthenticationToken) {
-      UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-      return userPrincipal.getEmail();
+      return (UserPrincipal) authentication.getPrincipal();
     }
+
     throw new UserNotFoundException("인증되지 않은 사용자의 요청입니다.");
   }
 }

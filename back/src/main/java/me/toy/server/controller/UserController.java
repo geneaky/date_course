@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.annotation.LoginUser;
 import me.toy.server.dto.user.UserResponseDto.UserDto;
+import me.toy.server.security.UserPrincipal;
 import me.toy.server.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -38,9 +39,9 @@ public class UserController {
 
   @ApiOperation("로그인한 사용자 정보 제공")
   @GetMapping("/info")
-  public ResponseEntity<UserDto> getUserInfo(@LoginUser String userEmail) {
+  public ResponseEntity<UserDto> getUserInfo(@LoginUser UserPrincipal user) {
 
-    return ResponseEntity.ok().body(userService.getUserInfo(userEmail));
+    return ResponseEntity.ok().body(userService.getUserInfo(user.getEmail()));
   }
 
 }

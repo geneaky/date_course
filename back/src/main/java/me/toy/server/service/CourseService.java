@@ -118,20 +118,17 @@ public class CourseService {
   }
 
   @Transactional
-  public void unlikeCourse(Long dateCourseId, String userEmail) {
+  public void unlikeCourse(Long dateCourseId, Long userId) {
 
-    User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
-        new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
-    );
     Course course = courseRepository.findById(dateCourseId).orElseThrow(() ->
         new CourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
 
-    if (!userCourseLikeRepository.findLikeByUserIdAndCourseId(user.getId(),
+    if (!userCourseLikeRepository.findLikeByUserIdAndCourseId(userId,
         course.getId()).isPresent()) {
       throw new AlreadyUnlikeCourseException("좋아요 표시되지 않은 코스는 좋아요 취소가 불가능합니다.");
     }
 
-    userCourseLikeRepository.unlikeCourse(user.getId(), course.getId());
+    userCourseLikeRepository.unlikeCourse(userId, course.getId());
   }
 
   @Transactional(readOnly = true)
@@ -144,11 +141,13 @@ public class CourseService {
     return coursePage.map(CourseDto::new);
   }
 
+  @Transactional(readOnly = true)
   public Page<CourseDto> searchCoursesByTag(String name, Pageable pageable) {
 
     return courseRepository.findCoursesByTag(name, pageable);
   }
 
+  @Transactional(readOnly = true)
   public Page<CourseDto> searchCoursesByTitle(String title, Pageable pageable) {
 
     return courseRepository.findCoursesByTitle(title, pageable);
