@@ -32,7 +32,6 @@ public class MyCourseService {
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
     );
-//쿼리 확인 point -> batch size 적용되는지 확인
     return user.getUserCourseLikes()
         .stream()
         .map(like -> like.getCourse().getId())
@@ -75,7 +74,6 @@ public class MyCourseService {
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
 
-//    쿼리 확인 point
     return user.getUserCourseSaves()
         .stream()
         .map(savedCourse -> savedCourse.getCourse().getId())

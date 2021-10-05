@@ -1,5 +1,6 @@
 package me.toy.server.controller;
 
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.annotation.LoginUser;
@@ -57,6 +58,11 @@ public class CourseController {
 
   @GetMapping
   @ApiOperation("페이징 데이트 코스 제공")
+  @ApiImplicitParam(
+      name = "sort",
+      value = "정렬 조건 ( id | likes , ASC | DESC )",
+      dataType = "string"
+  )
   public Page<CourseDto> getCoursesPage(Pageable pageable) {
 
     return courseService.getCoursePage(pageable);
@@ -64,15 +70,24 @@ public class CourseController {
 
   @GetMapping("/tag")
   @ApiOperation("코스 태그 검색")
+  @ApiImplicitParam(
+      name = "sort",
+      value = "정렬 조건 ( id | likes , ASC | DESC )",
+      dataType = "string"
+  )
   public Page<CourseDto> searchCoursesByTag(
-      @RequestParam(name = "name") String name,
-      Pageable pageable) {
+      @RequestParam(name = "name") String[] names, Pageable pageable) {
 
-    return courseService.searchCoursesByTag(name, pageable);
+    return courseService.searchCoursesByTag(names, pageable);
   }
 
   @GetMapping("/title")
   @ApiOperation("코스 제목 검색")
+  @ApiImplicitParam(
+      name = "sort",
+      value = "정렬 조건 ( id | likes , ASC | DESC )",
+      dataType = "string"
+  )
   public Page<CourseDto> searchCoursesByTitle(@RequestParam(name = "title") String title,
       Pageable pageable) {
 

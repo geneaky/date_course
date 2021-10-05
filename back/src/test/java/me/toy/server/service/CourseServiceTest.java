@@ -381,12 +381,13 @@ class CourseServiceTest {
 
     Page<CourseDto> page = new PageImpl<>(courses, pageable, 3);
 
-    when(courseRepository.findLikeOrderCourse(any())).thenReturn(page);
+    when(courseRepository.findLikeOrderCourses(any())).thenReturn(pa
+        ge);
 
     Page<CourseDto> likedOrderCourses = courseService.getCoursePage(pageable);
 
     assertThat(likedOrderCourses.getContent()).size().isEqualTo(3);
     assertThat(likedOrderCourses.getContent()).usingRecursiveComparison().isEqualTo(page);
-    verify(courseRepository).findLikeOrderCourse((pageable));
+    verify(courseRepository).findLikeOrderCourses((pageable));
   }
 }

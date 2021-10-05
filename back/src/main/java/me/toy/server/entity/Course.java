@@ -47,4 +47,9 @@ public class Course extends BaseEntity {
     this.user = user;
     user.getCourse().add(this);
   }
+
+  public int getLikesCount() {
+
+    return this.userCourseLikes.size();
+  }
 }

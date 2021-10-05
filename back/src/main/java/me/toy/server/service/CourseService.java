@@ -1,9 +1,11 @@
 package me.toy.server.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.dto.course.CourseRequestDto.RegistCourseFormDto;
 import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
@@ -25,7 +27,9 @@ import me.toy.server.repository.TagRepository;
 import me.toy.server.repository.UserCourseLikeRepository;
 import me.toy.server.repository.UserRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +44,7 @@ public class CourseService {
   private final LocationTagRepository locationTagRepository;
   private final UserCourseLikeRepository userCourseLikeRepository;
   private final FileService s3Service;
+  private final String LIKE = "likes";
 
   @Transactional
   public void registCourse(RegistCourseFormDto registCourseFormDto, String userEmail) {
@@ -134,22 +139,92 @@ public class CourseService {
   @Transactional(readOnly = true)
   public Page<CourseDto> getCoursePage(Pageable pageable) {
 
-    if (Objects.nonNull(pageable.getSort().getOrderFor("likes"))) {
-      return courseRepository.findLikeOrderCourse(pageable);
+    if (Objects.nonNull(pageable.getSort().getOrderFor(LIKE))) {
+
+      Page<Course> coursePage = courseRepository.findLikeOrderCourses(pageable);
+      Direction direction = getDirectionByProperty(pageable, LIKE);
+
+      return getCourseDtoPage(coursePage, direction);
     }
+
     Page<Course> coursePage = courseRepository.findAll(pageable);
     return coursePage.map(CourseDto::new);
   }
 
   @Transactional(readOnly = true)
-  public Page<CourseDto> searchCoursesByTag(String name, Pageable pageable) {
+  public Page<CourseDto> searchCoursesByTag(String[] name, Pageable pageable) {
 
-    return courseRepository.findCoursesByTag(name, pageable);
+    if (Objects.nonNull(pageable.getSort().getOrderFor(LIKE))) {
+
+      Page<Course> coursePage = courseRepository.findCoursesByTag(name, pageable);
+      Direction direction = getDirectionByProperty(pageable, LIKE);
+
+      return getCourseDtoPage(coursePage, direction);
+    }
+
+    Page<Course> coursePage = courseRepository.findCoursesByTag(name, pageable);
+    return coursePage.map(CourseDto::new);
   }
 
   @Transactional(readOnly = true)
   public Page<CourseDto> searchCoursesByTitle(String title, Pageable pageable) {
 
-    return courseRepository.findCoursesByTitle(title, pageable);
+    if (Objects.nonNull(pageable.getSort().getOrderFor(LIKE))) {
+
+      Page<Course> coursePage = courseRepository.findCoursesByTitle(title, pageable);
+      Direction direction = getDirectionByProperty(pageable, LIKE);
+
+      return getCourseDtoPage(coursePage, direction);
+    }
+
+    Page<Course> coursePage = courseRepository.findCoursesByTitle(title, pageable);
+    return coursePage.map(CourseDto::new);
+  }
+
+  private Direction getDirectionByProperty(Pageable pageable, String property) {
+
+    return Objects.requireNonNull(
+            pageable
+                .getSort()
+                .getOrderFor(property))
+        .getDirection();
+  }
+
+  private Page<CourseDto> getCourseDtoPage(Page<Course> coursePage, Direction direction) {
+
+    if (direction.isAscending()) {
+
+      Page<Course> results = getAscendingCourse(coursePage);
+      return results.map(CourseDto::new);
+    }
+
+    Page<Course> results = getDescendingCourse(coursePage);
+    return results.map(CourseDto::new);
+  }
+
+  private Page<Course> getAscendingCourse(
+      Page<Course> fetch) {
+
+    List<Course> collect = fetch
+        .stream()
+        .sorted(
+            Comparator.comparing(Course::getLikesCount)
+                .thenComparing(Course::getId).reversed())
+        .collect(Collectors.toList());
+
+    return new PageImpl<>(collect, fetch.getPageable(), fetch.getNumberOfElements());
+  }
+
+  private Page<Course> getDescendingCourse(
+      Page<Course> fetch) {
+
+    List<Course> collect = fetch
+        .stream()
+        .sorted(
+            Comparator.comparing(Course::getLikesCount).reversed()
+                .thenComparing(Course::getId).reversed())
+        .collect(Collectors.toList());
+
+    return new PageImpl<>(collect, fetch.getPageable(), fetch.getNumberOfElements());
   }
 }
