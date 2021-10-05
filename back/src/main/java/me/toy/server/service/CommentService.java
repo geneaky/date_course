@@ -32,4 +32,10 @@ public class CommentService {
     Comment courseComment = new Comment(user, course, comment);
     commentRepository.save(courseComment);
   }
+
+  @Transactional
+  public void removeComment(Long courseId, Long userId, Long commentId) {
+
+    commentRepository.deleteCommentByUsing(courseId, userId, commentId);
+  }
 }

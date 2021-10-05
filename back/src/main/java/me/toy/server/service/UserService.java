@@ -6,7 +6,9 @@ import me.toy.server.dto.user.UserResponseDto.UserDto;
 import me.toy.server.entity.User;
 import me.toy.server.exception.user.EmailDuplicationException;
 import me.toy.server.exception.user.UserNotFoundException;
+import me.toy.server.repository.FollowRepository;
 import me.toy.server.repository.UserRepository;
+import me.toy.server.security.UserPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final FollowRepository followRepository;
   private final PasswordEncoder bCryptPasswordEncoder;
 
   @Transactional
@@ -42,5 +45,13 @@ public class UserService {
     );
 
     return new UserDto(user);
+  }
+
+  @Transactional
+  public void withdrawal(UserPrincipal user) {
+
+    followRepository.deleteByFolloweeId(user.getId());
+    userRepository.deleteById(user.getId());
+
   }
 }

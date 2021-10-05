@@ -28,9 +28,9 @@ public class CourseController {
 
   private final CourseService courseService;
 
+  @ApiOperation("데이트 코스 등록")
   @Secured("ROLE_USER")
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  @ApiOperation("데이트 코스 등록")
   public void registCourse(
       @ModelAttribute RegistCourseFormDto registCourseFormDto,
       @LoginUser UserPrincipal user) {
@@ -38,56 +38,56 @@ public class CourseController {
     courseService.registCourse(registCourseFormDto, user.getEmail());
   }
 
+  @ApiOperation("데이트 코스 좋아요")
   @Secured("ROLE_USER")
   @PostMapping("/{courseId}/like")
-  @ApiOperation("데이트 코스 좋아요")
   public void likeCourse(@PathVariable Long courseId,
       @LoginUser UserPrincipal user) {
 
     courseService.likeCourse(courseId, user.getEmail());
   }
 
+  @ApiOperation("데이트 코스 좋아요 취소")
   @Secured("ROLE_USER")
   @DeleteMapping("/{courseId}/like")
-  @ApiOperation("데이트 코스 좋아요 취소")
   public void unlikeCourse(@PathVariable Long courseId,
       @LoginUser UserPrincipal user) {
 
     courseService.unlikeCourse(courseId, user.getId());
   }
 
-  @GetMapping
   @ApiOperation("페이징 데이트 코스 제공")
   @ApiImplicitParam(
       name = "sort",
       value = "정렬 조건 ( id | likes , ASC | DESC )",
       dataType = "string"
   )
+  @GetMapping
   public Page<CourseDto> getCoursesPage(Pageable pageable) {
 
     return courseService.getCoursePage(pageable);
   }
 
-  @GetMapping("/tag")
   @ApiOperation("코스 태그 검색")
   @ApiImplicitParam(
       name = "sort",
       value = "정렬 조건 ( id | likes , ASC | DESC )",
       dataType = "string"
   )
+  @GetMapping("/tag")
   public Page<CourseDto> searchCoursesByTag(
       @RequestParam(name = "name") String[] names, Pageable pageable) {
 
     return courseService.searchCoursesByTag(names, pageable);
   }
 
-  @GetMapping("/title")
   @ApiOperation("코스 제목 검색")
   @ApiImplicitParam(
       name = "sort",
       value = "정렬 조건 ( id | likes , ASC | DESC )",
       dataType = "string"
   )
+  @GetMapping("/title")
   public Page<CourseDto> searchCoursesByTitle(@RequestParam(name = "title") String title,
       Pageable pageable) {
 

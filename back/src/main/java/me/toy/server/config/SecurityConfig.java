@@ -57,11 +57,9 @@ public class SecurityConfig extends
     http.httpBasic();
 
     http.authorizeRequests()
-        .antMatchers("/user/**").access("hasRole('ROLE_USER')")
-        .antMatchers("/datecourse/*/**").access("hasRole('ROLE_USER')")
         .antMatchers("/v2/api-docs", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**")
         .permitAll()
-        .antMatchers("/auth/**", "/oauth2/**", "/datecourses/recent", "/signUp").permitAll()
+        .antMatchers("/auth/**", "/oauth2/**", "/courses/*", "/signUp").permitAll()
         .anyRequest().authenticated();
 
     http.addFilterAt(getFilter(), UsernamePasswordAuthenticationFilter.class)

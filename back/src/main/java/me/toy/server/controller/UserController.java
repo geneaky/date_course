@@ -13,6 +13,8 @@ import me.toy.server.security.UserPrincipal;
 import me.toy.server.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +44,14 @@ public class UserController {
   public ResponseEntity<UserDto> getUserInfo(@LoginUser UserPrincipal user) {
 
     return ResponseEntity.ok().body(userService.getUserInfo(user.getEmail()));
+  }
+
+  @ApiOperation("회원 탈퇴")
+  @DeleteMapping
+  public void userWithdrawal(@LoginUser UserPrincipal user) {
+
+    userService.withdrawal(user);
+    SecurityContextHolder.clearContext();
   }
 
 }
