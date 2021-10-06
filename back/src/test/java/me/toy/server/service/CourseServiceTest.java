@@ -370,24 +370,27 @@ class CourseServiceTest {
 
     Pageable pageable = PageRequest.of(1, 3, Direction.DESC, "likes");
     User user = createUser();
-    Course course1 = new Course(user, "course1");
-    Course course2 = new Course(user, "course2");
-    Course course3 = new Course(user, "course3");
-    CourseDto courseDto1 = new CourseDto(course1);
-    CourseDto courseDto2 = new CourseDto(course2);
-    CourseDto courseDto3 = new CourseDto(course3);
-    List<CourseDto> courses = new ArrayList<>(
-        Arrays.asList(courseDto1, courseDto2, courseDto3));
+    Course course1 = mock(Course.class);
+    Course course2 = mock(Course.class);
+    Course course3 = mock(Course.class);
+    List<Course> courses = new ArrayList<>(
+        Arrays.asList(course1, course2, course3));
 
-    Page<CourseDto> page = new PageImpl<>(courses, pageable, 3);
-
-    when(courseRepository.findLikeOrderCourses(any())).thenReturn(pa
-        ge);
+    Page<Course> page = new PageImpl<>(courses, pageable, 3);
+    when(course1.getLikesCount()).thenReturn(1);
+    when(course2.getLikesCount()).thenReturn(1);
+    when(course3.getLikesCount()).thenReturn(1);
+    when(course1.getId()).thenReturn(1L);
+    when(course2.getId()).thenReturn(2L);
+    when(course3.getId()).thenReturn(3L);
+    when(course1.getUser()).thenReturn(user);
+    when(course2.getUser()).thenReturn(user);
+    when(course3.getUser()).thenReturn(user);
+    when(courseRepository.findLikeOrderCourses(any())).thenReturn(page);
 
     Page<CourseDto> likedOrderCourses = courseService.getCoursePage(pageable);
 
     assertThat(likedOrderCourses.getContent()).size().isEqualTo(3);
-    assertThat(likedOrderCourses.getContent()).usingRecursiveComparison().isEqualTo(page);
     verify(courseRepository).findLikeOrderCourses((pageable));
   }
 }
