@@ -59,7 +59,7 @@ public class SecurityConfig extends
     http.authorizeRequests()
         .antMatchers("/v2/api-docs", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**")
         .permitAll()
-        .antMatchers("/auth/**", "/oauth2/**", "/courses/*", "/signUp").permitAll()
+        .antMatchers("/auth/**", "/oauth2/**", "/courses", "/signUp").permitAll()
         .anyRequest().authenticated();
 
     http.addFilterAt(getFilter(), UsernamePasswordAuthenticationFilter.class)
