@@ -19,10 +19,11 @@ public class CustomUserDetailService implements UserDetailsService {
   private final PasswordEncoder bCryptPasswordEncoder;
 
   @Override
-  public UserPrincipal loadUserByUsername(String email) throws UsernameNotFoundException {
+  public UserPrincipal
+  loadUserByUsername(String email) throws UsernameNotFoundException {
 
     User user = userRepository.findByEmail(email)
-        .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        .orElseThrow(() -> new UsernameNotFoundException("해당 이메일로 가입한 사용자는 없습니다: " + email));
 
     return UserPrincipal.create(user);
   }
@@ -30,8 +31,12 @@ public class CustomUserDetailService implements UserDetailsService {
   public UserPrincipal loadUserByEmailAndPassword(String email, String password)
       throws UsernameNotFoundException {
 
-    User user = userRepository.findByEmailAndPassword(email, bCryptPasswordEncoder.encode(password))
-        .orElseThrow(() -> new UserNotFoundException("가입하지 않은 사용자거나 잘못된 정보입니다."));
+    User user = userRepository.findByEmail(email)
+        .orElseThrow(() -> new UserNotFoundException("해당 이메일로 가입한 사용자는 없습니다: " + email));
+
+    if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
+      throw new UserNotFoundException("비밀 번호가 일치하지 않습니다.");
+    }
 
     return UserPrincipal.create(user);
   }

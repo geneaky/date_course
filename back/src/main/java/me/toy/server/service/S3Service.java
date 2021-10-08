@@ -30,7 +30,6 @@ public class S3Service implements FileService {
   private String BUCKET;
   private StringBuffer buffer = new StringBuffer();
 
-  //io 작업 개선 및 aws s3 error 핸들링, 로깅
   public String upload(MultipartFile file) {
 
     if (file == null) {
@@ -38,7 +37,8 @@ public class S3Service implements FileService {
     }
 
     if (!SupportedFileExtention.isSupported(
-        FilenameUtils.getExtension(file.getName()))) {
+        FilenameUtils.getExtension(file.getOriginalFilename()))) {
+
       throw new NotSupportedExtentionException("지원되지 않은 파일 형식입니다.");
     }
 
@@ -55,10 +55,21 @@ public class S3Service implements FileService {
     return saveFileName;
   }
 
+  @Override
+  public void delete(String fileName) {
+
+    if (fileName != null) {
+
+      amazonS3.deleteObject(BUCKET, fileName);
+    }
+  }
+
   private String createFileName() {
     buffer.append(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
     buffer.append(".jpg");
-    return buffer.toString();
+    String saveFileName = buffer.toString();
+    buffer.delete(0, buffer.length());
+    return saveFileName;
   }
 
   private Path convert(MultipartFile file, String saveFileName) {
