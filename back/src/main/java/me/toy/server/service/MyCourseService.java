@@ -25,6 +25,7 @@ public class MyCourseService {
   private final UserRepository userRepository;
   private final CourseRepository courseRepository;
   private final UserCourseSaveRepository userCourseSaveRepository;
+  private final S3Service s3Service;
 
   @Transactional(readOnly = true)
   public List<Long> getLikedCourseIds(String userEmail) {
@@ -94,6 +95,7 @@ public class MyCourseService {
     Course course = courseRepository.findByIdAndUserId(courseId, userId).orElseThrow(() ->
         new CourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
 
+    course.getLocations().forEach((location) -> s3Service.delete(location.getPhotoUrl()));
     courseRepository.delete(course);
   }
 }

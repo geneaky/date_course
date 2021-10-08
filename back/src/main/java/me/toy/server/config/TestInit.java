@@ -8,6 +8,7 @@ import me.toy.server.entity.User;
 import me.toy.server.repository.UserRepository;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Profile;
 public class TestInit {
 
   private final UserRepository userRepository;
+  private final PasswordEncoder bCryptEncoder;
 
   @PostConstruct
   public void settingUserTest() {
@@ -22,7 +24,8 @@ public class TestInit {
     User user = User.builder()
         .id(1L)
         .email("test@naver.com")
-        .name("testUser").build();
+        .name("testUser")
+        .password(bCryptEncoder.encode("testUser")).build();
     userRepository.save(user);
   }
 

@@ -1,7 +1,6 @@
 package me.toy.server.security.auth;
 
 import lombok.RequiredArgsConstructor;
-import me.toy.server.exception.user.UserNotFoundException;
 import me.toy.server.security.UserPrincipal;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,11 +23,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     String password = (String) authentication.getCredentials();
 
     UserPrincipal userPrincipal = customUserDetailService
-        .loadUserByUsername(email);
-
-    if (!bCryptPasswordEncoder.matches(password, userPrincipal.getPassword())) {
-      throw new UserNotFoundException("비밀 번호가 일치하지 않습니다.");
-    }
+        .loadUserByEmailAndPassword(email, password);
 
     return new UsernamePasswordAuthenticationToken(
         userPrincipal, userPrincipal.getPassword(),
