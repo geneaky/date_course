@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import me.toy.server.exception.s3.ImageConvertFailedException;
 import me.toy.server.exception.s3.NotSupportedExtentionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

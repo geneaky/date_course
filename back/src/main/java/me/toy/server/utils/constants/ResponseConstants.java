@@ -11,8 +11,11 @@ public class ResponseConstants {
   public static final ResponseEntity<String> COURSE_NOT_FOUND =
       new ResponseEntity<>("해당되는 데이트 코스가 없습니다.", HttpStatus.NOT_FOUND);
 
-  public static final ResponseEntity<String> IMAGE_NOT_CONVERTED =
-      new ResponseEntity<>("이미지 등록 실패", HttpStatus.SERVICE_UNAVAILABLE);
+  public static final ResponseEntity<String> FILE_UPLOAD_FAIL =
+      new ResponseEntity<>("파일 업로드에 실패했습니다.", HttpStatus.SERVICE_UNAVAILABLE);
+
+  public static final ResponseEntity<String> FILE_ACCESS_FAIL =
+      new ResponseEntity<>("파일에 접근할 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 
   public static final ResponseEntity<String> INVALID_REQUEST =
       new ResponseEntity<>("유효하지 않은 요청", HttpStatus.BAD_REQUEST);

@@ -6,7 +6,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,14 +13,11 @@ import org.springframework.stereotype.Component;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
   private final CustomUserDetailService customUserDetailService;
-  private final PasswordEncoder bCryptPasswordEncoder;
 
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
     String email = (String) authentication.getPrincipal();
     String password = (String) authentication.getCredentials();
-
     UserPrincipal userPrincipal = customUserDetailService
         .loadUserByEmailAndPassword(email, password);
 

@@ -16,7 +16,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
   @Override
   public List<User> findFollowees(Long followerId) {
-
     return queryFactory
         .selectFrom(user)
         .where(
@@ -28,12 +27,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
             )
         )
         .fetch();
-
   }
 
   @Override
   public List<User> findFollowers(Long followeeId) {
-
     return queryFactory
         .selectFrom(user)
         .where(

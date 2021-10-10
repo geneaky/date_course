@@ -28,7 +28,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
   @Override
   public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest)
       throws OAuth2AuthenticationException {
-
     OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 
     try {
@@ -46,12 +45,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     Map<String, Object> attributes = oAuth2User.getAttributes();
     OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory
         .getOAuth2UserInfo(registrationId, attributes);
+
     if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
       throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 Provider");
     }
 
     Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
     User user;
+
     if (userOptional.isPresent()) {
       user = userOptional.get();
       if (!user.getProvider().equals(
@@ -67,7 +68,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
   }
 
   private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-
     User user = User.builder()
         .provider(
             OAuth2Provider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
@@ -80,9 +80,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
   }
 
   private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
-
     existingUser.updateUserName(oAuth2UserInfo.getName());
     existingUser.updateImageUrl(oAuth2UserInfo.getImageUrl());
+
     return userRepository.save(existingUser);
   }
 }

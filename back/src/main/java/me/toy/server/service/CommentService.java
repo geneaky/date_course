@@ -22,7 +22,6 @@ public class CommentService {
 
   @Transactional
   public void registComment(Long courseId, String comment, String userEmail) {
-
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
     );
@@ -35,7 +34,6 @@ public class CommentService {
 
   @Transactional
   public void removeComment(Long courseId, Long userId, Long commentId) {
-
     commentRepository.deleteCommentByUsing(courseId, userId, commentId);
   }
 }

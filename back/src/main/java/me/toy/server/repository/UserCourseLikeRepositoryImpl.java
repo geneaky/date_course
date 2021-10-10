@@ -12,7 +12,6 @@ public class UserCourseLikeRepositoryImpl implements UserCourseLikeRepositoryCus
 
   @Override
   public void unlikeCourse(Long userId, Long courseId) {
-
     queryFactory
         .delete(userCourseLike)
         .where(userCourseLike.user.id.eq(userId)

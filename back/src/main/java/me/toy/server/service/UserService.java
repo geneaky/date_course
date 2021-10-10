@@ -23,7 +23,6 @@ public class UserService {
 
   @Transactional
   public void createUserAccount(UserRegisterForm userRegisterForm) {
-
     if (userRepository.findByEmail(userRegisterForm.getEmail()).isPresent()) {
       throw new EmailDuplicationException("해당 이메일로 이미 가입한 사용자 입니다.");
     }
@@ -39,7 +38,6 @@ public class UserService {
 
   @Transactional(readOnly = true)
   public UserDto getUserInfo(String userEmail) {
-
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
     );
@@ -49,9 +47,7 @@ public class UserService {
 
   @Transactional
   public void withdrawal(UserPrincipal user) {
-
     followRepository.deleteByFolloweeId(user.getId());
     userRepository.deleteById(user.getId());
-
   }
 }

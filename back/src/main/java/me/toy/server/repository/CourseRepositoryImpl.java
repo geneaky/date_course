@@ -23,7 +23,6 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
 
   @Override
   public Page<Course> findLikeOrderCourses(Pageable pageable) {
-
     List<Course> courses = queryFactory
         .selectFrom(course)
         .join(course.user, user).fetchJoin()
@@ -31,7 +30,6 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
         .fetch();
-
     long total = queryFactory.selectFrom(course).fetchCount();
 
     return new PageImpl<>(courses, pageable, total);
@@ -39,8 +37,6 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
 
   @Override
   public Page<Course> findCoursesByTag(String[] tagNames, Pageable pageable) {
-
-    //찾고자 하는 태그 이름을 갖는 코스들 중 같은 로케이션인
     QueryResults<Course> courseQueryResults = queryFactory
         .selectFrom(course)
         .join(course.locations, location).fetchJoin()
@@ -65,7 +61,6 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
 
   @Override
   public Page<Course> findCoursesByTitle(String title, Pageable pageable) {
-
     QueryResults<Course> courseQueryResults = queryFactory
         .selectFrom(course)
         .where(course.courseTitle.contains(title))

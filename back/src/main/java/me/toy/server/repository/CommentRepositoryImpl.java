@@ -12,7 +12,6 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
   @Override
   public void deleteCommentByUsing(Long courseId, Long userId, Long commentId) {
-
     queryFactory
         .delete(comment)
         .where(

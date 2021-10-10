@@ -22,9 +22,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request,
       HttpServletResponse response) throws AuthenticationException {
-
     if (!request.getMethod().equals(POST)) {
-
       throw new AuthenticationServiceException("지원하지 않는 요청 메서드입니다: " + request.getMethod());
     }
 
@@ -34,11 +32,11 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
   private Authentication onAuthentication(HttpServletRequest request) {
     String email = obtainEmail(request);
     String password = obtainPassword(request);
-
     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
         new UsernamePasswordAuthenticationToken(email, password);
 
     setDetails(request, usernamePasswordAuthenticationToken);
+
     return this.getAuthenticationManager().authenticate(usernamePasswordAuthenticationToken);
   }
 

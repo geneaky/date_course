@@ -6,7 +6,8 @@ import static me.toy.server.utils.constants.ResponseConstants.ALREADY_UNFOLLOW_U
 import static me.toy.server.utils.constants.ResponseConstants.ALREADY_UNLIKE_COURSE;
 import static me.toy.server.utils.constants.ResponseConstants.COURSE_NOT_FOUND;
 import static me.toy.server.utils.constants.ResponseConstants.DUPLICATED_EMAIL;
-import static me.toy.server.utils.constants.ResponseConstants.IMAGE_NOT_CONVERTED;
+import static me.toy.server.utils.constants.ResponseConstants.FILE_ACCESS_FAIL;
+import static me.toy.server.utils.constants.ResponseConstants.FILE_UPLOAD_FAIL;
 import static me.toy.server.utils.constants.ResponseConstants.INVALID_REQUEST;
 import static me.toy.server.utils.constants.ResponseConstants.NOT_SUPPORTED_FILE_EXTENTION;
 import static me.toy.server.utils.constants.ResponseConstants.NO_REDIRECTURI_PARAM;
@@ -17,7 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import me.toy.server.exception.course.AlreadyLikeCourseException;
 import me.toy.server.exception.course.AlreadyUnlikeCourseException;
 import me.toy.server.exception.course.CourseNotFoundException;
-import me.toy.server.exception.s3.ImageConvertFailedException;
+import me.toy.server.exception.s3.AwsS3FileUploadFailException;
+import me.toy.server.exception.s3.FileAccessFailException;
 import me.toy.server.exception.s3.NotSupportedExtentionException;
 import me.toy.server.exception.security.NoRedirectUriRequestException;
 import me.toy.server.exception.user.AlreadyFollowUserException;
@@ -71,12 +73,20 @@ public class GlobalExceptionHandler {
     return COURSE_NOT_FOUND;
   }
 
-  @ExceptionHandler(ImageConvertFailedException.class)
-  public final ResponseEntity<String> handleImageConvertFailedException(
-      ImageConvertFailedException exception) {
+  @ExceptionHandler(AwsS3FileUploadFailException.class)
+  public final ResponseEntity<String> handleAwsS3FileUploadFailException(
+      AwsS3FileUploadFailException exception) {
 
     log.info(exception.getMessage(), exception.getCause());
-    return IMAGE_NOT_CONVERTED;
+    return FILE_UPLOAD_FAIL;
+  }
+
+  @ExceptionHandler(FileAccessFailException.class)
+  public final ResponseEntity<String> handleFileAccessFailException(
+      FileAccessFailException exception) {
+
+    log.info(exception.getMessage(), exception.getCause());
+    return FILE_ACCESS_FAIL;
   }
 
   @ExceptionHandler(NotSupportedExtentionException.class)

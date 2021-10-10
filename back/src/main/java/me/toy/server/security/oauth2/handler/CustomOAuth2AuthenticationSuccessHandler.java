@@ -1,5 +1,13 @@
 package me.toy.server.security.oauth2.handler;
 
+import static me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+
+import java.io.IOException;
+import java.util.Optional;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import me.toy.server.exception.user.BadRequestException;
 import me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
@@ -8,15 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Optional;
-
-import static me.toy.server.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @RequiredArgsConstructor
 @Component
@@ -34,6 +33,7 @@ public class CustomOAuth2AuthenticationSuccessHandler extends
       logger.debug("response has already committed.unable to redirect to" + targetUrl);
       return;
     }
+
     clearAuthenticationAttributes(request, response);
     getRedirectStrategy().sendRedirect(request, response, targetUrl);
   }

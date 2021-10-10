@@ -1,5 +1,9 @@
 package me.toy.server.security;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import me.toy.server.entity.User;
@@ -7,8 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-
-import java.util.*;
 
 @Getter
 @Setter
@@ -45,6 +47,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
   public static UserPrincipal create(User user, Map<String, Object> attributes) {
     UserPrincipal userPrincipal = UserPrincipal.create(user);
     userPrincipal.setAttributes(attributes);
+
     return userPrincipal;
   }
 

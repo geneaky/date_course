@@ -29,10 +29,10 @@ public class MyCourseService {
 
   @Transactional(readOnly = true)
   public List<Long> getLikedCourseIds(String userEmail) {
-
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
     );
+
     return user.getUserCourseLikes()
         .stream()
         .map(like -> like.getCourse().getId())
@@ -41,7 +41,6 @@ public class MyCourseService {
 
   @Transactional
   public void addCourse(Long courseId, String userEmail) {
-
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다.")
     );
@@ -54,7 +53,6 @@ public class MyCourseService {
 
   @Transactional
   public void removeCourse(Long courseId, Long userId) {
-
     Course course = courseRepository.findById(courseId).orElseThrow(() ->
         new CourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
 
@@ -63,15 +61,14 @@ public class MyCourseService {
 
   @Transactional(readOnly = true)
   public Page<SavedCourseDto> getSavedCourses(Long userId, Pageable pageable) {
-
     Page<UserCourseSave> allSavedCourseByUserId = userCourseSaveRepository
         .findAllUserCourseSavePageByUserId(userId, pageable);
+
     return allSavedCourseByUserId.map(SavedCourseDto::new);
   }
 
   @Transactional(readOnly = true)
   public List<Long> getSavedCourseIds(String userEmail) {
-
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일로 가입한 사용자는 없습니다."));
 
@@ -83,15 +80,14 @@ public class MyCourseService {
 
   @Transactional(readOnly = true)
   public Page<CourseDto> getMyCourses(Long userId, Pageable pageable) {
-
     Page<Course> coursePage = courseRepository
         .findAllCourseByUserId(userId, pageable);
+
     return coursePage.map(CourseDto::new);
   }
 
   @Transactional
   public void removeMyCourse(Long courseId, Long userId) {
-
     Course course = courseRepository.findByIdAndUserId(courseId, userId).orElseThrow(() ->
         new CourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
 

@@ -31,7 +31,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -49,7 +48,6 @@ public class CourseService {
 
   @Transactional
   public void registCourse(RegistCourseFormDto registCourseFormDto, String userEmail) {
-
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("그런 이메일을 가진 사용자는 없습니다.")
     );
@@ -70,40 +68,36 @@ public class CourseService {
     }
 
     courseRepository.save(course);
-//    locationRepository.saveAll(locationList);
-    save(locationList);
+    locationRepository.saveAll(locationList);
     tagRepository.saveAll(tagList);
     locationTagRepository.saveAll(locationTagList);
-  }
-
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public void save(List<Location> locationList) {
-    locationRepository.saveAll(locationList);
   }
 
   private void addLocation(Course course,
       RegistLocationFormDto registLocationFormDto, String fileSaveName, List<Location> locationList,
       List<Tag> tagList,
       List<LocationTag> locationTagList) {
-
     Location location = new Location(registLocationFormDto, fileSaveName);
     location.setCourse(course);
+
     if (registLocationFormDto.getHashTag() != null) {
       tagFindCircuit(registLocationFormDto, location, tagList, locationTagList);
     }
+
     locationList.add(location);
   }
 
   private void tagFindCircuit(RegistLocationFormDto registLocationFormDto, Location location,
       List<Tag> tagList, List<LocationTag> locationTagList) {
-
     for (String hashTag : registLocationFormDto.getHashTag()) {
       Optional<Tag> opTag = tagRepository.findByName(hashTag);
+
       if (opTag.isPresent()) {
         LocationTag locationTag = new LocationTag(location, opTag.get());
         locationTagList.add(locationTag);
         continue;
       }
+
       Tag tag = new Tag(hashTag);
       tagList.add(tag);
       LocationTag locationTag = new LocationTag(location, tag);
@@ -113,7 +107,6 @@ public class CourseService {
 
   @Transactional
   public void likeCourse(Long dateCourseId, String userEmail) {
-
     User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
         new UserNotFoundException("해당 이메일을 가진 사용자는 없습니다.")
     );
@@ -131,7 +124,6 @@ public class CourseService {
 
   @Transactional
   public void unlikeCourse(Long dateCourseId, Long userId) {
-
     Course course = courseRepository.findById(dateCourseId).orElseThrow(() ->
         new CourseNotFoundException("찾으시는 데이트 코스는 없습니다."));
 
@@ -145,12 +137,9 @@ public class CourseService {
 
   @Transactional(readOnly = true)
   public Page<CourseDto> getCoursePage(Pageable pageable) {
-
     if (Objects.nonNull(pageable.getSort().getOrderFor(LIKE))) {
-
       Page<Course> coursePage = courseRepository.findLikeOrderCourses(pageable);
       Direction direction = getDirectionByProperty(pageable, LIKE);
-
       return getCourseDtoPage(coursePage, direction);
     }
 
@@ -160,12 +149,9 @@ public class CourseService {
 
   @Transactional(readOnly = true)
   public Page<CourseDto> searchCoursesByTag(String[] name, Pageable pageable) {
-
     if (Objects.nonNull(pageable.getSort().getOrderFor(LIKE))) {
-
       Page<Course> coursePage = courseRepository.findCoursesByTag(name, pageable);
       Direction direction = getDirectionByProperty(pageable, LIKE);
-
       return getCourseDtoPage(coursePage, direction);
     }
 
@@ -175,12 +161,9 @@ public class CourseService {
 
   @Transactional(readOnly = true)
   public Page<CourseDto> searchCoursesByTitle(String title, Pageable pageable) {
-
     if (Objects.nonNull(pageable.getSort().getOrderFor(LIKE))) {
-
       Page<Course> coursePage = courseRepository.findCoursesByTitle(title, pageable);
       Direction direction = getDirectionByProperty(pageable, LIKE);
-
       return getCourseDtoPage(coursePage, direction);
     }
 
@@ -200,7 +183,6 @@ public class CourseService {
   private Page<CourseDto> getCourseDtoPage(Page<Course> coursePage, Direction direction) {
 
     if (direction.isAscending()) {
-
       Page<Course> results = getAscendingCourse(coursePage);
       return results.map(CourseDto::new);
     }
@@ -211,7 +193,6 @@ public class CourseService {
 
   private Page<Course> getAscendingCourse(
       Page<Course> fetch) {
-
     List<Course> collect = fetch
         .stream()
         .sorted(
@@ -224,7 +205,6 @@ public class CourseService {
 
   private Page<Course> getDescendingCourse(
       Page<Course> fetch) {
-
     List<Course> collect = fetch
         .stream()
         .sorted(
