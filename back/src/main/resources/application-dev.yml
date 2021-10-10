@@ -29,17 +29,22 @@ spring:
       poolName: HikariCP
       readOnly: false # pool에서 얻은 connection이 기본적으로 readOnly인지 지정하는 설정
       autoCommit: false # hibernate에서 트랜잭션 시작전에 해당 옵션이 true이면 false로 바꾼후 실행후 다시 true로 바꾸기 때문에 불필요한 부분을 스킵하기 위해 false로 설정
-
+      data-source-properties:
+        rewriteBatchedStatements: true
   jpa:
     hibernate:
       connection:
         provider_disables_autocommit: true
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
-        default_batch_fetch_size: 100
         show_sql: true
         format_sql: true
+        default_batch_fetch_size: 100
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 100
 
   redis:
     session:
@@ -65,6 +70,7 @@ spring:
               - profile
 logging:
   config: classpath:log4j2-dev.xml
+
 
 cloud:
   aws:

@@ -31,6 +31,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -69,9 +70,15 @@ public class CourseService {
     }
 
     courseRepository.save(course);
-    locationRepository.saveAll(locationList);
+//    locationRepository.saveAll(locationList);
+    save(locationList);
     tagRepository.saveAll(tagList);
     locationTagRepository.saveAll(locationTagList);
+  }
+
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  public void save(List<Location> locationList) {
+    locationRepository.saveAll(locationList);
   }
 
   private void addLocation(Course course,

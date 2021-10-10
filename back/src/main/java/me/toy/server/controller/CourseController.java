@@ -10,7 +10,6 @@ import me.toy.server.security.UserPrincipal;
 import me.toy.server.service.CourseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +29,7 @@ public class CourseController {
 
   @ApiOperation("데이트 코스 등록")
   @Secured("ROLE_USER")
-  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PostMapping
   public void registCourse(
       @ModelAttribute RegistCourseFormDto registCourseFormDto,
       @LoginUser UserPrincipal user) {

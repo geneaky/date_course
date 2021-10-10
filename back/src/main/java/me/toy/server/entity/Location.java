@@ -6,11 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
@@ -18,10 +21,15 @@ import me.toy.server.dto.course.CourseRequestDto.RegistLocationFormDto;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SequenceGenerator(
+    name = "sequence-generator",
+    sequenceName = "location_sequence",
+    initialValue = 1, allocationSize = 50
+)
 public class Location extends BaseEntity {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence-generator")
   @Column(name = "LOCATION_ID")
   private Long id;
   private String name;
@@ -44,6 +52,7 @@ public class Location extends BaseEntity {
     this.photoUrl = photoUrl;
   }
 
+  @Builder
   public Location(String name, String text, String photoUrl, float posx, float posy) {
 
     this.name = name;
