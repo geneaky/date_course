@@ -9,6 +9,7 @@ import me.toy.server.repository.UserRepository;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class TestInit {
   private final PasswordEncoder bCryptEncoder;
 
   @PostConstruct
+  @Transactional
   public void settingUserTest() {
 
     User user = User.builder()
@@ -30,6 +32,7 @@ public class TestInit {
   }
 
   @PreDestroy
+  @Transactional
   public void clearSettingUserTest() {
 
     Optional<User> testUser = userRepository.findByEmail("test@naver.com");

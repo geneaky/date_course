@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class CustomAwsConfiguration {
+public class CustomAwsConfig {
 
   @Value("${cloud.aws.credentials.access-key}")
   private String accessKey;
@@ -22,7 +22,7 @@ public class CustomAwsConfiguration {
   public BasicAWSCredentials awsCredentialsProvider() {
 
     BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(accessKey, secretKey);
-    
+
     return basicAWSCredentials;
   }
 
