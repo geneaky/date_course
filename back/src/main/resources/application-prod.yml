@@ -41,14 +41,6 @@ spring:
 logging:
   config: classpath:log4j2-prod.xml
 
-app:
-  auth:
-    tokenSecret: geneaky
-    tokenExpirationMsec: 864000000
-  oauth2:
-    authorizedRedirectUris:
-      - http://opendatecourse.duckdns.org/oauth2/redirect
-
 cloud:
   aws:
     credentials:
