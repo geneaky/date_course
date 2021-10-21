@@ -10,7 +10,8 @@ Open_Date_Course
 시스템 구성도
 ----------
 * * *
-![](/home/hibs/다운로드/스크린샷, 2021-10-13 04-18-24.png)
+![스크린샷, 2021-10-13 04-18-24](https://user-images.githubusercontent.com/53224348/138223456-e848ce46-636c-4c12-bc4e-3064db94f497.png)
+
 
 이슈
 ---
