@@ -37,6 +37,9 @@ Open_Date_Course
 >+ Log4j2 로그 남기기
 >  + https://shrewd.tistory.com/51
 
+>+ MySQL Query Plan 확인 후 조회 쿼리 최적화
+>  + https://shrewd.tistory.com/57
+
 >+ Jenkins CI/CD 배포 자동화 구축
 >  + 출간 예정 
 
