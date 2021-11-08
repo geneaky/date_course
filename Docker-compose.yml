@@ -1,35 +1,24 @@
 version: "3"
 
 services:
-  # spring:
-  #   restart: always
-  #   build:
-  #     context: ./back
-  #     dockerfile: Dockerfile
-  #   image: datecourse/back
-  #   ports:
-  #     - 8080:8080
-  #   links:
-  #     - db
-  #   depends_on:
-  #     - db
+   spring:
+     restart: always
+     build:
+       context: ./back
+       dockerfile: Dockerfile
+     image: datecourse/back
+     ports:
+       - 8080:8080
+     links:
+       - db
+     depends_on:
+       - db
 
-  react:
-    restart: always
-    build:
-      context: ./front
-      dockerfile: Dockerfile
-    image: datecourse/front
-    ports:
-      - 3000:3000
-    # volumes:
-    #   - /front/node_modules
-    #   - .:/front
 
-    # nginx:
-    #   restart: always
-    #   build:
-    #     context: ./nginx
-    #     dockerfile: Dockerfile
-    #   ports:
-    #     - "3050:80"
+   nginx:
+     restart: always
+     build:
+       context: ./nginx
+       dockerfile: Dockerfile
+     ports:
+       - "3050:80"
