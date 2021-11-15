@@ -40,7 +40,6 @@ public class ServiceRepoTest {
   @Test
   @DisplayName("단일 트랜잭션 Batch Insert Test")
   public void serviceBulkInsertTest() throws Exception {
-
     List<Location> list = new ArrayList<>();
     for (int i = 0; i < 10000; i++) {
       Location location = Location.builder()
