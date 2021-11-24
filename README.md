@@ -1,3 +1,5 @@
+(지금은 유지 비용 문제로 서버를 내렸습니다.)
+
 Open_Date_Course
 ================
 * * *
@@ -41,7 +43,7 @@ Open_Date_Course
 >  + https://shrewd.tistory.com/57
 
 >+ Jenkins CI/CD 배포 자동화 구축
->  + 출간 예정 
+>  +  https://shrewd.tistory.com/59
 
 >+ nginx 로드 밸런싱
 >  + 출간 예정 
