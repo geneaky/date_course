@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+   spring:
+     container_name: date_course_spring_1
+     build:
+       context: ./back
+       dockerfile: Dockerfile
+     ports:
+       - 8080:8080
+     depends_on:
+      - redis
+     links:
+       - redis
+
+   redis:
+     image: redis
+     ports:
+       - 6379:6379
+
+   nginx:
+     image: nginx:alpine
+     ports:
+       - 80:80
+     volumes:
+       - ./nginx/default.conf:/etc/nginx/nginx.conf
