@@ -2,12 +2,13 @@ version: "3"
 
 services:
    spring:
-     container_name: date_course_spring_1
      build:
        context: ./back
        dockerfile: Dockerfile
+     deploy:
+       replicas: 3
      ports:
-       - 8080:8080
+       - 8080
      depends_on:
       - redis
      links:
@@ -20,6 +21,8 @@ services:
 
    nginx:
      image: nginx:alpine
+     depends_on:
+       - spring
      ports:
        - 80:80
      volumes:

@@ -46,10 +46,10 @@ Open_Date_Course
 >  +  https://shrewd.tistory.com/59
 
 >+ nginx 로드 밸런싱
->  + 출간 예정 
+>  + https://shrewd.tistory.com/61 
 
 >+ docker-compose로 잦은 반복 간편화
->  + 출간 예정
+>  + https://shrewd.tistory.com/60
 
 >+ read & write query 분산
 >  + 출간 예정
