@@ -51,8 +51,8 @@ Open_Date_Course
 >+ docker-compose로 잦은 반복 간편화
 >  + https://shrewd.tistory.com/60
 
->+ read & write query 분산
->  + 출간 예정
+>+ read & write query 분리
+>  + https://shrewd.tistory.com/62
 
 ERD
 ---
