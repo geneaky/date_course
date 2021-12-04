@@ -12,7 +12,7 @@ Open_Date_Course
 시스템 구성도
 ----------
 * * *
-![](../../../../사진/11.png)
+![11](https://user-images.githubusercontent.com/53224348/144702661-073c4a73-f7aa-49a3-a128-3cc4e5cb5498.png)
 
 이슈
 ---
